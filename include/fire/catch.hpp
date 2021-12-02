@@ -13316,8 +13316,8 @@ namespace Catch {
     void Session::libIdentify() {
         Catch::cout()
                 << std::left << std::setw(16) << "description: " << "A Catch2 test executable\n"
-                << std::left << std::setw(16) << "category: " << "testframework\n"
-                << std::left << std::setw(16) << "framework: " << "Catch Test\n"
+                << std::left << std::setw(16) << "category: " << "testfire\n"
+                << std::left << std::setw(16) << "fire: " << "Catch Test\n"
                 << std::left << std::setw(16) << "version: " << libraryVersion() << std::endl;
     }
 

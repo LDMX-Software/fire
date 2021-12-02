@@ -2,18 +2,18 @@
 #define FRAMEWORK_CONFIGUREPYTHON_H
 
 /*~~~~~~~~~~~~~~~*/
-/*   Framework   */
+/*   fire   */
 /*~~~~~~~~~~~~~~~*/
-#include "Framework/Configure/Parameters.h"
-#include "Framework/Process.h"
+#include "fire/Configure/Parameters.h"
+#include "fire/Process.h"
 
-namespace framework {
+namespace fire {
 
 /**
  * @class ConfigurePython
  * @brief Utility class which reads/executes a python script and creates a
  *        Process object based on the input.
- * @note The configuration language is documented in the overall Framework
+ * @note The configuration language is documented in the overall fire
  *       package documentation.
  */
 class ConfigurePython {
@@ -68,10 +68,10 @@ class ConfigurePython {
    * a key called 'sequence' that has a value of a vector
    * of Parmaeters, each one corresponding to a processor.
    */
-  framework::config::Parameters configuration_;
+  fire::config::Parameters configuration_;
 
 };  // ConfigurePython
 
-}  // namespace framework
+}  // namespace fire
 
 #endif  // FRAMEWORK_CONFIGURE_PYTHON_H

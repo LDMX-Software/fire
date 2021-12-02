@@ -16,9 +16,9 @@
 /*~~~~~~~~~~~~~~~*/
 /*   Exception   */
 /*~~~~~~~~~~~~~~~*/
-#include "Framework/Exception/Exception.h"
+#include "fire/Exception/Exception.h"
 
-namespace framework {
+namespace fire {
 namespace config {
 
 /**
@@ -139,6 +139,6 @@ class Parameters {
 
 };  // Parameters
 }  // namespace config
-}  // namespace framework
+}  // namespace fire
 
 #endif  // FRAMEWORK_PARAMETERS_H

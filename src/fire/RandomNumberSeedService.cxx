@@ -1,10 +1,10 @@
-#include "Framework/RandomNumberSeedService.h"
+#include "fire/RandomNumberSeedService.h"
 #include <time.h>
-#include "Framework/EventHeader.h"
-#include "Framework/Process.h"
-#include "Framework/RunHeader.h"
+#include "fire/EventHeader.h"
+#include "fire/Process.h"
+#include "fire/RunHeader.h"
 
-namespace framework {
+namespace fire {
 
 const std::string RandomNumberSeedService::CONDITIONS_OBJECT_NAME =
     "RandomNumberSeedService";
@@ -26,7 +26,7 @@ void RandomNumberSeedService::stream(std::ostream& s) const {
 
 RandomNumberSeedService::RandomNumberSeedService(
     const std::string& name, const std::string& tagname,
-    const framework::config::Parameters& parameters, Process& process)
+    const fire::config::Parameters& parameters, Process& process)
     : ConditionsObject(CONDITIONS_OBJECT_NAME),
       ConditionsObjectProvider(CONDITIONS_OBJECT_NAME, tagname, parameters,
                                process) {
@@ -88,5 +88,5 @@ RandomNumberSeedService::getCondition(const ldmx::EventHeader& context) {
       this, ConditionsIOV(true, true));
 }
 
-}  // namespace framework
-DECLARE_CONDITIONS_PROVIDER_NS(framework, RandomNumberSeedService)
+}  // namespace fire
+DECLARE_CONDITIONS_PROVIDER_NS(fire, RandomNumberSeedService)

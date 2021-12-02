@@ -8,17 +8,17 @@
 #define FRAMEWORK_EVENTPROCESSOR_H_
 
 /*~~~~~~~~~~~~~~~*/
-/*   Framework   */
+/*   fire   */
 /*~~~~~~~~~~~~~~~*/
-#include "Framework/Conditions.h"
-#include "Framework/Configure/Parameters.h"
-#include "Framework/Event.h"
-#include "Framework/Exception/Exception.h"
-#include "Framework/Histograms.h"
-#include "Framework/Logger.h"
-#include "Framework/NtupleManager.h"
-#include "Framework/RunHeader.h"
-#include "Framework/StorageControl.h"
+#include "fire/Conditions.h"
+#include "fire/Configure/Parameters.h"
+#include "fire/Event.h"
+#include "fire/Exception/Exception.h"
+#include "fire/Histograms.h"
+#include "fire/Logger.h"
+#include "fire/NtupleManager.h"
+#include "fire/RunHeader.h"
+#include "fire/StorageControl.h"
 
 /*~~~~~~~~~~~~~~~~*/
 /*   C++ StdLib   */
@@ -28,7 +28,7 @@
 
 class TDirectory;
 
-namespace framework {
+namespace fire {
 
 class Process;
 class EventProcessor;
@@ -43,14 +43,14 @@ typedef EventProcessor *EventProcessorMaker(const std::string &name,
  *
  * @brief Specific exception used to abort an event.
  */
-class AbortEventException : public framework::exception::Exception {
+class AbortEventException : public fire::exception::Exception {
  public:
   /**
    * Constructor
    *
    * Use empty Exception constructor so stack trace isn't built.
    */
-  AbortEventException() throw() : framework::exception::Exception() {}
+  AbortEventException() throw() : fire::exception::Exception() {}
 
   /**
    * Destructor
@@ -68,7 +68,7 @@ class EventProcessor {
    * Class constructor.
    * @param name Name for this instance of the class.
    * @param process The Process class associated with EventProcessor, provided
-   * by the framework.
+   * by the fire.
    *
    * @note The name provided to this function should not be
    * the class name, but rather a logical label for this instance of
@@ -95,7 +95,7 @@ class EventProcessor {
    *
    * @param parameters Parameters for configuration.
    */
-  virtual void configure(framework::config::Parameters &parameters) {}
+  virtual void configure(fire::config::Parameters &parameters) {}
 
   /**
    * Callback for the EventProcessor to take any necessary
@@ -157,7 +157,7 @@ class EventProcessor {
    * module
    * @param controlhint The storage control hint to apply for the given event
    */
-  void setStorageHint(framework::StorageControlHint hint) {
+  void setStorageHint(fire::StorageControlHint hint) {
     setStorageHint(hint, "");
   }
 
@@ -167,7 +167,7 @@ class EventProcessor {
    * @param purposeString A purpose string which can be used in the skim control
    * configuration
    */
-  void setStorageHint(framework::StorageControlHint hint,
+  void setStorageHint(fire::StorageControlHint hint,
                       const std::string &purposeString);
 
   /**
@@ -202,7 +202,7 @@ class EventProcessor {
    * @parma histos vector of Parameters that configure histograms to create
    */
   void createHistograms(
-      const std::vector<framework::config::Parameters> &histos);
+      const std::vector<fire::config::Parameters> &histos);
 
  protected:
   /**
@@ -258,10 +258,10 @@ class Producer : public EventProcessor {
    * Class constructor.
    * @param name Name for this instance of the class.
    * @param process The Process class associated with EventProcessor, provided
-   * by the framework
+   * by the fire
    *
    * @note Derived classes must have a constructor of the same interface, which
-   * is the only constructor which will be called by the framework
+   * is the only constructor which will be called by the fire
    *
    * @note The provided name should not be the class name, but rather a logical
    * label for this instance of the class, as more than one copy of a given
@@ -300,10 +300,10 @@ class Analyzer : public EventProcessor {
    *
    * @param name Name for this instance of the class.
    * @param process The Process class associated with EventProcessor, provided
-   * by the framework
+   * by the fire
    *
    * @note Derived classes must have a constructor of the same interface, which
-   * is the only constructor which will be called by the framework
+   * is the only constructor which will be called by the fire
    *
    * @note The provided name should not be the class name, but rather a logical
    * label for this instance of the class, as more than one copy of a given
@@ -319,84 +319,84 @@ class Analyzer : public EventProcessor {
   virtual void analyze(const Event &event) = 0;
 };
 
-}  // namespace framework
+}  // namespace fire
 
 /**
  * @def DECLARE_PRODUCER(CLASS)
  * @param CLASS The name of the class to register, which must not be in a
  * namespace.  If the class is in a namespace, use DECLARE_PRODUCER_NS()
- * @brief Macro which allows the framework to construct a producer given its
+ * @brief Macro which allows the fire to construct a producer given its
  * name during configuration.
  * @attention Every Producer class must call this macro or DECLARE_PRODUCER_NS()
  * in the associated implementation (.cxx) file.
  */
 #define DECLARE_PRODUCER(CLASS)                                               \
-  framework::EventProcessor *CLASS##_ldmx_make(const std::string &name,       \
-                                               framework::Process &process) { \
+  fire::EventProcessor *CLASS##_ldmx_make(const std::string &name,       \
+                                               fire::Process &process) { \
     return new CLASS(name, process);                                          \
   }                                                                           \
   __attribute__((constructor(1000))) static void CLASS##_ldmx_declare() {     \
-    framework::EventProcessor::declare(                                       \
-        #CLASS, ::framework::Producer::CLASSTYPE, &CLASS##_ldmx_make);        \
+    fire::EventProcessor::declare(                                       \
+        #CLASS, ::fire::Producer::CLASSTYPE, &CLASS##_ldmx_make);        \
   }
 
 /**
  * @def DECLARE_ANALYZER(CLASS)
  * @param CLASS The name of the class to register, which must not be in a
  * namespace.  If the class is in a namespace, use DECLARE_PRODUCER_NS()
- * @brief Macro which allows the framework to construct an analyzer given its
+ * @brief Macro which allows the fire to construct an analyzer given its
  * name during configuration.
  * @attention Every Analyzer class must call this macro or DECLARE_ANALYZER_NS()
  * in the associated implementation (.cxx) file.
  */
 #define DECLARE_ANALYZER(CLASS)                                               \
-  framework::EventProcessor *CLASS##_ldmx_make(const std::string &name,       \
-                                               framework::Process &process) { \
+  fire::EventProcessor *CLASS##_ldmx_make(const std::string &name,       \
+                                               fire::Process &process) { \
     return new CLASS(name, process);                                          \
   }                                                                           \
   __attribute__((constructor(1000))) static void CLASS##_ldmx_declare() {     \
-    framework::EventProcessor::declare(                                       \
-        #CLASS, ::framework::Analyzer::CLASSTYPE, &CLASS##_ldmx_make);        \
+    fire::EventProcessor::declare(                                       \
+        #CLASS, ::fire::Analyzer::CLASSTYPE, &CLASS##_ldmx_make);        \
   }
 
 /**
  * @def DECLARE_PRODUCER_NS(NS,CLASS)
  * @param NS The full namespace specification for the Producer
  * @param CLASS The name of the class to register
- * @brief Macro which allows the framework to construct a producer given its
+ * @brief Macro which allows the fire to construct a producer given its
  * name during configuration.
  * @attention Every Producer class must call this macro or DECLARE_PRODUCER() in
  * the associated implementation (.cxx) file.
  */
 #define DECLARE_PRODUCER_NS(NS, CLASS)                                        \
-  framework::EventProcessor *CLASS##_ldmx_make(const std::string &name,       \
-                                               framework::Process &process) { \
+  fire::EventProcessor *CLASS##_ldmx_make(const std::string &name,       \
+                                               fire::Process &process) { \
     return new NS::CLASS(name, process);                                      \
   }                                                                           \
   __attribute__((constructor(1000))) static void CLASS##_ldmx_declare() {     \
-    framework::EventProcessor::declare(                                       \
+    fire::EventProcessor::declare(                                       \
         std::string(#NS) + "::" + std::string(#CLASS),                        \
-        ::framework::Producer::CLASSTYPE, &CLASS##_ldmx_make);                \
+        ::fire::Producer::CLASSTYPE, &CLASS##_ldmx_make);                \
   }
 
 /**
  * @def DECLARE_ANALYZER_NS(NS,CLASS)
  * @param NS The full namespace specification for the Analyzer
  * @param CLASS The name of the class to register
- * @brief Macro which allows the framework to construct an analyzer given its
+ * @brief Macro which allows the fire to construct an analyzer given its
  * name during configuration.
  * @attention Every Analyzer class must call this macro or DECLARE_ANALYZER() in
  * the associated implementation (.cxx) file.
  */
 #define DECLARE_ANALYZER_NS(NS, CLASS)                                        \
-  framework::EventProcessor *CLASS##_ldmx_make(const std::string &name,       \
-                                               framework::Process &process) { \
+  fire::EventProcessor *CLASS##_ldmx_make(const std::string &name,       \
+                                               fire::Process &process) { \
     return new NS::CLASS(name, process);                                      \
   }                                                                           \
   __attribute__((constructor(1000))) static void CLASS##_ldmx_declare() {     \
-    framework::EventProcessor::declare(                                       \
+    fire::EventProcessor::declare(                                       \
         std::string(#NS) + "::" + std::string(#CLASS),                        \
-        ::framework::Analyzer::CLASSTYPE, &CLASS##_ldmx_make);                \
+        ::fire::Analyzer::CLASSTYPE, &CLASS##_ldmx_make);                \
   }
 
 #endif

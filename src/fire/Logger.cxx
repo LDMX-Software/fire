@@ -1,4 +1,4 @@
-#include "Framework/Logger.h"
+#include "fire/Logger.h"
 
 // STL
 #include <fstream>
@@ -9,7 +9,7 @@
 #include <boost/core/null_deleter.hpp>  //to avoid deleting std::cout
 #include <boost/log/utility/setup/common_attributes.hpp>  //for loading commont attributes
 
-namespace framework {
+namespace fire {
 
 namespace logging {
 
@@ -118,4 +118,4 @@ void close() {
 
 }  // namespace logging
 
-}  // namespace framework
+}  // namespace fire

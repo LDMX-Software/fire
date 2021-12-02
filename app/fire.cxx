@@ -11,14 +11,14 @@
 //-------------//
 //   ldmx-sw   //
 //-------------//
-#include "Framework/ConfigurePython.h"
-#include "Framework/Process.h"
+#include "fire/ConfigurePython.h"
+#include "fire/Process.h"
 
 /**
- * @namespace framework
+ * @namespace fire
  * @brief All classes in the ldmx-sw project use this namespace.
  */
-// using namespace framework;
+// using namespace fire;
 
 // This code allows ldmx-app to exit gracefully when Ctrl-c is used. It is
 // currently causing segfaults when certain processors are used.  The code
@@ -43,7 +43,7 @@ void printUsage();
  *
  * <a
  * href="https://confluence.slac.stanford.edu/display/MME/Light+Dark+Matter+Experiment">LDMX</a>
- * C++ Software Framework providing a full <a
+ * C++ Software fire providing a full <a
  * href="http://geant4.cern.ch">Geant4</a> simulation and flexible event
  * processing and analysis chain.  The IO and analysis tools are based on <a
  * href="http://root.cern.ch">ROOT</a>, and detectors are described in the <a
@@ -73,12 +73,12 @@ int main(int argc, char* argv[]) {
 
   std::cout << "---- LDMXSW: Loading configuration --------" << std::endl;
 
-  framework::ProcessHandle p;
+  fire::ProcessHandle p;
   try {
-    framework::ConfigurePython cfg(argv[ptrpy], argv + ptrpy + 1,
+    fire::ConfigurePython cfg(argv[ptrpy], argv + ptrpy + 1,
                                    argc - ptrpy - 1);
     p = cfg.makeProcess();
-  } catch (framework::exception::Exception& e) {
+  } catch (fire::exception::Exception& e) {
     std::cerr << "Configuration Error [" << e.name() << "] : " << e.message()
               << std::endl;
     std::cerr << "  at " << e.module() << ":" << e.line() << " in "
@@ -111,19 +111,19 @@ int main(int argc, char* argv[]) {
 
   try {
     p->run();
-  } catch (framework::exception::Exception& e) {
+  } catch (fire::exception::Exception& e) {
     // Process::run opens up the logging using the parameters passed to it from
     // python
     //  if an Exception is thrown, we haven't gotten to the end of Process::run
     //  where logging is closed, so we can do one more error message and then
     //  close it.
-    auto theLog_{framework::logging::makeLogger(
+    auto theLog_{fire::logging::makeLogger(
         "fire")};  // ldmx_log macro needs this variable to be named 'theLog_'
     ldmx_log(fatal) << "[" << e.name() << "] : " << e.message() << "\n"
                     << "  at " << e.module() << ":" << e.line() << " in "
                     << e.function() << "\nStack trace: " << std::endl
                     << e.stackTrace();
-    framework::logging::close();
+    fire::logging::close();
     return 127;  // return non-zero error-status
   }
 

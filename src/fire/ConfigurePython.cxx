@@ -1,5 +1,5 @@
 
-#include "Framework/ConfigurePython.h"
+#include "fire/ConfigurePython.h"
 
 /*~~~~~~~~~~~~*/
 /*   python   */
@@ -15,7 +15,7 @@
 #include <string>
 #include <vector>
 
-namespace framework {
+namespace fire {
 
 /**
  * Turn the input python string object into a C++ string.
@@ -128,7 +128,7 @@ static std::map<std::string, std::any> getMembers(PyObject* object) {
           // If the objects stored in the list doesn't
           // satisfy any of the above conditions, just
           // create a vector of parameters objects
-          std::vector<framework::config::Parameters> vals;
+          std::vector<fire::config::Parameters> vals;
           for (auto j{0}; j < PyList_Size(value); ++j) {
             auto elem{PyList_GetItem(value, j)};
 
@@ -145,7 +145,7 @@ static std::map<std::string, std::any> getMembers(PyObject* object) {
       //(same logic as last option for a list)
 
       // RECURSION zoinks!
-      framework::config::Parameters val;
+      fire::config::Parameters val;
       val.setParameters(getMembers(value));
 
       params[skey] = val;
@@ -254,9 +254,9 @@ ConfigurePython::ConfigurePython(const std::string& pythonScript, char* args[],
 ProcessHandle ConfigurePython::makeProcess() {
   // no python nonsense happens in here,
   // this just takes the parameters determined earlier
-  // and puts them into the Process + EventProcessor framework
+  // and puts them into the Process + EventProcessor fire
 
   return std::make_unique<Process>(configuration_);
 }
 
-}  // namespace framework
+}  // namespace fire

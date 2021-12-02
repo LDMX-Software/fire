@@ -1,14 +1,14 @@
-#include "Framework/ConditionsObjectProvider.h"
+#include "fire/ConditionsObjectProvider.h"
 
 // LDMX
-#include "Framework/PluginFactory.h"
-#include "Framework/Process.h"
+#include "fire/PluginFactory.h"
+#include "fire/Process.h"
 
-namespace framework {
+namespace fire {
 
 ConditionsObjectProvider::ConditionsObjectProvider(
     const std::string& objname, const std::string& tagname,
-    const framework::config::Parameters& params, Process& process)
+    const fire::config::Parameters& params, Process& process)
     : process_{process},
       objectName_{objname},
       tagname_{tagname},
@@ -28,4 +28,4 @@ void ConditionsObjectProvider::declare(const std::string& classname,
       classname, CLASSTYPE, maker);
 }
 
-}  // namespace framework
+}  // namespace fire

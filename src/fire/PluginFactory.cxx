@@ -1,11 +1,11 @@
-#include "Framework/PluginFactory.h"
+#include "fire/PluginFactory.h"
 #include <dlfcn.h>
-#include "Framework/EventProcessor.h"
+#include "fire/EventProcessor.h"
 
-framework::PluginFactory framework::PluginFactory::theFactory_
+fire::PluginFactory fire::PluginFactory::theFactory_
     __attribute((init_priority(500)));
 
-namespace framework {
+namespace fire {
 
 PluginFactory::PluginFactory() {}
 
@@ -73,7 +73,7 @@ EventProcessor* PluginFactory::createEventProcessor(
 
 ConditionsObjectProvider* PluginFactory::createConditionsObjectProvider(
     const std::string& classname, const std::string& objName,
-    const std::string& tagname, const framework::config::Parameters& params,
+    const std::string& tagname, const fire::config::Parameters& params,
     Process& process) {
   auto ptr = moduleInfo_.find(classname);
   if (ptr == moduleInfo_.end() || ptr->second.cop_maker == 0) {
@@ -96,4 +96,4 @@ void PluginFactory::loadLibrary(const std::string& libname) {
   librariesLoaded_.insert(libname);
 }
 
-}  // namespace framework
+}  // namespace fire

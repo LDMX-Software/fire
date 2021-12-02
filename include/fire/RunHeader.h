@@ -13,9 +13,9 @@
 #include <string>
 
 /*~~~~~~~~~~~~~~~*/
-/*   Framework   */
+/*   fire   */
 /*~~~~~~~~~~~~~~~*/
-#include "Framework/Version.h"
+#include "fire/Version.h"
 
 namespace ldmx {
 

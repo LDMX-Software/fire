@@ -11,15 +11,15 @@
 /*~~~~~~~~~~~*/
 /*   Event   */
 /*~~~~~~~~~~~*/
-#include "Framework/Exception/Exception.h"
+#include "fire/Exception/Exception.h"
 
 /*~~~~~~~~~~~~~~~*/
-/*   Framework   */
+/*   fire   */
 /*~~~~~~~~~~~~~~~*/
-#include "Framework/ConditionsIOV.h"
-#include "Framework/ConditionsObject.h"
-#include "Framework/Configure/Parameters.h"
-#include "Framework/Logger.h"
+#include "fire/ConditionsIOV.h"
+#include "fire/ConditionsObject.h"
+#include "fire/Configure/Parameters.h"
+#include "fire/Logger.h"
 
 /*~~~~~~~~~~~~~~~~*/
 /*   C++ StdLib   */
@@ -31,7 +31,7 @@ class EventHeader;
 class RunHeader;
 }  // namespace ldmx
 
-namespace framework {
+namespace fire {
 
 class Process;
 class ConditionsObjectProvider;
@@ -39,7 +39,7 @@ class ConditionsObjectProvider;
 /** Typedef for PluginFactory use. */
 typedef ConditionsObjectProvider* ConditionsObjectProviderMaker(
     const std::string& objname, const std::string& tagname,
-    const framework::config::Parameters& params, Process& process);
+    const fire::config::Parameters& params, Process& process);
 
 /**
  * @class ConditionsObjectProvider
@@ -56,7 +56,7 @@ class ConditionsObjectProvider {
    * @param tagName The tag for the database entry (should not include
    * whitespace)
    * @param process The Process class associated with ConditionsObjectProvider,
-   * provided by the framework.
+   * provided by the fire.
    *
    * @note The name provided to this function should not be
    * the class name, but rather a logical label for this instance of
@@ -66,7 +66,7 @@ class ConditionsObjectProvider {
    */
   ConditionsObjectProvider(const std::string& objname,
                            const std::string& tagname,
-                           const framework::config::Parameters& parameters,
+                           const fire::config::Parameters& parameters,
                            Process& process);
 
   /**
@@ -148,48 +148,48 @@ class ConditionsObjectProvider {
   std::string tagname_;
 };
 
-}  // namespace framework
+}  // namespace fire
 
 /**
  * @def DECLARE_CONDITIONS_PROVIDER(CLASS)
  * @param CLASS The name of the class to register, which must not be in a
  * namespace.  If the class is in a namespace, use
  * DECLARE_CONDITIONS_PROVIDER_NS()
- * @brief Macro which allows the framework to construct a producer given its
+ * @brief Macro which allows the fire to construct a producer given its
  * name during configuration.
  * @attention Every Producer class must call this macro or
  * DECLARE_CONDITIONS_PROVIDER_NS() in the associated implementation (.cxx)
  * file.
  */
 #define DECLARE_CONDITIONS_PROVIDER(CLASS)                                    \
-  framework::ConditionsObjectProvider* CLASS##_ldmx_make(                     \
+  fire::ConditionsObjectProvider* CLASS##_ldmx_make(                     \
       const std::string& name, const std::string& tagname,                    \
-      const framework::config::Parameters& params,                            \
-      framework::Process& process) {                                          \
+      const fire::config::Parameters& params,                            \
+      fire::Process& process) {                                          \
     return new CLASS(name, tagname, params, process);                         \
   }                                                                           \
   __attribute__((constructor(1000))) static void CLASS##_ldmx_declare() {     \
-    framework::ConditionsObjectProvider::declare(#CLASS, &CLASS##_ldmx_make); \
+    fire::ConditionsObjectProvider::declare(#CLASS, &CLASS##_ldmx_make); \
   }
 
 /**
  * @def DECLARE_CONDITIONS_PROVIDER_NS(NS,CLASS)
  * @param NS The full namespace specification for the Producer
  * @param CLASS The name of the class to register
- * @brief Macro which allows the framework to construct a producer given its
+ * @brief Macro which allows the fire to construct a producer given its
  * name during configuration.
  * @attention Every Producer class must call this macro or
  * DECLARE_CONDITIONS_PROVIDER() in the associated implementation (.cxx) file.
  */
 #define DECLARE_CONDITIONS_PROVIDER_NS(NS, CLASS)                           \
-  framework::ConditionsObjectProvider* CLASS##_ldmx_make(                   \
+  fire::ConditionsObjectProvider* CLASS##_ldmx_make(                   \
       const std::string& name, const std::string& tagname,                  \
-      const framework::config::Parameters& params,                          \
-      framework::Process& process) {                                        \
+      const fire::config::Parameters& params,                          \
+      fire::Process& process) {                                        \
     return new NS::CLASS(name, tagname, params, process);                   \
   }                                                                         \
   __attribute__((constructor(1000))) static void CLASS##_ldmx_declare() {   \
-    framework::ConditionsObjectProvider::declare(                           \
+    fire::ConditionsObjectProvider::declare(                           \
         std::string(#NS) + "::" + std::string(#CLASS), &CLASS##_ldmx_make); \
   }
 

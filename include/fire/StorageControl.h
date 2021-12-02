@@ -10,7 +10,7 @@
 #include <string>
 #include <vector>
 
-namespace framework {
+namespace fire {
 
 typedef enum enum_StorageControlHint {
   hint_Undefined = 0,
@@ -50,7 +50,7 @@ class StorageControl {
    * configuration
    */
   void addHint(const std::string& processor_name,
-               framework::StorageControlHint hint,
+               fire::StorageControlHint hint,
                const std::string& purposeString);
 
   /**
@@ -137,6 +137,6 @@ class StorageControl {
    */
   std::vector<Rule> rules_;
 };
-}  // namespace framework
+}  // namespace fire
 
 #endif

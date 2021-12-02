@@ -11,18 +11,18 @@
 /*   Event   */
 /*~~~~~~~~~~~*/
 #include <iostream>
-#include "Framework/Exception/Exception.h"
+#include "fire/Exception/Exception.h"
 
-namespace framework {
+namespace fire {
 class ConditionsIOV;
 }
 
-std::ostream& operator<<(std::ostream&, const framework::ConditionsIOV& iov);
+std::ostream& operator<<(std::ostream&, const fire::ConditionsIOV& iov);
 
 namespace ldmx {
 class EventHeader;
 }
-namespace framework {
+namespace fire {
 
 /**
  * @class ConditionsIOV
@@ -94,6 +94,6 @@ class ConditionsIOV {
   /** Is this Condition valid for simulation? */
   bool validForMC_;
 };
-}  // namespace framework
+}  // namespace fire
 
 #endif  // FRAMEWORK_CONDITIONSIOV_H_

@@ -9,15 +9,15 @@
 #define FRAMEWORK_EVENTPROCESSORFACTORY_H_
 
 // LDMX
-#include "Framework/ConditionsObjectProvider.h"
-#include "Framework/EventProcessor.h"
+#include "fire/ConditionsObjectProvider.h"
+#include "fire/EventProcessor.h"
 
 // STL
 #include <map>
 #include <set>
 #include <vector>
 
-namespace framework {
+namespace fire {
 
 /**
  * @class PluginFactory
@@ -83,7 +83,7 @@ class PluginFactory {
    */
   ConditionsObjectProvider* createConditionsObjectProvider(
       const std::string& classname, const std::string& objName,
-      const std::string& tagname, const framework::config::Parameters& params,
+      const std::string& tagname, const fire::config::Parameters& params,
       Process& process);
 
   /**
@@ -119,6 +119,6 @@ class PluginFactory {
   static PluginFactory theFactory_;
 };
 
-}  // namespace framework
+}  // namespace fire
 
 #endif

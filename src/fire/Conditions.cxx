@@ -1,15 +1,15 @@
-#include "Framework/Conditions.h"
+#include "fire/Conditions.h"
 #include <sstream>
-#include "Framework/PluginFactory.h"
-#include "Framework/Process.h"
+#include "fire/PluginFactory.h"
+#include "fire/Process.h"
 
-namespace framework {
+namespace fire {
 
 Conditions::Conditions(Process& p) : process_{p} {}
 
 void Conditions::createConditionsObjectProvider(
     const std::string& classname, const std::string& objname,
-    const std::string& tagname, const framework::config::Parameters& params) {
+    const std::string& tagname, const fire::config::Parameters& params) {
   ConditionsObjectProvider* cop =
       PluginFactory::getInstance().createConditionsObjectProvider(
           classname, objname, tagname, params, process_);
@@ -110,4 +110,4 @@ const ConditionsObject* Conditions::getConditionPtr(
   }
 }
 
-}  // namespace framework
+}  // namespace fire

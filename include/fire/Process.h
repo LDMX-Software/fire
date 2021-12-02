@@ -8,11 +8,11 @@
 #define LDMXSW_FRAMEWORK_PROCESS_H_
 
 // LDMX
-#include "Framework/Conditions.h"
-#include "Framework/Configure/Parameters.h"
-#include "Framework/Exception/Exception.h"
-#include "Framework/RunHeader.h"
-#include "Framework/StorageControl.h"
+#include "fire/Conditions.h"
+#include "fire/Configure/Parameters.h"
+#include "fire/Exception/Exception.h"
+#include "fire/RunHeader.h"
+#include "fire/StorageControl.h"
 
 // STL
 #include <map>
@@ -22,7 +22,7 @@
 class TFile;
 class TDirectory;
 
-namespace framework {
+namespace fire {
 
 class EventProcessor;
 class EventFile;
@@ -38,7 +38,7 @@ class Process {
    * Class constructor.
    * @param configuration Parameters to configure process with
    */
-  Process(const framework::config::Parameters &configuration);
+  Process(const fire::config::Parameters &configuration);
 
   /**
    * Class Destructor
@@ -154,7 +154,7 @@ class Process {
 
  private:
   /// The parameters used to configure this class.
-  framework::config::Parameters config_; 
+  fire::config::Parameters config_; 
 
   /** Processing pass name. */
   std::string passname_;
@@ -230,6 +230,6 @@ class Process {
  * to fire.cxx
  */
 typedef std::unique_ptr<Process> ProcessHandle;
-}  // namespace framework
+}  // namespace fire
 
 #endif

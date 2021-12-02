@@ -7,7 +7,7 @@
 #include <exception>
 #include <string>
 
-namespace framework {
+namespace fire {
 namespace exception {
 
 /**
@@ -112,7 +112,7 @@ class Exception : public std::exception {
   std::string stackTrace_;
 };
 }  // namespace exception
-}  // namespace framework
+}  // namespace fire
 
 /**
  * @def EXCEPTION_RAISE(EXCEPTION, MSG)
@@ -124,6 +124,6 @@ class Exception : public std::exception {
  * supply the exception name and error message
  */
 #define EXCEPTION_RAISE(EXCEPTION, MSG)                                     \
-  throw framework::exception::Exception(EXCEPTION, MSG, __FILE__, __LINE__, \
+  throw fire::exception::Exception(EXCEPTION, MSG, __FILE__, __LINE__, \
                                         __FUNCTION__)
 #endif

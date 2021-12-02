@@ -1,14 +1,14 @@
-#include "Framework/StorageControl.h"
+#include "fire/StorageControl.h"
 #include <regex.h>
 #include <sys/types.h>
-#include "Framework/Exception/Exception.h"
+#include "fire/Exception/Exception.h"
 
-namespace framework {
+namespace fire {
 
 void StorageControl::resetEventState() { hints_.clear(); }
 
 void StorageControl::addHint(const std::string& processor_name,
-                             framework::StorageControlHint hint,
+                             fire::StorageControlHint hint,
                              const std::string& purposeString) {
   hints_.push_back(Hint());
   hints_.back().evpName_ = processor_name;
@@ -82,4 +82,4 @@ bool StorageControl::keepEvent(bool event_completed) const {
   // at the end, go with the default
   return defaultIsKeep_;
 }
-}  // namespace framework
+}  // namespace fire

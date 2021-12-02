@@ -8,12 +8,12 @@
 #define FRAMEWORK_RANDOMNUMBERSEEDSERVICE_H_
 
 /*~~~~~~~~~~~~~~~*/
-/*   Framework   */
+/*   fire   */
 /*~~~~~~~~~~~~~~~*/
-#include "Framework/ConditionsObject.h"
-#include "Framework/ConditionsObjectProvider.h"
+#include "fire/ConditionsObject.h"
+#include "fire/ConditionsObjectProvider.h"
 
-namespace framework {
+namespace fire {
 
 /**
  * @class RandomNumberSeedService
@@ -49,7 +49,7 @@ class RandomNumberSeedService : public ConditionsObject,
    * @param[in] process reference to the running process object
    */
   RandomNumberSeedService(const std::string& name, const std::string& tagname,
-                          const framework::config::Parameters& parameters,
+                          const fire::config::Parameters& parameters,
                           Process& process);
 
   /**
@@ -124,7 +124,7 @@ class RandomNumberSeedService : public ConditionsObject,
   /**
    * Output streaming operator
    *
-   * @see framework::RandomNumberSeedService::stream
+   * @see fire::RandomNumberSeedService::stream
    * @param[in] s output stream to print to
    * @param[in] o seed service to print
    * @returns modified output stream
@@ -149,6 +149,6 @@ class RandomNumberSeedService : public ConditionsObject,
   mutable std::map<std::string, uint64_t> seeds_;
 };
 
-}  // namespace framework
+}  // namespace fire
 
 #endif  // FRAMEWORK_RANDOMNUMBERSEEDSERVICE_H_

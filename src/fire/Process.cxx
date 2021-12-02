@@ -3,22 +3,22 @@
  * Implementation file for Process class
  */
 
-#include "Framework/Process.h"
+#include "fire/Process.h"
 #include <iostream>
-#include "Framework/Event.h"
-#include "Framework/EventFile.h"
-#include "Framework/EventProcessor.h"
-#include "Framework/Exception/Exception.h"
-#include "Framework/Logger.h"
-#include "Framework/NtupleManager.h"
-#include "Framework/PluginFactory.h"
-#include "Framework/RunHeader.h"
+#include "fire/Event.h"
+#include "fire/EventFile.h"
+#include "fire/EventProcessor.h"
+#include "fire/Exception/Exception.h"
+#include "fire/Logger.h"
+#include "fire/NtupleManager.h"
+#include "fire/PluginFactory.h"
+#include "fire/RunHeader.h"
 #include "TFile.h"
 #include "TROOT.h"
 
-namespace framework {
+namespace fire {
 
-Process::Process(const framework::config::Parameters &configuration)
+Process::Process(const fire::config::Parameters &configuration)
     : conditions_{*this} {
 
   config_ = configuration; 
@@ -62,7 +62,7 @@ Process::Process(const framework::config::Parameters &configuration)
   }
 
   auto sequence{
-      configuration.getParameter<std::vector<framework::config::Parameters>>(
+      configuration.getParameter<std::vector<fire::config::Parameters>>(
           "sequence", {})};
   if (sequence.empty() &&
       configuration.getParameter<bool>("testingMode", false)) {
@@ -84,7 +84,7 @@ Process::Process(const framework::config::Parameters &configuration)
               "'. Did you load the library that this class is apart of?");
     }
     auto histograms{
-        proc.getParameter<std::vector<framework::config::Parameters>>(
+        proc.getParameter<std::vector<fire::config::Parameters>>(
             "histograms", {})};
     if (!histograms.empty()) {
       ep->getHistoDirectory();
@@ -95,7 +95,7 @@ Process::Process(const framework::config::Parameters &configuration)
   }
 
   auto conditionsObjectProviders{
-      configuration.getParameter<std::vector<framework::config::Parameters>>(
+      configuration.getParameter<std::vector<fire::config::Parameters>>(
           "conditionsObjectProviders", {})};
   for (auto cop : conditionsObjectProviders) {
     auto className{cop.getParameter<std::string>("className")};
@@ -277,7 +277,7 @@ void Process::run() {
                            << masterFile->getFileName() << "' ...\n"
                            << runHeader;
             newRun(runHeader);
-          } catch (const framework::exception::Exception &) {
+          } catch (const fire::exception::Exception &) {
             ldmx_log(warn) << "Run header for run " << wasRun
                            << " was not found!";
           }
@@ -410,4 +410,4 @@ bool Process::process(int n, Event& event) const {
   return true;
 }
 
-}  // namespace framework
+}  // namespace fire

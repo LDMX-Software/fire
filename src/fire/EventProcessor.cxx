@@ -1,12 +1,12 @@
-#include "Framework/EventProcessor.h"
+#include "fire/EventProcessor.h"
 
 // LDMX
-#include "Framework/PluginFactory.h"
-#include "Framework/Process.h"
-#include "Framework/RunHeader.h"
+#include "fire/PluginFactory.h"
+#include "fire/Process.h"
+#include "fire/RunHeader.h"
 #include "TDirectory.h"
 
-namespace framework {
+namespace fire {
 
 EventProcessor::EventProcessor(const std::string &name, Process &process)
     : process_{process},
@@ -30,7 +30,7 @@ TDirectory *EventProcessor::getHistoDirectory() {
   return histoDir_;
 }
 
-void EventProcessor::setStorageHint(framework::StorageControlHint hint,
+void EventProcessor::setStorageHint(fire::StorageControlHint hint,
                                     const std::string &purposeString) {
   process_.getStorageController().addHint(name_, hint, purposeString);
 }
@@ -48,7 +48,7 @@ void EventProcessor::declare(const std::string &classname, int classtype,
 }
 
 void EventProcessor::createHistograms(
-    const std::vector<framework::config::Parameters> &histos) {
+    const std::vector<fire::config::Parameters> &histos) {
   for (auto const &h : histos) {
     auto name{h.getParameter<std::string>("name")};
     auto xLabel{h.getParameter<std::string>("xlabel")};
@@ -70,4 +70,4 @@ Producer::Producer(const std::string &name, Process &process)
 
 Analyzer::Analyzer(const std::string &name, Process &process)
     : EventProcessor(name, process) {}
-}  // namespace framework
+}  // namespace fire

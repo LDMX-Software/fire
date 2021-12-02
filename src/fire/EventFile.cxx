@@ -3,14 +3,14 @@
 #include "TTreeReader.h"
 
 // LDMX
-#include "Framework/Event.h"
-#include "Framework/EventFile.h"
-#include "Framework/Exception/Exception.h"
-#include "Framework/RunHeader.h"
+#include "fire/Event.h"
+#include "fire/EventFile.h"
+#include "fire/Exception/Exception.h"
+#include "fire/RunHeader.h"
 
-namespace framework {
+namespace fire {
 
-EventFile::EventFile(const framework::config::Parameters &params,
+EventFile::EventFile(const fire::config::Parameters &params,
                      const std::string &filename, EventFile *parent,
                      bool isOutputFile, bool isSingleOutput, bool isLoopable)
     : fileName_(filename), parent_(parent), isOutputFile_(isOutputFile),
@@ -70,15 +70,15 @@ EventFile::EventFile(const framework::config::Parameters &params,
   importRunHeaders();
 }
 
-EventFile::EventFile(const framework::config::Parameters &params, 
+EventFile::EventFile(const fire::config::Parameters &params, 
     const std::string &filename, bool isLoopable)
     : EventFile(params, filename, nullptr, false, false, isLoopable) {}
 
-EventFile::EventFile(const framework::config::Parameters &params,
+EventFile::EventFile(const fire::config::Parameters &params,
                      const std::string &filename)
     : EventFile(params, filename, nullptr, false, false, false) {}
 
-EventFile::EventFile(const framework::config::Parameters &params,
+EventFile::EventFile(const fire::config::Parameters &params,
                      const std::string &filename, EventFile *parent,
                      bool isSingleOutput)
     : EventFile(params, filename, parent, true, isSingleOutput, false) {}
@@ -383,4 +383,4 @@ void EventFile::importRunHeaders() {
 
   return;
 }
-} // namespace framework
+} // namespace fire

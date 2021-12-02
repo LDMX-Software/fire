@@ -205,7 +205,7 @@ class DataSet : public AbstractDataSet<DataType> {
  * Once we finally recurse down to actual fundamental ("atomic") types,
  * we can start actually calling the file load and save methods.
  *
- * @TODO port H5Easy::File into our framework. We can specialize it
+ * @TODO port H5Easy::File into our fire. We can specialize it
  * to our purposes to improve performance.
  */
 template <typename AtomicType>

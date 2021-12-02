@@ -10,15 +10,15 @@
 /*~~~~~~~~~~~*/
 /*   Event   */
 /*~~~~~~~~~~~*/
-#include "Framework/EventHeader.h"
-#include "Framework/Exception/Exception.h"
+#include "fire/EventHeader.h"
+#include "fire/Exception/Exception.h"
 
 /*~~~~~~~~~~~~~~~*/
-/*   Framework   */
+/*   fire   */
 /*~~~~~~~~~~~~~~~*/
-#include "Framework/ConditionsIOV.h"
-#include "Framework/Configure/Parameters.h"
-#include "Framework/Logger.h"
+#include "fire/ConditionsIOV.h"
+#include "fire/Configure/Parameters.h"
+#include "fire/Logger.h"
 
 /*~~~~~~~~~~~~~~~~*/
 /*   C++ StdLib   */
@@ -30,7 +30,7 @@ namespace ldmx {
 class RunHeader;
 }
 
-namespace framework {
+namespace fire {
 
 class Process;
 class ConditionsObjectProvider;
@@ -112,7 +112,7 @@ class Conditions {
    */
   void createConditionsObjectProvider(
       const std::string& classname, const std::string& instancename,
-      const std::string& tagname, const framework::config::Parameters& params);
+      const std::string& tagname, const fire::config::Parameters& params);
 
  private:
   /** Handle to the Process. */
@@ -137,6 +137,6 @@ class Conditions {
   std::map<std::string, CacheEntry> cache_;
 };
 
-}  // namespace framework
+}  // namespace fire
 
 #endif

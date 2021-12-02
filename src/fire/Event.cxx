@@ -1,8 +1,8 @@
-#include "Framework/Event.h"
+#include "fire/Event.h"
 
 #include "TBranchElement.h"
 
-namespace framework {
+namespace fire {
 
 Event::Event(const std::string& thePassName) : passName_(thePassName) {}
 
@@ -149,4 +149,4 @@ bool Event::shouldDrop(const std::string& branchName) const {
   return false;
 }
 
-}  // namespace framework
+}  // namespace fire

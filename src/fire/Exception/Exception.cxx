@@ -148,10 +148,10 @@ static std::string Backtrace(int skip = 1) throw() {
   return trace_buf.str();
 }
 
-#include "Framework/Exception/Exception.h"
+#include "fire/Exception/Exception.h"
 
-namespace framework {
+namespace fire {
 namespace exception {
 void Exception::buildStackTrace() throw() { stackTrace_ = Backtrace(2); }
 }  // namespace exception
-}  // namespace framework
+}  // namespace fire

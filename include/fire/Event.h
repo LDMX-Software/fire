@@ -12,10 +12,10 @@
 #include "TTree.h"
 
 // LDMX
-#include "Framework/Exception/Exception.h"
-#include "Framework/ProductTag.h"
-#include "Framework/EventHeader.h"
-#include "Framework/Bus.h"
+#include "fire/Exception/Exception.h"
+#include "fire/ProductTag.h"
+#include "fire/EventHeader.h"
+#include "fire/Bus.h"
 
 // STL
 #include <regex.h>
@@ -26,7 +26,7 @@
 #include <string>
 #include <sstream>
 
-namespace framework {
+namespace fire {
 
 /**
  * @class Event
@@ -35,7 +35,7 @@ namespace framework {
  * Event data is stored in ROOT trees and branches for persistency.
  * For the buffering, we use a multi-layered inheritance tree that
  * is wrapped inside of the Bus class.
- * @see framework::Bus for this buffering tool
+ * @see fire::Bus for this buffering tool
  */
 class Event {
  public:
@@ -520,9 +520,9 @@ class Event {
    * We buffer the event bus objects by having passengers
    * on the bus carry them.
    *
-   * @see framework::Bus for how this buffering works
+   * @see fire::Bus for how this buffering works
    */
-  mutable framework::Bus bus_;
+  mutable fire::Bus bus_;
 
   /**
    * Names of branches filled during this event.
@@ -549,6 +549,6 @@ class Event {
    */
   std::vector<ProductTag> products_;
 };
-}  // namespace framework
+}  // namespace fire
 
 #endif /* FRAMEWORK_EVENT_H_ */

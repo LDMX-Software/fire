@@ -13,7 +13,7 @@
 // STL
 #include <string>
 
-namespace framework {
+namespace fire {
 
 /**
  * @class ProductTag
@@ -68,11 +68,11 @@ class ProductTag {
   std::string typename_;
 };
 
-}  // namespace framework
+}  // namespace fire
 
 /**
- * Print/stream method for framework::ProductTag
+ * Print/stream method for fire::ProductTag
  */
-std::ostream& operator<<(std::ostream&, const framework::ProductTag&);
+std::ostream& operator<<(std::ostream&, const fire::ProductTag&);
 
 #endif

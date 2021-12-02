@@ -1,15 +1,15 @@
-#include "Framework/ConditionsIOV.h"
-#include "Framework/EventHeader.h"
+#include "fire/ConditionsIOV.h"
+#include "fire/EventHeader.h"
 
 #include <iostream>
 #include <sstream>
 
-std::ostream& operator<<(std::ostream& s, const framework::ConditionsIOV& iov) {
+std::ostream& operator<<(std::ostream& s, const fire::ConditionsIOV& iov) {
   iov.stream(s);
   return s;
 }
 
-namespace framework {
+namespace fire {
 
 bool ConditionsIOV::validForEvent(const ldmx::EventHeader& eh) const {
   return (eh.getRun() >= firstRun_ || firstRun_ == -1) &&
@@ -46,4 +46,4 @@ void ConditionsIOV::stream(std::ostream& s) const {
   if (validForMC_) s << ",MC";
   s << ")";
 }
-}  // namespace framework
+}  // namespace fire

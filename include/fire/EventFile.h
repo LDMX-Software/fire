@@ -6,9 +6,9 @@
 #include <string>
 #include <vector>
 
-//---< Framework >---//
-#include "Framework/Configure/Parameters.h"
-#include "Framework/Event.h"
+//---< fire >---//
+#include "fire/Configure/Parameters.h"
+#include "fire/Event.h"
 
 //---< ROOT >---//
 #include "TFile.h"
@@ -18,7 +18,7 @@ namespace ldmx {
 class RunHeader;
 }
 
-namespace framework {
+namespace fire {
 
 /**
  * This class manages all ROOT file input/output operations.
@@ -39,7 +39,7 @@ class EventFile {
    * @param[in] isSingleOutput true if only one output file is being written to
    * @param[in] isLoopable true for an input file where events can be reused
    */
-  EventFile(const framework::config::Parameters &params,
+  EventFile(const fire::config::Parameters &params,
             const std::string &filename, EventFile *parent, bool isOutputFile,
             bool isSingleOutput, bool isLoopable);
 
@@ -55,7 +55,7 @@ class EventFile {
    * processing from the start when we hit the end of the event tree in
    * this input file (set in the call in the producer)
    */
-  EventFile(const framework::config::Parameters &param,
+  EventFile(const fire::config::Parameters &param,
             const std::string &fileName, bool isLoopable);
 
   /**
@@ -70,7 +70,7 @@ class EventFile {
    * @param[in] isSingleOutput boolean check if only one output file is being
    * written to
    */
-  EventFile(const framework::config::Parameters &param,
+  EventFile(const fire::config::Parameters &param,
             const std::string &fileName, EventFile *parent,
             bool isSingleOutput = false);
 
@@ -85,7 +85,7 @@ class EventFile {
    * @param[in] params The parameters used to configure this EventFile.
    * @param[in] fileName The file name.
    */
-  EventFile(const framework::config::Parameters &params,
+  EventFile(const fire::config::Parameters &params,
             const std::string &fileName);
 
   /// Defult destructor
@@ -304,6 +304,6 @@ private:
    */
   std::map<int, std::pair<bool, ldmx::RunHeader *>> runMap_;
 };
-} // namespace framework
+} // namespace fire
 
 #endif // FRAMEWORK_EVENT_EVENTFILE_H

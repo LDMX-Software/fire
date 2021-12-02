@@ -9,7 +9,7 @@
 
 #include <string>
 
-namespace framework {
+namespace fire {
 
 /**
  * @class ConditionsObject
@@ -39,6 +39,6 @@ class ConditionsObject {
   std::string name_;
 };
 
-}  // namespace framework
+}  // namespace fire
 
 #endif
