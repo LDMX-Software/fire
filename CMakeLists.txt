@@ -89,3 +89,7 @@ add_executable(fire app/fire.cxx)
 target_link_libraries(fire PRIVATE fire_framework)
 install(TARGETS fire DESTINATION bin)
 
+option(TEST_FIRE "Build fire test executable." ON)
+if (TEST_FIRE)
+  add_subdirectory(test)
+endif()
