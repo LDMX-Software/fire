@@ -169,8 +169,8 @@ class Process {
    * generate new events. */
   std::vector<std::string> inputFiles_;
 
-  /** List of output file names.  If empty, no output file will be created. */
-  std::vector<std::string> outputFiles_;
+  /** Output file name. Required. */
+  std::string outputFile_;
 
   /** Set of drop/keep rules. */
   std::vector<std::string> dropKeepRules_;

@@ -24,6 +24,7 @@ Process::Process(const fire::config::Parameters &configuration)
   passname_ = configuration.getParameter<std::string>("passName", "");
   histoFilename_ = configuration.getParameter<std::string>("histogramFile", "");
   logFileName_ = configuration.getParameter<std::string>("logFileName", "");
+  outputFile_ = configuration.getParameter<std::string>("outputFiles", "");
 
   maxTries_ = configuration.getParameter<int>("maxTriesPerEvent", 1);
   eventLimit_ = configuration.getParameter<int>("maxEvents", -1);
@@ -35,8 +36,6 @@ Process::Process(const fire::config::Parameters &configuration)
 
   inputFiles_ =
       configuration.getParameter<std::vector<std::string>>("inputFiles", {});
-  outputFiles_ =
-      configuration.getParameter<std::vector<std::string>>("outputFiles", {});
   dropKeepRules_ =
       configuration.getParameter<std::vector<std::string>>("keep", {});
 

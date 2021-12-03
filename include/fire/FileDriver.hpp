@@ -10,14 +10,6 @@
 #include "fire/Configure/Parameters.h"
 #include "fire/Event.h"
 
-//---< ROOT >---//
-#include "TFile.h"
-#include "TTree.h"
-
-namespace ldmx {
-class RunHeader;
-}
-
 namespace fire {
 
 /**
