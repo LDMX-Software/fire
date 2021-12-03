@@ -3,6 +3,7 @@
  * Implementation file for Process class
  */
 
+#include "fire/factory/Factory.hpp"
 #include "fire/Process.h"
 #include <iostream>
 #include "fire/Event.h"
@@ -11,10 +12,7 @@
 #include "fire/Exception/Exception.h"
 #include "fire/Logger.h"
 #include "fire/NtupleManager.h"
-#include "fire/PluginFactory.h"
 #include "fire/RunHeader.h"
-#include "TFile.h"
-#include "TROOT.h"
 
 namespace fire {
 
@@ -50,7 +48,7 @@ Process::Process(const fire::config::Parameters &configuration)
   auto libs{
       configuration.getParameter<std::vector<std::string>>("libraries", {})};
   std::for_each(libs.begin(), libs.end(), [](auto &lib) {
-    PluginFactory::getInstance().loadLibrary(lib);
+      factory::loadLibrary(lib);
   });
 
   storageController_.setDefaultKeep(
@@ -74,21 +72,15 @@ Process::Process(const fire::config::Parameters &configuration)
   for (auto proc : sequence) {
     auto className{proc.getParameter<std::string>("className")};
     auto instanceName{proc.getParameter<std::string>("instanceName")};
-    EventProcessor *ep = PluginFactory::getInstance().createEventProcessor(
-        className, instanceName, *this);
-    if (ep == 0) {
+    std::unique_ptr<EventProcessor> ep;
+    try {
+      ep = EventProcessor::Factory::get().make(className, instanceName, *this);
+    } catch (Exception const& e) {
       EXCEPTION_RAISE(
           "UnableToCreate",
           "Unable to create instance '" + instanceName + "' of class '" +
               className +
               "'. Did you load the library that this class is apart of?");
-    }
-    auto histograms{
-        proc.getParameter<std::vector<fire::config::Parameters>>(
-            "histograms", {})};
-    if (!histograms.empty()) {
-      ep->getHistoDirectory();
-      ep->createHistograms(histograms);
     }
     ep->configure(proc);
     sequence_.push_back(ep);
@@ -107,12 +99,6 @@ Process::Process(const fire::config::Parameters &configuration)
   }
 }
 
-Process::~Process() {
-  for (EventProcessor *ep : sequence_) {
-    delete ep;
-  }
-}
-
 void Process::run() {
   // set up the logging for this run
   logging::open(logging::convertLevel(termLevelInt_),
@@ -123,9 +109,6 @@ void Process::run() {
   // Counter to keep track of the number of events that have been
   // procesed
   auto n_events_processed{0};
-
-  // make sure the ntuple manager is in a blank state
-  NtupleManager::getInstance().reset();
 
   // event bus for this process
   Event theEvent(passname_);

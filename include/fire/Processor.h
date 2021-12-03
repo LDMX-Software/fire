@@ -1,11 +1,11 @@
 /**
- * @file EventProcessor.h
+ * @file Processor.h
  * @brief Base classes for all user event processing components to extend
  * @author Jeremy Mans, University of Minnesota
  */
 
-#ifndef FRAMEWORK_EVENTPROCESSOR_H_
-#define FRAMEWORK_EVENTPROCESSOR_H_
+#ifndef FRAMEWORK_PROCESSOR_H_
+#define FRAMEWORK_PROCESSOR_H_
 
 /*~~~~~~~~~~~~~~~*/
 /*   fire   */
@@ -14,9 +14,7 @@
 #include "fire/Configure/Parameters.h"
 #include "fire/Event.h"
 #include "fire/Exception/Exception.h"
-#include "fire/Histograms.h"
 #include "fire/Logger.h"
-#include "fire/NtupleManager.h"
 #include "fire/RunHeader.h"
 #include "fire/StorageControl.h"
 
@@ -26,17 +24,10 @@
 #include <any>
 #include <map>
 
-class TDirectory;
-
 namespace fire {
 
 class Process;
-class EventProcessor;
 class EventFile;
-
-/** Typedef for EventProcessorFactory use. */
-typedef EventProcessor *EventProcessorMaker(const std::string &name,
-                                            Process &process);
 
 /**
  * @class AbortEventException
@@ -59,15 +50,15 @@ class AbortEventException : public fire::exception::Exception {
 };
 
 /**
- * @class EventProcessor
+ * @class Processor
  * @brief Base class for all event processing components
  */
-class EventProcessor {
+class Processor {
  public:
   /**
    * Class constructor.
    * @param name Name for this instance of the class.
-   * @param process The Process class associated with EventProcessor, provided
+   * @param process The Process class associated with Processor, provided
    * by the fire.
    *
    * @note The name provided to this function should not be
@@ -76,20 +67,20 @@ class EventProcessor {
    * into a Process with different parameters.  Names should not include
    * whitespace or special characters.
    */
-  EventProcessor(const std::string &name, Process &process);
+  Processor(const std::string &name, Process &process);
 
   /**
    * Class destructor.
    */
-  virtual ~EventProcessor() { ; }
+  virtual ~Processor() = default;
 
   /**
-   * Callback for the EventProcessor to configure itself from the
+   * Callback for the Processor to configure itself from the
    * given set of parameters.
    *
    * The parameters a processor has access to are the member variables
    * of the python class in the sequence that has className equal to
-   * the EventProcessor class name.
+   * the Processor class name.
    *
    * For an example, look at MyProcessor.
    *
@@ -98,14 +89,14 @@ class EventProcessor {
   virtual void configure(fire::config::Parameters &parameters) {}
 
   /**
-   * Callback for the EventProcessor to take any necessary
+   * Callback for the Processor to take any necessary
    * action when the run being processed changes.
    * @param runHeader The RunHeader containing run information.
    */
   virtual void onNewRun(const ldmx::RunHeader &runHeader) {}
 
   /**
-   * Callback for the EventProcessor to take any necessary
+   * Callback for the Processor to take any necessary
    * action when a new event input ROOT file is opened.
    * @param filename Input event ROOT file name.
    * @note This callback is rarely used.
@@ -113,7 +104,7 @@ class EventProcessor {
   virtual void onFileOpen(EventFile &eventFile) {}
 
   /**
-   * Callback for the EventProcessor to take any necessary
+   * Callback for the Processor to take any necessary
    * action when a event input ROOT file is closed.
    * @param filename Input event ROOT file name
    * @note This callback is rarely used.
@@ -121,14 +112,14 @@ class EventProcessor {
   virtual void onFileClose(EventFile &eventFile) {}
 
   /**
-   * Callback for the EventProcessor to take any necessary
+   * Callback for the Processor to take any necessary
    * action when the processing of events starts, such as
    * creating histograms.
    */
   virtual void onProcessStart() {}
 
   /**
-   * Callback for the EventProcessor to take any necessary
+   * Callback for the Processor to take any necessary
    * action when the processing of events finishes, such as
    * calculating job-summary quantities.
    */
@@ -141,17 +132,6 @@ class EventProcessor {
   const T &getCondition(const std::string &condition_name) {
     return getConditions().getCondition<T>(condition_name);
   }
-
-  /**
-   * Access/create a directory in the histogram file for this event
-   * processor to create histograms and analysis tuples.
-   *
-   * @note This method makes the returned directory the current directory
-   *     so that newly created objects should go into that directory
-   *
-   * @return TDirectory* reference to directory in histogram file
-   */
-  TDirectory *getHistoDirectory();
 
   /** Mark the current event as having the given storage control hint from this
    * module
@@ -188,21 +168,10 @@ class EventProcessor {
   std::string getName() const { return name_; }
 
   /**
-   * Internal function which is part of the PluginFactory machinery.
-   * @param classname The class name of the processor.
-   * @param classtype The class type of the processor (1 for Producer, 2 for
-   * Analyzer).
+   * The type of factory that can be used to create processors
    */
-  static void declare(const std::string &classname, int classtype,
-                      EventProcessorMaker *);
-
-  /**
-   * Internal function which is used to create histograms passed from the python
-   * configuration
-   * @parma histos vector of Parameters that configure histograms to create
-   */
-  void createHistograms(
-      const std::vector<fire::config::Parameters> &histos);
+  using Factory = factory::Factory<Processor, std::unique_ptr<Processor>,
+                                   std::string const &, Process &>;
 
  protected:
   /**
@@ -212,13 +181,7 @@ class EventProcessor {
    */
   void abortEvent() { throw AbortEventException(); }
 
-  /// Interface class for making and filling histograms
-  HistogramHelper histograms_;
-
-  /// Manager for any ntuples
-  NtupleManager &ntuple_{NtupleManager::getInstance()};
-
-  /// The logger for this EventProcessor
+  /// The logger for this Processor
   logging::logger theLog_;
 
  private:
@@ -235,11 +198,8 @@ class EventProcessor {
   /** Handle to the Process. */
   Process &process_;
 
-  /** The name of the EventProcessor. */
+  /** The name of the Processor. */
   std::string name_;
-
-  /** Histogram directory */
-  TDirectory *histoDir_{0};
 };
 
 /**
@@ -249,15 +209,12 @@ class EventProcessor {
  * @note This class processes a mutable copy of the event so that it can add
  * data to it.
  */
-class Producer : public EventProcessor {
+class Producer : public Processor {
  public:
-  /** Constant used to track EventProcessor types by the PluginFactory */
-  static const int CLASSTYPE{1};
-
   /**
    * Class constructor.
    * @param name Name for this instance of the class.
-   * @param process The Process class associated with EventProcessor, provided
+   * @param process The Process class associated with Processor, provided
    * by the fire
    *
    * @note Derived classes must have a constructor of the same interface, which
@@ -290,16 +247,13 @@ class Producer : public EventProcessor {
  * @note This class processes a constant copy of the event which cannot be
  * updated.
  */
-class Analyzer : public EventProcessor {
+class Analyzer : public Processor {
  public:
-  /** Constant used to track EventProcessor types by the PluginFactory */
-  static const int CLASSTYPE{2};
-
   /**
    * Class constructor.
    *
    * @param name Name for this instance of the class.
-   * @param process The Process class associated with EventProcessor, provided
+   * @param process The Process class associated with Processor, provided
    * by the fire
    *
    * @note Derived classes must have a constructor of the same interface, which
@@ -331,13 +285,12 @@ class Analyzer : public EventProcessor {
  * in the associated implementation (.cxx) file.
  */
 #define DECLARE_PRODUCER(CLASS)                                               \
-  fire::EventProcessor *CLASS##_ldmx_make(const std::string &name,       \
-                                               fire::Process &process) { \
-    return new CLASS(name, process);                                          \
+  std::unique_ptr<fire::Producer> CLASS##_ldmx_make(const std::string &name,  \
+                                                    fire::Process &process) { \
+    return std::make_unique<CLASS>(name, process);                            \
   }                                                                           \
-  __attribute__((constructor(1000))) static void CLASS##_ldmx_declare() {     \
-    fire::EventProcessor::declare(                                       \
-        #CLASS, ::fire::Producer::CLASSTYPE, &CLASS##_ldmx_make);        \
+  __attribute__((constructor)) static void CLASS##_ldmx_declare() {           \
+    fire::Processor::Factory::get().declare(#CLASS, &CLASS##_ldmx_make);      \
   }
 
 /**
@@ -350,13 +303,12 @@ class Analyzer : public EventProcessor {
  * in the associated implementation (.cxx) file.
  */
 #define DECLARE_ANALYZER(CLASS)                                               \
-  fire::EventProcessor *CLASS##_ldmx_make(const std::string &name,       \
-                                               fire::Process &process) { \
-    return new CLASS(name, process);                                          \
+  std::unique_ptr<fire::Analyzer> CLASS##_ldmx_make(const std::string &name,  \
+                                                    fire::Process &process) { \
+    return std::make_unique<CLASS>(name, process);                            \
   }                                                                           \
-  __attribute__((constructor(1000))) static void CLASS##_ldmx_declare() {     \
-    fire::EventProcessor::declare(                                       \
-        #CLASS, ::fire::Analyzer::CLASSTYPE, &CLASS##_ldmx_make);        \
+  __attribute__((constructor)) static void CLASS##_ldmx_declare() {           \
+    fire::Processor::Factory::get().declare(#CLASS, &CLASS##_ldmx_make);      \
   }
 
 /**
@@ -369,14 +321,15 @@ class Analyzer : public EventProcessor {
  * the associated implementation (.cxx) file.
  */
 #define DECLARE_PRODUCER_NS(NS, CLASS)                                        \
-  fire::EventProcessor *CLASS##_ldmx_make(const std::string &name,       \
-                                               fire::Process &process) { \
-    return new NS::CLASS(name, process);                                      \
+  namespace NS {                                                              \
+  std::unique_ptr<fire::Producer> CLASS##_ldmx_make(const std::string &name,  \
+                                                    fire::Process &process) { \
+    return std::make_unique<CLASS>(name, process);                            \
   }                                                                           \
-  __attribute__((constructor(1000))) static void CLASS##_ldmx_declare() {     \
-    fire::EventProcessor::declare(                                       \
-        std::string(#NS) + "::" + std::string(#CLASS),                        \
-        ::fire::Producer::CLASSTYPE, &CLASS##_ldmx_make);                \
+  __attribute__((constructor)) static void CLASS##_ldmx_declare() {           \
+    fire::Processor::Factory::get().declare(                                  \
+        std::string(#NS) + "::" + std::string(#CLASS), &CLASS##_ldmx_make);   \
+  }                                                                           \
   }
 
 /**
@@ -389,14 +342,15 @@ class Analyzer : public EventProcessor {
  * the associated implementation (.cxx) file.
  */
 #define DECLARE_ANALYZER_NS(NS, CLASS)                                        \
-  fire::EventProcessor *CLASS##_ldmx_make(const std::string &name,       \
-                                               fire::Process &process) { \
-    return new NS::CLASS(name, process);                                      \
+  namespace NS {                                                              \
+  std::unique_ptr<fire::Analyzer> CLASS##_ldmx_make(const std::string &name,  \
+                                                    fire::Process &process) { \
+    return std::make_unique<CLASS>(name, process);                            \
   }                                                                           \
-  __attribute__((constructor(1000))) static void CLASS##_ldmx_declare() {     \
-    fire::EventProcessor::declare(                                       \
-        std::string(#NS) + "::" + std::string(#CLASS),                        \
-        ::fire::Analyzer::CLASSTYPE, &CLASS##_ldmx_make);                \
+  __attribute__((constructor)) static void CLASS##_ldmx_declare() {           \
+    fire::Processor::Factory::get().declare(                                  \
+        std::string(#NS) + "::" + std::string(#CLASS), &CLASS##_ldmx_make);   \
+  }                                                                           \
   }
 
 #endif

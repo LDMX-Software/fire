@@ -1,73 +1,34 @@
-#include "fire/EventProcessor.h"
+#include "fire/Processor.h"
 
 // LDMX
-#include "fire/PluginFactory.h"
 #include "fire/Process.h"
 #include "fire/RunHeader.h"
-#include "TDirectory.h"
 
 namespace fire {
 
-EventProcessor::EventProcessor(const std::string &name, Process &process)
-    : process_{process},
-      name_{name},
-      histograms_{name},
-      theLog_{logging::makeLogger(name)} {}
+Processor::Processor(const std::string &name, Process &process)
+    : process_{process}, name_{name}, theLog_{logging::makeLogger(name)} {}
 
-Conditions &EventProcessor::getConditions() const {
+Conditions &Processor::getConditions() const {
   return process_.getConditions();
 }
 
-const ldmx::EventHeader &EventProcessor::getEventHeader() const {
+const ldmx::EventHeader &Processor::getEventHeader() const {
   return *(process_.getEventHeader());
 }
 
-TDirectory *EventProcessor::getHistoDirectory() {
-  if (!histoDir_) {
-    histoDir_ = process_.makeHistoDirectory(name_);
-  }
-  histoDir_->cd();  // make this the current directory
-  return histoDir_;
-}
-
-void EventProcessor::setStorageHint(fire::StorageControlHint hint,
-                                    const std::string &purposeString) {
+void Processor::setStorageHint(fire::StorageControlHint hint,
+                               const std::string &purposeString) {
   process_.getStorageController().addHint(name_, hint, purposeString);
 }
 
-int EventProcessor::getLogFrequency() const {
-  return process_.getLogFrequency();
-}
+int Processor::getLogFrequency() const { return process_.getLogFrequency(); }
 
-int EventProcessor::getRunNumber() const { return process_.getRunNumber(); }
-
-void EventProcessor::declare(const std::string &classname, int classtype,
-                             EventProcessorMaker *maker) {
-  PluginFactory::getInstance().registerEventProcessor(classname, classtype,
-                                                      maker);
-}
-
-void EventProcessor::createHistograms(
-    const std::vector<fire::config::Parameters> &histos) {
-  for (auto const &h : histos) {
-    auto name{h.getParameter<std::string>("name")};
-    auto xLabel{h.getParameter<std::string>("xlabel")};
-    auto xbins{h.getParameter<std::vector<double>>("xbins")};
-    auto yLabel{h.getParameter<std::string>("ylabel")};
-    auto ybins{h.getParameter<std::vector<double>>("ybins", {})};
-    if (ybins.empty()) {
-      // assume 1D histogram
-      histograms_.create(name, xLabel, xbins);
-    } else {
-      // assume 2D histogram
-      histograms_.create(name, xLabel, xbins, yLabel, ybins);
-    }
-  }
-}
+int Processor::getRunNumber() const { return process_.getRunNumber(); }
 
 Producer::Producer(const std::string &name, Process &process)
-    : EventProcessor(name, process) {}
+    : Processor(name, process) {}
 
 Analyzer::Analyzer(const std::string &name, Process &process)
-    : EventProcessor(name, process) {}
+    : Processor(name, process) {}
 }  // namespace fire

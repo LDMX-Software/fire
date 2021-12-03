@@ -19,9 +19,6 @@
 #include <memory>
 #include <vector>
 
-class TFile;
-class TDirectory;
-
 namespace fire {
 
 class EventProcessor;
@@ -38,15 +35,7 @@ class Process {
    * Class constructor.
    * @param configuration Parameters to configure process with
    */
-  Process(const fire::config::Parameters &configuration);
-
-  /**
-   * Class Destructor
-   *
-   * Cleans up sequence of EventProcessors.
-   * These processors were created by ConfigurePython and should be deleted.
-   */
-  ~Process();
+  Process(const config::Parameters &configuration);
 
   /**
    * Get the processing pass label.
@@ -91,16 +80,6 @@ class Process {
    * Request that the processing finish with this event
    */
   void requestFinish() { eventLimit_ = 0; }
-
-  /**
-   * Construct a TDirectory* for the given module
-   */
-  TDirectory *makeHistoDirectory(const std::string &dirName);
-
-  /**
-   * Open a ROOT TFile to write histograms and TTrees.
-   */
-  TDirectory *openHistoFile();
 
   /**
    * Access the storage control unit for this process
@@ -154,7 +133,7 @@ class Process {
 
  private:
   /// The parameters used to configure this class.
-  fire::config::Parameters config_; 
+  config::Parameters config_; 
 
   /** Processing pass name. */
   std::string passname_;
@@ -181,7 +160,7 @@ class Process {
   StorageControl storageController_;
 
   /** Ordered list of EventProcessors to execute. */
-  std::vector<EventProcessor *> sequence_;
+  std::vector<std::unique_ptr<EventProcessor>> sequence_;
 
   /** Set of ConditionsProviders */
   Conditions conditions_;
@@ -193,23 +172,11 @@ class Process {
   /** List of output file names.  If empty, no output file will be created. */
   std::vector<std::string> outputFiles_;
 
-  /** Compression setting to pass to output files
-   *
-   * Look at the documentation for the TFile constructor if you
-   * want to learn more details. Essentially,
-   * setting = 100*algo + level
-   * with algo = 0 being the global default.
-   */
-  int compressionSetting_;
-
   /** Set of drop/keep rules. */
   std::vector<std::string> dropKeepRules_;
 
   /** Run number to use if generating events. */
   int runForGeneration_{1};
-
-  /** Filename for histograms and other user products */
-  std::string histoFilename_;
 
   /** Pointer to the current EventHeader, used for Conditions information */
   const ldmx::EventHeader *eventHeader_{0};
@@ -217,19 +184,16 @@ class Process {
   /** Pointer to the current RunHeader, used for Conditions information */
   const ldmx::RunHeader *runHeader_{0};
 
-  /** TFile for histograms and other user products */
-  TFile *histoTFile_{0};
-
   /// Turn on logging for our process
   enableLogging("Process");
-};
+};  // Process
 
 /**
  * A handle to the current process
  * Used to pass a process from ConfigurePython
  * to fire.cxx
  */
-typedef std::unique_ptr<Process> ProcessHandle;
+using ProcessHandle = std::unique_ptr<Process>;
 }  // namespace fire
 
 #endif
