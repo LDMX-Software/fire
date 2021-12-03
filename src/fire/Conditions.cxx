@@ -1,6 +1,5 @@
 #include "fire/Conditions.h"
 #include <sstream>
-#include "fire/PluginFactory.h"
 #include "fire/Process.h"
 
 namespace fire {
@@ -10,24 +9,23 @@ Conditions::Conditions(Process& p) : process_{p} {}
 void Conditions::createConditionsObjectProvider(
     const std::string& classname, const std::string& objname,
     const std::string& tagname, const fire::config::Parameters& params) {
-  ConditionsObjectProvider* cop =
-      PluginFactory::getInstance().createConditionsObjectProvider(
-          classname, objname, tagname, params, process_);
 
-  if (cop) {
-    std::string provides = cop->getConditionObjectName();
-    if (providerMap_.find(provides) != providerMap_.end()) {
-      EXCEPTION_RAISE(
-          "ConditionAmbiguityException",
-          std::string(
-              "Multiple ConditonsObjectProviders configured to provide ") +
-              provides);
-    }
-    providerMap_[provides] = cop;
-  } else {
-    EXCEPTION_RAISE("ConditionsException",
-                    "No ConditionsObjectProvider for " + classname);
+  std::unique_ptr<ConditionsObjectProvider> cop;
+  try {
+    cop = ConditionsObjectProvider::Factory::get().make(
+          classname, objname, tagname, params, process_);
+  } catch(const Exception& e) {
+    EXCEPTION_RAISE(
+        "Conditions", "No ConditionsObjectProvider registered as " + classname);
   }
+
+  std::string provides = cop->getConditionObjectName();
+  if (providerMap_.find(provides) != providerMap_.end()) {
+    EXCEPTION_RAISE(
+        "ConditionAmbiguityException",
+        "Multiple ConditonsObjectProviders configured to provide " + provides);
+  }
+  providerMap_[provides] = cop;
 }
 
 void Conditions::onProcessStart() {

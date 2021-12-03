@@ -8,23 +8,14 @@
 #ifndef FRAMEWORK_CONDITIONSOBJECTPROVIDER_H_
 #define FRAMEWORK_CONDITIONSOBJECTPROVIDER_H_
 
-/*~~~~~~~~~~~*/
-/*   Event   */
-/*~~~~~~~~~~~*/
-#include "fire/Exception/Exception.h"
+#include <map>
 
-/*~~~~~~~~~~~~~~~*/
-/*   fire   */
-/*~~~~~~~~~~~~~~~*/
 #include "fire/ConditionsIOV.h"
 #include "fire/ConditionsObject.h"
 #include "fire/Configure/Parameters.h"
+#include "fire/Exception/Exception.h"
 #include "fire/Logger.h"
-
-/*~~~~~~~~~~~~~~~~*/
-/*   C++ StdLib   */
-/*~~~~~~~~~~~~~~~~*/
-#include <map>
+#include "fire/factory/Factory.hpp"
 
 namespace ldmx {
 class EventHeader;
@@ -36,20 +27,22 @@ namespace fire {
 class Process;
 class ConditionsObjectProvider;
 
-/** Typedef for PluginFactory use. */
-typedef ConditionsObjectProvider* ConditionsObjectProviderMaker(
-    const std::string& objname, const std::string& tagname,
-    const fire::config::Parameters& params, Process& process);
-
 /**
  * @class ConditionsObjectProvider
  * @brief Base class for all providers of conditions objects
  */
 class ConditionsObjectProvider {
  public:
-  /** Constant used to types by the PluginFactory */
-  static const int CLASSTYPE{10};
-
+  /**
+   * The factory type that can create this class
+   *
+   * We provide the class type, the type of pointer for this class,
+   * and the arguments to the constructor.
+   */
+  using Factory = factory::Factory<ConditionsObjectProvider,
+                                   std::unique_ptr<ConditionsObjectProvider>,
+                                   std::string const&, std::string const&,
+                                   config::Parameters const&, Process&>;
   /**
    * Class constructor.
    * @param name Name for this instance of the class.
@@ -115,13 +108,6 @@ class ConditionsObjectProvider {
   const std::string& getConditionObjectName() const { return objectName_; }
 
   /**
-   * Internal function which is part of the PluginFactory machinery.
-   * @param classname The class name of the processor.
-   */
-  static void declare(const std::string& classname,
-                      ConditionsObjectProviderMaker*);
-
-  /**
    * Access the tag name
    */
   const std::string& getTagName() const { return tagname_; }
@@ -155,21 +141,21 @@ class ConditionsObjectProvider {
  * @param CLASS The name of the class to register, which must not be in a
  * namespace.  If the class is in a namespace, use
  * DECLARE_CONDITIONS_PROVIDER_NS()
- * @brief Macro which allows the fire to construct a producer given its
+ * @brief Macro which allows the fire to construct a COP given its
  * name during configuration.
- * @attention Every Producer class must call this macro or
+ * @attention Every COP class must call this macro or
  * DECLARE_CONDITIONS_PROVIDER_NS() in the associated implementation (.cxx)
  * file.
  */
-#define DECLARE_CONDITIONS_PROVIDER(CLASS)                                    \
-  fire::ConditionsObjectProvider* CLASS##_ldmx_make(                     \
-      const std::string& name, const std::string& tagname,                    \
-      const fire::config::Parameters& params,                            \
-      fire::Process& process) {                                          \
-    return new CLASS(name, tagname, params, process);                         \
-  }                                                                           \
-  __attribute__((constructor(1000))) static void CLASS##_ldmx_declare() {     \
-    fire::ConditionsObjectProvider::declare(#CLASS, &CLASS##_ldmx_make); \
+#define DECLARE_CONDITIONS_PROVIDER(CLASS)                              \
+  std::unique_ptr<fire::ConditionsObjectProvider> CLASS##_ldmx_make(    \
+      const std::string& name, const std::string& tagname,              \
+      const fire::config::Parameters& params, fire::Process& process) { \
+    return std::make_unique<CLASS>(name, tagname, params, process);     \
+  }                                                                     \
+  __attribute__((constructor)) static void CLASS##_ldmx_declare() {     \
+    fire::ConditionsObjectProvider::Factory::get().declare(             \
+        #CLASS, &CLASS##_ldmx_make);                                    \
   }
 
 /**
@@ -182,15 +168,16 @@ class ConditionsObjectProvider {
  * DECLARE_CONDITIONS_PROVIDER() in the associated implementation (.cxx) file.
  */
 #define DECLARE_CONDITIONS_PROVIDER_NS(NS, CLASS)                           \
-  fire::ConditionsObjectProvider* CLASS##_ldmx_make(                   \
+  namespace NS {                                                            \
+  std::unique_ptr<fire::ConditionsObjectProvider> CLASS##_ldmx_make(        \
       const std::string& name, const std::string& tagname,                  \
-      const fire::config::Parameters& params,                          \
-      fire::Process& process) {                                        \
-    return new NS::CLASS(name, tagname, params, process);                   \
+      const fire::config::Parameters& params, fire::Process& process) {     \
+    return std::make_unique<NS::CLASS>(name, tagname, params, process);     \
   }                                                                         \
   __attribute__((constructor(1000))) static void CLASS##_ldmx_declare() {   \
-    fire::ConditionsObjectProvider::declare(                           \
+    fire::ConditionsObjectProvider::Factory::get().declare(                 \
         std::string(#NS) + "::" + std::string(#CLASS), &CLASS##_ldmx_make); \
+  }                                                                         \
   }
 
 #endif

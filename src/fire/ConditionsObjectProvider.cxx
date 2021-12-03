@@ -1,7 +1,6 @@
 #include "fire/ConditionsObjectProvider.h"
 
 // LDMX
-#include "fire/PluginFactory.h"
 #include "fire/Process.h"
 
 namespace fire {
@@ -20,12 +19,6 @@ ConditionsObjectProvider::requestParentCondition(
   const ConditionsObject* obj = process_.getConditions().getConditionPtr(name);
   ConditionsIOV iov = process_.getConditions().getConditionIOV(name);
   return std::make_pair(obj, iov);
-}
-
-void ConditionsObjectProvider::declare(const std::string& classname,
-                                       ConditionsObjectProviderMaker* maker) {
-  PluginFactory::getInstance().registerConditionsObjectProvider(
-      classname, CLASSTYPE, maker);
 }
 
 }  // namespace fire

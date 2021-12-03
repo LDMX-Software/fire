@@ -50,7 +50,7 @@ class Conditions {
   /**
    * Class destructor.
    */
-  ~Conditions() { ; }
+  ~Conditions() = default;
 
   /**
    * Primary request action for a conditions object If the
@@ -119,7 +119,7 @@ class Conditions {
   Process& process_;
 
   /** Map of who provides which condition */
-  std::map<std::string, ConditionsObjectProvider*> providerMap_;
+  std::map<std::string, std::unique_ptr<ConditionsObjectProvider>> providerMap_;
 
   /**
    * An entry to store an already loaded conditions object
