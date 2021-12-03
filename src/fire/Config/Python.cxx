@@ -1,5 +1,5 @@
 
-#include "fire/ConfigurePython.h"
+#include "fire/Config/Python.h"
 
 /*~~~~~~~~~~~~*/
 /*   python   */
@@ -16,6 +16,11 @@
 #include <vector>
 
 namespace fire {
+namespace config {
+
+std::string root_module = "firecfg";
+std::string root_class  = "Process";
+std::string root_object = "lastProcess";
 
 /**
  * Turn the input python string object into a C++ string.
@@ -64,7 +69,7 @@ static std::string getPyString(PyObject* pyObj) {
  * @param object Python object to get members from
  * @return Mapping between member name and value.
  */
-static std::map<std::string, std::any> getMembers(PyObject* object) {
+static Parameters getMembers(PyObject* object) {
   PyObject* dictionary{PyObject_GetAttrString(object, "__dict__")};
 
   if (dictionary == 0) {
@@ -78,16 +83,16 @@ static std::map<std::string, std::any> getMembers(PyObject* object) {
   PyObject *key(0), *value(0);
   Py_ssize_t pos = 0;
 
-  std::map<std::string, std::any> params;
+  Parameters params;
 
   while (PyDict_Next(dictionary, &pos, &key, &value)) {
     std::string skey{getPyString(key)};
 
     if (PyLong_Check(value)) {
       if (PyBool_Check(value)) {
-        params[skey] = bool(PyLong_AsLong(value));
+        params.add(skey, bool(PyLong_AsLong(value)));
       } else {
-        params[skey] = int(PyLong_AsLong(value));
+        params.add(skey, int(PyLong_AsLong(value)));
       }
     } else if (PyFloat_Check(value)) {
       params[skey] = PyFloat_AsDouble(value);
@@ -104,7 +109,7 @@ static std::map<std::string, std::any> getMembers(PyObject* object) {
           for (auto j{0}; j < PyList_Size(value); j++)
             vals.push_back(PyLong_AsLong(PyList_GetItem(value, j)));
 
-          params[skey] = vals;
+          params.add(skey, vals);
 
         } else if (PyFloat_Check(vec0)) {
           std::vector<double> vals;
@@ -112,7 +117,7 @@ static std::map<std::string, std::any> getMembers(PyObject* object) {
           for (auto j{0}; j < PyList_Size(value); j++)
             vals.push_back(PyFloat_AsDouble(PyList_GetItem(value, j)));
 
-          params[skey] = vals;
+          params.add(skey, vals);
 
         } else if (PyUnicode_Check(vec0)) {
           std::vector<std::string> vals;
@@ -121,7 +126,7 @@ static std::map<std::string, std::any> getMembers(PyObject* object) {
             vals.push_back(getPyString(elem));
           }
 
-          params[skey] = vals;
+          params.add(skey, vals);
 
         } else {
           // RECURSION zoinks!
@@ -135,7 +140,7 @@ static std::map<std::string, std::any> getMembers(PyObject* object) {
             vals.emplace_back();
             vals.back().setParameters(getMembers(elem));
           }
-          params[skey] = vals;
+          params.add(skey, vals);
 
         }  // type of object in python list
       }    // python list has non-zero size
@@ -148,7 +153,7 @@ static std::map<std::string, std::any> getMembers(PyObject* object) {
       fire::config::Parameters val;
       val.setParameters(getMembers(value));
 
-      params[skey] = val;
+      params.add(skey, val);
 
     }  // python object type
   }    // loop through python dictionary
@@ -156,8 +161,7 @@ static std::map<std::string, std::any> getMembers(PyObject* object) {
   return std::move(params);
 }
 
-ConfigurePython::ConfigurePython(const std::string& pythonScript, char* args[],
-                                 int nargs) {
+Parameters run(const std::string& pythonScript, char* args[], int nargs) {
   // assumes that nargs >= 0
   //  this is true always because we error out if no python script has been
   //  found
@@ -201,23 +205,23 @@ ConfigurePython::ConfigurePython(const std::string& pythonScript, char* args[],
     EXCEPTION_RAISE("ConfigureError", "Problem loading python script");
   }
 
-  PyObject* pCMod = PyObject_GetAttrString(script, "ldmxcfg");
+  PyObject* pCMod = PyObject_GetAttrString(script, root_module.c_str());
   Py_DECREF(script);  // don't need the script anymore
   if (pCMod == 0) {
     PyErr_Print();
     EXCEPTION_RAISE("ConfigureError", "Problem loading python script");
   }
 
-  PyObject* pProcessClass = PyObject_GetAttrString(pCMod, "Process");
+  PyObject* pProcessClass = PyObject_GetAttrString(pCMod, root_class.c_str());
   Py_DECREF(pCMod);  // don't need the config module anymore
   if (pProcessClass == 0) {
     PyErr_Print();
     EXCEPTION_RAISE(
         "ConfigureError",
-        "Process object not defined. This object is required to run ldmx-app.");
+        "Process object not defined. This object is required to run fire.");
   }
 
-  PyObject* pProcess = PyObject_GetAttrString(pProcessClass, "lastProcess");
+  PyObject* pProcess = PyObject_GetAttrString(pProcessClass, root_object.c_str());
   Py_DECREF(pProcessClass);  // don't need the Process class anymore
   if (pProcess == 0) {
     // wasn't able to get lastProcess class member
@@ -236,7 +240,7 @@ ConfigurePython::ConfigurePython(const std::string& pythonScript, char* args[],
   // to the last Process object defined in the script.
   // We can now look at pProcess and get all of our parameters out of it.
 
-  configuration_.setParameters(getMembers(pProcess));
+  Parameters configuration(getMembers(pProcess));
 
   // all done with python nonsense
   // delete one parent python object
@@ -249,14 +253,9 @@ ConfigurePython::ConfigurePython(const std::string& pythonScript, char* args[],
     EXCEPTION_RAISE("PyError",
                     "I wasn't able to close up the python interpreter!");
   }
+
+  return std::move(configuration);
 }
 
-ProcessHandle ConfigurePython::makeProcess() {
-  // no python nonsense happens in here,
-  // this just takes the parameters determined earlier
-  // and puts them into the Process + EventProcessor fire
-
-  return std::make_unique<Process>(configuration_);
-}
-
+}  // namespace config
 }  // namespace fire

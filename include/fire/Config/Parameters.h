@@ -26,22 +26,6 @@ namespace config {
  */
 class Parameters {
  public:
-  /// Constructor
-  Parameters(){};
-
-  /// Destructor
-  ~Parameters(){};
-
-  /**
-   * Set the mapping of parameter names to value.
-   *
-   * @param [in, out] parameters mapping between parameter names and the
-   * corresponding value.
-   */
-  void setParameters(std::map<std::string, std::any> parameters) {
-    parameters_ = parameters;
-  }
-
   /**
    * Add a parameter to the parameter list.  If the parameter already
    * exists in the list, throw an exception.
@@ -52,7 +36,7 @@ class Parameters {
    *  the list.
    */
   template <typename T>
-  void addParameter(const std::string& name, const T& value) {
+  void add(const std::string& name, const T& value) {
     if (exists(name)) {
       EXCEPTION_RAISE("ParameterExist",
                       "The parameter " + name +
@@ -86,7 +70,7 @@ class Parameters {
    * @return The user specified parameter of type T.
    */
   template <typename T>
-  T getParameter(const std::string& name) const {
+  T get(const std::string& name) const {
     // Check if the variable exists in the map.  If it doesn't,
     // raise an exception.
     if (not exists(name)) {
@@ -115,7 +99,7 @@ class Parameters {
    * @return the user parameter of type T
    */
   template <typename T>
-  T getParameter(const std::string& name, const T& def) const {
+  T get(const std::string& name, const T& def) const {
     if (not exists(name)) return def;
 
     // get here knowing that name exists in parameters_

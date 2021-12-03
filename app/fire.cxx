@@ -71,13 +71,12 @@ int main(int argc, char* argv[]) {
     return 1;
   }
 
-  std::cout << "---- LDMXSW: Loading configuration --------" << std::endl;
+  std::cout << "---- FIRE: Loading configuration --------" << std::endl;
 
-  fire::ProcessHandle p;
+  std::unique_ptr<fire::Process> p;
   try {
-    fire::ConfigurePython cfg(argv[ptrpy], argv + ptrpy + 1,
-                                   argc - ptrpy - 1);
-    p = cfg.makeProcess();
+    fire::config::Parameters config{fire::config::run(argv[ptrpy], argv + ptrpy + 1, argc - ptrpy - 1)};
+    p = std::make_unique<fire::Process>(config);
   } catch (fire::exception::Exception& e) {
     std::cerr << "Configuration Error [" << e.name() << "] : " << e.message()
               << std::endl;
@@ -87,7 +86,7 @@ int main(int argc, char* argv[]) {
     return 1;
   }
 
-  std::cout << "---- LDMXSW: Configuration load complete  --------"
+  std::cout << "---- FIRE: Configuration load complete  --------"
             << std::endl;
 
   // If Ctrl-c is used, immediately exit the application.
@@ -107,7 +106,7 @@ int main(int argc, char* argv[]) {
    * sa_handler. */
   // act.sa_flags = SA_SIGINFO;
 
-  std::cout << "---- LDMXSW: Starting event processing --------" << std::endl;
+  std::cout << "---- FIRE: Starting event processing --------" << std::endl;
 
   try {
     p->run();
@@ -127,7 +126,7 @@ int main(int argc, char* argv[]) {
     return 127;  // return non-zero error-status
   }
 
-  std::cout << "---- LDMXSW: Event processing complete  --------" << std::endl;
+  std::cout << "---- FIRE: Event processing complete  --------" << std::endl;
 
   return 0;
 }
