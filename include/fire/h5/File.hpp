@@ -9,6 +9,10 @@ namespace h5 {
 
 /**
  * A HighFive::File specialized to fire's usecase.
+ *
+ * @TODO implement compression and chunking settings
+ * @TODO should we cache dataset handles?
+ * @TODO need to write vecotr<Atomic> save/load?
  */
 class File {
  public:
@@ -35,11 +39,6 @@ class File {
   void load(const std::string& path, long unsigned int i, AtomicType& val) {
     static_assert(std::is_arithmetic_v<AtomicType>,
                   "Non-arithmetic type made its way to load");
-    if (writing_) {
-      // should never call 'load' on an output file
-      throw std::runtime_error("Attempted to load data from the output file.");
-    }
-
     HighFive::DataSet ds = file_.getDataSet(path);
     ds.select({i}, {1}).read(val);
   }
@@ -49,10 +48,6 @@ class File {
             AtomicType const& val) {
     static_assert(std::is_arithmetic_v<AtomicType>,
                   "Non-arithmetic type made its way to save");
-    if (not writing_) {
-      throw std::runtime_error("Attempted to save data to the input file.");
-    }
-
     if (file_.exist(path)) {
       // we've already created the dataset for this path
       HighFive::DataSet set = file_.getDataSet(path);
