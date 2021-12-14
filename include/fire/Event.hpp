@@ -31,7 +31,26 @@ class Event {
    *
    * @param[in] pass name of current processing pass
    */
-  Event(const std::string& pass) : pass_{pass}, input_file_{nullptr}, i_entry_{0} {}
+  Event(const std::string& pass) : pass_{pass}, input_file_{nullptr}, i_entry_{0}, header_{std::make_unique<EventHeader>()} {
+    /// register our event header with a data set for save/load
+    //    we own the pointer in this special case so we can return both mutable and const references
+    sets_[EventHeader::NAME] = std::make_unique<h5::DataSet<EventHeader>>(EventHeader::NAME, header_.get());
+  }
+
+  /**
+   * Get the event header
+   */
+  const EventHeader& header() const {
+    return *header_; 
+  }
+
+  /**
+   * Get non-const event header
+   * @TODO should we name this differently than the const version?
+   */
+  EventHeader& header() {
+    return *header_;
+  }
 
   /**
    * add a piece of data to the event
@@ -73,7 +92,7 @@ class Event {
    * @return const reference to data in event
    */
   template <typename DataType>
-  DataType const& get(std::string const& name) {
+  DataType const& get(std::string const& name) const {
     auto set_it{sets_.find(name)};
     if (set_it == sets_.end()) {
       // check if file on disk by trying to create and load it
@@ -98,8 +117,8 @@ class Event {
   }
  private:
   /**
-   * The File is the Event's friend,
-   * this allows the File to handle the core iteration procedure
+   * The Process is the Event's friend,
+   * this allows the Process to handle the core iteration procedure
    * while preventing other classes from accessing these methods.
    */
   friend class Process;
@@ -122,7 +141,7 @@ class Event {
    * @param[in] f input HDF5 file to read from
    * @param[in] i index of dataset to read from
    */
-  void load(h5::File& f, unsigned long int i) {
+  void load(h5::File& f, unsigned long int i) const {
     for (auto& [_, set] : sets_) set->load(f, i);
   }
 
@@ -146,12 +165,14 @@ class Event {
   }
 
  private:
+  /// header that we control
+  std::unique_ptr<EventHeader> header_;
   /// pointer to input file (maybe nullptr)
   h5::File* input_file_;
   /// name of current processing pass
   std::string pass_;
   /// list of datasets being processed
-  std::unordered_map<std::string, std::unique_ptr<h5::BaseDataSet>> sets_;
+  mutable std::unordered_map<std::string, std::unique_ptr<h5::BaseDataSet>> sets_;
   /// current index in the datasets
   long unsigned int i_entry_;
 };  // Event

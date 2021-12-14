@@ -4,6 +4,9 @@
 // using HighFive
 #include <highfive/H5File.hpp>
 
+// configuration parameters
+#include "fire/Config/Parameters.h"
+
 namespace fire {
 namespace h5 {
 
@@ -21,9 +24,10 @@ class File {
    *  our write == HDF5 TRUNC (overwrite) mode
    *  our read  == HDF5 Read Only mode
    */
-  File(std::string const& name, bool write = false)
-      : file_(name, write ? HighFive::File::Create | HighFive::File::Truncate : HighFive::File::ReadOnly),
-        writing_{write} {}
+  File(const config::Parameters& ps) 
+      : file_(ps.getParameter<std::string>("name"), ps.getParameter<bool>("write") ? HighFive::File::Create | HighFive::File::Truncate : HighFive::File::ReadOnly),
+        writing_{ps.getParameter<bool>("write")},
+        rows_per_chunk_{ps.getParameter<int>("rows_per_chunk")} {}
 
   /**
    * Close up our file, making sure to flush contents to disk if writing
@@ -62,7 +66,7 @@ class File {
       std::vector<size_t> initial_size = {i+1};
       HighFive::DataSpace space(initial_size, limit);
       HighFive::DataSetCreateProps props;
-      props.add(HighFive::Chunking({10}));  // NOTE this is where chunking is done
+      props.add(HighFive::Chunking({rows_per_chunk_}));  // NOTE this is where chunking is done
       // TODO compression
       // TODO creation options in this function
       HighFive::DataSet set = file_.createDataSet(
@@ -72,10 +76,12 @@ class File {
   }
 
  private:
-  /// our highfive file
-  HighFive::File file_;
   /// we are writing
   bool writing_;
+  /// our highfive file
+  HighFive::File file_;
+  /// number of rows to keep in each chunk
+  int rows_per_chunk_;
 };
 
 }  // namespace h5

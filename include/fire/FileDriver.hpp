@@ -13,7 +13,7 @@
 namespace fire {
 
 /**
- * This class manages all ROOT file input/output operations.
+ * This class manages all file input/output operations.
  */
 class EventFile {
  public:

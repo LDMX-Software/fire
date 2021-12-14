@@ -8,12 +8,6 @@
 namespace fire {
 
 class Process {
-  h5::File h5_file_;
-  bool write_;
-  long unsigned int i_entry_;
-  long unsigned int entries_;
-  Event event_;
-
  public:
   Process(const std::string& pass, const std::string& file_name, bool write = false)
       : h5_file_{file_name, write},
@@ -48,6 +42,52 @@ class Process {
         return false;
     }
   }
+
+ private:
+  /// processing pass name
+  std::string pass_;
+
+  /// limit on number of events to process
+  int event_limit_;
+
+  /// frequency with which event info is printed
+  int log_frequency_;
+
+  /// integer form of logging level to print to terminal
+  int term_level_;
+
+  /// integer form of logging level to print to file
+  int file_level_;
+
+  /// name of file to print logging to
+  std::string log_file_;
+
+  /// number of attempts to make before giving up on an event
+  int max_tries_;
+
+  /// run number to use if generating events
+  int run_;
+
+  /// input file listing, maybe empty
+  std::vector<h5::File> input_files_;
+
+  /// output file we are writing to
+  h5::File output_file_;
+
+  /// object used to determine if an event should be saved or not
+  StorageController storage_controller_;
+
+  /// handle to conditions system
+  Conditions conditions_;
+
+  /// current entry index
+  long unsigned int i_entry_;
+
+  /// number of entries we have
+  long unsigned int entries_;
+
+  /// event object
+  Event event_;
 };  // Process
 
 }  // namespace fire
