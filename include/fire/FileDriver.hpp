@@ -1,5 +1,5 @@
-#ifndef FRAMEWORK_EVENT_EVENTFILE_H_
-#define FRAMEWORK_EVENT_EVENTFILE_H_
+#ifndef FIRE_FILEDRIVER_HPP
+#define FIRE_FILEDRIVER_HPP
 
 //---< C++ >---//
 #include <map>
@@ -13,7 +13,7 @@
 namespace fire {
 
 /**
- * This class manages all file input/output operations.
+ * This class manages the open data files.
  */
 class EventFile {
  public:

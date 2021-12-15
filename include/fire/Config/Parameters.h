@@ -12,6 +12,7 @@
 #include <type_traits>
 #include <typeinfo>
 #include <vector>
+#include <boost/core/demangle.hpp>
 
 /*~~~~~~~~~~~~~~~*/
 /*   Exception   */
@@ -85,9 +86,9 @@ class Parameters {
     } catch (const std::bad_any_cast& e) {
       EXCEPTION_RAISE("BadTypeParam",
                       "Parameter '" + name + "' of type '" +
-                          parameters_.at(name).type().name() +
+                          boost::core::demangle(parameters_.at(name).type().name()) +
                           "' is being cast to incorrect type '" +
-                          typeid(T).name() + "'.");
+                          boost::core::demangle(typeid(T).name()) + "'.");
     }
   }
 

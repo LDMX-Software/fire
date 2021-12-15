@@ -21,10 +21,6 @@
 
 namespace fire {
 
-class EventProcessor;
-class EventFile;
-class Event;
-
 /**
  * @class Process
  * @brief Class which represents the process under execution.

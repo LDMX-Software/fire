@@ -119,19 +119,14 @@ void Process::run() {
   // If we have no input files, but do have an event number, run for
   // that number of events and generate an output file.
   if (inputFiles_.empty() && eventLimit_ > 0) {
-    if (outputFiles_.empty()) {
+    if (outputFile_.empty()) {
       EXCEPTION_RAISE("InvalidConfig",
-                      "No input files or output files were given.");
-    } else if (outputFiles_.size() > 1) {
-      ldmx_log(warn) << "Several output files given with no input files. "
-                     << "Only the first output file '" << outputFiles_.at(0)
-                     << "' will be used.";
+                      "No input files or output file were given.");
     }
-    std::string outputFileName = outputFiles_.at(0);
 
     // Configure the event file to create an output file with no parent. This
     // requires setting the parameters isOutputFile and isSingleOutput to true.
-    EventFile outFile(config_, outputFileName, nullptr, true, true, false); 
+    EventFile outFile(config_, outputFile_, nullptr, true, true, false); 
 
     for (auto module : sequence_) module->onFileOpen(outFile);
 
@@ -185,15 +180,7 @@ void Process::run() {
 
     EventFile *outFile(0);
 
-    bool singleOutput = false;
-    if (outputFiles_.size() == 1) {
-      singleOutput = true;
-    } else if (!outputFiles_.empty() and
-               outputFiles_.size() != inputFiles_.size()) {
-      EXCEPTION_RAISE("Process",
-                      "Unable to handle case of different number of input and "
-                      "output files (other than zero/one ouput file).");
-    }
+    bool singleOutput = true;
 
     // next, loop through the files
     int ifile = 0;
@@ -207,23 +194,17 @@ void Process::run() {
 
       // configure event file that will be iterated over
       EventFile *masterFile;
-      if (!outputFiles_.empty()) {
+      if (!outputFile_.empty()) {
         // setup new output file if either
         // 1) we are not in single output mode
         // 2) this is the first input file
         if (!singleOutput or ifile == 0) {
           // setup new output file
-          outFile = new EventFile(config_, outputFiles_[ifile], &inFile, singleOutput);
+          outFile = new EventFile(config_, outputFile_, &inFile, singleOutput);
           ifile++;
 
-          // setup theEvent we will iterate over
-          if (outFile) {
-            outFile->setupEvent(&theEvent);
-            masterFile = outFile;
-          } else {
-            EXCEPTION_RAISE("Process", "Unable to construct output file for " +
-                                           outputFiles_[ifile]);
-          }
+          outFile->setupEvent(&theEvent);
+          masterFile = outFile;
 
           for (auto rule : dropKeepRules_) outFile->addDrop(rule);
 
@@ -326,33 +307,6 @@ void Process::run() {
 
 int Process::getRunNumber() const {
   return (eventHeader_) ? (eventHeader_->getRun()) : (runForGeneration_);
-}
-
-TDirectory *Process::makeHistoDirectory(const std::string &dirName) {
-  auto owner{openHistoFile()};
-  TDirectory *child = owner->mkdir((char *)dirName.c_str());
-  if (child) child->cd();
-  return child;
-}
-
-TDirectory *Process::openHistoFile() {
-  TDirectory *owner{nullptr};
-
-  if (histoFilename_.empty()) {
-    // trying to write histograms/ntuples but no file defined
-    EXCEPTION_RAISE("NoHistFileName",
-                    "You did not provide the necessary histogram file name to "
-                    "put your histograms (or ntuples) in.\n    Provide this "
-                    "name in the python configuration with 'p.histogramFile = "
-                    "\"myHistFile.root\"' where p is the Process object.");
-  } else if (histoTFile_ == nullptr) {
-    histoTFile_ = new TFile(histoFilename_.c_str(), "RECREATE");
-    owner = histoTFile_;
-  } else
-    owner = histoTFile_;
-  owner->cd();
-
-  return owner;
 }
 
 void Process::newRun(ldmx::RunHeader& header) {

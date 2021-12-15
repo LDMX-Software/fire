@@ -33,5 +33,5 @@ Besides this core functionality of processors looking at data event-by-event, th
 - C++ compiler with C++17 support
 - HDF5
 - HighFive C++ interface for HDF5
-- Boost.Logging (optional)
+- Boost.Logging (optional, for logging through fire)
 - Boost Unit Testing Framework (optional, for testing)
