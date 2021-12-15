@@ -90,7 +90,9 @@ bool load(ArbitraryDataSet& set, DataType const& d, fire::h5::File& f, long unsi
 }
 
 BOOST_AUTO_TEST_CASE(dataset) {
-  std::string filename{"dataset.h5"};
+  fire::config::Parameters file;
+  file.add("name",std::string("dataset.h5"));
+  file.add("rows_per_chunk",10);
 
   std::vector<double> doubles = { 1.0, 32., 69. };
   std::vector<int>    ints    = { 0, -33, 88 };
@@ -104,21 +106,22 @@ BOOST_AUTO_TEST_CASE(dataset) {
 
 
   { // Writing
-    fire::h5::File f{filename, true}; 
+    file.add("write",true);
+    fire::h5::File f{file}
 
-    fire::h5::DataSet<double> double_ds("double");
-    fire::h5::DataSet<int>    int_ds("int");
-    fire::h5::DataSet<bool>   bool_ds("bool");
-    fire::h5::DataSet<std::vector<double>> vector_double_ds("vector_double");
-    fire::h5::DataSet<std::vector<int>> vector_int_ds("vector_int");
-    fire::h5::DataSet<std::map<int,double>> map_int_double_ds("map_int_double");
-    fire::h5::DataSet<Hit> hit_ds("hit");
-    fire::h5::DataSet<std::vector<Hit>> vector_hit_ds("vector_hit");
-    fire::h5::DataSet<SpecialHit> special_hit_ds("special_hit");
-    fire::h5::DataSet<std::vector<SpecialHit>> vector_special_hit_ds("vector_special_hit");
-    fire::h5::DataSet<Cluster> cluster_ds("cluster");
-    fire::h5::DataSet<std::vector<Cluster>> vector_cluster_ds("vector_cluster");
-    fire::h5::DataSet<std::map<int,Cluster>> map_cluster_ds("map_cluster");
+    fire::h5::DataSet<double> double_ds("double",true);
+    fire::h5::DataSet<int>    int_ds("int",true);
+    fire::h5::DataSet<bool>   bool_ds("bool",true);
+    fire::h5::DataSet<std::vector<double>> vector_double_ds("vector_double",true);
+    fire::h5::DataSet<std::vector<int>> vector_int_ds("vector_int",true);
+    fire::h5::DataSet<std::map<int,double>> map_int_double_ds("map_int_double",true);
+    fire::h5::DataSet<Hit> hit_ds("hit",true);
+    fire::h5::DataSet<std::vector<Hit>> vector_hit_ds("vector_hit",true);
+    fire::h5::DataSet<SpecialHit> special_hit_ds("special_hit",true);
+    fire::h5::DataSet<std::vector<SpecialHit>> vector_special_hit_ds("vector_special_hit",true);
+    fire::h5::DataSet<Cluster> cluster_ds("cluster",true);
+    fire::h5::DataSet<std::vector<Cluster>> vector_cluster_ds("vector_cluster",true);
+    fire::h5::DataSet<std::map<int,Cluster>> map_cluster_ds("map_cluster",true);
 
     for (std::size_t i_entry{0}; i_entry < doubles.size(); i_entry++) {
       BOOST_CHECK(save(double_ds,doubles.at(i_entry),f,i_entry));
@@ -160,21 +163,22 @@ BOOST_AUTO_TEST_CASE(dataset) {
   }
 
   { // Reading
-    fire::h5::File f{filename};
+    file.add("write",false);
+    fire::h5::File f{file}
 
-    fire::h5::DataSet<double> double_ds("double");
-    fire::h5::DataSet<int>    int_ds("int");
-    fire::h5::DataSet<bool>   bool_ds("bool");
-    fire::h5::DataSet<std::vector<double>> vector_double_ds("vector_double");
-    fire::h5::DataSet<std::vector<int>> vector_int_ds("vector_int");
-    fire::h5::DataSet<std::map<int,double>> map_int_double_ds("map_int_double");
-    fire::h5::DataSet<Hit> hit_ds("hit");
-    fire::h5::DataSet<std::vector<Hit>> vector_hit_ds("vector_hit");
-    fire::h5::DataSet<SpecialHit> special_hit_ds("special_hit");
-    fire::h5::DataSet<std::vector<SpecialHit>> vector_special_hit_ds("vector_special_hit");
-    fire::h5::DataSet<Cluster> cluster_ds("cluster");
-    fire::h5::DataSet<std::vector<Cluster>> vector_cluster_ds("vector_cluster");
-    fire::h5::DataSet<std::map<int,Cluster>> map_cluster_ds("map_cluster");
+    fire::h5::DataSet<double> double_ds("double",true);
+    fire::h5::DataSet<int>    int_ds("int",true);
+    fire::h5::DataSet<bool>   bool_ds("bool",true);
+    fire::h5::DataSet<std::vector<double>> vector_double_ds("vector_double",true);
+    fire::h5::DataSet<std::vector<int>> vector_int_ds("vector_int",true);
+    fire::h5::DataSet<std::map<int,double>> map_int_double_ds("map_int_double",true);
+    fire::h5::DataSet<Hit> hit_ds("hit",true);
+    fire::h5::DataSet<std::vector<Hit>> vector_hit_ds("vector_hit",true);
+    fire::h5::DataSet<SpecialHit> special_hit_ds("special_hit",true);
+    fire::h5::DataSet<std::vector<SpecialHit>> vector_special_hit_ds("vector_special_hit",true);
+    fire::h5::DataSet<Cluster> cluster_ds("cluster",true);
+    fire::h5::DataSet<std::vector<Cluster>> vector_cluster_ds("vector_cluster",true);
+    fire::h5::DataSet<std::map<int,Cluster>> map_cluster_ds("map_cluster",true);
 
     for (std::size_t i_entry{0}; i_entry < doubles.size(); i_entry++) {
       BOOST_CHECK(load(double_ds,doubles.at(i_entry),f,i_entry));
