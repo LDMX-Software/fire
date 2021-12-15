@@ -103,7 +103,7 @@ class Parameters {
     if (not exists(name)) return def;
 
     // get here knowing that name exists in parameters_
-    return getParameter<T>(name);
+    return get<T>(name);
   }
 
   /**

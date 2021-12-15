@@ -2,6 +2,8 @@
 #define FIRE_EVENT_HPP
 
 #include <exception>
+#include <optional> // for optional pass
+#include <functional> // for reference_wrapper
 
 #include "fire/h5/DataSet.hpp"
 
@@ -16,27 +18,13 @@ class Process;
  * This class is what is given to the processors to 'get' data from
  * and/or 'add' data to.
  *
- * The 'File' class is a friend class so that it can register
- * itself with the Event if it is an input file and it can iterate
- * the current entry index by calling 'Event::next'.
+ * The 'Process' class is a friend class so that it can do all
+ * the orginizational work behind the scenes using private methods
+ * while the public methods are the only ones available to processors
+ * written by users.
  */
 class Event {
  public:
-  /**
-   * Default constructor
-   *
-   * Besides the name of the pass, the input_file handle is
-   * initialized to a nullptr to signify that no input file has
-   * been "registered" yet and i_entry_ is started at zero.
-   *
-   * @param[in] pass name of current processing pass
-   */
-  Event(const std::string& pass) : pass_{pass}, input_file_{nullptr}, i_entry_{0}, header_{std::make_unique<EventHeader>()} {
-    /// register our event header with a data set for save/load
-    //    we own the pointer in this special case so we can return both mutable and const references
-    sets_[EventHeader::NAME] = std::make_unique<h5::DataSet<EventHeader>>(EventHeader::NAME, header_.get());
-  }
-
   /**
    * Get the event header
    */
@@ -55,8 +43,7 @@ class Event {
   /**
    * add a piece of data to the event
    *
-   * @TODO check if two add's of the same name are done per event
-   * @TODO add in handling of the pass name
+   * @throw Exception if two data sets of the same name are added
    * @throw Exception if input DataType doesn't match the type stored in the data set
    *
    * @tparam[in] DataType type of data being added
@@ -64,17 +51,26 @@ class Event {
    * @param[in] data actual value of data being added
    */
   template <typename DataType>
-  void add(std::string const& name, DataType& data) {
-    auto set_it{sets_.find(name)};
-    if (set_it == sets_.end()) {
-      // TODO prevent two add's of same 'name' per event
-      sets_[name] = std::make_unique<h5::DataSet<DataType>>(name);
+  void add(const std::string& name, DataType& data) {
+    std::string full_name{fullName(name,pass_)};
+    if (sets_.find(full_name) == sets_.end()) {
+      // a data set hasn't been created for this data yet
+      // we good, lets create the new data set
+      //   also check if new data is going to be written to output file or just used during this run
+      //   without any applicable drop/keep rules, we do save these datasets
+      sets_[full_name] = std::make_unique<h5::DataSet<DataType>>(full_name, keep(full_name,true));
     }
+
+    if (sets_.at(full_name)->updated()) {
+      // this data set has been updated by another processor
+      throw std::runtime_error("DataSet named " + full_name + " already added to the event.");
+    }
+
     try {
       /// maybe throw bad_cast exception
-      dynamic_cast<h5::DataSet<DataType>&>(*sets_[name]).update(data);
+      dynamic_cast<h5::DataSet<DataType>&>(*sets_[full_name]).update(data);
     } catch (std::bad_cast const&) {
-      throw std::runtime_error("DataSet corresponding to " + name +
+      throw std::runtime_error("DataSet corresponding to " + full_name +
                                " has different type.");
     }
   }
@@ -82,56 +78,128 @@ class Event {
   /**
    * get a piece of data from the event
    *
-   * @TODO add in handling of the pass name
-   *
    * @throw Exception if requested data doesn't exist
    * @throw Exception if requested DataType doesn't match type in data set
    *
    * @tparam[in] DataType type of requested data
    * @param[in] name Name of requested data
+   * @param[in] pass optional pass name to use for getting the data
    * @return const reference to data in event
    */
   template <typename DataType>
-  DataType const& get(std::string const& name) const {
-    auto set_it{sets_.find(name)};
-    if (set_it == sets_.end()) {
+  const DataType& get(const std::string& name, std::optional<std::reference_wrapper<const std::string>> pass = std::nullopt) const {
+    std::string full_name{fullName(name,pass)};
+    if (sets_.find(full_name) == sets_.end()) {
       // check if file on disk by trying to create and load it
       //  this line won't throw an error because we haven't tried accessing the
       //  data yet
       if (!input_file_) {
         // no input file
-        throw std::runtime_error("DataSet named "+name+" does not exist.");
+        throw std::runtime_error("DataSet named "+full_name+" does not exist.");
       }
-      sets_[name] = std::make_unique<h5::DataSet<DataType>>(name);
+      // create a new set to track set being read in
+      //   also check if the set being read in should also be written to output file
+      //   without any applicable drop/keep rules, we do NOT save these datasets
+      sets_[full_name] = std::make_unique<h5::DataSet<DataType>>(full_name, keep(full_name,false));
       //  this line may throw an error
-      sets_[name]->load(*input_file_, i_entry_);
+      sets_[full_name]->load(*input_file_, i_entry_);
     }
 
     // type casting, 'bad_cast' thrown if unable
     try {
-      return dynamic_cast<h5::DataSet<DataType>&>(*sets_[name]).get();
+      return dynamic_cast<const h5::DataSet<DataType>&>(*sets_.at(full_name)).get();
     } catch (std::bad_cast const&) {
-      throw std::runtime_error("DataSet corresponding to " + name +
+      throw std::runtime_error("DataSet corresponding to " + full_name +
                                " has different type.");
     }
   }
+
+ private:
+  /**
+   * Deduce full data set name given a pass or using our pass
+   *
+   * 'inline' because we call this at least once per event for each dataset,
+   * having it 'inline' means that it will be in the same compilation unit
+   * as where it is used and therefore will hopefully improve performance.
+   */
+  inline std::string fullName(const std::string& name, std::optional<std::reference_wrapper<const std::string>> pass) const {
+    return (pass ? pass : pass_)+"/"+name;
+  }
+
+  /**
+   * Determine if the passed data set should be saved into output file
+   *
+   * We apply all of the rules **in order** i.e. the last matching
+   * regex rule is the one that makes the actual decision for a data set.
+   * This behavior is helpful for our use case because we can have general
+   * rules and then various exceptions.
+   */
+  bool keep(const std::string& full_name, bool def) {
+    bool should_keep{def};
+    for (const auto& [regex, yes] : drop_keep_rules_) {
+      if (std::regex_match(regex, full_name)) {
+        // this rule applies, so we update the decision
+        should_keep = yes;
+      }
+    }
+    return should_keep;
+  }
+
  private:
   /**
    * The Process is the Event's friend,
    * this allows the Process to handle the core iteration procedure
    * while preventing other classes from accessing these methods.
+   *
+   * While the Process class has access to all of Event's private
+   * members, the methods below are the ones used by it.
    */
   friend class Process;
+
+  /**
+   * Default constructor
+   * Only our good friend Process can construct us.
+   *
+   * Besides the name of the pass, the input_file handle is
+   * initialized to a nullptr to signify that no input file has
+   * been "registered" yet and i_entry_ is started at zero.
+   *
+   * Pass drop/keep rules for determining if a data set is going
+   * to be written to the output file or not.
+   *
+   * The regex grammar is set to "extended", case is ignored, and
+   * the 'nosubs' parameter is passed.
+   *
+   * @param[in] pass name of current processing pass
+   * @param[in] dk_rules configuration for the drop/keep rules
+   */
+  Event(const std::string& pass, const std::vector<config::Parameters>& dk_rules) 
+    : pass_{pass}, input_file_{nullptr}, i_entry_{0}, header_{std::make_unique<EventHeader>()} {
+    /// register our event header with a data set for save/load
+    //    we own the pointer in this special case so we can return both mutable and const references
+    sets_[EventHeader::NAME] = std::make_unique<h5::DataSet<EventHeader>>(EventHeader::NAME, true, header_.get());
+    // construct rules from rule configuration parameters
+    for (const auto& rule : rules) {
+      drop_keep_rules_.emplace_back(
+          std::piecewise_construct,
+          std::forward_as_tuple(rule.get<std::string>("regex"), std::regex::extended|std::regex::icase|std::regex::nosubs),
+          rule.get<bool>("keep"));
+    }
+  }
 
   /**
    * Go through and save the current in-memory objects into 
    * the output file at the input index.
    *
+   * We call the 'checkThenSave' method of the base data set class.
+   * This class checks if the data set was marked as should be saved
+   * when it was created.
+   *
    * @param[in] f output HDF5 file to write to
    * @param[in] i index of dataset to write to
    */
   void save(h5::File& f, unsigned long int i) {
-    for (auto& [_, set] : sets_) set->save(f, i);
+    for (auto& [_, set] : sets_) set->checkThenSave(f, i);
   }
 
   /**
@@ -159,9 +227,12 @@ class Event {
 
   /**
    * Move to the next event
+   *  we just need to keep our entry index up-to-date
+   *  for loading a newly requested object
    */
   void next() {
     i_entry_++;
+    for (auto& [_, set] : sets_) set->clear();
   }
 
  private:
@@ -175,8 +246,10 @@ class Event {
   mutable std::unordered_map<std::string, std::unique_ptr<h5::BaseDataSet>> sets_;
   /// current index in the datasets
   long unsigned int i_entry_;
+  /// regular expressions determining if a dataset should be written to output file
+  std::vector<std::pair<std::regex,bool>> drop_keep_rules_;
 };  // Event
 
-}
+}  // namespace fire
 
 #endif  // FIRE_EVENT_HPP

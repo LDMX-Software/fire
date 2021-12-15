@@ -20,36 +20,29 @@ Process::Process(const fire::config::Parameters &configuration)
     : conditions_{*this},
   output_file_{configuration.get<config::Parameters>("output_file")},
   pass_{configuration.get<std::string>("pass")},
-  event_{configuration.get<std::string>("pass")},
+  event_{configuration.get<std::string>("pass"),configuration.get<std::vector<config::Parameters>>("keep",{})},
   event_limit_{configuration.get<int>("event_limit")},
   log_frequency_{configuration.get<int>("log_frequency")},
   term_level_{configuration.get<int>("term_level")},
   max_tries_{configuration.get<int>("max_tries")},
   run_{configuration.get<int>("run")} {
 
-  auto input_files{configuration.get<std::vector<config::Parameters>>("input_files",{})};
-  for (const auto &input_file : input_files) {
+  for (const auto &input_file : configuration.get<std::vector<config::Parameters>>("input_files",{}))
     input_files_.emplace_back(input_file);
-  }
 
-  eventHeader_ = 0;
-
-  auto libs{
-      configuration.getParameter<std::vector<std::string>>("libraries", {})};
-  std::for_each(libs.begin(), libs.end(), [](auto &lib) {
-      factory::loadLibrary(lib);
-  });
+  for (const auto &lib : configuration.get<std::vector<std::string>>("libraries",{}))
+    factory::loadLibrary(lib);
 
   auto sequence{configuration.get<std::vector<config::Parameters>>( "sequence", {})};
-  if (sequence.empty() && configuration.get<bool>("testing")) {
+  if (sequence.empty() and not configuration.get<bool>("testing")) {
     EXCEPTION_RAISE(
         "NoSeq",
         "No sequence has been defined. What should I be doing?\nUse "
         "p.sequence to tell me what processors to run.");
   }
-  for (auto proc : sequence) {
-    auto class_name{proc.getParameter<std::string>("class_name")};
-    auto instance_name{proc.getParameter<std::string>("instance_name")};
+  for (const auto& proc : sequence) {
+    auto class_name{proc.get<std::string>("class_name")};
+    auto instance_name{proc.get<std::string>("instance_name")};
     std::unique_ptr<Processor> ep;
     try {
       ep = Processor::Factory::get().make(class_name, instance_name, *this);
@@ -67,10 +60,10 @@ Process::Process(const fire::config::Parameters &configuration)
   auto conditionsObjectProviders{
       configuration.getParameter<std::vector<fire::config::Parameters>>(
           "conditionsObjectProviders", {})};
-  for (auto cop : conditionsObjectProviders) {
-    auto class_name{cop.getParameter<std::string>("class_name")};
-    auto object_name{cop.getParameter<std::string>("object_name")};
-    auto tag_name{cop.getParameter<std::string>("tag_name")};
+  for (const auto& cop : conditionsObjectProviders) {
+    auto class_name{cop.get<std::string>("class_name")};
+    auto object_name{cop.get<std::string>("object_name")};
+    auto tag_name{cop.get<std::string>("tag_name")};
 
     conditions_.createConditionsObjectProvider(class_name, object_name, tag_name,
                                                cop);

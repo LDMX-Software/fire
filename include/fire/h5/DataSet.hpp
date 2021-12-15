@@ -27,18 +27,44 @@ namespace h5 {
 class BaseDataSet {
  public:
   /**
-   * virtual destructor so inherited classes can be
-   * properly destructed.
+   * Constructor defining whether this dataset is a transient
+   * in-memory data set (should_save == false) or a data set
+   * that should be saved into the output file (should_save == true).
+   */
+  BaseDataSet(bool should_save) : should_save_{should_save} {}
+
+  /**
+   * virtual destructor so inherited classes can be properly destructed.
    */
   virtual ~BaseDataSet() = default;
+
   /**
    * pure virtual method for loading the input entry in the data set
    */
   virtual void load(File& f, long unsigned int i) = 0;
+
   /**
    * pure virtual method for saving the input entry in the data set
    */
   virtual void save(File& f, long unsigned int i) = 0;
+
+  /**
+   * pure virtual method for resetting the current data set handle to a blank state
+   */
+  virtual void clear() = 0;
+
+  /**
+   * The method used in the event class,
+   * we check if the data set should be saved before
+   * calling the save method overridden by derived classes.
+   */
+  void checkThenSave(File& f, long unsigned int i) {
+    if (should_save_) save(f,i);
+  }
+
+ private:
+  /// should we save this data set into output file?
+  bool should_save_;
 };
 
 /**
@@ -70,8 +96,8 @@ class AbstractDataSet : public BaseDataSet {
    * @param[in] name name of dataset
    * @param[in] handle address of object already created (optional)
    */
-  AbstractDataSet(std::string const& name, DataType* handle = nullptr)
-      : name_{name}, owner_{handle == nullptr} {
+  AbstractDataSet(std::string const& name, bool should_save, DataType* handle = nullptr)
+      : BaseDataSet(should_save), name_{name}, owner_{handle == nullptr} {
     if (owner_) {
       handle_ = new DataType;
     } else {
@@ -90,8 +116,23 @@ class AbstractDataSet : public BaseDataSet {
 
   /// pass on pure virtual load function
   virtual void load(File& f, long unsigned int i) = 0;
-  /// pass on pure virtual load function
+  /// pass on pure virtual save function
   virtual void save(File& f, long unsigned int i) = 0;
+
+  /**
+   * Define the clear function here to handle the most common cases.
+   *
+   * We re-set the flag checking if the dataset has been updated to 'false'
+   * and we call the 'clear' method of the object our handle points to.
+   *
+   * Downstream datasets can re-implement this method, but **they must**
+   * include the 'updated_ = false;' line in order to prevent two processors
+   * modifying the same data set in one process.
+   */
+  virtual void clear() {
+    updated_ = false;
+    handle_->clear();
+  }
 
   /**
    * Get the current in-memory data object
@@ -101,7 +142,7 @@ class AbstractDataSet : public BaseDataSet {
    *
    * @return const reference to current data
    */
-  virtual DataType const& get() { return *handle_; }
+  virtual DataType const& get() const { return *handle_; }
 
   /**
    * Update the in-memory data object with the passed value.
@@ -111,7 +152,17 @@ class AbstractDataSet : public BaseDataSet {
    *
    * @param[in] val new value the in-memory object should be
    */
-  virtual void update(DataType const& val) { *handle_ = val; }
+  virtual void update(DataType const& val) { 
+    *handle_ = val; 
+    updated_ = true;
+  }
+
+  /**
+   * Have we been updated?
+   */
+  inline bool updated() const {
+    return updated_;
+  }
 
  protected:
   /// name of data set
@@ -120,6 +171,8 @@ class AbstractDataSet : public BaseDataSet {
   DataType* handle_;
   /// we own the object in memory
   bool owner_;
+  /// have we been updated?
+  bool updated_;
 };  // AbstractDataSet
 
 /**
@@ -139,6 +192,9 @@ class AbstractDataSet : public BaseDataSet {
  *   void attach(fire::h5::DataSet<MyData>& set) {
  *     set.attach("my_double",my_double_);
  *   }
+ *   void clear() {
+ *     my_double_ = -1; // reset to default value
+ *   }
  *  private:
  *   double my_double_;
  *   // this member doesn't appear in 'attach' so it won't end up on disk
@@ -157,8 +213,8 @@ class DataSet : public AbstractDataSet<DataType> {
    * pointed to by our handle. This allows us to register
    * its member variables with our own 'attach' method.
    */
-  DataSet(std::string const& name, DataType* handle = nullptr)
-      : AbstractDataSet<DataType>(name, handle) {
+  DataSet(std::string const& name, bool should_save, DataType* handle = nullptr)
+      : AbstractDataSet<DataType>(name, should_save, handle) {
     this->handle_->attach(*this);
   }
 
@@ -204,9 +260,6 @@ class DataSet : public AbstractDataSet<DataType> {
  *
  * Once we finally recurse down to actual fundamental ("atomic") types,
  * we can start actually calling the file load and save methods.
- *
- * @TODO port H5Easy::File into our fire. We can specialize it
- * to our purposes to improve performance.
  */
 template <typename AtomicType>
 class DataSet<AtomicType, std::enable_if_t<std::is_arithmetic_v<AtomicType>>>
@@ -216,8 +269,8 @@ class DataSet<AtomicType, std::enable_if_t<std::is_arithmetic_v<AtomicType>>>
    * We don't do any more initialization except which is handled by the
    * AbstractDataSet
    */
-  DataSet(std::string const& name, AtomicType* handle = nullptr)
-      : AbstractDataSet<AtomicType>(name, handle) {}
+  DataSet(std::string const& name, bool should_save, AtomicType* handle = nullptr)
+      : AbstractDataSet<AtomicType>(name, should_save, handle) {}
   /**
    * Call the H5Easy::load method with our atomic type and our name
    */
@@ -249,8 +302,8 @@ class DataSet<std::vector<ContentType>>
    * We create two child data sets, one to hold the successive sizes of the
    * vectors and one to hold all of the data in all of the vectors serially.
    */
-  DataSet(std::string const& name, std::vector<ContentType>* handle = nullptr)
-      : AbstractDataSet<std::vector<ContentType>>(name, handle),
+  DataSet(std::string const& name, bool should_save, std::vector<ContentType>* handle = nullptr)
+      : AbstractDataSet<std::vector<ContentType>>(name, should_save, handle),
         size_{name + "/size"},
         data_{name + "/data"},
         i_data_entry_{0} {}
@@ -316,8 +369,8 @@ class DataSet<std::map<KeyType,ValType>>
    * We create three child data sets, one for the successive sizes
    * of the maps and two to hold all the keys and values serially.
    */
-  DataSet(std::string const& name, std::map<KeyType,ValType>* handle = nullptr)
-      : AbstractDataSet<std::map<KeyType,ValType>>(name, handle),
+  DataSet(std::string const& name, bool should_save, std::map<KeyType,ValType>* handle = nullptr)
+      : AbstractDataSet<std::map<KeyType,ValType>>(name, should_save, handle),
         size_{name + "/size"},
         keys_{name + "/keys"},
         vals_{name + "/vals"},
