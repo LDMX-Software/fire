@@ -4,15 +4,15 @@
  * @author Jeremy Mans, University of Minnesota
  */
 
-#ifndef FRAMEWORK_PROCESSOR_H_
-#define FRAMEWORK_PROCESSOR_H_
+#ifndef FIRE_PROCESSOR_HPP
+#define FIRE_PROCESSOR_HPP
 
 /*~~~~~~~~~~~~~~~*/
 /*   fire   */
 /*~~~~~~~~~~~~~~~*/
 #include "fire/Conditions.h"
-#include "fire/Configure/Parameters.h"
-#include "fire/Event.h"
+#include "fire/Configure/Parameters.hpp"
+#include "fire/Event.hpp"
 #include "fire/Exception/Exception.h"
 #include "fire/Logger.h"
 #include "fire/RunHeader.h"
@@ -21,13 +21,10 @@
 /*~~~~~~~~~~~~~~~~*/
 /*   C++ StdLib   */
 /*~~~~~~~~~~~~~~~~*/
-#include <any>
-#include <map>
 
 namespace fire {
 
 class Process;
-class EventFile;
 
 /**
  * @class AbortEventException
@@ -171,7 +168,7 @@ class Processor {
    * The type of factory that can be used to create processors
    */
   using Factory = factory::Factory<Processor, std::unique_ptr<Processor>,
-                                   std::string const &, Process &>;
+                                   const std::string &, Process &>;
 
  protected:
   /**
