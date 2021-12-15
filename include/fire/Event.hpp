@@ -4,6 +4,7 @@
 #include <exception>
 #include <optional> // for optional pass
 #include <functional> // for reference_wrapper
+#include <regex>
 
 #include "fire/h5/DataSet.hpp"
 
@@ -41,6 +42,29 @@ class Event {
   }
 
   /**
+   * Search through the products listing for a specific match
+   */
+  std::vector<ProductTag> search(const std::string& namematch, const std::string& passmatch, const std::string& typematch) const {
+    std::regex name_reg{namematch.empty() ? ".*" : namematch,std::regex::extended|std::regex::nosubs};
+    std::regex pass_reg{passmatch.empty() ? ".*" : passmatch,std::regex::extended|std::regex::nosubs};
+    std::regex type_reg{typematch.empty() ? ".*" : typematch,std::regex::extended|std::regex::nosubs};
+    std::vector<ProductTag> matches;
+    std::copy_if(products_.begin(), products_.end(), std::back_inserter(matches), [&](const ProductTag& pt) {
+      return pt.match(name_reg,pass_reg,type_reg);
+    });
+    return matches;
+  }
+
+  /**
+   * Check if the input name and (optional) pass exist in the bus
+   * This checks for **unique** existence, i.e. it can be used to make sure
+   * that a following 'get' call will only fail if the wrong type is provided.
+   */
+  bool exists(const std::string& name, const std::string& pass = "") const {
+    return search("^"+name+"$",pass,"").size() == 1;
+  }
+
+  /**
    * add a piece of data to the event
    *
    * @throw Exception if two data sets of the same name are added
@@ -59,6 +83,7 @@ class Event {
       //   also check if new data is going to be written to output file or just used during this run
       //   without any applicable drop/keep rules, we do save these datasets
       sets_[full_name] = std::make_unique<h5::DataSet<DataType>>(full_name, keep(full_name,true));
+      products_.emplace_back(ProductTag<DataType>(name,pass_));
     }
 
     if (sets_.at(full_name)->updated()) {
@@ -87,8 +112,29 @@ class Event {
    * @return const reference to data in event
    */
   template <typename DataType>
-  const DataType& get(const std::string& name, std::optional<std::reference_wrapper<const std::string>> pass = std::nullopt) const {
-    std::string full_name{fullName(name,pass)};
+  const DataType& get(const std::string& name, const std::string& pass = "") const {
+    std::string full_name;
+    if (not pass.empty()) {
+      // easy case, pass was specified explicitly
+      full_name = fullName(name,pass);
+    } else if (known_lookups_.find(name) != known_lookups_.end()) {
+      full_name = known_lookups_.at(name);
+    } else {
+      // need to search current (and potential) products using partial name
+      auto type = boost::core::demangle(typeid(DataType).name());
+      auto options{search("^"+name+"$","","^"+type+"$")};
+      if (options.size() == 0) {
+        throw std::runtime_error("DataSet " + name + " of type " + type + " not found.");
+      } else if (options.size() > 1) {
+        throw std::runtime_error("DataSet " + name + " of type " + type + " is ambiguous. Provide a pass name.");
+      }
+
+      // exactly one option
+      full_name = fullName(options.at(0).name(), options.at(0).pass());
+      // add into cache
+      known_lookups_[name] = full_name;
+    }
+
     if (sets_.find(full_name) == sets_.end()) {
       // check if file on disk by trying to create and load it
       //  this line won't throw an error because we haven't tried accessing the
@@ -223,6 +269,9 @@ class Event {
    */
   void setInputFile(h5::File& f) {
     input_file_ = &f;
+
+    // TODO search through file and import the products that are there
+    //products_.clear();
   }
 
   /**
@@ -248,6 +297,10 @@ class Event {
   long unsigned int i_entry_;
   /// regular expressions determining if a dataset should be written to output file
   std::vector<std::pair<std::regex,bool>> drop_keep_rules_;
+  /// list of products available to us either on disk or newly created
+  std::vector<ProductTag> products_;
+  /// cache of known lookups when requesting an object without a pass name
+  std::unordered_map<std::string,std::string> known_lookups_;
 };  // Event
 
 }  // namespace fire
