@@ -169,7 +169,7 @@ class Event {
    * as where it is used and therefore will hopefully improve performance.
    */
   inline std::string fullName(const std::string& name, std::optional<std::reference_wrapper<const std::string>> pass) const {
-    return (pass ? pass : pass_)+"/"+name;
+    return "events/"+(pass ? pass : pass_)+"/"+name;
   }
 
   /**
@@ -223,7 +223,7 @@ class Event {
     : pass_{pass}, input_file_{nullptr}, i_entry_{0}, header_{std::make_unique<EventHeader>()} {
     /// register our event header with a data set for save/load
     //    we own the pointer in this special case so we can return both mutable and const references
-    sets_[EventHeader::NAME] = std::make_unique<h5::DataSet<EventHeader>>(EventHeader::NAME, true, header_.get());
+    sets_[EventHeader::NAME] = std::make_unique<h5::DataSet<EventHeader>>("events/"+EventHeader::NAME, true, header_.get());
     // construct rules from rule configuration parameters
     for (const auto& rule : rules) {
       drop_keep_rules_.emplace_back(
