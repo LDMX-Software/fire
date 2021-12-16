@@ -1,37 +1,25 @@
-/**
- * @file ConditionsObjectProvider.h
- * @brief Base class for provider of conditions information like pedestals,
- * gains, electronics maps, etc
- * @author Jeremy Mans, University of Minnesota
- */
-
-#ifndef FRAMEWORK_CONDITIONSOBJECTPROVIDER_H_
-#define FRAMEWORK_CONDITIONSOBJECTPROVIDER_H_
+#ifndef FIRE_CONDITIONS_PROVIDER_HPP
+#define FIRE_CONDITIONS_PROVIDER_HPP
 
 #include <map>
 
-#include "fire/ConditionsIOV.h"
-#include "fire/ConditionsObject.h"
-#include "fire/Configure/Parameters.h"
-#include "fire/Exception/Exception.h"
-#include "fire/Logger.h"
+#include "fire/conditions/IntervalOfValidity.hpp"
+#include "fire/conditions/Base.hpp"
+#include "fire/config/Parameters.hpp"
+#include "fire/exception/Exception.hpp"
+#include "fire/Logger.hpp"
 #include "fire/factory/Factory.hpp"
 
-namespace ldmx {
-class EventHeader;
-class RunHeader;
-}  // namespace ldmx
-
 namespace fire {
+namespace conditions {
 
 class Process;
-class ConditionsObjectProvider;
 
 /**
- * @class ConditionsObjectProvider
+ * @class Provider
  * @brief Base class for all providers of conditions objects
  */
-class ConditionsObjectProvider {
+class Provider {
  public:
   /**
    * The factory type that can create this class
@@ -39,8 +27,8 @@ class ConditionsObjectProvider {
    * We provide the class type, the type of pointer for this class,
    * and the arguments to the constructor.
    */
-  using Factory = factory::Factory<ConditionsObjectProvider,
-                                   std::unique_ptr<ConditionsObjectProvider>,
+  using Factory = factory::Factory<Provider,
+                                   std::unique_ptr<Provider>,
                                    std::string const&, std::string const&,
                                    config::Parameters const&, Process&>;
   /**
@@ -48,7 +36,7 @@ class ConditionsObjectProvider {
    * @param name Name for this instance of the class.
    * @param tagName The tag for the database entry (should not include
    * whitespace)
-   * @param process The Process class associated with ConditionsObjectProvider,
+   * @param process The Process class associated with Provider,
    * provided by the fire.
    *
    * @note The name provided to this function should not be
@@ -57,21 +45,26 @@ class ConditionsObjectProvider {
    * into a Process with different parameters.  Names should not include
    * whitespace or special characters.
    */
-  ConditionsObjectProvider(const std::string& objname,
-                           const std::string& tagname,
-                           const fire::config::Parameters& parameters,
-                           Process& process);
+  Provider(const std::string& objname,
+           const std::string& tagname,
+           const fire::config::Parameters& parameters,
+           Process& process) noexcept
+    : process_{process},
+      objectName_{objname},
+      tagname_{tagname},
+      theLog_{logging::makeLogger(objname)} {}
+
 
   /**
    * Class destructor.
    */
-  virtual ~ConditionsObjectProvider() { ; }
+  virtual ~Provider() = default;
 
   /**
    * Pure virtual getCondition function.
    * Must be implemented by any Conditions providers.
    */
-  virtual std::pair<const ConditionsObject*, ConditionsIOV> getCondition(
+  virtual std::pair<const Base*, ConditionsIOV> getCondition(
       const ldmx::EventHeader& context) = 0;
 
   /**
@@ -79,25 +72,25 @@ class ConditionsObjectProvider {
    * point for cleanup.
    * @note Default behavior is to delete the object!
    */
-  virtual void releaseConditionsObject(const ConditionsObject* co) {
+  virtual void release(const ConditionsObject* co) {
     delete co;
   }
 
   /**
-   * Callback for the ConditionsObjectProvider to take any necessary
+   * Callback for the Provider to take any necessary
    * action when the processing of events starts.
    */
   virtual void onProcessStart() {}
 
   /**
-   * Callback for the ConditionsObjectProvider to take any necessary
+   * Callback for the Provider to take any necessary
    * action when the processing of events finishes, such as closing
    * database connections.
    */
   virtual void onProcessEnd() {}
 
   /**
-   * Callback for the ConditionsObjectProvider to take any necessary
+   * Callback for the Provider to take any necessary
    * action when the processing of events starts for a given run.
    */
   virtual void onNewRun(ldmx::RunHeader&) {}
@@ -114,10 +107,10 @@ class ConditionsObjectProvider {
 
  protected:
   /** Request another condition needed to construct this condition */
-  std::pair<const ConditionsObject*, ConditionsIOV> requestParentCondition(
+  std::pair<const Base*, ConditionsIOV> requestParentCondition(
       const std::string& name, const ldmx::EventHeader& context);
 
-  /// The logger for this ConditionsObjectProvider
+  /// The logger for this Provider
   logging::logger theLog_;
 
   /** Get the process handle */
@@ -130,10 +123,11 @@ class ConditionsObjectProvider {
   /** The name of the object provided by this provider. */
   std::string objectName_;
 
-  /** The tag name for the ConditionsObjectProvider. */
+  /** The tag name for the Provider. */
   std::string tagname_;
 };
 
+}  // namespace conditions
 }  // namespace fire
 
 /**
@@ -148,13 +142,13 @@ class ConditionsObjectProvider {
  * file.
  */
 #define DECLARE_CONDITIONS_PROVIDER(CLASS)                              \
-  std::unique_ptr<fire::ConditionsObjectProvider> CLASS##_ldmx_make(    \
+  std::unique_ptr<fire::conditions::Provider> CLASS##_ldmx_make(    \
       const std::string& name, const std::string& tagname,              \
       const fire::config::Parameters& params, fire::Process& process) { \
     return std::make_unique<CLASS>(name, tagname, params, process);     \
   }                                                                     \
   __attribute__((constructor)) static void CLASS##_ldmx_declare() {     \
-    fire::ConditionsObjectProvider::Factory::get().declare(             \
+    fire::conditions::Provider::Factory::get().declare(             \
         #CLASS, &CLASS##_ldmx_make);                                    \
   }
 
@@ -169,13 +163,13 @@ class ConditionsObjectProvider {
  */
 #define DECLARE_CONDITIONS_PROVIDER_NS(NS, CLASS)                           \
   namespace NS {                                                            \
-  std::unique_ptr<fire::ConditionsObjectProvider> CLASS##_ldmx_make(        \
+  std::unique_ptr<fire::conditions::Provider> CLASS##_ldmx_make(        \
       const std::string& name, const std::string& tagname,                  \
       const fire::config::Parameters& params, fire::Process& process) {     \
     return std::make_unique<NS::CLASS>(name, tagname, params, process);     \
   }                                                                         \
-  __attribute__((constructor(1000))) static void CLASS##_ldmx_declare() {   \
-    fire::ConditionsObjectProvider::Factory::get().declare(                 \
+  __attribute__((constructor)) static void CLASS##_ldmx_declare() {   \
+    fire::conditions::Provider::Factory::get().declare(                 \
         std::string(#NS) + "::" + std::string(#CLASS), &CLASS##_ldmx_make); \
   }                                                                         \
   }

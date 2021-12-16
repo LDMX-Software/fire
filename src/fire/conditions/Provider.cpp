@@ -1,17 +1,9 @@
-#include "fire/ConditionsObjectProvider.h"
+#include "fire/conditions/Provider.hpp"
 
 // LDMX
-#include "fire/Process.h"
+#include "fire/Process.hpp"
 
 namespace fire {
-
-ConditionsObjectProvider::ConditionsObjectProvider(
-    const std::string& objname, const std::string& tagname,
-    const fire::config::Parameters& params, Process& process)
-    : process_{process},
-      objectName_{objname},
-      tagname_{tagname},
-      theLog_{logging::makeLogger(objname)} {}
 
 std::pair<const ConditionsObject*, ConditionsIOV>
 ConditionsObjectProvider::requestParentCondition(

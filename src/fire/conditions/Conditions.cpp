@@ -1,10 +1,8 @@
-#include "fire/Conditions.h"
+#include "fire/conditions/Conditions.hpp"
 #include <sstream>
-#include "fire/Process.h"
+#include "fire/Process.hpp"
 
-namespace fire {
-
-Conditions::Conditions(Process& p) : process_{p} {}
+namespace fire::conditions {
 
 void Conditions::createConditionsObjectProvider(
     const std::string& classname, const std::string& objname,
@@ -20,24 +18,24 @@ void Conditions::createConditionsObjectProvider(
   }
 
   std::string provides = cop->getConditionObjectName();
-  if (providerMap_.find(provides) != providerMap_.end()) {
+  if (providers_.find(provides) != providers_.end()) {
     EXCEPTION_RAISE(
         "ConditionAmbiguityException",
         "Multiple ConditonsObjectProviders configured to provide " + provides);
   }
-  providerMap_[provides] = cop;
+  providers_[provides] = cop;
 }
 
 void Conditions::onProcessStart() {
-  for (auto ptr : providerMap_) ptr.second->onProcessStart();
+  for (auto& [_,cop] : providers_) cop->onProcessStart();
 }
 
 void Conditions::onProcessEnd() {
-  for (auto ptr : providerMap_) ptr.second->onProcessEnd();
+  for (auto& [_,cop] : providers_) cop->onProcessEnd();
 }
 
 void Conditions::onNewRun(ldmx::RunHeader& rh) {
-  for (auto ptr : providerMap_) ptr.second->onNewRun(rh);
+  for (auto& [_,cop] : providers_) cop->onNewRun(rh);
 }
 
 ConditionsIOV Conditions::getConditionIOV(
@@ -55,9 +53,9 @@ const ConditionsObject* Conditions::getConditionPtr(
   auto cacheptr = cache_.find(condition_name);
 
   if (cacheptr == cache_.end()) {
-    auto copptr = providerMap_.find(condition_name);
+    auto copptr = providers_.find(condition_name);
 
-    if (copptr == providerMap_.end()) {
+    if (copptr == providers_.end()) {
       EXCEPTION_RAISE(
           "ConditionUnavailable",
           std::string("No provider is available for : " + condition_name));
