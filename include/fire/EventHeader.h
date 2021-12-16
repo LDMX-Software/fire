@@ -8,11 +8,8 @@
 #ifndef EVENT_EVENTHEADER_H_
 #define EVENT_EVENTHEADER_H_
 
-// ROOT
-#include "TObject.h"  //For ClassDef
-#include "TTimeStamp.h"
-
 // STL
+#include <ctime>
 #include <iostream>
 #include <map>
 #include <string>
@@ -29,65 +26,29 @@ class EventHeader {
   /**
    * Name of EventHeader branch
    */
-  static const std::string BRANCH;
+  static const std::string NAME;
 
-  /**
-   * Class constructor.
-   */
-  EventHeader() {}
-
-  /**
-   * Class destructor.
-   */
-  virtual ~EventHeader() {}
-
-  /**
-   * Clear information from this object.
-   */
-  void Clear(Option_t* = "") {
-    eventNumber_ = -1;
-    run_ = -1;
-    timestamp_ = TTimeStamp(0, 0);
-    weight_ = 1.0;
-    isRealData_ = false;
-    intParameters_.clear();
-    floatParameters_.clear();
-    stringParameters_.clear();
-  }
-
-  /**
-   * Print this object.
-   */
-  void Print(Option_t* = "") const {
-    std::cout << "EventHeader {"
-              << " eventNumber: " << eventNumber_ << ", run: " << run_
-              << ", timestamp: " << timestamp_ << ", weight: " << weight_;
-    if (isRealData_)
-      std::cout << ", DATA";
-    else
-      std::cout << ", MC";
-    std::cout << " }" << std::endl;
+  friend std::ostream& operator<<(std::ostream& s, const EventHeader& eh) {
+    return s << "EventHeader {"
+      << " number: " << number_
+      << ", run: " << run_
+      << ", weight: " << weight_
+      << ", " << isRealData_ ? "DATA" : "MC"
+      << ", timestamp: " << std::asctime(std::localtime(&timestamp_))
+      << " }";
   }
 
   /**
    * Return the event number.
    * @return The event number.
    */
-  int getEventNumber() const { return eventNumber_; }
+  int getEventNumber() const { return number_; }
 
   /**
    * Return the run number.
    * @return The run number.
    */
   int getRun() const { return run_; }
-
-  /**
-   * Get the event's timestamp.
-   * This currently returns second's since the epoch for simulated events.
-   * @return The event's timestamp.
-   * @note The returned object has a possible resolution of nanoseconds.
-   */
-  const TTimeStamp& getTimestamp() const { return timestamp_; }
 
   /**
    * Get the event weight (default of 1.0).
@@ -103,9 +64,9 @@ class EventHeader {
 
   /**
    * Set the event number.
-   * @param eventNumber The event number.
+   * @param number The event number.
    */
-  void setEventNumber(int eventNumber) { this->eventNumber_ = eventNumber; }
+  void setEventNumber(int number) { this->number_ = number; }
 
   /**
    * Set the run number.
@@ -117,8 +78,8 @@ class EventHeader {
    * Set the timestamp.
    * @param timestamp The timestamp.
    */
-  void setTimestamp(const TTimeStamp& timestamp) {
-    this->timestamp_ = timestamp;
+  void setTimestamp() {
+    this->timestamp_ = std::time(nullptr);
   }
 
   /**
@@ -184,7 +145,7 @@ class EventHeader {
   /**
    * The event number.
    */
-  int eventNumber_{-1};
+  int number_{-1};
 
   /**
    * The run number.
@@ -194,7 +155,7 @@ class EventHeader {
   /**
    * The event timestamp
    */
-  TTimeStamp timestamp_{0, 0};
+  std::time_t timestamp_;
 
   /**
    * The event weight.
