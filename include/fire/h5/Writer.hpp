@@ -1,5 +1,5 @@
-#ifndef FIRE_H5_FILE_HPP
-#define FIRE_H5_FILE_HPP
+#ifndef FIRE_H5_WRITER_HPP
+#define FIRE_H5_WRITER_HPP
 
 // using HighFive
 #include <highfive/H5File.hpp>
@@ -15,41 +15,37 @@ namespace h5 {
  *
  * @TODO implement compression and chunking settings
  * @TODO should we cache dataset handles?
- * @TODO need to write vecotr<Atomic> save/load?
+ * @TODO need to write vecotr<Atomic> save?
  */
-class File {
+class Writer {
  public:
   /**
-   * Open the file in write or read mode
+   * Open the file in write mode
    *  our write == HDF5 TRUNC (overwrite) mode
-   *  our read  == HDF5 Read Only mode
    */
-  File(const config::Parameters& ps) 
-      : file_(ps.getParameter<std::string>("name"), ps.getParameter<bool>("write") ? HighFive::File::Create | HighFive::File::Truncate : HighFive::File::ReadOnly),
-        writing_{ps.getParameter<bool>("write")},
-        rows_per_chunk_{ps.getParameter<int>("rows_per_chunk")} {}
+  Writer(const config::Parameters& ps)
+      : file_(ps.getParameter<std::string>("name"), HighFive::File::Create | HighFive::File::Truncate),
+        rows_per_chunk_{ps.getParameter<int>("rows_per_chunk")} {
+          entries_ = ps.get<int>("event_limit");
+        }
 
   /**
    * Close up our file, making sure to flush contents to disk if writing
    */
-  ~File() {
-    if (writing_) file_.flush();
+  ~Writer() {
+    file_.flush();
   }
 
   /**
-   * Try to load a single value of an atomic type into the input handle
+   * Get the number of entries in the file
    */
-  template <typename AtomicType>
-  void load(const std::string& path, long unsigned int i, AtomicType& val) {
-    static_assert(std::is_arithmetic_v<AtomicType>,
-                  "Non-arithmetic type made its way to load");
-    HighFive::DataSet ds = file_.getDataSet(path);
-    ds.select({i}, {1}).read(val);
+  inline std::size_t entries() const {
+    return entries_;
   }
 
   template <typename AtomicType>
   void save(const std::string& path, long unsigned int i,
-            AtomicType const& val) {
+            const AtomicType& val) {
     static_assert(std::is_arithmetic_v<AtomicType>,
                   "Non-arithmetic type made its way to save");
     if (file_.exist(path)) {
@@ -63,28 +59,33 @@ class File {
     } else {
       // we need to create a fully new dataset
       static const std::vector<size_t> limit = {HighFive::DataSpace::UNLIMITED};
-      std::vector<size_t> initial_size = {i+1};
+      std::vector<size_t> initial_size = {entries_+1};
       HighFive::DataSpace space(initial_size, limit);
       HighFive::DataSetCreateProps props;
-      props.add(HighFive::Chunking({rows_per_chunk_}));  // NOTE this is where chunking is done
+      props.add(HighFive::Chunking(
+          {rows_per_chunk_}));  // NOTE this is where chunking is done
       // TODO compression
       // TODO creation options in this function
       HighFive::DataSet set = file_.createDataSet(
           path, space, HighFive::AtomicType<AtomicType>(), props, {}, true);
-      set.select({i},{1}).write(val);
+      set.select({i}, {1}).write(val);
     }
   }
 
+  friend std::ostream& operator<<(std::ostream& s, const File& f) {
+    return s << "Writer(" << file_.getName() << ")";
+  }
+
  private:
-  /// we are writing
-  bool writing_;
   /// our highfive file
   HighFive::File file_;
   /// number of rows to keep in each chunk
-  int rows_per_chunk_;
+  std::size_t rows_per_chunk_;
+  /// the expected number of entries in this file
+  std::size_t entries_{0};
 };
 
 }  // namespace h5
 }  // namespace fire
 
-#endif  // FIRE_H5_FILE_HPP
+#endif  // FIRE_H5_WRITER_HPP
