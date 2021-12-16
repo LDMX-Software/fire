@@ -11,7 +11,7 @@
 //-------------//
 //   ldmx-sw   //
 //-------------//
-#include "fire/ConfigurePython.h"
+#include "fire/Config/Python.h"
 #include "fire/Process.h"
 
 /**
@@ -78,6 +78,7 @@ int main(int argc, char* argv[]) {
     fire::config::Parameters config{fire::config::run(argv[ptrpy], argv + ptrpy + 1, argc - ptrpy - 1)};
     p = std::make_unique<fire::Process>(config);
   } catch (fire::exception::Exception& e) {
+    // TODO split into Python errors and C++ configuration errors
     std::cerr << "Configuration Error [" << e.name() << "] : " << e.message()
               << std::endl;
     std::cerr << "  at " << e.module() << ":" << e.line() << " in "
@@ -86,43 +87,17 @@ int main(int argc, char* argv[]) {
     return 1;
   }
 
-  std::cout << "---- FIRE: Configuration load complete  --------"
-            << std::endl;
-
-  // If Ctrl-c is used, immediately exit the application.
-  struct sigaction act;
-  memset(&act, '\0', sizeof(act));
-  if (sigaction(SIGINT, &act, NULL) < 0) {
-    perror("sigaction");
-    return 1;
-  }
-
-  // See comment above for reason why this code is commented out.
-  /* Use the sa_sigaction field because the handles has two additional
-   * parameters */
-  // act.sa_sigaction = &softFinish;
-
-  /* The SA_SIGINFO flag tells sigaction() to use the sa_sigaction field, not
-   * sa_handler. */
-  // act.sa_flags = SA_SIGINFO;
-
   std::cout << "---- FIRE: Starting event processing --------" << std::endl;
 
   try {
     p->run();
   } catch (fire::exception::Exception& e) {
-    // Process::run opens up the logging using the parameters passed to it from
-    // python
-    //  if an Exception is thrown, we haven't gotten to the end of Process::run
-    //  where logging is closed, so we can do one more error message and then
-    //  close it.
     auto theLog_{fire::logging::makeLogger(
         "fire")};  // ldmx_log macro needs this variable to be named 'theLog_'
     ldmx_log(fatal) << "[" << e.name() << "] : " << e.message() << "\n"
                     << "  at " << e.module() << ":" << e.line() << " in "
                     << e.function() << "\nStack trace: " << std::endl
                     << e.stackTrace();
-    fire::logging::close();
     return 127;  // return non-zero error-status
   }
 
