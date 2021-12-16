@@ -1,9 +1,10 @@
 #ifndef FIRE_PROCESS_HPP
 #define FIRE_PROCESS_HPP
 
-
-#include "fire/Exception/Exception.h"
+#include "fire/exception/Exception.h"
 #include "fire/Event.hpp"
+#include "fire/Processor.hpp"
+#include "fire/RunHeader.hpp"
 
 namespace fire {
 
@@ -24,10 +25,12 @@ class Process {
   }
 
   const RunHeader& runHeader() const {
+    assert(run_header_);
     return *run_header_;
   }
 
   RunHeader& runHeader() {
+    assert(run_header_);
     return *run_header_;
   }
 

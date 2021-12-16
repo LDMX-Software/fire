@@ -3,17 +3,11 @@
  * Implementation file for Process class
  */
 
-#include "fire/Process.h"
+#include "fire/Process.hpp"
 
 #include <iostream>
 
-#include "fire/Event.h"
-#include "fire/EventFile.h"
-#include "fire/EventProcessor.h"
-#include "fire/Exception/Exception.h"
 #include "fire/Logger.h"
-#include "fire/NtupleManager.h"
-#include "fire/RunHeader.h"
 #include "fire/factory/Factory.hpp"
 
 namespace fire {
@@ -110,8 +104,8 @@ void Process::run() {
 
     for (auto module : sequence_) module->onFileClose(outFile);
 
-    run_header_->setRunEnd(std::time(nullptr));
-    ldmx_log(info) << *run_header_;
+    runHeader().setRunEnd(std::time(nullptr));
+    ldmx_log(info) << runHeader();
 
     /**
      * TODO write run header to output file
@@ -206,7 +200,7 @@ void Process::run() {
 
 void Process::newRun(RunHeader &rh) {
   // update pointer so asynchronous callers
-  // can access the run header
+  // can access the run header via the Process
   run_header_ = &rh;
   // Producers are allowed to put parameters into
   // the run header through 'beforeNewRun' method
