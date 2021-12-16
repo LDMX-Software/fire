@@ -6,7 +6,8 @@
 #include <vector>
 #include <map>
 
-#include "fire/h5/File.hpp"
+#include "fire/h5/Reader.hpp"
+#include "fire/h5/Writer.hpp"
 
 namespace fire {
 namespace h5 {
@@ -41,12 +42,12 @@ class BaseDataSet {
   /**
    * pure virtual method for loading the input entry in the data set
    */
-  virtual void load(File& f, long unsigned int i) = 0;
+  virtual void load(Reader& f, long unsigned int i) = 0;
 
   /**
    * pure virtual method for saving the input entry in the data set
    */
-  virtual void save(File& f, long unsigned int i) = 0;
+  virtual void save(Writer& f, long unsigned int i) = 0;
 
   /**
    * pure virtual method for resetting the current data set handle to a blank state
@@ -58,7 +59,7 @@ class BaseDataSet {
    * we check if the data set should be saved before
    * calling the save method overridden by derived classes.
    */
-  void checkThenSave(File& f, long unsigned int i) {
+  void checkThenSave(Writer& f, long unsigned int i) {
     if (should_save_) save(f,i);
   }
 
@@ -115,9 +116,9 @@ class AbstractDataSet : public BaseDataSet {
   }
 
   /// pass on pure virtual load function
-  virtual void load(File& f, long unsigned int i) = 0;
+  virtual void load(Reader& f, long unsigned int i) = 0;
   /// pass on pure virtual save function
-  virtual void save(File& f, long unsigned int i) = 0;
+  virtual void save(Writer& f, long unsigned int i) = 0;
 
   /**
    * Define the clear function here to handle the most common cases.
@@ -222,7 +223,7 @@ class DataSet : public AbstractDataSet<DataType> {
    * Loading this dataset from the file involves simply loading
    * all of the members of the data type.
    */
-  void load(File& f, long unsigned int i) {
+  void load(Reader& f, long unsigned int i) {
     for (auto& m : members_) m->load(f, i);
   }
 
@@ -230,7 +231,7 @@ class DataSet : public AbstractDataSet<DataType> {
    * Saving this dataset from the file involves simply saving
    * all of the members of the data type.
    */
-  void save(File& f, long unsigned int i) {
+  void save(Writer& f, long unsigned int i) {
     for (auto& m : members_) m->save(f, i);
   }
 
@@ -274,13 +275,13 @@ class DataSet<AtomicType, std::enable_if_t<std::is_arithmetic_v<AtomicType>>>
   /**
    * Call the H5Easy::load method with our atomic type and our name
    */
-  void load(File& f, long unsigned int i) {
+  void load(Reader& f, long unsigned int i) {
     f.load(this->name_, i, *(this->handle_));
   }
   /**
    * Call the H5Easy::save method with our atomic type and our name
    */
-  void save(File& f, long unsigned int i) {
+  void save(Writer& f, long unsigned int i) {
     f.save(this->name_, i, *(this->handle_));
   }
 };  // DataSet<AtomicType>
@@ -316,7 +317,7 @@ class DataSet<std::vector<ContentType>>
    * We read the next size and then read that many items from
    * the content data set into the vector handle.
    */
-  void load(File& f, long unsigned int i_entry) {
+  void load(Reader& f, long unsigned int i_entry) {
     size_.load(f, i_entry);
     this->handle_->resize(size_.get());
     for (std::size_t i_vec{0}; i_vec < size_.get(); i_vec++) {
@@ -333,7 +334,7 @@ class DataSet<std::vector<ContentType>>
    *
    * We write the size and the content onto the end of their data sets.
    */
-  void save(File& f, long unsigned int i_entry) {
+  void save(Writer& f, long unsigned int i_entry) {
     size_.update(this->handle_->size());
     size_.save(f, i_entry);
     for (std::size_t i_vec{0}; i_vec < this->handle_->size(); i_vec++) {
@@ -384,7 +385,7 @@ class DataSet<std::map<KeyType,ValType>>
    * We read the next size and then read that many items from
    * the content data set into the vector handle.
    */
-  void load(File& f, long unsigned int i_entry) {
+  void load(Reader& f, long unsigned int i_entry) {
     size_.load(f, i_entry);
     for (std::size_t i_map{0}; i_map < size_.get(); i_map++) {
       keys_.load(f, i_data_entry_);
@@ -401,7 +402,7 @@ class DataSet<std::map<KeyType,ValType>>
    *
    * We write the size and the content onto the end of their data sets.
    */
-  void save(File& f, long unsigned int i_entry) {
+  void save(Writer& f, long unsigned int i_entry) {
     size_.update(this->handle_->size());
     size_.save(f, i_entry);
     for (auto const& [key,val] : *(this->handle_)) {

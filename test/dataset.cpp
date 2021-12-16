@@ -67,7 +67,7 @@ class Cluster {
 };
 
 template <typename ArbitraryDataSet, typename DataType>
-bool save(ArbitraryDataSet& set, DataType const& d, fire::h5::File& f, long unsigned int i) {
+bool save(ArbitraryDataSet& set, DataType const& d, fire::h5::Writer& f, long unsigned int i) {
   try {
     set.update(d);
     set.save(f,i);
@@ -79,7 +79,7 @@ bool save(ArbitraryDataSet& set, DataType const& d, fire::h5::File& f, long unsi
 }
 
 template <typename ArbitraryDataSet, typename DataType>
-bool load(ArbitraryDataSet& set, DataType const& d, fire::h5::File& f, long unsigned int i) {
+bool load(ArbitraryDataSet& set, DataType const& d, fire::h5::Reader& f, long unsigned int i) {
   try {
     set.load(f,i);
     return (d == set.get());
@@ -90,9 +90,7 @@ bool load(ArbitraryDataSet& set, DataType const& d, fire::h5::File& f, long unsi
 }
 
 BOOST_AUTO_TEST_CASE(dataset) {
-  fire::config::Parameters file;
-  file.add("name",std::string("dataset.h5"));
-  file.add("rows_per_chunk",10);
+  std::string filename{"dataset.h5"};
 
   std::vector<double> doubles = { 1.0, 32., 69. };
   std::vector<int>    ints    = { 0, -33, 88 };
@@ -106,8 +104,11 @@ BOOST_AUTO_TEST_CASE(dataset) {
 
 
   { // Writing
-    file.add("write",true);
-    fire::h5::File f{file}
+    fire::config::Parameters output_params;
+    output_params.add("name",filename);
+    output_params.add("rows_per_chunk",10);
+    output_params.add("event_limit",doubles.size());
+    fire::h5::Writer f{output_params}
 
     fire::h5::DataSet<double> double_ds("double",true);
     fire::h5::DataSet<int>    int_ds("int",true);
@@ -163,8 +164,7 @@ BOOST_AUTO_TEST_CASE(dataset) {
   }
 
   { // Reading
-    file.add("write",false);
-    fire::h5::File f{file}
+    fire::h5::Reader f{filename};
 
     fire::h5::DataSet<double> double_ds("double",true);
     fire::h5::DataSet<int>    int_ds("int",true);
