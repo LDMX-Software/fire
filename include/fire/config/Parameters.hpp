@@ -14,13 +14,13 @@
 #include <vector>
 #include <boost/core/demangle.hpp>
 
-/*~~~~~~~~~~~~~~~*/
-/*   Exception   */
-/*~~~~~~~~~~~~~~~*/
-#include "fire/Exception/Exception.h"
-
 namespace fire {
 namespace config {
+
+class Exception : public std::runtime_error {
+ public:
+  Exception(const std::string& what) noexcept : std::runtime_error(what) {}
+};
 
 /**
  * Class encapsulating parameters for configuring a processor.
@@ -39,9 +39,7 @@ class Parameters {
   template <typename T>
   void add(const std::string& name, const T& value) {
     if (exists(name)) {
-      EXCEPTION_RAISE("ParameterExist",
-                      "The parameter " + name +
-                          " already exists in the list of parameters.");
+      throw Exception("The parameter " + name + " already exists in the list of parameters.");
     }
 
     parameters_[name] = value;
@@ -75,17 +73,14 @@ class Parameters {
     // Check if the variable exists in the map.  If it doesn't,
     // raise an exception.
     if (not exists(name)) {
-      EXCEPTION_RAISE(
-          "NonExistParam",
-          "Parameter '" + name + "' does not exist in list of parameters.");
+      throw Exception("Parameter '" + name + "' does not exist in list of parameters.");
     }
 
     try {
       auto parameter = std::any_cast<T>(parameters_.at(name));
       return parameter;
     } catch (const std::bad_any_cast& e) {
-      EXCEPTION_RAISE("BadTypeParam",
-                      "Parameter '" + name + "' of type '" +
+      throw Exception("Parameter '" + name + "' of type '" +
                           boost::core::demangle(parameters_.at(name).type().name()) +
                           "' is being cast to incorrect type '" +
                           boost::core::demangle(typeid(T).name()) + "'.");

@@ -148,7 +148,7 @@ static std::string Backtrace(int skip = 1) throw() {
   return trace_buf.str();
 }
 
-#include "fire/Exception/Exception.h"
+#include "fire/exception/Exception.hpp"
 
 namespace fire {
 namespace exception {

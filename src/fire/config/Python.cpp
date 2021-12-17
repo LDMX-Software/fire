@@ -1,5 +1,5 @@
 
-#include "fire/Config/Python.h"
+#include "fire/config/Python.hpp"
 
 /*~~~~~~~~~~~~*/
 /*   python   */
@@ -17,10 +17,6 @@
 
 namespace fire {
 namespace config {
-
-std::string root_module = "firecfg";
-std::string root_class  = "Process";
-std::string root_object = "lastProcess";
 
 /**
  * Turn the input python string object into a C++ string.
@@ -76,7 +72,7 @@ static Parameters getMembers(PyObject* object) {
     if (PyDict_Check(object))
       dictionary = object;
     else {
-      EXCEPTION_RAISE("ObjFail", "Python Object does not have __dict__ member");
+      throw PyException("Python Object does not have a __dict__ member");
     }
   }
 
@@ -95,9 +91,9 @@ static Parameters getMembers(PyObject* object) {
         params.add(skey, int(PyLong_AsLong(value)));
       }
     } else if (PyFloat_Check(value)) {
-      params[skey] = PyFloat_AsDouble(value);
+      params.add(skey, PyFloat_AsDouble(value));
     } else if (PyUnicode_Check(value)) {
-      params[skey] = getPyString(value);
+      params.add(skey, getPyString(value));
     } else if (PyList_Check(
                    value)) {  // assume everything is same value as first value
       if (PyList_Size(value) > 0) {
@@ -137,8 +133,7 @@ static Parameters getMembers(PyObject* object) {
           for (auto j{0}; j < PyList_Size(value); ++j) {
             auto elem{PyList_GetItem(value, j)};
 
-            vals.emplace_back();
-            vals.back().setParameters(getMembers(elem));
+            vals.emplace_back(getMembers(elem));
           }
           params.add(skey, vals);
 
@@ -150,8 +145,7 @@ static Parameters getMembers(PyObject* object) {
       //(same logic as last option for a list)
 
       // RECURSION zoinks!
-      fire::config::Parameters val;
-      val.setParameters(getMembers(value));
+      fire::config::Parameters val(getMembers(value));
 
       params.add(skey, val);
 
@@ -202,23 +196,21 @@ Parameters run(const std::string& pythonScript, char* args[], int nargs) {
 
   if (script == 0) {
     PyErr_Print();
-    EXCEPTION_RAISE("ConfigureError", "Problem loading python script");
+    throw PyException("Problem loading python script.");
   }
 
   PyObject* pCMod = PyObject_GetAttrString(script, root_module.c_str());
   Py_DECREF(script);  // don't need the script anymore
   if (pCMod == 0) {
     PyErr_Print();
-    EXCEPTION_RAISE("ConfigureError", "Problem loading python script");
+    throw PyException("Problem loading python script.");
   }
 
   PyObject* pProcessClass = PyObject_GetAttrString(pCMod, root_class.c_str());
   Py_DECREF(pCMod);  // don't need the config module anymore
   if (pProcessClass == 0) {
     PyErr_Print();
-    EXCEPTION_RAISE(
-        "ConfigureError",
-        "Process object not defined. This object is required to run fire.");
+    throw PyException("Process object not defined. This object is required to run fire.");
   }
 
   PyObject* pProcess = PyObject_GetAttrString(pProcessClass, root_object.c_str());
@@ -226,14 +218,10 @@ Parameters run(const std::string& pythonScript, char* args[], int nargs) {
   if (pProcess == 0) {
     // wasn't able to get lastProcess class member
     PyErr_Print();
-    EXCEPTION_RAISE(
-        "ConfigureError",
-        "Process object not defined. This object is required to run.");
+    throw PyException("Process object not defined. This object is required to run.");
   } else if (pProcess == Py_None) {
     // lastProcess was left undefined
-    EXCEPTION_RAISE(
-        "ConfigureError",
-        "Process object not defined. This object is required to run.");
+    throw PyException("Process object not defined. This object is required to run.");
   }
 
   // okay, now we have fully imported the script and gotten the handle
@@ -250,11 +238,10 @@ Parameters run(const std::string& pythonScript, char* args[], int nargs) {
   // close up python interpreter
   if (Py_FinalizeEx() < 0) {
     PyErr_Print();
-    EXCEPTION_RAISE("PyError",
-                    "I wasn't able to close up the python interpreter!");
+    throw PyException("I wasn't able to close up the python interpreter!");
   }
 
-  return std::move(configuration);
+  return configuration;
 }
 
 }  // namespace config
