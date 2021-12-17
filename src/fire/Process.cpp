@@ -105,7 +105,7 @@ void Process::run() {
     for (auto module : sequence_) module->onFileClose(outFile);
 
     runHeader().setRunEnd(std::time(nullptr));
-    ldmx_log(info) << runHeader();
+    //ldmx_log(info) << runHeader();
 
     /**
      * TODO write run header to output file
@@ -141,7 +141,7 @@ void Process::run() {
         // rethrow
       }
 
-      ldmx_log(info) << "Opening " << input_file;
+      //ldmx_log(info) << "Opening " << input_file;
 
       for (auto module : sequence_) module->onFileOpen(input_file);
       event_.setInputFile(input_file);
@@ -159,12 +159,12 @@ void Process::run() {
           wasRun = event_.header().getRun();
           if (input_runs.find(wasRun) != input_runs.end()) {
             newRun(input_runs[wasRun]);
-            ldmx_log(info) << "Got new run header from '" << input_file
+            /*ldmx_log(info) << "Got new run header from '" << input_file
                            << "\n"
-                           << runHeader();
+                           << runHeader();*/
           } else {
-            ldmx_log(warn) << "Run header for run " << wasRun
-                           << " was not found!";
+            /*ldmx_log(warn) << "Run header for run " << wasRun
+                           << " was not found!";*/
           }
         }
 
@@ -174,10 +174,10 @@ void Process::run() {
       }  // loop through events
 
       if (event_limit_ > 0 && n_events_processed == event_limit_) {
-        ldmx_log(info) << "Reached event limit of " << event_limit_ << " events";
+        //ldmx_log(info) << "Reached event limit of " << event_limit_ << " events";
       }
 
-      ldmx_log(info) << "Closing " << input_file;
+      //ldmx_log(info) << "Closing " << input_file;
 
       for (auto module : sequence_) module->onFileClose(input_file);
     }  // loop through input files
@@ -216,11 +216,11 @@ void Process::newRun(RunHeader &rh) {
 bool Process::process(const std::size_t& n, std::size_t& i_output_file) {
   // status statement printed to log
   if ((logFrequency_ != -1) && ((n + 1) % logFrequency_ == 0)) {
-    TTimeStamp t; // TODO replace TTimeStamp
-    ldmx_log(info) << "Processing " << n + 1 << " Run "
+    // TODO print time
+    /*ldmx_log(info) << "Processing " << n + 1 << " Run "
                    << event_.header().getRun() << " Event "
-                   << event_.header().getEventNumber() << "  ("
-                   << t.AsString("lc") << ")";
+                   << event_.header().getEventNumber() <<;*/
+                   
   }
 
   try {

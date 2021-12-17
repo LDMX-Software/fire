@@ -92,12 +92,14 @@ int main(int argc, char* argv[]) {
   try {
     p->run();
   } catch (fire::exception::Exception& e) {
+    /*
     auto theLog_{fire::logging::makeLogger(
         "fire")};  // ldmx_log macro needs this variable to be named 'theLog_'
     ldmx_log(fatal) << "[" << e.name() << "] : " << e.message() << "\n"
                     << "  at " << e.module() << ":" << e.line() << " in "
                     << e.function() << "\nStack trace: " << std::endl
                     << e.stackTrace();
+                   */
     return 127;  // return non-zero error-status
   }
 
