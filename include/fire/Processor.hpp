@@ -1,22 +1,16 @@
-/**
- * @file Processor.h
- * @brief Base classes for all user event processing components to extend
- * @author Jeremy Mans, University of Minnesota
- */
-
 #ifndef FIRE_PROCESSOR_HPP
 #define FIRE_PROCESSOR_HPP
 
 /*~~~~~~~~~~~~~~~*/
 /*   fire   */
 /*~~~~~~~~~~~~~~~*/
-#include "fire/Conditions.h"
-#include "fire/Configure/Parameters.hpp"
+//#include "fire/Conditions.h"
+#include "fire/config/Parameters.hpp"
 #include "fire/Event.hpp"
-#include "fire/Exception/Exception.h"
-#include "fire/Logger.h"
-#include "fire/RunHeader.h"
-#include "fire/StorageControl.h"
+#include "fire/exception/Exception.hpp"
+#include "fire/Logger.hpp"
+#include "fire/RunHeader.hpp"
+#include "fire/StorageControl.hpp"
 
 /*~~~~~~~~~~~~~~~~*/
 /*   C++ StdLib   */
@@ -38,12 +32,12 @@ class AbortEventException : public fire::exception::Exception {
    *
    * Use empty Exception constructor so stack trace isn't built.
    */
-  AbortEventException() throw() : fire::exception::Exception() {}
+  AbortEventException() noexcept : fire::exception::Exception() {}
 
   /**
    * Destructor
    */
-  virtual ~AbortEventException() throw() {}
+  virtual ~AbortEventException() = default;
 };
 
 /**
@@ -124,11 +118,11 @@ class Processor {
 
   /**
    * Access a conditions object for the current event
-   */
   template <class T>
   const T &getCondition(const std::string &condition_name) {
     return getConditions().getCondition<T>(condition_name);
   }
+   */
 
   /** Mark the current event as having the given storage control hint from this
    * module
@@ -170,6 +164,8 @@ class Processor {
   using Factory = factory::Factory<Processor, std::unique_ptr<Processor>,
                                    const std::string &, Process &>;
 
+  /// have the derived processors do what they need to do
+  virtual void process(Event& event) = 0;
  protected:
   /**
    * Abort the event immediately.
@@ -184,8 +180,8 @@ class Processor {
  private:
   /**
    * Internal getter for conditions without exposing all of Process
-   */
   Conditions &getConditions() const;
+   */
 
   /**
    * Internal getter for EventHeader without exposing all of Process
@@ -235,6 +231,13 @@ class Producer : public Processor {
    * @param header RunHeader for Producer to add parameters to
    */
   virtual void beforeNewRun(ldmx::RunHeader &header) {}
+
+  /**
+   * A producer produces when it is told to process
+   */
+  virtual void process(Event& event) final override {
+    produce(event);
+  }
 };
 
 /**
@@ -268,6 +271,13 @@ class Analyzer : public Processor {
    * @param event The Event to analyze
    */
   virtual void analyze(const Event &event) = 0;
+
+  /**
+   * An analyzer analyzes when it is told to process
+   */
+  virtual void process(Event& event) final override {
+    analyze(event);
+  }
 };
 
 }  // namespace fire

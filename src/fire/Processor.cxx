@@ -1,8 +1,8 @@
-#include "fire/Processor.h"
+#include "fire/Processor.hpp"
 
 // LDMX
-#include "fire/Process.h"
-#include "fire/RunHeader.h"
+#include "fire/Process.hpp"
+#include "fire/RunHeader.hpp"
 
 namespace fire {
 
