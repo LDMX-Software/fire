@@ -1,14 +1,12 @@
 
-#include "fire/RunHeader.h"
+#include "fire/RunHeader.hpp"
 
 /*~~~~~~~~~~~~~~~~*/
 /*   C++ StdLib   */
 /*~~~~~~~~~~~~~~~~*/
 #include <iostream>
 
-ClassImp(ldmx::RunHeader);
-
-namespace ldmx {
+namespace fire {
 
 RunHeader::RunHeader(int runNumber) : runNumber_(runNumber) {}
 
@@ -33,4 +31,4 @@ void RunHeader::stream(std::ostream &s) const {
 
 void RunHeader::Print() const { stream(std::cout); }
 
-}  // namespace ldmx
+}  // namespace fire

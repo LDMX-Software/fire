@@ -1,23 +1,12 @@
-#ifndef FRAMEWORK_EVENT_RUNHEADER_H_
-#define FRAMEWORK_EVENT_RUNHEADER_H_
+#ifndef FIRE_RUNHEADER_HPP
+#define FIRE_RUNHEADER_HPP
 
-/*~~~~~~~~~~*/
-/*   ROOT   */
-/*~~~~~~~~~~*/
-#include "TObject.h"
-
-/*~~~~~~~~~~~~~~~~*/
-/*   C++ StdLib   */
-/*~~~~~~~~~~~~~~~~*/
 #include <map>
 #include <string>
 
-/*~~~~~~~~~~~~~~~*/
-/*   fire   */
-/*~~~~~~~~~~~~~~~*/
-#include "fire/Version.h"
+#include "fire/Version.hpp"
 
-namespace ldmx {
+namespace fire {
 
 class RunHeader {
  public:
@@ -33,10 +22,7 @@ class RunHeader {
    *
    * @note This exists for filling the object from a ROOT branch.
    */
-  RunHeader() {}
-
-  /** Destructor. */
-  virtual ~RunHeader() {}
+  RunHeader() = default;
 
   /** @return The run number. */
   int getRunNumber() const { return runNumber_; }
@@ -192,6 +178,14 @@ class RunHeader {
   }
 
  private:
+  friend class h5::DataSet<RunHeader>;
+  void attach(h5::DataSet<RunHeader>& set) {
+    set.attach("number",runNumber_);
+    set.attach("start",runStart_);
+    set.attach("end",runEnd_);
+  }
+
+ private:
   /** Run number. */
   int runNumber_{0};
 
@@ -222,10 +216,8 @@ class RunHeader {
   /** Map of string parameters. */
   std::map<std::string, std::string> stringParameters_;
 
-  ClassDef(RunHeader, 3);
-
 };  // RunHeader
 
-}  // namespace ldmx
+}  // namespace fire 
 
-#endif  // _FRAMEWORK_EVENT_RUN_HEADER_H_
+#endif
