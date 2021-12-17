@@ -1,12 +1,5 @@
-/**
- * @file EventHeader.h
- * @brief Class that provides header information about an event such as event
- * number and timestamp
- * @author Jeremy McCormick, SLAC National Accelerator Laboratory
- */
-
-#ifndef EVENT_EVENTHEADER_H_
-#define EVENT_EVENTHEADER_H_
+#ifndef FIRE_EVENTHEADER_HPP
+#define FIRE_EVENTHEADER_HPP
 
 // STL
 #include <ctime>
@@ -14,7 +7,7 @@
 #include <map>
 #include <string>
 
-namespace ldmx {
+namespace fire {
 
 /**
  * @class EventHeader
@@ -88,60 +81,40 @@ class EventHeader {
    */
   void setWeight(double weight) { this->weight_ = weight; }
 
-  /**
-   * Get an int parameter value.
-   * @param name The name of the parameter.
-   * @return The parameter value.
-   */
-  int getIntParameter(const std::string& name) { return intParameters_[name]; }
-
-  /**
-   * Set an int parameter value.
-   * @param name The name of the parameter.
-   * @param value The value of the parameter.
-   * @return The parameter value.
-   */
-  void setIntParameter(const std::string& name, int value) {
-    intParameters_[name] = value;
+  /// clear the event header, required by serialization technique
+  void clear() {
+    weight_ = 1.;
   }
 
-  /**
-   * Get a float parameter value.
-   * @param name The name of the parameter.
-   * @return value The parameter value.
-   */
-  float getFloatParameter(const std::string& name) {
-    return floatParameters_[name];
+  /// get a parameter
+  template<typename ParameterType>
+  const ParameterType& get(const std::string& name) const {
+    try {
+      return std::get<ParameterType>(parameters_.at(name));
+    } catch(const std::bad_variant_access&) {
+      throw std::runtime_error("Event parameter named "+name+" is not type "+boost::core::demangle(typeid(ParameterType).name()));
+    } catch(const std::out_of_range&) {
+      throw std::runtime_error("Event parameter named "+name+" not found.");
+    }
   }
 
-  /**
-   * Set a float parameter value.
-   * @param name The name of the parameter.
-   * @return value The parameter value.
-   */
-  void setFloatParameter(const std::string& name, float value) {
-    floatParameters_[name] = value;
+  /// set a parameter
+  template<typename ParameterType>
+  void set(const std::string& name, const ParameterType& val) {
+    parameters_[name] = val;
   }
 
-  /**
-   * Get a string parameter value.
-   * @param name The name of the parameter.
-   * @return value The parameter value.
-   */
-  std::string getStringParameter(const std::string& name) {
-    return stringParameters_[name];
+ private:
+  /// allow data set access for reading/writing
+  friend class h5::DataSet<EventHeader>;
+  /// TEMPORARY, for now attach the stuff that isn't a parameter or the timestamp
+  void attach(h5::DataSet<EventHeader>& set) {
+    set.attach("number",number_);
+    set.attach("run",run_);
+    set.attach("weight",weight_);
+    set.attach("isRealData",isRealData_);
   }
 
-  /**
-   * Set a string parameter value.
-   * @param name The name of the parameter.
-   * @return value The parameter value.
-   */
-  void setStringParameter(const std::string& name, std::string value) {
-    stringParameters_[name] = value;
-  }
-
- protected:
   /**
    * The event number.
    */
@@ -168,26 +141,26 @@ class EventHeader {
   bool isRealData_{false};
 
   /**
-   * The int parameters.
+   * Event parameters
    */
-  std::map<std::string, int> intParameters_;
-
-  /**
-   * The float parameters.
-   */
-  std::map<std::string, float> floatParameters_;
-
-  /**
-   * The string parameters.
-   */
-  std::map<std::string, std::string> stringParameters_;
-
-  /**
-   * ROOT class definition.
-   */
-  ClassDef(EventHeader, 1);
+  std::unordered_map<std::string, std::variant<int,float,std::string>> parameteres_;
 };
 
-}  // namespace ldmx
+namespace h5 {
 
-#endif /* EVENT_EVENTHEADER_H_ */
+/**
+ * DataSet specialization of EventHeader
+template<>
+class DataSet<EventHeader> : public AbstractDataSet<EventHeader> {
+ public:
+  DataSet(EventHeader* handle);
+  void load(Reader& r, long unsigned int i);
+  void save(Writer& w, long unsigned int i);
+};
+ */
+
+}
+
+}  // namespace fire
+
+#endif 
