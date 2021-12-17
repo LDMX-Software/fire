@@ -71,7 +71,7 @@ class Process {
   StorageController storage_controller_;
 
   /// handle to conditions system
-  Conditions conditions_;
+  //Conditions conditions_;
 
   /// event object
   Event event_;

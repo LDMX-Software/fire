@@ -226,15 +226,8 @@ bool Process::process(const std::size_t& n, std::size_t& i_output_file) {
   try {
     // new event processing, forget old information
     storage_controller_.resetEventState();
-
     // go through each processor in the sequence in order
-    for (auto proc : sequence_) {
-      if (dynamic_cast<Producer *>(proc)) {
-        (dynamic_cast<Producer *>(proc))->produce(event_);
-      } else if (dynamic_cast<Analyzer *>(proc)) {
-        (dynamic_cast<Analyzer *>(proc))->analyze(event_);
-      }
-    }
+    for (auto proc : sequence_) proc->process(event_);
   } catch (AbortEventException &) {
     return false;
   }
