@@ -26,6 +26,13 @@ class Reader {
         }
 
   /**
+   * Get the name of this file
+   */
+  const std::string& name() const {
+    return file_.getName();
+  }
+
+  /**
    * Get the number of entries in the file
    */
   inline std::size_t entries() const {

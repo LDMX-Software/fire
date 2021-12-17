@@ -2,7 +2,7 @@
 #define BOOST_TEST_DYN_LINK
 #include <boost/test/unit_test.hpp>
 
-#include "highfive/H5Easy.hpp"
+#include "fire/config/Parameters.hpp"
 #include "fire/h5/DataSet.hpp"
 
 // plain old data class
@@ -108,7 +108,7 @@ BOOST_AUTO_TEST_CASE(dataset) {
     output_params.add("name",filename);
     output_params.add("rows_per_chunk",10);
     output_params.add("event_limit",doubles.size());
-    fire::h5::Writer f{output_params}
+    fire::h5::Writer f{output_params};
 
     fire::h5::DataSet<double> double_ds("double",true);
     fire::h5::DataSet<int>    int_ds("int",true);

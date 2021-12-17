@@ -1,11 +1,8 @@
-#ifndef FACTORY_FACTORY_HPP
-#define FACTORY_FACTORY_HPP
-
-#include <dlfcn.h>  // for shared library loading
+#ifndef FIRE_FACTORY_FACTORY_HPP
+#define FIRE_FACTORY_FACTORY_HPP
 
 #include <exception>      // for throwing errors
 #include <memory>         // for the unique_ptr default
-#include <set>            // for caching loaded libraries
 #include <string>         // for the keys in the library map
 #include <unordered_map>  // for the library of prototypes
 
@@ -49,19 +46,7 @@ class Exception : public std::runtime_error {
  *
  * @param[in] libname name of library to load
  */
-void loadLibrary(const std::string& libname) {
-  static std::set<std::string> libraries_loaded_;
-  if (libraries_loaded_.find(libname) != libraries_loaded_.end()) {
-    return;  // already loaded
-  }
-
-  void* handle = dlopen(libname.c_str(), RTLD_NOW);
-  if (handle == nullptr) {
-    throw Exception("Error loading library '" + libname + "':" + dlerror());
-  }
-
-  libraries_loaded_.insert(libname);
-}
+void loadLibrary(const std::string& libname);
 
 /**
  * Factory to dynamically create objects derived from a specific prototype

@@ -305,8 +305,8 @@ class DataSet<std::vector<ContentType>>
    */
   DataSet(std::string const& name, bool should_save, std::vector<ContentType>* handle = nullptr)
       : AbstractDataSet<std::vector<ContentType>>(name, should_save, handle),
-        size_{name + "/size"},
-        data_{name + "/data"},
+        size_{name + "/size",should_save},
+        data_{name + "/data",should_save},
         i_data_entry_{0} {}
 
   /**
@@ -372,9 +372,9 @@ class DataSet<std::map<KeyType,ValType>>
    */
   DataSet(std::string const& name, bool should_save, std::map<KeyType,ValType>* handle = nullptr)
       : AbstractDataSet<std::map<KeyType,ValType>>(name, should_save, handle),
-        size_{name + "/size"},
-        keys_{name + "/keys"},
-        vals_{name + "/vals"},
+        size_{name + "/size",should_save},
+        keys_{name + "/keys",should_save},
+        vals_{name + "/vals",should_save},
         i_data_entry_{0} {}
 
   /**

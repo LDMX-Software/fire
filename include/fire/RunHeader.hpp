@@ -4,12 +4,14 @@
 #include <map>
 #include <string>
 
-#include "fire/Version.hpp"
+//#include "fire/Version.hpp"
+#include "fire/h5/DataSet.hpp"
 
 namespace fire {
 
 class RunHeader {
  public:
+  static const std::string NAME;
   /**
    * Constructor.
    *
@@ -172,7 +174,7 @@ class RunHeader {
    * @param[in] h RunHeader to write out
    * @return modified ostream
    */
-  friend std::ostream &operator<<(std::ostream &s, const ldmx::RunHeader &h) {
+  friend std::ostream &operator<<(std::ostream &s, const RunHeader &h) {
     h.stream(s);
     return s;
   }
@@ -205,7 +207,7 @@ class RunHeader {
    * git SHA-1 hash associated with the software tag used to generate
    * this file.
    */
-  std::string softwareTag_{GIT_SHA1};
+  std::string softwareTag_{"NOTSET"};
 
   /** Map of int parameters. */
   std::map<std::string, int> intParameters_;

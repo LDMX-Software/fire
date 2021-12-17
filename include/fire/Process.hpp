@@ -1,7 +1,7 @@
 #ifndef FIRE_PROCESS_HPP
 #define FIRE_PROCESS_HPP
 
-#include "fire/exception/Exception.h"
+#include "fire/exception/Exception.hpp"
 #include "fire/Event.hpp"
 #include "fire/Processor.hpp"
 #include "fire/RunHeader.hpp"
@@ -13,7 +13,7 @@ class Process {
   Process(const config::Parameters& configuration);
   void run(); 
   ~Process() {
-    logging::close();
+    //logging::close();
   }
 
   const EventHeader& eventHeader() const {
@@ -67,8 +67,11 @@ class Process {
   /// output file we are writing to
   h5::Writer output_file_;
 
+  /// the sequence of processors to run
+  std::vector<std::unique_ptr<Processor>> sequence_;
+
   /// object used to determine if an event should be saved or not
-  StorageController storage_controller_;
+  //StorageController storage_controller_;
 
   /// handle to conditions system
   //Conditions conditions_;

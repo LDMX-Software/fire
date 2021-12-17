@@ -8,6 +8,8 @@
 
 namespace fire {
 
+const std::string RunHeader::NAME = "runs";
+
 RunHeader::RunHeader(int runNumber) : runNumber_(runNumber) {}
 
 void RunHeader::stream(std::ostream &s) const {

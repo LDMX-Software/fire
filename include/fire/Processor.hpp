@@ -8,9 +8,10 @@
 #include "fire/config/Parameters.hpp"
 #include "fire/Event.hpp"
 #include "fire/exception/Exception.hpp"
-#include "fire/Logger.hpp"
+//#include "fire/Logger.hpp"
 #include "fire/RunHeader.hpp"
-#include "fire/StorageControl.hpp"
+//#include "fire/StorageControl.hpp"
+#include "fire/factory/Factory.hpp"
 
 /*~~~~~~~~~~~~~~~~*/
 /*   C++ StdLib   */
@@ -77,30 +78,38 @@ class Processor {
    *
    * @param parameters Parameters for configuration.
    */
-  virtual void configure(fire::config::Parameters &parameters) {}
+  virtual void configure(const config::Parameters &parameters) {}
+
+  /**
+   * Callback for the processor to take any necessary
+   * actions before the run will be changed.
+   * @note Only available to producers.
+   * @param run header
+   */
+  virtual void beforeNewRun(RunHeader& runHeader) = 0;
 
   /**
    * Callback for the Processor to take any necessary
    * action when the run being processed changes.
    * @param runHeader The RunHeader containing run information.
    */
-  virtual void onNewRun(const ldmx::RunHeader &runHeader) {}
+  virtual void onNewRun(const RunHeader &runHeader) {}
 
   /**
    * Callback for the Processor to take any necessary
-   * action when a new event input ROOT file is opened.
-   * @param filename Input event ROOT file name.
+   * action when a new input event file is opened.
+   * @param filename Input event file name.
    * @note This callback is rarely used.
    */
-  virtual void onFileOpen(EventFile &eventFile) {}
+  virtual void onFileOpen(const std::string& file_name) {}
 
   /**
    * Callback for the Processor to take any necessary
-   * action when a event input ROOT file is closed.
-   * @param filename Input event ROOT file name
+   * action when a event input file is closed.
+   * @param filename Input event file name
    * @note This callback is rarely used.
    */
-  virtual void onFileClose(EventFile &eventFile) {}
+  virtual void onFileClose(const std::string& file_name) {}
 
   /**
    * Callback for the Processor to take any necessary
@@ -127,31 +136,19 @@ class Processor {
   /** Mark the current event as having the given storage control hint from this
    * module
    * @param controlhint The storage control hint to apply for the given event
-   */
   void setStorageHint(fire::StorageControlHint hint) {
     setStorageHint(hint, "");
   }
+   */
 
   /** Mark the current event as having the given storage control hint from this
    * module and the given purpose string
    * @param controlhint The storage control hint to apply for the given event
    * @param purposeString A purpose string which can be used in the skim control
    * configuration
-   */
   void setStorageHint(fire::StorageControlHint hint,
                       const std::string &purposeString);
-
-  /**
-   * Get the current logging frequency from the process
-   * @return int frequency logging should occurr
    */
-  int getLogFrequency() const;
-
-  /**
-   * Get the run number from the process
-   * @return int run number
-   */
-  int getRunNumber() const;
 
   /**
    * Get the processor name
@@ -175,7 +172,7 @@ class Processor {
   void abortEvent() { throw AbortEventException(); }
 
   /// The logger for this Processor
-  logging::logger theLog_;
+  //logging::logger theLog_;
 
  private:
   /**
@@ -186,13 +183,13 @@ class Processor {
   /**
    * Internal getter for EventHeader without exposing all of Process
    */
-  const ldmx::EventHeader &getEventHeader() const;
-
-  /** Handle to the Process. */
-  Process &process_;
+  const EventHeader &getEventHeader() const;
 
   /** The name of the Processor. */
   std::string name_;
+
+  /// handle to current process
+  Process& process_;
 };
 
 /**
@@ -230,10 +227,14 @@ class Producer : public Processor {
    * Handle allowing producers to modify run headers before the run begins
    * @param header RunHeader for Producer to add parameters to
    */
-  virtual void beforeNewRun(ldmx::RunHeader &header) {}
+  virtual void beforeNewRun(RunHeader &header) {}
 
   /**
    * A producer produces when it is told to process
+   *
+   * INTERNAL
+   * 'final override' so that downstream processors
+   * can't modify how this processor processes
    */
   virtual void process(Event& event) final override {
     produce(event);
@@ -267,13 +268,23 @@ class Analyzer : public Processor {
   Analyzer(const std::string &name, Process &process);
 
   /**
-   * Process the event and make histograms or summaries
+   * Make sure analyzers don't modify the run header
+   * by doing a final override to prevent analyzers
+   * from implementing this function.
+   */
+  virtual void beforeNewRun(RunHeader&) final override {}
+
+  /**
+   * Process the event through a const reference
    * @param event The Event to analyze
    */
   virtual void analyze(const Event &event) = 0;
 
   /**
    * An analyzer analyzes when it is told to process
+   *
+   * Marked final override so that downstream processors
+   * don't change how process functions.
    */
   virtual void process(Event& event) final override {
     analyze(event);

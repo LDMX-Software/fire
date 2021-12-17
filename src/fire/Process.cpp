@@ -7,13 +7,13 @@
 
 #include <iostream>
 
-#include "fire/Logger.h"
+//#include "fire/Logger.h"
 #include "fire/factory/Factory.hpp"
 
 namespace fire {
 
 Process::Process(const fire::config::Parameters &configuration)
-    : conditions_{*this},
+    : /*conditions_{*this},*/
       output_file_{configuration.get<config::Parameters>("output_file")},
       input_files_{configuration.get<std::vector<std::string>>("input_files",{})},
       event_{configuration.get<std::string>("pass"),
@@ -24,11 +24,15 @@ Process::Process(const fire::config::Parameters &configuration)
       run_{configuration.get<int>("run")},
       run_header_{nullptr}
       {
+  /*
   logging::open(
       logging::convertLevel(configuration.get<int>("term_level")),
       logging::convertLevel(configuration.get<int>("file_level")),
       configuration.get<std::string>("log_file")
       );
+   */
+
+  //storage_control::configure(configuration.get<config::Parameters>("storage"));
   for (const auto &lib :
        configuration.get<std::vector<std::string>>("libraries", {}))
     factory::loadLibrary(lib);
@@ -47,7 +51,7 @@ Process::Process(const fire::config::Parameters &configuration)
     std::unique_ptr<Processor> ep;
     try {
       ep = Processor::Factory::get().make(class_name, instance_name, *this);
-    } catch (Exception const &e) {
+    } catch (const factory::Exception& e) {
       EXCEPTION_RAISE(
           "UnableToCreate",
           "Unable to create instance '" + instance_name + "' of class '" +
@@ -55,9 +59,10 @@ Process::Process(const fire::config::Parameters &configuration)
               "'. Did you load the library that this class is apart of?");
     }
     ep->configure(proc);
-    sequence_.push_back(ep);
+    sequence_.push_back(std::move(ep));
   }
 
+  /*
   auto conditionsObjectProviders{
       configuration.getParameter<std::vector<fire::config::Parameters>>(
           "conditionsObjectProviders", {})};
@@ -69,6 +74,7 @@ Process::Process(const fire::config::Parameters &configuration)
     conditions_.createConditionsObjectProvider(class_name, object_name,
                                                tag_name, cop);
   }
+  */
 }
 
 void Process::run() {
@@ -79,13 +85,13 @@ void Process::run() {
   std::size_t i_output_file{0};
 
   // Start by notifying everyone that modules processing is beginning
-  conditions_.onProcessStart();
-  for (auto proc : sequence_) proc->onProcessStart();
+  //conditions_.onProcessStart();
+  for (auto& proc : sequence_) proc->onProcessStart();
 
   // If we have no input files, but do have an event number, run for
   // that number of events and generate an output file.
   if (input_files_.empty()) {
-    for (auto module : sequence_) module->onFileOpen(output_file_);
+    for (auto& proc : sequence_) proc->onFileOpen(output_file_.name());
 
     RunHeader run_header(run_);
     run_header.setRunStart(std::time(nullptr));
@@ -94,7 +100,7 @@ void Process::run() {
     for (; n_events_processed < event_limit_; n_events_processed++) {
       event_.header().setRun(run_);
       event_.header().setEventNumber(n_events_processed + 1);
-      event_.header().setTimestamp(TTimeStamp());
+      event_.header().setTimestamp();
 
       // keep trying to process this event until successful
       // or we hit the maximum number of tries
@@ -102,7 +108,7 @@ void Process::run() {
         if (process(n_events_processed,i_output_file)) break;
     }
 
-    for (auto module : sequence_) module->onFileClose(outFile);
+    for (auto& proc : sequence_) proc->onFileClose(output_file_.name());
 
     runHeader().setRunEnd(std::time(nullptr));
     //ldmx_log(info) << runHeader();
@@ -133,22 +139,23 @@ void Process::run() {
        */
       try {
         h5::DataSet<RunHeader> read_ds{RunHeader::NAME,false};
-        // TODO write h5::DataSet<RunHeader>::load_all function for DataSet
+        /* TODO write h5::DataSet<RunHeader>::load_all function for DataSet
         for (const auto& rh : read_ds.load_all(input_file)) {
           input_runs[rh.getRunNumber()] = rh;
         }
+        */
       } catch (.../*insert high five exception here*/) {
         // rethrow
       }
 
       //ldmx_log(info) << "Opening " << input_file;
 
-      for (auto module : sequence_) module->onFileOpen(input_file);
+      for (auto &module : sequence_) module->onFileOpen(input_file.name());
       event_.setInputFile(input_file);
 
       long unsigned int max_index = input_file.entries();
-      if (max_index + n_events_processed > event_limit) 
-        max_index = event_limit - n_events_processed;
+      if (max_index + n_events_processed > event_limit_) 
+        max_index = event_limit_ - n_events_processed;
 
       for (std::size_t i_entry_file{0}; i_entry_file < max_index; i_entry_file++) {
         // load data from input file
@@ -179,7 +186,7 @@ void Process::run() {
 
       //ldmx_log(info) << "Closing " << input_file;
 
-      for (auto module : sequence_) module->onFileClose(input_file);
+      for (auto& proc : sequence_) proc->onFileClose(input_file.name());
     }  // loop through input files
 
     // copy the input run headers to the output file
@@ -195,7 +202,7 @@ void Process::run() {
   }    // are there input files? if-else tree
 
   // finally, notify everyone that we are stopping
-  for (auto module : sequence_) module->onProcessEnd();
+  for (auto& proc : sequence_) proc->onProcessEnd();
 }
 
 void Process::newRun(RunHeader &rh) {
@@ -204,18 +211,16 @@ void Process::newRun(RunHeader &rh) {
   run_header_ = &rh;
   // Producers are allowed to put parameters into
   // the run header through 'beforeNewRun' method
-  for (auto module : sequence_)
-    if (dynamic_cast<Producer *>(module))
-      dynamic_cast<Producer *>(module)->beforeNewRun(rh);
+  for (auto& proc : sequence_) proc->beforeNewRun(rh);
   // now run header has been modified by Producers,
   // it is valid to read from for everyone else in 'onNewRun'
-  conditions_.onNewRun(rh);
-  for (auto module : sequence_) module->onNewRun(rh);
+  //conditions_.onNewRun(rh);
+  for (auto& proc : sequence_) proc->onNewRun(rh);
 }
 
 bool Process::process(const std::size_t& n, std::size_t& i_output_file) {
   // status statement printed to log
-  if ((logFrequency_ != -1) && ((n + 1) % logFrequency_ == 0)) {
+  if ((log_frequency_ != -1) && ((n + 1) % log_frequency_ == 0)) {
     // TODO print time
     /*ldmx_log(info) << "Processing " << n + 1 << " Run "
                    << event_.header().getRun() << " Event "
@@ -225,16 +230,16 @@ bool Process::process(const std::size_t& n, std::size_t& i_output_file) {
 
   try {
     // new event processing, forget old information
-    storage_controller_.resetEventState();
+    //storage_controller_.resetEventState();
     // go through each processor in the sequence in order
-    for (auto proc : sequence_) proc->process(event_);
+    for (auto& proc : sequence_) proc->process(event_);
   } catch (AbortEventException &) {
     return false;
   }
 
   // we didn't abort the event, so we should give the option to save it
-  if (storage_controller_.keepEvent()) {
-    event_.checkThenSave(output_file_, i_output_file++);
+  if (true/*storage_controller_.keepEvent()*/) {
+    event_.save(output_file_, i_output_file++);
   }
 
   return true;

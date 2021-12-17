@@ -53,17 +53,21 @@ install(FILES ${PROJECT_BINARY_DIR}/include/fire/Version.hpp
 add_library(fire_exception SHARED src/fire/exception/Exception.cpp)
 target_include_directories(fire_exception PUBLIC include)
 
+add_library(fire_factory SHARED src/fire/factory/Factory.cpp)
+target_include_directories(fire_factory PUBLIC include)
+
 add_library(fire_config SHARED src/fire/config/Python.cpp)
 target_link_libraries(fire_config PUBLIC Python3::Python)
 target_include_directories(fire_config PUBLIC include)
 
 add_library(fire_framework SHARED
   src/fire/Event.cpp
+  src/fire/EventHeader.cpp
   src/fire/Processor.cpp
   src/fire/Process.cpp
   src/fire/RunHeader.cpp)
 target_include_directories(fire_framework PUBLIC include)
-target_link_libraries(fire_framework PUBLIC Boost::log fire_exception fire_config HighFive)
+target_link_libraries(fire_framework PUBLIC Boost::log fire_exception fire_config fire_factory HighFive)
 
 # Compiling the fire library requires features introduced by the cpp 17
 # standard.
