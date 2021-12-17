@@ -6,6 +6,11 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include <variant>
+
+#include <boost/core/demangle.hpp>
+
+#include "fire/h5/DataSet.hpp"
 
 namespace fire {
 
@@ -22,12 +27,13 @@ class EventHeader {
   static const std::string NAME;
 
   friend std::ostream& operator<<(std::ostream& s, const EventHeader& eh) {
+    std::string_view label{eh.isRealData_ ? "DATA" : "MC"};
     return s << "EventHeader {"
-      << " number: " << number_
-      << ", run: " << run_
-      << ", weight: " << weight_
-      << ", " << isRealData_ ? "DATA" : "MC"
-      << ", timestamp: " << std::asctime(std::localtime(&timestamp_))
+      << " number: " << eh.number_
+      << ", run: " << eh.run_
+      << ", weight: " << eh.weight_
+      << ", " <<  label
+      << ", timestamp: " << std::asctime(std::localtime(&eh.timestamp_))
       << " }";
   }
 
@@ -143,7 +149,7 @@ class EventHeader {
   /**
    * Event parameters
    */
-  std::unordered_map<std::string, std::variant<int,float,std::string>> parameteres_;
+  std::unordered_map<std::string, std::variant<int,float,std::string>> parameters_;
 };
 
 namespace h5 {

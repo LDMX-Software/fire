@@ -3,13 +3,11 @@
 
 #include <dlfcn.h>  // for shared library loading
 
+#include <exception>      // for throwing errors
 #include <memory>         // for the unique_ptr default
 #include <set>            // for caching loaded libraries
 #include <string>         // for the keys in the library map
 #include <unordered_map>  // for the library of prototypes
-
-// fire exceptions
-#include "fire/Exception/Exception.h"
 
 namespace fire {
 
@@ -22,6 +20,14 @@ namespace fire {
  * name conflicts.
  */
 namespace factory {
+
+/**
+ * The Factory's exception object
+ */
+class Exception : public std::runtime_error {
+ public:
+  Exception(const std::string& what) noexcept : std::runtime_error(what) {}
+};
 
 /**
  * load a library by name
@@ -51,8 +57,7 @@ void loadLibrary(const std::string& libname) {
 
   void* handle = dlopen(libname.c_str(), RTLD_NOW);
   if (handle == nullptr) {
-    EXCEPTION_RAISE("LibraryLoadFailure",
-                    "Error loading library '" + libname + "':" + dlerror());
+    throw Exception("Error loading library '" + libname + "':" + dlerror());
   }
 
   libraries_loaded_.insert(libname);
@@ -128,8 +133,8 @@ class Factory {
   void declare(const std::string& full_name, PrototypeMaker maker) {
     auto lib_it{library_.find(full_name)};
     if (lib_it != library_.end()) {
-      EXCEPTION_RAISE("Factory", "An object named " + full_name +
-                                     " has already been declared.");
+      throw Exception("An object named " + full_name +
+                      " has already been declared.");
     }
     library_[full_name] = maker;
   }
@@ -153,8 +158,8 @@ class Factory {
                     PrototypeMakerArgs... maker_args) {
     auto lib_it{library_.find(full_name)};
     if (lib_it == library_.end()) {
-      EXCEPTION_RAISE("Factory", "An object named " + full_name +
-                                     " has not been declared.");
+      throw Exception("An object named " + full_name +
+                       " has not been declared.");
     }
     return lib_it->second(maker_args...);
   }

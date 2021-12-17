@@ -5,7 +5,7 @@
 #include <highfive/H5File.hpp>
 
 // configuration parameters
-#include "fire/Config/Parameters.h"
+#include "fire/config/Parameters.hpp"
 
 namespace fire {
 namespace h5 {
@@ -24,8 +24,8 @@ class Writer {
    *  our write == HDF5 TRUNC (overwrite) mode
    */
   Writer(const config::Parameters& ps)
-      : file_(ps.getParameter<std::string>("name"), HighFive::File::Create | HighFive::File::Truncate),
-        rows_per_chunk_{ps.getParameter<int>("rows_per_chunk")} {
+      : file_(ps.get<std::string>("name"), HighFive::File::Create | HighFive::File::Truncate),
+        rows_per_chunk_{ps.get<int>("rows_per_chunk")} {
           entries_ = ps.get<int>("event_limit");
         }
 
@@ -72,8 +72,8 @@ class Writer {
     }
   }
 
-  friend std::ostream& operator<<(std::ostream& s, const File& f) {
-    return s << "Writer(" << file_.getName() << ")";
+  friend std::ostream& operator<<(std::ostream& s, const Writer& w) {
+    return s << "Writer(" << w.file_.getName() << ")";
   }
 
  private:

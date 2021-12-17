@@ -22,11 +22,13 @@ std::vector<ProductTag> Event::search(const std::string& namematch,
 bool Event::keep(const std::string& full_name, bool def) const {
   // search through list BACKWARDS, meaning the last rule that applies will be
   // the decision
-  auto rule = std::find_if(drop_keep_rules_.rbegin(), drop_keep_rules_.rend(),
-                           [](const auto& [regex, yes]) {
-                             return std::regex_match(regex, full_name);
-                           });
-  return rule == drop_keep_rules_.rend() ? def : rule->second;
+  auto rule_it{
+    std::find_if(drop_keep_rules_.rbegin(), drop_keep_rules_.rend(),
+        [&](const auto& rule_pair) {
+          return std::regex_match(full_name, rule_pair.first);
+          })};
+  // no rules applied
+  return rule_it == drop_keep_rules_.rend() ? def : rule_it->second;
 }
 
 Event::Event(const std::string& pass,
@@ -42,13 +44,14 @@ Event::Event(const std::string& pass,
       "events/" + EventHeader::NAME, true, header_.get());
   // construct rules from rule configuration parameters
   //   TODO check for regex construction failures
-  for (const auto& rule : rules) {
+  for (const auto& rule : dk_rules) {
     drop_keep_rules_.emplace_back(
         std::piecewise_construct,
         std::forward_as_tuple(
             rule.get<std::string>("regex"),
             std::regex::extended | std::regex::icase | std::regex::nosubs),
-        rule.get<bool>("keep"));
+        std::forward_as_tuple(rule.get<bool>("keep"))
+        );
   }
 }
 
@@ -61,7 +64,7 @@ void Event::load(h5::Reader& r, unsigned long int i) {
 }
 
 void Event::setInputFile(h5::Reader& r) {
-  input_file = &r;
+  input_file_ = &r;
 
   // TODO search through file and import the products that are there
   //products_.clear();

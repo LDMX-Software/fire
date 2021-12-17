@@ -4,21 +4,24 @@
 /*~~~~~~~~~~~~~~~*/
 /*   fire   */
 /*~~~~~~~~~~~~~~~*/
-#include "fire/Configure/Parameters.h"
+#include "fire/config/Parameters.hpp"
 
 namespace fire {
 
 namespace config {
 
-/***
+/**
  * namespace variables defining where to look for "root"
  * object to kickoff the parameter extraction from python.
- *
- * Defaults defined in source.
  */
-std::string root_module;
-std::string root_class;
-std::string root_object;
+std::string root_module = "firecfg";
+std::string root_class = "Process";
+std::string root_object = "lastProcess";
+
+class PyException : public std::runtime_error {
+ public:
+  PyException(const std::string& what) noexcept : std::runtime_error(what) {}
+};
 
 /**
  * run

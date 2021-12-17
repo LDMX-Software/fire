@@ -21,7 +21,8 @@ class Reader {
    */
   Reader(const std::string& name)
       : file_(name) {
-          entries_ = file_.getDataSet("events/"+EventHeader::NAME+"/number").getSize();
+          // TODO unify this with the event header constant
+          entries_ = file_.getDataSet("events/EventHeader/number").getDimensions().at(0);
         }
 
   /**
@@ -42,8 +43,8 @@ class Reader {
     ds.select({i}, {1}).read(val);
   }
 
-  friend std::ostream& operator<<(std::ostream& s, const File& f) {
-    return s << "Reader(" << file_.getName() << ")";
+  friend std::ostream& operator<<(std::ostream& s, const Reader& r) {
+    return s << "Reader(" << r.file_.getName() << ")";
   }
 
  private:

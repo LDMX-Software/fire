@@ -2,34 +2,13 @@
 //----------------//
 //   C++ StdLib   //
 //----------------//
-#include <signal.h>
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
 #include <iostream>
 
 //-------------//
 //   ldmx-sw   //
 //-------------//
-#include "fire/Config/Python.h"
-#include "fire/Process.h"
-
-/**
- * @namespace fire
- * @brief All classes in the ldmx-sw project use this namespace.
- */
-// using namespace fire;
-
-// This code allows ldmx-app to exit gracefully when Ctrl-c is used. It is
-// currently causing segfaults when certain processors are used.  The code
-// will remain commented out until these issues are investigated further.
-/*
-static Process* p { 0 };
-
-static void softFinish (int sig, siginfo_t *siginfo, void *context) {
-if (p) p->requestFinish();
-}
-*/
+#include "fire/config/Python.hpp"
+#include "fire/Process.hpp"
 
 /**
  * @func printUsage
@@ -40,17 +19,7 @@ void printUsage();
 
 /**
  * @mainpage
- *
- * <a
- * href="https://confluence.slac.stanford.edu/display/MME/Light+Dark+Matter+Experiment">LDMX</a>
- * C++ Software fire providing a full <a
- * href="http://geant4.cern.ch">Geant4</a> simulation and flexible event
- * processing and analysis chain.  The IO and analysis tools are based on <a
- * href="http://root.cern.ch">ROOT</a>, and detectors are described in the <a
- * href="https://gdml.web.cern.ch/GDML/">GDML</a> XML language.
- *
- * Refer to the <a href="https://github.com/LDMXAnalysis/ldmx-sw/">ldmx-sw
- * github</a> for more information, including build and usage instructions.
+ * TODO rewrite
  */
 int main(int argc, char* argv[]) {
   if (argc < 2) {
@@ -77,14 +46,15 @@ int main(int argc, char* argv[]) {
   try {
     fire::config::Parameters config{fire::config::run(argv[ptrpy], argv + ptrpy + 1, argc - ptrpy - 1)};
     p = std::make_unique<fire::Process>(config);
-  } catch (fire::exception::Exception& e) {
-    // TODO split into Python errors and C++ configuration errors
-    std::cerr << "Configuration Error [" << e.name() << "] : " << e.message()
-              << std::endl;
-    std::cerr << "  at " << e.module() << ":" << e.line() << " in "
-              << e.function() << std::endl;
-    std::cerr << "Stack trace: " << std::endl << e.stackTrace();
+  } catch (fire::config::PyException& e) {
+    std::cerr << "[Python Error] " << e.what() << std::endl;
     return 1;
+  } catch (fire::config::Exception& e) {
+    std::cerr << "[Config Error] " << e.what() << std::endl;
+    return 2;
+  } catch (fire::factory::Exception& e) {
+    std::cerr << "[Factory Error] " << e.what() << std::endl;
+    return 3;
   }
 
   std::cout << "---- FIRE: Starting event processing --------" << std::endl;

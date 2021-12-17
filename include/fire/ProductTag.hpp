@@ -10,7 +10,6 @@
 #include <ostream>
 #include <string>
 #include <type_traits>
-#include <boost/core/demangle.hpp>
 #include <regex>
 
 namespace fire {
@@ -35,14 +34,6 @@ class ProductTag {
   ProductTag(const std::string& name, const std::string& pass,
              const std::string& type)
       : name_{name}, pass_{pass}, type_{type} {}
-
-  /**
-   * Templated class constructor where we can deduce
-   * the type name from the type
-   */
-  template <typename ProductType>
-  ProductTag(const std::string& name, const std::string& pass)
-    : name_{name}, pass_{pass}, type_{boost::core::demangle(typeid(ProductType).name())} {}
 
   /**
    * Get the product name
@@ -70,7 +61,7 @@ class ProductTag {
    * Checks if we match the passed regex for name, pass, and type
    */
   inline bool match(const std::regex& name, const std::regex& pass, const std::regex& type) const {
-    return std::regex_match(name, name_) and std::regex_match(pass, pass_) and std::regex_match(type, type_);
+    return std::regex_match(name_, name) and std::regex_match(pass_, pass) and std::regex_match(type_, type);
   }
 
  private:

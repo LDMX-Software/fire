@@ -2,11 +2,12 @@
 #define FIRE_EVENT_HPP
 
 #include <exception>
-#include <functional>  // for reference_wrapper
-#include <optional>    // for optional pass
 #include <regex>
+#include <boost/core/demangle.hpp>
 
 #include "fire/h5/DataSet.hpp"
+#include "fire/ProductTag.hpp"
+#include "fire/EventHeader.hpp"
 
 namespace fire {
 
@@ -75,18 +76,18 @@ class Event {
       //   save these datasets
       sets_[full_name] = std::make_unique<h5::DataSet<DataType>>(
           full_name, keep(full_name, true));
-      products_.emplace_back(ProductTag<DataType>(name, pass_));
-    }
-
-    if (sets_.at(full_name)->updated()) {
-      // this data set has been updated by another processor
-      throw std::runtime_error("DataSet named " + full_name +
-                               " already added to the event.");
+      products_.emplace_back(name, pass_,boost::core::demangle(typeid(DataType).name()));
     }
 
     try {
       /// maybe throw bad_cast exception
-      dynamic_cast<h5::DataSet<DataType>&>(*sets_[full_name]).update(data);
+      auto s{dynamic_cast<h5::DataSet<DataType>&>(*sets_[full_name])};
+      if (s.updated()) {
+        // this data set has been updated by another processor
+        throw std::runtime_error("DataSet named " + full_name +
+                               " already added to the event.");
+      }
+      s.update(data);
     } catch (std::bad_cast const&) {
       throw std::runtime_error("DataSet corresponding to " + full_name +
                                " has different type.");
@@ -168,10 +169,8 @@ class Event {
    * having it 'inline' means that it will be in the same compilation unit
    * as where it is used and therefore will hopefully improve performance.
    */
-  inline std::string fullName(
-      const std::string& name,
-      std::optional<std::reference_wrapper<const std::string>> pass) const {
-    return "events/" + (pass ? pass : pass_) + "/" + name;
+  inline std::string fullName(const std::string& name, const std::string& pass) const {
+    return "events/" + (pass.empty() ? pass_ : pass) + "/" + name;
   }
 
   /**
@@ -274,7 +273,7 @@ class Event {
   /// list of products available to us either on disk or newly created
   std::vector<ProductTag> products_;
   /// cache of known lookups when requesting an object without a pass name
-  std::unordered_map<std::string, std::string> known_lookups_;
+  mutable std::unordered_map<std::string, std::string> known_lookups_;
 };  // Event
 
 }  // namespace fire

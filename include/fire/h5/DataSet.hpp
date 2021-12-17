@@ -132,7 +132,7 @@ class AbstractDataSet : public BaseDataSet {
    */
   virtual void clear() {
     updated_ = false;
-    handle_->clear();
+    //if (owner_) handle_->clear();
   }
 
   /**
