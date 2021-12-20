@@ -6,6 +6,7 @@
 
 //#include "fire/Version.hpp"
 #include "fire/h5/DataSet.hpp"
+#include "fire/h5/ParameterStorage.hpp"
 
 namespace fire {
 
@@ -14,7 +15,7 @@ class RunHeader {
   static const std::string NAME;
 
   /** @return The run number. */
-  int getRunNumber() const { return runNumber_; }
+  int getRunNumber() const { return number_; }
 
   /** @return The name of the detector used to create the events. */
   const std::string &getDetectorName() const { return detectorName_; }
@@ -47,7 +48,7 @@ class RunHeader {
    *
    * @param[in] run the run number
    */
-  void setRunStart(const int run) { 
+  void runStart(const int run) { 
     runStart_ = std::time(nullptr);
     number_ = run;
   }
@@ -61,84 +62,19 @@ class RunHeader {
 
   /**
    * Set the end time of the run in seconds since epoch
-   *
-   * @param[in] runEnd the end time of the run.
    */
-  void setRunEnd(const int runEnd) { runEnd_ = runEnd; }
-
-  /**
-   * Get an int parameter value.
-   *
-   * @param name The name of the parameter.
-   * @return The parameter value.
-   */
-  int getIntParameter(const std::string &name) const {
-    return intParameters_.at(name);
+  void runEnd() { 
+    runEnd_ = std::time(nullptr); 
   }
 
-  /// Get a const reference to all int parameters
-  const std::map<std::string, int> &getIntParameters() const {
-    return intParameters_;
+  template <typename ParameterType>
+  const ParameterType& get(const std::string& name) const {
+    return parameters_.get<ParameterType>(name);
   }
 
-  /**
-   * Set an int parameter value.
-   *
-   * @param name The name of the parameter.
-   * @param value The value of the parameter.
-   */
-  void setIntParameter(const std::string &name, int value) {
-    intParameters_[name] = value;
-  }
-
-  /**
-   * Get a float parameter value.
-   *
-   * @param name The name of the parameter.
-   * @return value The parameter value.
-   */
-  float getFloatParameter(const std::string &name) const {
-    return floatParameters_.at(name);
-  }
-
-  /// Get a const reference to all float parameters
-  const std::map<std::string, float> &getFloatParameters() const {
-    return floatParameters_;
-  }
-
-  /**
-   * Set a float parameter value.
-   *
-   * @param name The name of the parameter.
-   * @param value The parameter value.
-   */
-  void setFloatParameter(const std::string &name, float value) {
-    floatParameters_[name] = value;
-  }
-
-  /**
-   * Get a string parameter value.
-   *
-   * @param name The name of the parameter.
-   * @return value The parameter value.
-   */
-  std::string getStringParameter(const std::string &name) const {
-    return stringParameters_.at(name);
-  }
-
-  /// Get a const reference to all string parameters
-  const std::map<std::string, std::string> &getStringParameters() const {
-    return stringParameters_;
-  }
-
-  /**
-   * Set a string parameter value.
-   *
-   * @param name The name of the parameter.
-   * @param value The parameter value.
-   */
-  void setStringParameter(const std::string &name, std::string value) {
-    stringParameters_[name] = value;
+  template <typename ParameterType>
+  void set(const std::string& name, const ParameterType& val) {
+    parameters_.set(name,val);
   }
 
   /**
@@ -152,29 +88,6 @@ class RunHeader {
 
   /** Print a string desciption of this object. */
   void Print() const;
-
-  /// get a parameter
-  template<typename ParameterType>
-  const ParameterType& get(const std::string& name) const {
-    try {
-      return std::get<ParameterType>(parameters_.at(name));
-    } catch(const std::bad_variant_access&) {
-      throw std::runtime_error("Event parameter named "+name+" is not type "+boost::core::demangle(typeid(ParameterType).name()));
-    } catch(const std::out_of_range&) {
-      throw std::runtime_error("Event parameter named "+name+" not found.");
-    }
-  }
-
-  /// set a parameter
-  template<typename ParameterType>
-  void set(const std::string& name, const ParameterType& val) {
-    static_assert(
-        std::is_same_v<ParameterType,int> ||
-        std::is_same_v<ParameterType,float> ||
-        std::is_same_v<ParameterType,std::string>,
-        "EventHeader parameters are only allowed to be float, int, or std::string.");
-    parameters_[name] = val;
-  }
 
   /**
    * Stream this object to an output stream
@@ -195,9 +108,12 @@ class RunHeader {
  private:
   friend class h5::DataSet<RunHeader>;
   void attach(h5::DataSet<RunHeader>& set) {
-    set.attach("number",runNumber_);
+    set.attach("number",number_);
     set.attach("start",runStart_);
     set.attach("end",runEnd_);
+    set.attach("detectorName",detectorName_);
+    set.attach("description",description_);
+    set.attach("softwareTag",softwareTag_);
   }
 
  private:
@@ -222,34 +138,10 @@ class RunHeader {
    */
   std::string softwareTag_{"NOTSET"};
 
-  /** Map of int parameters. */
-  std::map<std::string, int> intParameters_;
-
-  /** Map of float parameters. */
-  std::map<std::string, float> floatParameters_;
-
-  /** Map of string parameters. */
-  std::map<std::string, std::string> stringParameters_;
+  /// run parameteres
+  h5::ParameterStorage parameters_;
 
 };  // RunHeader
-
-namespace h5 {
-/**
- * DataSet specialization of EventHeader
- */
-template<>
-class DataSet<RunHeader> : public AbstractDataSet<RunHeader> {
- public:
-  DataSet(RunHeader* handle);
-  void load(Reader& r, long unsigned int i);
-  void save(Writer& w, long unsigned int i);
- private:
-  /// the hard list of members that are definitely load/saved
-  std::vector<std::unique_ptr<BaseDataSet>> members_;
-  /// the dynamic parameter listing (parallel to parameters_ member variable)
-  std::unordered_map<std::string, std::unique_ptr<BaseDataSet>> parameters_;
-};
-}
 }  // namespace fire 
 
 #endif

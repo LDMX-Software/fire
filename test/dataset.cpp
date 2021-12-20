@@ -112,7 +112,7 @@ BOOST_AUTO_TEST_CASE(dataset) {
     fire::h5::Writer f{output_params};
 
     fire::EventHeader eh;
-    fire::h5::DataSet<fire::EventHeader> event_header(&eh);
+    fire::h5::DataSet<fire::EventHeader> event_header(fire::EventHeader::NAME,true,&eh);
     fire::h5::DataSet<double> double_ds("double",true);
     fire::h5::DataSet<int>    int_ds("int",true);
     fire::h5::DataSet<bool>   bool_ds("bool",true);
@@ -177,7 +177,7 @@ BOOST_AUTO_TEST_CASE(dataset) {
     fire::h5::Reader f{filename};
 
     fire::EventHeader eh;
-    fire::h5::DataSet<fire::EventHeader> event_header(&eh);
+    fire::h5::DataSet<fire::EventHeader> event_header(fire::EventHeader::NAME,true,&eh);
     fire::h5::DataSet<double> double_ds("double",true);
     fire::h5::DataSet<int>    int_ds("int",true);
     fire::h5::DataSet<bool>   bool_ds("bool",true);

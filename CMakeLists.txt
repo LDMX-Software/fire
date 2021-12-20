@@ -63,7 +63,8 @@ target_include_directories(fire_config PUBLIC include)
 add_library(fire_h5 SHARED
   src/fire/h5/Writer.cpp
   src/fire/h5/Reader.cpp
-  src/fire/h5/DataSet.cpp)
+  src/fire/h5/DataSet.cpp
+  src/fire/h5/ParameterStorage.cpp)
 target_link_libraries(fire_h5 PUBLIC HighFive fire_config)
 target_include_directories(fire_h5 PUBLIC include)
 

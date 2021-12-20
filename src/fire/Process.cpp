@@ -93,8 +93,8 @@ void Process::run() {
   if (input_files_.empty()) {
     for (auto& proc : sequence_) proc->onFileOpen(output_file_.name());
 
-    RunHeader run_header(run_);
-    run_header.setRunStart(std::time(nullptr));
+    RunHeader run_header;
+    run_header.runStart(run_);
     newRun(run_header);
 
     for (; n_events_processed < event_limit_; n_events_processed++) {
@@ -110,7 +110,7 @@ void Process::run() {
 
     for (auto& proc : sequence_) proc->onFileClose(output_file_.name());
 
-    runHeader().setRunEnd(std::time(nullptr));
+    runHeader().runEnd();
     //ldmx_log(info) << runHeader();
 
     /**
