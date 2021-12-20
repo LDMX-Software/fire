@@ -14,6 +14,9 @@ namespace fire::h5 {
  */
 class Reader {
  public:
+  /// the name of the event header data set
+  static const std::string EVENT_HEADER_NAME;
+ public:
   /**
    * Open the file in read mode
    *  our read  == HDF5 Read Only mode

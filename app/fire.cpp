@@ -8,6 +8,9 @@
 //   ldmx-sw   //
 //-------------//
 #include "fire/config/Python.hpp"
+/// define the object to pull parameters from
+std::string fire::config::root_object = "firecfg.Process.lastProcess";
+
 #include "fire/Process.hpp"
 
 /**
@@ -44,7 +47,6 @@ int main(int argc, char* argv[]) {
 
   std::unique_ptr<fire::Process> p;
   try {
-    std::string fire::config::root_object = "firecfg.Process.lastProcess";
     fire::config::Parameters config{fire::config::run(argv[ptrpy], argv + ptrpy + 1, argc - ptrpy - 1)};
     p = std::make_unique<fire::Process>(config);
   } catch (fire::config::PyException& e) {

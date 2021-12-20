@@ -11,6 +11,7 @@
 #include <boost/core/demangle.hpp>
 
 #include "fire/h5/DataSet.hpp"
+#include "fire/h5/Reader.hpp"
 
 namespace fire {
 
@@ -23,17 +24,19 @@ class EventHeader {
  public:
   /**
    * Name of EventHeader branch
+   *  Defined in Reader so that it knows where to look for the number of events in a file.
    */
   static const std::string NAME;
 
   friend std::ostream& operator<<(std::ostream& s, const EventHeader& eh) {
     std::string_view label{eh.isRealData_ ? "DATA" : "MC"};
+    std::time_t t = eh.timestamp_;
     return s << "EventHeader {"
       << " number: " << eh.number_
       << ", run: " << eh.run_
       << ", weight: " << eh.weight_
       << ", " <<  label
-      << ", timestamp: " << std::asctime(std::localtime(&eh.timestamp_))
+      << ", timestamp: " << std::asctime(std::localtime(&t))
       << " }";
   }
 
@@ -107,6 +110,11 @@ class EventHeader {
   /// set a parameter
   template<typename ParameterType>
   void set(const std::string& name, const ParameterType& val) {
+    static_assert(
+        std::is_same_v<ParameterType,int> ||
+        std::is_same_v<ParameterType,float> ||
+        std::is_same_v<ParameterType,std::string>,
+        "EventHeader parameters are only allowed to be float, int, or std::string.");
     parameters_[name] = val;
   }
 
@@ -114,12 +122,14 @@ class EventHeader {
   /// allow data set access for reading/writing
   friend class h5::DataSet<EventHeader>;
   /// TEMPORARY, for now attach the stuff that isn't a parameter or the timestamp
+  /*
   void attach(h5::DataSet<EventHeader>& set) {
     set.attach("number",number_);
     set.attach("run",run_);
     set.attach("weight",weight_);
     set.attach("isRealData",isRealData_);
   }
+  */
 
   /**
    * The event number.
@@ -134,7 +144,7 @@ class EventHeader {
   /**
    * The event timestamp
    */
-  std::time_t timestamp_;
+  int timestamp_;
 
   /**
    * The event weight.
@@ -148,6 +158,7 @@ class EventHeader {
 
   /**
    * Event parameters
+   *  three types of parameters are allowed: int, float, string
    */
   std::unordered_map<std::string, std::variant<int,float,std::string>> parameters_;
 };
@@ -156,14 +167,19 @@ namespace h5 {
 
 /**
  * DataSet specialization of EventHeader
+ */
 template<>
 class DataSet<EventHeader> : public AbstractDataSet<EventHeader> {
  public:
   DataSet(EventHeader* handle);
   void load(Reader& r, long unsigned int i);
   void save(Writer& w, long unsigned int i);
+ private:
+  /// the hard list of members that are definitely load/saved
+  std::vector<std::unique_ptr<BaseDataSet>> members_;
+  /// the dynamic parameter listing (parallel to parameters_ member variable)
+  std::unordered_map<std::string, std::unique_ptr<BaseDataSet>> parameters_;
 };
- */
 
 }
 

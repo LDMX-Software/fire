@@ -111,7 +111,8 @@ BOOST_AUTO_TEST_CASE(dataset) {
     output_params.add("event_limit",int(doubles.size()));
     fire::h5::Writer f{output_params};
 
-    fire::h5::DataSet<fire::EventHeader> event_header("events/EventHeader",true);
+    fire::EventHeader eh;
+    fire::h5::DataSet<fire::EventHeader> event_header(&eh);
     fire::h5::DataSet<double> double_ds("double",true);
     fire::h5::DataSet<int>    int_ds("int",true);
     fire::h5::DataSet<bool>   bool_ds("bool",true);
@@ -127,7 +128,6 @@ BOOST_AUTO_TEST_CASE(dataset) {
     fire::h5::DataSet<std::map<int,Cluster>> map_cluster_ds("map_cluster",true);
 
     for (std::size_t i_entry{0}; i_entry < doubles.size(); i_entry++) {
-      fire::EventHeader eh;
       eh.setEventNumber(i_entry);
 
       BOOST_CHECK(save(event_header,eh,f,i_entry));

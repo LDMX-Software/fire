@@ -40,8 +40,7 @@ Event::Event(const std::string& pass,
   /// register our event header with a data set for save/load
   //    we own the pointer in this special case so we can return both mutable
   //    and const references
-  sets_[EventHeader::NAME] = std::make_unique<h5::DataSet<EventHeader>>(
-      "events/" + EventHeader::NAME, true, header_.get());
+  sets_[EventHeader::NAME] = std::make_unique<h5::DataSet<EventHeader>>(header_.get());
   // construct rules from rule configuration parameters
   //   TODO check for regex construction failures
   for (const auto& rule : dk_rules) {
