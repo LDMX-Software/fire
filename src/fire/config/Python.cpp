@@ -14,6 +14,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <memory>
 
 namespace fire {
 namespace config {
@@ -59,8 +60,7 @@ static std::string getPyString(PyObject* pyObj) {
  *
  * @note Empty lists are NOT read in because there is no way for us
  * to know what type should be inside the list. This means list
- * parameters that can be empty need to put in a default empty list
- * value: {}.
+ * parameters that can be empty need to put in a default empty list * value: {}.
  *
  * @param object Python object to get members from
  * @return Mapping between member name and value.
@@ -187,54 +187,49 @@ Parameters run(const std::string& pythonScript, char* args[], int nargs) {
   PySys_SetArgvEx(nargs + 1, targs, 1);
 
   // the following line is what actually runs the script
-  PyObject* script = PyImport_ImportModule(cmd.c_str());
+  std::unique_ptr<FILE, int (*)(FILE*)> fp{fopen(pythonScript.c_str(),"r"),&fclose};
+  if (PyRun_SimpleFile(fp.get(), pythonScript.c_str()) != 0) {
+    // running the script executed with an error
+    PyErr_Print();
+    throw PyException("Execution of python script failed.");
+  } 
 
   // script has been run so we can
   // free up arguments to python script
   for (int i = 0; i < nargs + 1; i++) PyMem_RawFree(targs[i]);
   delete[] targs;
 
-  if (script == 0) {
+  // running a python script defines the script as the module __main__
+  //  we "import" this module which is already imported to get a handle
+  //  on the necessary objects
+  PyObject* script = PyImport_ImportModule("__main__");
+  if (!script) {
     PyErr_Print();
-    throw PyException("Problem loading python script.");
+    throw PyException("I don't know what happened. This should never happen.");
   }
 
-  PyObject* pCMod = PyObject_GetAttrString(script, root_module.c_str());
+  PyObject* pConfigObj = PyObject_GetAttrString(script, root_object.c_str());
   Py_DECREF(script);  // don't need the script anymore
-  if (pCMod == 0) {
+  if (pConfigObj == 0) {
+    // wasn't able to get root config object
     PyErr_Print();
-    throw PyException("Problem loading python script.");
-  }
-
-  PyObject* pProcessClass = PyObject_GetAttrString(pCMod, root_class.c_str());
-  Py_DECREF(pCMod);  // don't need the config module anymore
-  if (pProcessClass == 0) {
-    PyErr_Print();
-    throw PyException("Process object not defined. This object is required to run fire.");
-  }
-
-  PyObject* pProcess = PyObject_GetAttrString(pProcessClass, root_object.c_str());
-  Py_DECREF(pProcessClass);  // don't need the Process class anymore
-  if (pProcess == 0) {
-    // wasn't able to get lastProcess class member
-    PyErr_Print();
-    throw PyException("Process object not defined. This object is required to run.");
-  } else if (pProcess == Py_None) {
-    // lastProcess was left undefined
-    throw PyException("Process object not defined. This object is required to run.");
+    throw PyException("Unable to find root configuration object "+root_object+". This object is required to run.");
+  } else if (pConfigObj == Py_None) {
+    // root config object left undefined
+    throw PyException("Root configuration object "+root_object+" not defined. This object is required to run.");
   }
 
   // okay, now we have fully imported the script and gotten the handle
-  // to the last Process object defined in the script.
-  // We can now look at pProcess and get all of our parameters out of it.
+  // to the root configuration object defined in the script.
+  // We can now look at this object and recursively get all of our parameters out of it.
 
-  Parameters configuration(getMembers(pProcess));
+  Parameters configuration(getMembers(pConfigObj));
 
   // all done with python nonsense
   // delete one parent python object
   // MEMORY still not sure if this is enough, but not super worried about it
   //  because this only happens once per run
-  Py_DECREF(pProcess);
+  Py_DECREF(pConfigObj);
   // close up python interpreter
   if (Py_FinalizeEx() < 0) {
     PyErr_Print();

@@ -3,6 +3,7 @@ find_package(Boost REQUIRED COMPONENTS unit_test_framework)
 add_executable(test_fire
   main_test.cpp
   dataset.cpp
+  config.cpp
   )
   
 target_link_libraries(test_fire

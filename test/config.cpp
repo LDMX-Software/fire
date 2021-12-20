@@ -1,153 +1,125 @@
+#include <boost/test/tools/interface.hpp>
+#define BOOST_TEST_DYN_LINK
+#include <boost/test/unit_test.hpp>
 
-#include <fstream>  // ifstream, ofstream
+#include <fstream>  // writing test files
+#include <string_view> // test file literals
 
-#include "catch.hpp"  // Catch2 Macros, TEST_CASE, REQUIRE
+#include "fire/config/Python.hpp"
 
-#include "Framework/ConfigurePython.h"
-#include "Framework/EventProcessor.h"
-#include "Framework/Process.h"
+/// python class defs for testing python running of script
+std::string_view class_defs = " \n\
+class SubClass() : \n\
+    def __init__(self) : \n\
+        self.substr = 'subtest' \n\
+        self.subint = 100 \n\
+        self.vec_dict = [{'sub':3,'bla':55},{'foo':'bar','baz':'buz'}] \n\
+ \n\
+class TestRoot() : \n\
+    def __init__(self) : \n\
+        self.string = 'test' \n\
+        self.integer = 10 \n\
+        self.double = 6.9 \n\
+        self.int_vec = [1,2,3] \n\
+        self.dict = {'one':1, 'two':2} \n\
+        self.double_vec = [0.1,0.2] \n\
+        self.string_vec = ['first','second','third'] \n\
+        self.sub_class = SubClass() \n\
+        self.vec_class = [SubClass(),SubClass()] \n\
+";
 
-namespace framework {
-namespace test {
+/// declaration of test root config object with correct name
+std::string_view root_obj = "test_root = TestRoot()";
 
-/**
- * @class TestConfig
- * @brief Defines a test Producer to test the passing of configuration
- * variables
- */
-class TestConfig : public framework::Producer {
- public:
-  /**
-   * Constructor
-   *
-   * Follows the standard form for a framework::Producer.
-   *
-   * Checks that the passed name is the same as
-   * what is written to the python config script.
-   */
-  TestConfig(const std::string &name, framework::Process &process)
-      : framework::Producer(name, process) {
-    CHECK(name == "test_instance");
-  }
+/// python exception throw
+std::string_view throw_exception = "raise Exception('test python exceptions')";
 
-  /**
-   * Configure function
-   *
-   * Checks:
-   * - int parameter
-   * - double parameter
-   * - string parameter
-   * - dictionary parameter
-   * - vector of ints parameter
-   * - vector of doubles parameter
-   * - vector of strings parameter
-   */
-  void configure(framework::config::Parameters &parameters) final override {
-    // Check parameters
-    CHECK(parameters.getParameter<int>("test_int") == 9);
-    CHECK(parameters.getParameter<double>("test_double") == Approx(7.7));
-    CHECK(parameters.getParameter<std::string>("test_string") == "Yay!");
+/// change integer variable given first argument to script
+std::string_view arg_parse = "\n\
+import sys \n\
+test_root.integer = int(sys.argv[1]) \n\
+";
 
-    // Check dictionary
-    auto test_dict{
-        parameters.getParameter<framework::config::Parameters>("test_dict")};
-    CHECK(test_dict.getParameter<int>("one") == 1);
-    CHECK(test_dict.getParameter<double>("two") == 2.0);
+/// the config file we will run and load
+const std::string config_file_name{"/tmp/fire_config_python_test.py"};
 
-    // Check int vector
-    std::vector<int> int_vect{1, 2, 3};
-    auto test_int_vec{
-        parameters.getParameter<std::vector<int>>("test_int_vec")};
-    REQUIRE(test_int_vec.size() == int_vect.size());
-    for (std::size_t i{0}; i < test_int_vec.size(); i++)
-      CHECK(test_int_vec.at(i) == int_vect.at(i));
-
-    // Check double vec
-    std::vector<double> double_vec{0.1, 0.2, 0.3};
-    auto test_double_vec{
-        parameters.getParameter<std::vector<double>>("test_double_vec")};
-    REQUIRE(test_double_vec.size() == double_vec.size());
-    for (std::size_t i{0}; i < test_double_vec.size(); i++)
-      CHECK(test_double_vec.at(i) == double_vec.at(i));
-
-    // Check string vector
-    std::vector<std::string> string_vec{"first", "second", "third"};
-    auto test_string_vec{
-        parameters.getParameter<std::vector<std::string>>("test_string_vec")};
-    REQUIRE(test_string_vec.size() == string_vec.size());
-    for (std::size_t i{0}; i < test_string_vec.size(); i++)
-      CHECK(test_string_vec.at(i) == string_vec.at(i));
-  }
-
-  // I don't do anything.
-  virtual void produce(framework::Event &) {}
-};
+/// change the root config object to dummy class defined in test script
+std::string fire::config::root_object = "test_root";
 
 /**
- * @func removeFile
- * Deletes the file and returns whether the deletion was successful.
- *
- * This is just a helper function during development.
- * Sometimes it is helpful to leave the generated files, so
- * maybe we can make the removal optional?
- */
-static bool removeFile(const char *filepath) { return remove(filepath) == 0; }
-
-}  // namespace test
-}  // namespace framework
-
-DECLARE_PRODUCER_NS(framework::test, TestConfig)
-
-/**
- * Test for Configure Python class
+ * Test for reading configuration from python
  *
  * Checks:
- * - pass parameters to Process object
- * - pass parameters to EventProcessors
- * - use arguments to python script on command line
- * - TODO pass histogram info to EventProcessors
- * - TODO pass class objects to EventProcessors
+ * - recursively load classes and basic types form a python script
+ * - make sure mis-spelled or mis-typed parameters throw errors
+ * - make sure catch python errors
  */
-TEST_CASE("Configure Python Test", "[Framework][functionality]") {
-  const std::string config_file_name{"config_python_test_config.py"};
-
-  // Arguments to pass to ConfigurePython constructor
+BOOST_AUTO_TEST_CASE(config_no_arg) {
+  {
+    std::ofstream config_py(config_file_name);
+    config_py << class_defs << '\n' << root_obj << std::endl;
+  }
   char *args[1];
+  fire::config::Parameters config{fire::config::run(config_file_name, args,0)};
+  BOOST_CHECK(config.get<std::string>("string") == "test");
+  BOOST_CHECK(config.get<int>("integer") == 10);
+  BOOST_CHECK(config.get<double>("double") == 6.9);
 
-  // Process handle
-  framework::ProcessHandle p;
+  auto int_vec{config.get<std::vector<int>>("int_vec")};
+  for (std::size_t i{0}; i < int_vec.size(); i++) BOOST_CHECK(int_vec.at(i) == i+1);
 
-  // Run a check of the python configuration class without arguments.
-  SECTION("No arguments to python script") {
-    framework::ConfigurePython cfg(config_file_name, args, 0);
-    p = cfg.makeProcess();
+  auto double_vec{config.get<std::vector<double>>("double_vec")};
+  for (std::size_t i{0}; i < double_vec.size(); i++) BOOST_CHECK(double_vec.at(i) == (i+1)*0.1);
 
-    CHECK(p->getPassName() == "test");
+  auto string_vec{config.get<std::vector<std::string>>("string_vec")};
+  BOOST_CHECK(string_vec.at(0) == "first");
+  BOOST_CHECK(string_vec.at(1) == "second");
+  BOOST_CHECK(string_vec.at(2) == "third");
+
+  auto dict{config.get<fire::config::Parameters>("dict")};
+  BOOST_CHECK(dict.get<int>("one") == 1);
+  BOOST_CHECK(dict.get<int>("two") == 2);
+
+  auto sub_class{config.get<fire::config::Parameters>("sub_class")};
+  BOOST_CHECK(sub_class.get<std::string>("substr") == "subtest");
+  BOOST_CHECK(sub_class.get<int>("subint") == 100);
+
+  auto vec_dict{sub_class.get<std::vector<fire::config::Parameters>>("vec_dict")};
+  BOOST_CHECK(vec_dict.at(0).get<int>("sub") == 3);
+  BOOST_CHECK(vec_dict.at(0).get<int>("bla") == 55);
+  BOOST_CHECK(vec_dict.at(1).get<std::string>("foo") == "bar");
+  BOOST_CHECK(vec_dict.at(1).get<std::string>("baz") == "buz");
+
+  // just check that we can 'get' vector of subclasses
+  auto vec_class{config.get<std::vector<fire::config::Parameters>>("vec_class")};
+}
+BOOST_AUTO_TEST_CASE(config_one_arg) {
+  {
+    std::ofstream config_py(config_file_name);
+    config_py << class_defs << "\n" << root_obj << "\n" << arg_parse << std::endl;
   }
+  char *args[1];
+  int correct{9000};
+  char arg[16];
+  snprintf(arg,sizeof(arg),"%d",correct);
+  args[0] = arg;
+  fire::config::Parameters config{fire::config::run(config_file_name, args, 1)};
+  BOOST_CHECK(config.get<int>("integer") == correct);
+}
 
-  // Update the python config so we can pass the log frequency as a parameter.
-  std::ifstream in_file;
-  std::ofstream out_file;
-
-  in_file.open(config_file_name.c_str(), std::ios::in | std::ios::binary);
-
-  const std::string config_file_name_arg{"/tmp/config_python_test_config_arg.py"};
-  out_file.open(config_file_name_arg, std::ios::out | std::ios::binary);
-  out_file << in_file.rdbuf();
-  out_file << "import sys" << std::endl;
-  out_file << "p.logFrequency = int(sys.argv[1])" << std::endl;
-
-  in_file.close();
-  out_file.close();
-
-  // Pass the log frequency as a parameter to the process and check that it
-  // was set correctly.
-  auto correct_log_freq{9000};
-  SECTION("Single argument to python script") {
-    args[0] = "9000";
-    framework::ConfigurePython cfg(config_file_name_arg, args, 1);
-    p = cfg.makeProcess();
-
-    CHECK(p->getLogFrequency() == correct_log_freq);
+BOOST_AUTO_TEST_CASE(config_no_root) {
+  {
+    std::ofstream config_py(config_file_name);
+    config_py << class_defs << std::endl;
   }
+  char *args[1];
+  BOOST_CHECK_THROW(fire::config::run(config_file_name,args,0), fire::config::PyException);
+}
+BOOST_AUTO_TEST_CASE(config_py_except) {
+  {
+    std::ofstream config_py(config_file_name);
+    config_py << class_defs << "\n" << throw_exception << "\n" << root_obj << std::endl;
+  }
+  char *args[1];
+  BOOST_CHECK_THROW(fire::config::run(config_file_name,args,0), fire::config::PyException);
 }

@@ -11,12 +11,13 @@ namespace fire {
 namespace config {
 
 /**
- * namespace variables defining where to look for "root"
+ * namespace variable defining where to look for "root"
  * object to kickoff the parameter extraction from python.
+ *
+ * @note This variable must be defined in any executable that wishes
+ * to use fire::config::run.
  */
-std::string root_module = "firecfg";
-std::string root_class = "Process";
-std::string root_object = "lastProcess";
+extern std::string root_object;
 
 class PyException : public std::runtime_error {
  public:
