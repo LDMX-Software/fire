@@ -44,20 +44,20 @@ class Writer {
   template <typename AtomicType>
   void save(const std::string& path, long unsigned int i,
             const AtomicType& val) {
-    static_assert(std::is_arithmetic_v<AtomicType> || std::is_same_v<AtomicType,std::string>,
-                  "Non-atomic type made its way to save");
+    static_assert(std::is_constructible_v<HighFive::AtomicType<AtomicType>>,
+        "Type unsupported by HighFive as Atomic made its way to Writer::save");
     if (file_.exist(path)) {
       // we've already created the dataset for this path
       HighFive::DataSet set = file_.getDataSet(path);
       std::vector<std::size_t> curr_dims = set.getDimensions();
-      if (curr_dims.at(0) < i + 1) {
-        set.resize({i + 1});
+      if (curr_dims.at(0) < i+1) {
+        set.resize({i+1});
       }
       set.select({i}, {1}).write(val);
     } else {
       // we need to create a fully new dataset
       static const std::vector<size_t> limit = {HighFive::DataSpace::UNLIMITED};
-      std::vector<size_t> initial_size = {entries_+1};
+      std::vector<size_t> initial_size = {entries_};
       HighFive::DataSpace space(initial_size, limit);
       HighFive::DataSetCreateProps props;
       // NOTE this is where chunking is done

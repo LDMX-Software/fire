@@ -129,6 +129,10 @@ BOOST_AUTO_TEST_CASE(dataset) {
 
     for (std::size_t i_entry{0}; i_entry < doubles.size(); i_entry++) {
       eh.setEventNumber(i_entry);
+      // check dynamic parameters
+      eh.set("istring",std::to_string(i_entry));
+      eh.set("int",int(i_entry));
+      eh.set("float",float(i_entry*10.));
 
       BOOST_CHECK(save(event_header,eh,f,i_entry));
       BOOST_CHECK(save(double_ds,doubles.at(i_entry),f,i_entry));
@@ -172,6 +176,8 @@ BOOST_AUTO_TEST_CASE(dataset) {
   { // Reading
     fire::h5::Reader f{filename};
 
+    fire::EventHeader eh;
+    fire::h5::DataSet<fire::EventHeader> event_header(&eh);
     fire::h5::DataSet<double> double_ds("double",true);
     fire::h5::DataSet<int>    int_ds("int",true);
     fire::h5::DataSet<bool>   bool_ds("bool",true);
@@ -187,6 +193,13 @@ BOOST_AUTO_TEST_CASE(dataset) {
     fire::h5::DataSet<std::map<int,Cluster>> map_cluster_ds("map_cluster",true);
 
     for (std::size_t i_entry{0}; i_entry < doubles.size(); i_entry++) {
+      event_header.load(f, i_entry);
+
+      BOOST_CHECK(eh.getEventNumber() == i_entry);
+      BOOST_CHECK(eh.get<std::string>("istring") == std::to_string(i_entry));
+      BOOST_CHECK(eh.get<int>("int") == i_entry);
+      BOOST_CHECK(eh.get<float>("float") == 10.*i_entry);
+      
       BOOST_CHECK(load(double_ds,doubles.at(i_entry),f,i_entry));
       BOOST_CHECK(load(int_ds,ints.at(i_entry),f,i_entry));
       bool positive{ints.at(i_entry) > 0};

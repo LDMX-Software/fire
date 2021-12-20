@@ -121,15 +121,6 @@ class EventHeader {
  private:
   /// allow data set access for reading/writing
   friend class h5::DataSet<EventHeader>;
-  /// TEMPORARY, for now attach the stuff that isn't a parameter or the timestamp
-  /*
-  void attach(h5::DataSet<EventHeader>& set) {
-    set.attach("number",number_);
-    set.attach("run",run_);
-    set.attach("weight",weight_);
-    set.attach("isRealData",isRealData_);
-  }
-  */
 
   /**
    * The event number.

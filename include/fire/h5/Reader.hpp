@@ -56,8 +56,8 @@ class Reader {
    */
   template <typename AtomicType>
   void load(const std::string& path, long unsigned int i, AtomicType& val) {
-    static_assert(std::is_arithmetic_v<AtomicType> || std::is_same_v<AtomicType, std::string>,
-                  "Non-atomic type made its way to load");
+    static_assert(std::is_constructible_v<HighFive::AtomicType<AtomicType>>,
+                  "Type not supported by HighFive atomic made its way to Reader::load");
     HighFive::DataSet ds = file_.getDataSet(path);
     ds.select({i}, {1}).read(val);
   }
