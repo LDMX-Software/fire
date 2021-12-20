@@ -63,7 +63,7 @@ class BaseDataSet {
     if (should_save_) save(f,i);
   }
 
- private:
+ protected:
   /// should we save this data set into output file?
   bool should_save_;
 };
@@ -248,7 +248,7 @@ class DataSet : public AbstractDataSet<DataType> {
   template <typename MemberType>
   void attach(std::string const& name, MemberType& m) {
     members_.push_back(
-        std::make_unique<DataSet<MemberType>>(this->name_ + "/" + name, &m));
+        std::make_unique<DataSet<MemberType>>(this->name_ + "/" + name, this->should_save_, &m));
   }
 
  private:

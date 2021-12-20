@@ -69,12 +69,13 @@ class Writer {
       std::vector<size_t> initial_size = {entries_+1};
       HighFive::DataSpace space(initial_size, limit);
       HighFive::DataSetCreateProps props;
-      props.add(HighFive::Chunking(
-          {rows_per_chunk_}));  // NOTE this is where chunking is done
+      // NOTE this is where chunking is done
+      props.add(HighFive::Chunking({rows_per_chunk_}));
       // TODO compression
       // TODO creation options in this function
-      HighFive::DataSet set = file_.createDataSet(
-          path, space, HighFive::AtomicType<AtomicType>(), props, {}, true);
+      // set access properties to their default
+      // and create parents to 'true' (default - create necessary groups along the way)
+      HighFive::DataSet set = file_.createDataSet(path, space, HighFive::AtomicType<AtomicType>(), props);
       set.select({i}, {1}).write(val);
     }
   }
