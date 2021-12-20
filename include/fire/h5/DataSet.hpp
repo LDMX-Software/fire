@@ -9,8 +9,7 @@
 #include "fire/h5/Reader.hpp"
 #include "fire/h5/Writer.hpp"
 
-namespace fire {
-namespace h5 {
+namespace fire::h5 {
 
 /**
  * @class BaseDataSet
@@ -425,8 +424,7 @@ class DataSet<std::map<KeyType,ValType>>
   unsigned long int i_data_entry_;
 };  // DataSet<std::map>
 
-}  // namespace h5
-}  // namespace fire
+}  // namespace fire::h5
 
 #endif  // FIRE_H5_DATASET_HPP
 

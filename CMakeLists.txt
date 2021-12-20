@@ -60,6 +60,13 @@ add_library(fire_config SHARED src/fire/config/Python.cpp)
 target_link_libraries(fire_config PUBLIC Python3::Python)
 target_include_directories(fire_config PUBLIC include)
 
+add_library(fire_h5 SHARED
+  src/fire/h5/Writer.cpp
+  src/fire/h5/Reader.cpp
+  src/fire/h5/DataSet.cpp)
+target_link_libraries(fire_h5 PUBLIC HighFive fire_config)
+target_include_directories(fire_h5 PUBLIC include)
+
 add_library(fire_framework SHARED
   src/fire/Event.cpp
   src/fire/EventHeader.cpp
@@ -67,7 +74,7 @@ add_library(fire_framework SHARED
   src/fire/Process.cpp
   src/fire/RunHeader.cpp)
 target_include_directories(fire_framework PUBLIC include)
-target_link_libraries(fire_framework PUBLIC Boost::log fire_exception fire_config fire_factory HighFive)
+target_link_libraries(fire_framework PUBLIC Boost::log fire_exception fire_config fire_factory fire_h5)
 
 # Compiling the fire library requires features introduced by the cpp 17
 # standard.

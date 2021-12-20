@@ -7,8 +7,7 @@
 // configuration parameters
 #include "fire/config/Parameters.hpp"
 
-namespace fire {
-namespace h5 {
+namespace fire::h5 {
 
 /**
  * A HighFive::File specialized to fire's usecase.
@@ -23,25 +22,17 @@ class Writer {
    * Open the file in write mode
    *  our write == HDF5 TRUNC (overwrite) mode
    */
-  Writer(const config::Parameters& ps)
-      : file_(ps.get<std::string>("name"), HighFive::File::Create | HighFive::File::Truncate),
-        rows_per_chunk_{ps.get<int>("rows_per_chunk")} {
-          entries_ = ps.get<int>("event_limit");
-        }
+  Writer(const config::Parameters& ps);
 
   /**
    * Close up our file, making sure to flush contents to disk if writing
    */
-  ~Writer() {
-    file_.flush();
-  }
+  ~Writer();
 
   /**
    * Get the name of this file
    */
-  const std::string& name() const {
-    return file_.getName();
-  }
+  const std::string& name() const;
 
   /**
    * Get the number of entries in the file
@@ -93,7 +84,6 @@ class Writer {
   std::size_t entries_{0};
 };
 
-}  // namespace h5
-}  // namespace fire
+}  // namespace fire::h5
 
 #endif  // FIRE_H5_WRITER_HPP

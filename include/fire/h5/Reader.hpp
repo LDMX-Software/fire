@@ -4,8 +4,7 @@
 // using HighFive
 #include <highfive/H5File.hpp>
 
-namespace fire {
-namespace h5 {
+namespace fire::h5 {
 
 /**
  * A HighFive::File specialized to fire's usecase.
@@ -19,18 +18,12 @@ class Reader {
    * Open the file in read mode
    *  our read  == HDF5 Read Only mode
    */
-  Reader(const std::string& name)
-      : file_(name) {
-          // TODO unify this with the event header constant
-          entries_ = file_.getDataSet("events/EventHeader/number").getDimensions().at(0);
-        }
+  Reader(const std::string& name);
 
   /**
    * Get the name of this file
    */
-  const std::string& name() const {
-    return file_.getName();
-  }
+  const std::string& name() const;
 
   /**
    * Get the number of entries in the file
@@ -61,7 +54,6 @@ class Reader {
   std::size_t entries_{0};
 };
 
-}  // namespace h5
-}  // namespace fire
+}  // namespace fire::h5
 
 #endif  // FIRE_H5_READER_HPP
