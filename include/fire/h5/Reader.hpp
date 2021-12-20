@@ -16,6 +16,8 @@ class Reader {
  public:
   /// the name of the event header data set
   static const std::string EVENT_HEADER_NAME;
+  /// the name of the group holding all of the events
+  static const std::string EVENT_GROUP;
  public:
   /**
    * Open the file in read mode
@@ -29,6 +31,20 @@ class Reader {
   const std::string& name() const;
 
   /**
+   * List the entries inside of a group.
+   *
+   * @note This is low-level and is only being used 
+   * in the EventHeader and RunHeader serialization specializations
+   * for more flexibility in their parameter maps.
+   */
+  std::vector<std::string> list(const std::string& group_path) const;
+
+  /**
+   * Deduce the type of the dataset requested.
+   */
+  HighFive::DataTypeClass getDataSetType(const std::string& dataset) const;
+
+  /**
    * Get the number of entries in the file
    */
   inline std::size_t entries() const {
@@ -40,8 +56,8 @@ class Reader {
    */
   template <typename AtomicType>
   void load(const std::string& path, long unsigned int i, AtomicType& val) {
-    static_assert(std::is_arithmetic_v<AtomicType>,
-                  "Non-arithmetic type made its way to load");
+    static_assert(std::is_arithmetic_v<AtomicType> || std::is_same_v<AtomicType, std::string>,
+                  "Non-atomic type made its way to load");
     HighFive::DataSet ds = file_.getDataSet(path);
     ds.select({i}, {1}).read(val);
   }

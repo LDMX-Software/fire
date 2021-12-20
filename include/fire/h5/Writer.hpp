@@ -44,8 +44,8 @@ class Writer {
   template <typename AtomicType>
   void save(const std::string& path, long unsigned int i,
             const AtomicType& val) {
-    static_assert(std::is_arithmetic_v<AtomicType>,
-                  "Non-arithmetic type made its way to save");
+    static_assert(std::is_arithmetic_v<AtomicType> || std::is_same_v<AtomicType,std::string>,
+                  "Non-atomic type made its way to save");
     if (file_.exist(path)) {
       // we've already created the dataset for this path
       HighFive::DataSet set = file_.getDataSet(path);
