@@ -135,7 +135,7 @@ class EventHeader {
   /**
    * The event timestamp
    */
-  int timestamp_;
+  long int timestamp_;
 
   /**
    * The event weight.

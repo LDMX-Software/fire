@@ -4,6 +4,8 @@
 // using HighFive
 #include <highfive/H5File.hpp>
 
+#include "fire/h5/Atomic.hpp"
+
 // configuration parameters
 #include "fire/config/Parameters.hpp"
 
@@ -44,7 +46,7 @@ class Writer {
   template <typename AtomicType>
   void save(const std::string& path, long unsigned int i,
             const AtomicType& val) {
-    static_assert(std::is_constructible_v<HighFive::AtomicType<AtomicType>>,
+    static_assert(is_atomic_v<AtomicType>,
         "Type unsupported by HighFive as Atomic made its way to Writer::save");
     if (file_.exist(path)) {
       // we've already created the dataset for this path

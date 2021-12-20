@@ -4,6 +4,8 @@
 // using HighFive
 #include <highfive/H5File.hpp>
 
+#include "fire/h5/Atomic.hpp"
+
 namespace fire::h5 {
 
 /**
@@ -56,7 +58,7 @@ class Reader {
    */
   template <typename AtomicType>
   void load(const std::string& path, long unsigned int i, AtomicType& val) {
-    static_assert(std::is_constructible_v<HighFive::AtomicType<AtomicType>>,
+    static_assert(is_atomic_v<AtomicType>,
                   "Type not supported by HighFive atomic made its way to Reader::load");
     HighFive::DataSet ds = file_.getDataSet(path);
     ds.select({i}, {1}).read(val);

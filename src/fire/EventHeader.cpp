@@ -17,7 +17,7 @@ DataSet<EventHeader>::DataSet(EventHeader* handle)
       this->name_ + "/weight", true, &(handle->weight_)));
   members_.push_back(std::make_unique<DataSet<bool>>(
       this->name_ + "/isRealData", true, &(handle->isRealData_)));
-  members_.push_back(std::make_unique<DataSet<int>>(
+  members_.push_back(std::make_unique<DataSet<long int>>(
       this->name_ + "/timestamp", true, &(handle->timestamp_)));
 }
 

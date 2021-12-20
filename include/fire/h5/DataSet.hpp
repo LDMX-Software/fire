@@ -262,7 +262,7 @@ class DataSet : public AbstractDataSet<DataType> {
  * we can start actually calling the file load and save methods.
  */
 template <typename AtomicType>
-class DataSet<AtomicType, std::enable_if_t<std::is_arithmetic_v<AtomicType> || std::is_same_v<AtomicType,std::string>>>
+class DataSet<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
     : public AbstractDataSet<AtomicType> {
  public:
   /**
