@@ -12,19 +12,6 @@ namespace fire {
 class RunHeader {
  public:
   static const std::string NAME;
-  /**
-   * Constructor.
-   *
-   * @param runNumber The run number uniquely identifying this run
-   */
-  RunHeader(int runNumber);
-
-  /**
-   * Default constructor.
-   *
-   * @note This exists for filling the object from a ROOT branch.
-   */
-  RunHeader() = default;
 
   /** @return The run number. */
   int getRunNumber() const { return runNumber_; }
@@ -56,11 +43,14 @@ class RunHeader {
   int getRunStart() const { return runStart_; }
 
   /**
-   * Set the run start time in seconds since epoch.
+   * Start the run. Provide the run number and recorde the timestamp.
    *
-   * @param[in] runStart the start time of the run.
+   * @param[in] run the run number
    */
-  void setRunStart(const int runStart) { runStart_ = runStart; }
+  void setRunStart(const int run) { 
+    runStart_ = std::time(nullptr);
+    number_ = run;
+  }
 
   /**
    * Get the end time of the run in seconds since epoch.
@@ -163,6 +153,29 @@ class RunHeader {
   /** Print a string desciption of this object. */
   void Print() const;
 
+  /// get a parameter
+  template<typename ParameterType>
+  const ParameterType& get(const std::string& name) const {
+    try {
+      return std::get<ParameterType>(parameters_.at(name));
+    } catch(const std::bad_variant_access&) {
+      throw std::runtime_error("Event parameter named "+name+" is not type "+boost::core::demangle(typeid(ParameterType).name()));
+    } catch(const std::out_of_range&) {
+      throw std::runtime_error("Event parameter named "+name+" not found.");
+    }
+  }
+
+  /// set a parameter
+  template<typename ParameterType>
+  void set(const std::string& name, const ParameterType& val) {
+    static_assert(
+        std::is_same_v<ParameterType,int> ||
+        std::is_same_v<ParameterType,float> ||
+        std::is_same_v<ParameterType,std::string>,
+        "EventHeader parameters are only allowed to be float, int, or std::string.");
+    parameters_[name] = val;
+  }
+
   /**
    * Stream this object to an output stream
    *
@@ -189,7 +202,7 @@ class RunHeader {
 
  private:
   /** Run number. */
-  int runNumber_{0};
+  int number_{0};
 
   /** Detector name. */
   std::string detectorName_{""};
@@ -220,6 +233,23 @@ class RunHeader {
 
 };  // RunHeader
 
+namespace h5 {
+/**
+ * DataSet specialization of EventHeader
+ */
+template<>
+class DataSet<RunHeader> : public AbstractDataSet<RunHeader> {
+ public:
+  DataSet(RunHeader* handle);
+  void load(Reader& r, long unsigned int i);
+  void save(Writer& w, long unsigned int i);
+ private:
+  /// the hard list of members that are definitely load/saved
+  std::vector<std::unique_ptr<BaseDataSet>> members_;
+  /// the dynamic parameter listing (parallel to parameters_ member variable)
+  std::unordered_map<std::string, std::unique_ptr<BaseDataSet>> parameters_;
+};
+}
 }  // namespace fire 
 
 #endif

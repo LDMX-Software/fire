@@ -8,10 +8,7 @@
 #include <string>
 #include <variant>
 
-#include <boost/core/demangle.hpp>
-
-#include "fire/h5/DataSet.hpp"
-#include "fire/h5/Reader.hpp"
+#include "fire/h5/ParameterStorage.hpp"
 
 namespace fire {
 
@@ -98,29 +95,26 @@ class EventHeader {
   /// get a parameter
   template<typename ParameterType>
   const ParameterType& get(const std::string& name) const {
-    try {
-      return std::get<ParameterType>(parameters_.at(name));
-    } catch(const std::bad_variant_access&) {
-      throw std::runtime_error("Event parameter named "+name+" is not type "+boost::core::demangle(typeid(ParameterType).name()));
-    } catch(const std::out_of_range&) {
-      throw std::runtime_error("Event parameter named "+name+" not found.");
-    }
+    return parameters_.get<ParameterType>(name);
   }
 
   /// set a parameter
   template<typename ParameterType>
   void set(const std::string& name, const ParameterType& val) {
-    static_assert(
-        std::is_same_v<ParameterType,int> ||
-        std::is_same_v<ParameterType,float> ||
-        std::is_same_v<ParameterType,std::string>,
-        "EventHeader parameters are only allowed to be float, int, or std::string.");
-    parameters_[name] = val;
+    parameters_.set(name,val);
   }
 
  private:
   /// allow data set access for reading/writing
   friend class h5::DataSet<EventHeader>;
+  void attach(h5::DataSet<EventHeader>& set) {
+    set.attach("number",number_);
+    set.attach("run",run_);
+    set.attach("timestamp",timestamp_);
+    set.attach("weight",weight_);
+    set.attach("isRealData",isRealData_);
+    set.attach("parameters",parameters_);
+  }
 
   /**
    * The event number.
@@ -151,28 +145,8 @@ class EventHeader {
    * Event parameters
    *  three types of parameters are allowed: int, float, string
    */
-  std::unordered_map<std::string, std::variant<int,float,std::string>> parameters_;
+  h5::ParameterStorage parameters_;
 };
-
-namespace h5 {
-
-/**
- * DataSet specialization of EventHeader
- */
-template<>
-class DataSet<EventHeader> : public AbstractDataSet<EventHeader> {
- public:
-  DataSet(EventHeader* handle);
-  void load(Reader& r, long unsigned int i);
-  void save(Writer& w, long unsigned int i);
- private:
-  /// the hard list of members that are definitely load/saved
-  std::vector<std::unique_ptr<BaseDataSet>> members_;
-  /// the dynamic parameter listing (parallel to parameters_ member variable)
-  std::unordered_map<std::string, std::unique_ptr<BaseDataSet>> parameters_;
-};
-
-}
 
 }  // namespace fire
 
