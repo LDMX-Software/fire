@@ -32,7 +32,7 @@ class BaseDataSet {
    * in-memory data set (should_save == false) or a data set
    * that should be saved into the output file (should_save == true).
    */
-  BaseDataSet(bool should_save) : should_save_{should_save} {}
+  explicit BaseDataSet(bool should_save) : should_save_{should_save} {}
 
   /**
    * virtual destructor so inherited classes can be properly destructed.
@@ -97,7 +97,7 @@ class AbstractDataSet : public BaseDataSet {
    * @param[in] name name of dataset
    * @param[in] handle address of object already created (optional)
    */
-  AbstractDataSet(std::string const& name, bool should_save, DataType* handle = nullptr)
+  explicit AbstractDataSet(std::string const& name, bool should_save, DataType* handle = nullptr)
       : BaseDataSet(should_save), name_{name}, owner_{handle == nullptr} {
     if (owner_) {
       handle_ = new DataType;
@@ -214,7 +214,7 @@ class DataSet : public AbstractDataSet<DataType> {
    * pointed to by our handle. This allows us to register
    * its member variables with our own 'attach' method.
    */
-  DataSet(std::string const& name, bool should_save, DataType* handle = nullptr)
+  explicit DataSet(std::string const& name, bool should_save, DataType* handle = nullptr)
       : AbstractDataSet<DataType>(name, should_save, handle) {
     this->handle_->attach(*this);
   }
@@ -270,7 +270,7 @@ class DataSet<AtomicType, std::enable_if_t<std::is_arithmetic_v<AtomicType>>>
    * We don't do any more initialization except which is handled by the
    * AbstractDataSet
    */
-  DataSet(std::string const& name, bool should_save, AtomicType* handle = nullptr)
+  explicit DataSet(std::string const& name, bool should_save, AtomicType* handle = nullptr)
       : AbstractDataSet<AtomicType>(name, should_save, handle) {}
   /**
    * Call the H5Easy::load method with our atomic type and our name
@@ -303,7 +303,7 @@ class DataSet<std::vector<ContentType>>
    * We create two child data sets, one to hold the successive sizes of the
    * vectors and one to hold all of the data in all of the vectors serially.
    */
-  DataSet(std::string const& name, bool should_save, std::vector<ContentType>* handle = nullptr)
+  explicit DataSet(std::string const& name, bool should_save, std::vector<ContentType>* handle = nullptr)
       : AbstractDataSet<std::vector<ContentType>>(name, should_save, handle),
         size_{name + "/size",should_save},
         data_{name + "/data",should_save},
@@ -370,7 +370,7 @@ class DataSet<std::map<KeyType,ValType>>
    * We create three child data sets, one for the successive sizes
    * of the maps and two to hold all the keys and values serially.
    */
-  DataSet(std::string const& name, bool should_save, std::map<KeyType,ValType>* handle = nullptr)
+  explicit DataSet(std::string const& name, bool should_save, std::map<KeyType,ValType>* handle = nullptr)
       : AbstractDataSet<std::map<KeyType,ValType>>(name, should_save, handle),
         size_{name + "/size",should_save},
         keys_{name + "/keys",should_save},
