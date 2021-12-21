@@ -161,6 +161,21 @@ class Event {
     }
   }
 
+  /**
+   * Get a test event bus.
+   *
+   * @note This should only be used for testing!.
+   */
+  static Event test() {
+    return Event("test",{});
+  }
+
+  /// Delete the copy constructor to prevent any in-advertent copies.
+  Event(const Event&) = delete;
+
+  /// Delete the assignment operator to prevent any in-advertent copies
+  void operator=(const Event&) = delete;
+
  private:
   /**
    * Deduce full data set name given a pass or using our pass

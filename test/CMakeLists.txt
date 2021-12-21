@@ -5,6 +5,7 @@ add_executable(test_fire
   dataset.cpp
   config.cpp
   process.cpp
+  processor.cpp
   )
   
 target_link_libraries(test_fire

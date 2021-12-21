@@ -221,6 +221,8 @@ bool Process::process(const std::size_t& n, std::size_t& i_output_file) {
     event_.save(output_file_, i_output_file++);
   }
 
+  event_.next();
+
   return true;
 }
 

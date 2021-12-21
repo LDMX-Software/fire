@@ -172,7 +172,7 @@ class AbstractDataSet : public BaseDataSet {
   /// we own the object in memory
   bool owner_;
   /// have we been updated?
-  bool updated_;
+  bool updated_{false};
 };  // AbstractDataSet
 
 /**

@@ -280,7 +280,7 @@ class Analyzer : public Processor {
  */
 #define DECLARE_PROCESSOR(CLASS)                                         \
   std::unique_ptr<fire::Processor> CLASS##_ldmx_make(                    \
-      const config::Parameters &ps) {                                    \
+      const fire::config::Parameters &ps) {                              \
     return std::make_unique<CLASS>(ps);                                  \
   }                                                                      \
   __attribute__((constructor)) static void CLASS##_ldmx_declare() {      \
@@ -299,7 +299,7 @@ class Analyzer : public Processor {
 #define DECLARE_PROCESSOR_NS(NS, CLASS)                                     \
   namespace NS {                                                            \
   std::unique_ptr<fire::Processor> CLASS##_ldmx_make(                       \
-      const config::Parameters &ps) {                                       \
+      const fire::config::Parameters &ps) {                                 \
     return std::make_unique<CLASS>(ps);                                     \
   }                                                                         \
   __attribute__((constructor)) static void CLASS##_ldmx_declare() {         \
