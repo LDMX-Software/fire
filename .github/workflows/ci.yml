@@ -1,0 +1,39 @@
+
+name: CI
+
+on:
+  push:
+    branches:
+      - '**'
+    tags:
+      - 'v*.*'
+    paths-ignore:
+      - '**.md'
+
+# workflow consists of one building and testing job
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+    - 
+      name: Get Repository
+      uses: actions/checkout@v2
+      with:
+        submodules: 'recursive'
+    -
+      name: Test the Build
+      run: |
+        source .github/rootless-env.sh
+        ldmx cmake -B build -S .
+        cd build
+        ldmx make test
+        ldmx make install
+    -
+      name: Test CMake Loading in Another Module
+      run: |
+        cd test/module
+        ldmx cmake -B build -S .
+
