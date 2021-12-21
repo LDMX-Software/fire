@@ -16,14 +16,16 @@ Besides this core functionality of processors looking at data event-by-event, th
 
 ## Features
 - Dynamic loading of libraries containing processors
-- Dynamic creation of registered processors
-- Basic interface to a conditions system
+- Dynamic creation of registered processors using their full C++ class name
 - Header for event-wide information
 - Header for run-wide information
-- Serialization of user-defined classes
-- Configuration through Python
+- Simple serialization of user-defined classes allowing for quick h5py-based analyses
+- Configuration through running a python script
 - Drop/Keep Rules: Regex-based rules for copying data from input file to output file
   or choosing to _not_ save data created during processing
+- Modern CMake infrasture enabling simple `find_package(fire)` syntax
+
+- Basic interface to a conditions system
 - Veto: Voting system for processors to decide on if entire event
   should be saved into the output file
 - Logging through Boost (optional)
