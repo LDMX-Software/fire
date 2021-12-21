@@ -92,6 +92,10 @@ BOOST_AUTO_TEST_CASE(config_no_arg) {
 
   // just check that we can 'get' vector of subclasses
   auto vec_class{config.get<std::vector<fire::config::Parameters>>("vec_class")};
+
+  // check that mis-spells and mis-types throw errors
+  BOOST_CHECK_THROW(config.get<double>("integer"), fire::config::Parameters::Exception);
+  BOOST_CHECK_THROW(config.get<double>("doubl"), fire::config::Parameters::Exception);
 }
 BOOST_AUTO_TEST_CASE(config_one_arg) {
   {

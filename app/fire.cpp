@@ -52,11 +52,11 @@ int main(int argc, char* argv[]) {
   } catch (fire::config::PyException& e) {
     std::cerr << "[Python Error] " << e.what() << std::endl;
     return 1;
-  } catch (fire::config::Exception& e) {
+  } catch (fire::config::Parameters::Exception& e) {
     std::cerr << "[Config Error] " << e.what() << std::endl;
     return 2;
   } catch (fire::factory::Exception& e) {
-    std::cerr << "[Factory Error] " << e.what() << std::endl;
+    std::cerr << "[Creation Error] " << e.what() << std::endl;
     return 3;
   }
 

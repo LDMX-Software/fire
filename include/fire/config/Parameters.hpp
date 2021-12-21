@@ -17,15 +17,19 @@
 namespace fire {
 namespace config {
 
-class Exception : public std::runtime_error {
- public:
-  Exception(const std::string& what) noexcept : std::runtime_error(what) {}
-};
-
 /**
  * Class encapsulating parameters for configuring a processor.
  */
 class Parameters {
+ public:
+  /**
+   * Light Exception class for parameters
+   */
+  class Exception : public std::runtime_error {
+   public:
+    Exception(const std::string& what) noexcept : std::runtime_error(what) {}
+  }; // Exception
+
  public:
   /**
    * Add a parameter to the parameter list.  If the parameter already
@@ -69,7 +73,7 @@ class Parameters {
    * @return The user specified parameter of type T.
    */
   template <typename T>
-  T get(const std::string& name) const {
+  const T& get(const std::string& name) const {
     // Check if the variable exists in the map.  If it doesn't,
     // raise an exception.
     if (not exists(name)) {
@@ -77,8 +81,7 @@ class Parameters {
     }
 
     try {
-      auto parameter = std::any_cast<T>(parameters_.at(name));
-      return parameter;
+      return std::any_cast<const T&>(parameters_.at(name));
     } catch (const std::bad_any_cast& e) {
       throw Exception("Parameter '" + name + "' of type '" +
                           boost::core::demangle(parameters_.at(name).type().name()) +
@@ -95,7 +98,7 @@ class Parameters {
    * @return the user parameter of type T
    */
   template <typename T>
-  T get(const std::string& name, const T& def) const {
+  const T& get(const std::string& name, const T& def) const {
     if (not exists(name)) return def;
 
     // get here knowing that name exists in parameters_
