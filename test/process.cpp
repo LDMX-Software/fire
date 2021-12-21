@@ -1,6 +1,7 @@
 #include <boost/test/tools/interface.hpp>
 #define BOOST_TEST_DYN_LINK
 #include <boost/test/unit_test.hpp>
+#include <highfive/H5Easy.hpp>
 
 #include "fire/Process.hpp"
 
@@ -11,15 +12,17 @@
  * - construction of event header
  * - construction of process object
  * - serialization of Event and Run Headers
+ * - event and run numbers in output files are done correctly
  */
 BOOST_AUTO_TEST_SUITE(process)
 
 BOOST_AUTO_TEST_CASE(production_mode) {
+  std::string output{"production_mode_output.h5"};
   fire::config::Parameters configuration;
   configuration.add("pass",std::string("test"));
 
   fire::config::Parameters output_file;
-  output_file.add("name", std::string("production_mode_output.h5"));
+  output_file.add("name", output);
   output_file.add("event_limit", 10);
   output_file.add("rows_per_chunk", 1000);
   configuration.add("output_file",output_file);
@@ -47,13 +50,23 @@ BOOST_AUTO_TEST_CASE(production_mode) {
     std::cerr << e.what() << std::endl;
     BOOST_CHECK(false);
   }
+
+  // check that the event and run numbers in the output file are correct
+  H5Easy::File f(output);
+  auto event_numbers = H5Easy::load<std::vector<int>>(f, fire::EventHeader::NAME+"/number");
+  std::vector<int> correct = {1,2,3,4,5,6,7,8,9,10};
+  BOOST_CHECK(event_numbers == correct);
+  auto run_numbers = H5Easy::load<std::vector<int>>(f, fire::RunHeader::NAME+"/number");
+  correct = {1};
+  BOOST_CHECK(run_numbers == correct);
 }
 BOOST_AUTO_TEST_CASE(recon_mode_single_file, *boost::unit_test::depends_on("process/production_mode")) {
+  std::string output{"recon_mode_output.h5"};
   fire::config::Parameters configuration;
   configuration.add("pass",std::string("test"));
 
   fire::config::Parameters output_file;
-  output_file.add("name", std::string("recon_mode_output.h5"));
+  output_file.add("name", output);
   output_file.add("event_limit", 10);
   output_file.add("rows_per_chunk", 1000);
   configuration.add("output_file",output_file);
@@ -83,6 +96,15 @@ BOOST_AUTO_TEST_CASE(recon_mode_single_file, *boost::unit_test::depends_on("proc
     std::cerr << e.what() << std::endl;
     BOOST_CHECK(false);
   }
+
+  // check that the event and run numbers in the output file are correct
+  H5Easy::File f(output);
+  auto event_numbers = H5Easy::load<std::vector<int>>(f, fire::EventHeader::NAME+"/number");
+  std::vector<int> correct = {1,2,3,4,5,6,7,8,9,10};
+  BOOST_CHECK(event_numbers == correct);
+  auto run_numbers = H5Easy::load<std::vector<int>>(f, fire::RunHeader::NAME+"/number");
+  correct = {1};
+  BOOST_CHECK(run_numbers == correct);
 }
 BOOST_AUTO_TEST_CASE(recon_mode_multi_file, *boost::unit_test::depends_on("process/production_mode")) {
 
@@ -107,11 +129,12 @@ BOOST_AUTO_TEST_CASE(recon_mode_multi_file, *boost::unit_test::depends_on("proce
     p.run();
   }
 
+  std::string output{"recon_mode_multi_output.h5"};
   fire::config::Parameters configuration;
   configuration.add("pass",std::string("test"));
 
   fire::config::Parameters output_file;
-  output_file.add("name", std::string("recon_mode_multi_output.h5"));
+  output_file.add("name", output);
   output_file.add("event_limit", 10);
   output_file.add("rows_per_chunk", 1000);
   configuration.add("output_file",output_file);
@@ -141,6 +164,15 @@ BOOST_AUTO_TEST_CASE(recon_mode_multi_file, *boost::unit_test::depends_on("proce
     std::cerr << e.what() << std::endl;
     BOOST_CHECK(false);
   }
+
+  // check that the event and run numbers in the output file are correct
+  H5Easy::File f(output);
+  auto event_numbers = H5Easy::load<std::vector<int>>(f, fire::EventHeader::NAME+"/number");
+  std::vector<int> correct = {1,2,3,4,5,6,7,8,9,10,1,2,3,4,5,6,7,8};
+  BOOST_CHECK(event_numbers == correct);
+  auto run_numbers = H5Easy::load<std::vector<int>>(f, fire::RunHeader::NAME+"/number");
+  correct = {2,1};
+  BOOST_CHECK(run_numbers == correct);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
