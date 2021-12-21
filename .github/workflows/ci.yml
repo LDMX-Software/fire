@@ -19,21 +19,26 @@ jobs:
         shell: bash
     steps:
     - 
-      name: Get Repository
+      name: get fire
       uses: actions/checkout@v2
       with:
         submodules: 'recursive'
     -
-      name: Test the Build
+      name: test fire
       run: |
         source .github/rootless-env.sh
+        echo "::group::Setup Environment"
+        ldmx use dev hdf5
+        ldmx base ..
+        echo "::endgroup::"
+        echo "::group::Configure Build"
         ldmx cmake -B build -S .
+        echo "::endgroup::"
+        echo "::group::Build Tests"
         cd build
         ldmx make test
+        echo "::endgroup::"
+        echo "::group::Test CMake Loading in Another Module"
         ldmx make install
-    -
-      name: Test CMake Loading in Another Module
-      run: |
-        cd test/module
+        cd ../test/module
         ldmx cmake -B build -S .
-
