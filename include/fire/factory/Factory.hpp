@@ -20,6 +20,9 @@ namespace factory {
 
 /**
  * The Factory's exception object
+ * Used by both the loadLibrary function as well as the base
+ * factory class for registration and creation of objects
+ * from prototypes.
  */
 class Exception : public std::runtime_error {
  public:

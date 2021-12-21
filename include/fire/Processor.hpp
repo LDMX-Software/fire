@@ -5,8 +5,8 @@
 /*   fire   */
 /*~~~~~~~~~~~~~~~*/
 //#include "fire/Conditions.h"
-#include "fire/config/Parameters.hpp"
 #include "fire/Event.hpp"
+#include "fire/config/Parameters.hpp"
 #include "fire/exception/Exception.hpp"
 //#include "fire/Logger.hpp"
 #include "fire/RunHeader.hpp"
@@ -86,7 +86,7 @@ class Processor {
    * @note Only available to producers.
    * @param run header
    */
-  virtual void beforeNewRun(RunHeader& runHeader) = 0;
+  virtual void beforeNewRun(RunHeader &runHeader) = 0;
 
   /**
    * Callback for the Processor to take any necessary
@@ -101,7 +101,7 @@ class Processor {
    * @param filename Input event file name.
    * @note This callback is rarely used.
    */
-  virtual void onFileOpen(const std::string& file_name) {}
+  virtual void onFileOpen(const std::string &file_name) {}
 
   /**
    * Callback for the Processor to take any necessary
@@ -109,7 +109,7 @@ class Processor {
    * @param filename Input event file name
    * @note This callback is rarely used.
    */
-  virtual void onFileClose(const std::string& file_name) {}
+  virtual void onFileClose(const std::string &file_name) {}
 
   /**
    * Callback for the Processor to take any necessary
@@ -162,7 +162,8 @@ class Processor {
                                    const std::string &, Process &>;
 
   /// have the derived processors do what they need to do
-  virtual void process(Event& event) = 0;
+  virtual void process(Event &event) = 0;
+
  protected:
   /**
    * Abort the event immediately.
@@ -172,7 +173,7 @@ class Processor {
   void abortEvent() { throw AbortEventException(); }
 
   /// The logger for this Processor
-  //logging::logger theLog_;
+  // logging::logger theLog_;
 
  private:
   /**
@@ -189,7 +190,7 @@ class Processor {
   std::string name_;
 
   /// handle to current process
-  Process& process_;
+  Process &process_;
 };
 
 /**
@@ -236,9 +237,7 @@ class Producer : public Processor {
    * 'final override' so that downstream processors
    * can't modify how this processor processes
    */
-  virtual void process(Event& event) final override {
-    produce(event);
-  }
+  virtual void process(Event &event) final override { produce(event); }
 };
 
 /**
@@ -272,7 +271,7 @@ class Analyzer : public Processor {
    * by doing a final override to prevent analyzers
    * from implementing this function.
    */
-  virtual void beforeNewRun(RunHeader&) final override {}
+  virtual void beforeNewRun(RunHeader &) final override {}
 
   /**
    * Process the event through a const reference
@@ -286,89 +285,48 @@ class Analyzer : public Processor {
    * Marked final override so that downstream processors
    * don't change how process functions.
    */
-  virtual void process(Event& event) final override {
-    analyze(event);
-  }
+  virtual void process(Event &event) final override { analyze(event); }
 };
 
 }  // namespace fire
 
 /**
- * @def DECLARE_PRODUCER(CLASS)
+ * @def DECLARE_PROCESSOR(CLASS)
  * @param CLASS The name of the class to register, which must not be in a
- * namespace.  If the class is in a namespace, use DECLARE_PRODUCER_NS()
+ * namespace.  If the class is in a namespace, use DECLARE_PROCESSOR_NS()
  * @brief Macro which allows the fire to construct a producer given its
  * name during configuration.
- * @attention Every Producer class must call this macro or DECLARE_PRODUCER_NS()
- * in the associated implementation (.cxx) file.
+ * @attention Every processor class must call this macro or
+ * DECLARE_PROCESSOR_NS() in the associated implementation (.cxx) file.
  */
-#define DECLARE_PRODUCER(CLASS)                                               \
-  std::unique_ptr<fire::Producer> CLASS##_ldmx_make(const std::string &name,  \
-                                                    fire::Process &process) { \
-    return std::make_unique<CLASS>(name, process);                            \
-  }                                                                           \
-  __attribute__((constructor)) static void CLASS##_ldmx_declare() {           \
-    fire::Processor::Factory::get().declare(#CLASS, &CLASS##_ldmx_make);      \
+#define DECLARE_PROCESSOR(CLASS)                                               \
+  std::unique_ptr<fire::Processor> CLASS##_ldmx_make(const std::string &name,  \
+                                                     fire::Process &process) { \
+    return std::make_unique<CLASS>(name, process);                             \
+  }                                                                            \
+  __attribute__((constructor)) static void CLASS##_ldmx_declare() {            \
+    fire::Processor::Factory::get().declare(#CLASS, &CLASS##_ldmx_make);       \
   }
 
 /**
- * @def DECLARE_ANALYZER(CLASS)
- * @param CLASS The name of the class to register, which must not be in a
- * namespace.  If the class is in a namespace, use DECLARE_PRODUCER_NS()
- * @brief Macro which allows the fire to construct an analyzer given its
- * name during configuration.
- * @attention Every Analyzer class must call this macro or DECLARE_ANALYZER_NS()
- * in the associated implementation (.cxx) file.
- */
-#define DECLARE_ANALYZER(CLASS)                                               \
-  std::unique_ptr<fire::Analyzer> CLASS##_ldmx_make(const std::string &name,  \
-                                                    fire::Process &process) { \
-    return std::make_unique<CLASS>(name, process);                            \
-  }                                                                           \
-  __attribute__((constructor)) static void CLASS##_ldmx_declare() {           \
-    fire::Processor::Factory::get().declare(#CLASS, &CLASS##_ldmx_make);      \
-  }
-
-/**
- * @def DECLARE_PRODUCER_NS(NS,CLASS)
+ * @def DECLARE_PROCESSOR_NS(NS,CLASS)
  * @param NS The full namespace specification for the Producer
  * @param CLASS The name of the class to register
  * @brief Macro which allows the fire to construct a producer given its
  * name during configuration.
- * @attention Every Producer class must call this macro or DECLARE_PRODUCER() in
- * the associated implementation (.cxx) file.
+ * @attention Every Producer class must call this macro or DECLARE_PROCESSOR()
+ * in the associated implementation (.cxx) file.
  */
-#define DECLARE_PRODUCER_NS(NS, CLASS)                                        \
-  namespace NS {                                                              \
-  std::unique_ptr<fire::Producer> CLASS##_ldmx_make(const std::string &name,  \
-                                                    fire::Process &process) { \
-    return std::make_unique<CLASS>(name, process);                            \
-  }                                                                           \
-  __attribute__((constructor)) static void CLASS##_ldmx_declare() {           \
-    fire::Processor::Factory::get().declare(                                  \
-        std::string(#NS) + "::" + std::string(#CLASS), &CLASS##_ldmx_make);   \
-  }                                                                           \
-  }
-
-/**
- * @def DECLARE_ANALYZER_NS(NS,CLASS)
- * @param NS The full namespace specification for the Analyzer
- * @param CLASS The name of the class to register
- * @brief Macro which allows the fire to construct an analyzer given its
- * name during configuration.
- * @attention Every Analyzer class must call this macro or DECLARE_ANALYZER() in
- * the associated implementation (.cxx) file.
- */
-#define DECLARE_ANALYZER_NS(NS, CLASS)                                        \
-  namespace NS {                                                              \
-  std::unique_ptr<fire::Analyzer> CLASS##_ldmx_make(const std::string &name,  \
-                                                    fire::Process &process) { \
-    return std::make_unique<CLASS>(name, process);                            \
-  }                                                                           \
-  __attribute__((constructor)) static void CLASS##_ldmx_declare() {           \
-    fire::Processor::Factory::get().declare(                                  \
-        std::string(#NS) + "::" + std::string(#CLASS), &CLASS##_ldmx_make);   \
-  }                                                                           \
+#define DECLARE_PROCESSOR_NS(NS, CLASS)                                        \
+  namespace NS {                                                               \
+  std::unique_ptr<fire::Processor> CLASS##_ldmx_make(const std::string &name,  \
+                                                     fire::Process &process) { \
+    return std::make_unique<CLASS>(name, process);                             \
+  }                                                                            \
+  __attribute__((constructor)) static void CLASS##_ldmx_declare() {            \
+    fire::Processor::Factory::get().declare(                                   \
+        std::string(#NS) + "::" + std::string(#CLASS), &CLASS##_ldmx_make);    \
+  }                                                                            \
   }
 
 #endif

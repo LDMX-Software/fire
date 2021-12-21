@@ -74,14 +74,14 @@ class Event {
       //   also check if new data is going to be written to output file or just
       //   used during this run without any applicable drop/keep rules, we do
       //   save these datasets
-      sets_[full_name] = std::make_unique<h5::DataSet<DataType>>(
-          full_name, keep(full_name, true));
+      sets_.emplace(full_name, std::make_unique<h5::DataSet<DataType>>(
+          full_name, keep(full_name, true)));
       products_.emplace_back(name, pass_,boost::core::demangle(typeid(DataType).name()));
     }
 
     try {
       /// maybe throw bad_cast exception
-      auto s{dynamic_cast<h5::DataSet<DataType>&>(*sets_[full_name])};
+      auto& s{dynamic_cast<h5::DataSet<DataType>&>(*sets_[full_name])};
       if (s.updated()) {
         // this data set has been updated by another processor
         throw std::runtime_error("DataSet named " + full_name +
@@ -145,8 +145,8 @@ class Event {
       //   also check if the set being read in should also be written to output
       //   file without any applicable drop/keep rules, we do NOT save these
       //   datasets
-      sets_[full_name] = std::make_unique<h5::DataSet<DataType>>(
-          full_name, keep(full_name, false));
+      sets_.emplace(full_name, std::make_unique<h5::DataSet<DataType>>(
+          full_name, keep(full_name, false)));
       //  this line may throw an error
       sets_[full_name]->load(*input_file_, i_entry_);
     }
