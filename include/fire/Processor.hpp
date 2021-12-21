@@ -19,28 +19,6 @@
 
 namespace fire {
 
-class Process;
-
-/**
- * @class AbortEventException
- *
- * @brief Specific exception used to abort an event.
- */
-class AbortEventException : public fire::exception::Exception {
- public:
-  /**
-   * Constructor
-   *
-   * Use empty Exception constructor so stack trace isn't built.
-   */
-  AbortEventException() noexcept : fire::exception::Exception() {}
-
-  /**
-   * Destructor
-   */
-  virtual ~AbortEventException() = default;
-};
-
 /**
  * @class Processor
  * @brief Base class for all event processing components
@@ -48,37 +26,45 @@ class AbortEventException : public fire::exception::Exception {
 class Processor {
  public:
   /**
-   * Class constructor.
-   * @param name Name for this instance of the class.
-   * @param process The Process class associated with Processor, provided
-   * by the fire.
+   * @class AbortEventException
    *
-   * @note The name provided to this function should not be
-   * the class name, but rather a logical label for this instance of
-   * the class, as more than one copy of a given class can be loaded
-   * into a Process with different parameters.  Names should not include
-   * whitespace or special characters.
+   * @brief Specific exception used to abort an event.
    */
-  Processor(const std::string &name, Process &process);
+  class AbortEventException : public std::exception {
+   public:
+    /**
+     * Constructor
+     *
+     * Use empty Exception constructor so stack trace isn't built.
+     */
+    AbortEventException() noexcept : std::exception() {}
+  };
 
+ public:
   /**
-   * Class destructor.
+   * Exceptions thrown by processors
    */
-  virtual ~Processor() = default;
+  class Exception : public std::runtime_error {
+   public:
+    Exception(const std::string &what) noexcept : std::runtime_error(what) {}
+  };
 
+ public:
   /**
-   * Callback for the Processor to configure itself from the
-   * given set of parameters.
+   * Class constructor.
    *
    * The parameters a processor has access to are the member variables
    * of the python class in the sequence that has className equal to
    * the Processor class name.
    *
-   * For an example, look at MyProcessor.
-   *
-   * @param parameters Parameters for configuration.
+   * @param[in] ps Parameter set to be used to configure this processor
    */
-  virtual void configure(const config::Parameters &parameters) {}
+  Processor(const config::Parameters &ps);
+
+  /**
+   * Class destructor.
+   */
+  virtual ~Processor() = default;
 
   /**
    * Callback for the processor to take any necessary
@@ -159,7 +145,7 @@ class Processor {
    * The type of factory that can be used to create processors
    */
   using Factory = factory::Factory<Processor, std::unique_ptr<Processor>,
-                                   const std::string &, Process &>;
+                                   const config::Parameters &>;
 
   /// have the derived processors do what they need to do
   virtual void process(Event &event) = 0;
@@ -181,16 +167,8 @@ class Processor {
   Conditions &getConditions() const;
    */
 
-  /**
-   * Internal getter for EventHeader without exposing all of Process
-   */
-  const EventHeader &getEventHeader() const;
-
   /** The name of the Processor. */
   std::string name_;
-
-  /// handle to current process
-  Process &process_;
 };
 
 /**
@@ -216,7 +194,7 @@ class Producer : public Processor {
    * class can be loaded into a Process with different parameters.  Names should
    * not include whitespace or special characters.
    */
-  Producer(const std::string &name, Process &process);
+  Producer(const config::Parameters &ps);
 
   /**
    * Process the event and put new data products into it.
@@ -233,7 +211,7 @@ class Producer : public Processor {
   /**
    * A producer produces when it is told to process
    *
-   * INTERNAL
+   * @note Internal Function.
    * 'final override' so that downstream processors
    * can't modify how this processor processes
    */
@@ -264,7 +242,7 @@ class Analyzer : public Processor {
    * class can be loaded into a Process with different parameters.  Names should
    * not include whitespace or special characters.
    */
-  Analyzer(const std::string &name, Process &process);
+  Analyzer(const config::Parameters &ps);
 
   /**
    * Make sure analyzers don't modify the run header
@@ -282,8 +260,9 @@ class Analyzer : public Processor {
   /**
    * An analyzer analyzes when it is told to process
    *
-   * Marked final override so that downstream processors
-   * don't change how process functions.
+   * @note Internal Function.
+   * 'final override' so that downstream processors
+   * can't modify how this processor processes
    */
   virtual void process(Event &event) final override { analyze(event); }
 };
@@ -299,13 +278,13 @@ class Analyzer : public Processor {
  * @attention Every processor class must call this macro or
  * DECLARE_PROCESSOR_NS() in the associated implementation (.cxx) file.
  */
-#define DECLARE_PROCESSOR(CLASS)                                               \
-  std::unique_ptr<fire::Processor> CLASS##_ldmx_make(const std::string &name,  \
-                                                     fire::Process &process) { \
-    return std::make_unique<CLASS>(name, process);                             \
-  }                                                                            \
-  __attribute__((constructor)) static void CLASS##_ldmx_declare() {            \
-    fire::Processor::Factory::get().declare(#CLASS, &CLASS##_ldmx_make);       \
+#define DECLARE_PROCESSOR(CLASS)                                         \
+  std::unique_ptr<fire::Processor> CLASS##_ldmx_make(                    \
+      const config::Parameters &ps) {                                    \
+    return std::make_unique<CLASS>(ps);                                  \
+  }                                                                      \
+  __attribute__((constructor)) static void CLASS##_ldmx_declare() {      \
+    fire::Processor::Factory::get().declare(#CLASS, &CLASS##_ldmx_make); \
   }
 
 /**
@@ -317,16 +296,16 @@ class Analyzer : public Processor {
  * @attention Every Producer class must call this macro or DECLARE_PROCESSOR()
  * in the associated implementation (.cxx) file.
  */
-#define DECLARE_PROCESSOR_NS(NS, CLASS)                                        \
-  namespace NS {                                                               \
-  std::unique_ptr<fire::Processor> CLASS##_ldmx_make(const std::string &name,  \
-                                                     fire::Process &process) { \
-    return std::make_unique<CLASS>(name, process);                             \
-  }                                                                            \
-  __attribute__((constructor)) static void CLASS##_ldmx_declare() {            \
-    fire::Processor::Factory::get().declare(                                   \
-        std::string(#NS) + "::" + std::string(#CLASS), &CLASS##_ldmx_make);    \
-  }                                                                            \
+#define DECLARE_PROCESSOR_NS(NS, CLASS)                                     \
+  namespace NS {                                                            \
+  std::unique_ptr<fire::Processor> CLASS##_ldmx_make(                       \
+      const config::Parameters &ps) {                                       \
+    return std::make_unique<CLASS>(ps);                                     \
+  }                                                                         \
+  __attribute__((constructor)) static void CLASS##_ldmx_declare() {         \
+    fire::Processor::Factory::get().declare(                                \
+        std::string(#NS) + "::" + std::string(#CLASS), &CLASS##_ldmx_make); \
+  }                                                                         \
   }
 
 #endif

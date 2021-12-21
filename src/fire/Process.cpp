@@ -47,19 +47,7 @@ Process::Process(const fire::config::Parameters &configuration)
   }
   for (const auto &proc : sequence) {
     auto class_name{proc.get<std::string>("class_name")};
-    auto instance_name{proc.get<std::string>("instance_name")};
-    std::unique_ptr<Processor> ep;
-    try {
-      ep = Processor::Factory::get().make(class_name, instance_name, *this);
-    } catch (const factory::Exception& e) {
-      EXCEPTION_RAISE(
-          "UnableToCreate",
-          "Unable to create instance '" + instance_name + "' of class '" +
-              class_name +
-              "'. Did you load the library that this class is apart of?");
-    }
-    ep->configure(proc);
-    sequence_.push_back(std::move(ep));
+    sequence_.emplace_back(Processor::Factory::get().make(class_name, proc));
   }
 
   /*
@@ -130,7 +118,7 @@ void Process::run() {
       /**
        * Load runs into in-memory cache
        */
-      try {
+      {
         h5::DataSet<RunHeader> read_ds{RunHeader::NAME,false};
         std::size_t num_runs = input_file.runs();
         for (std::size_t i_run{0}; i_run < num_runs; i_run++) {
@@ -138,8 +126,6 @@ void Process::run() {
           // deep copy
           input_runs[read_ds.get().getRunNumber()] = read_ds.get();
         }
-      } catch (.../*insert high five exception here*/) {
-        // rethrow
       }
 
       //ldmx_log(info) << "Opening " << input_file;
@@ -184,14 +170,13 @@ void Process::run() {
     }  // loop through input files
 
     // copy the input run headers to the output file
-    try {
+    {
       h5::DataSet<RunHeader> write_ds(RunHeader::NAME,true);
       std::size_t i_run{0};
       for (const auto& [_,rh] : input_runs) {
         write_ds.update(rh);
         write_ds.save(output_file_, i_run++);  
       }
-    } catch (.../*high five exception*/) {
     }
   }    // are there input files? if-else tree
 
@@ -227,7 +212,7 @@ bool Process::process(const std::size_t& n, std::size_t& i_output_file) {
     //storage_controller_.resetEventState();
     // go through each processor in the sequence in order
     for (auto& proc : sequence_) proc->process(event_);
-  } catch (AbortEventException &) {
+  } catch (Processor::AbortEventException& ) {
     return false;
   }
 
