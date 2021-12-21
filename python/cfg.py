@@ -24,11 +24,26 @@ class Processor:
     fire.cfg.Process.addModule : how module names are interpreted as libraries to be loaded
     """
 
-    def __init__(self, name, class_name, module):
+    def __init__(self, name, class_name, module, **kwargs):
+        self.___dict__ = kwargs
         self.name = name
         self.class_name = class_name
 
         Process.addModule(module)
+
+    def __repr__(self) :
+        """Represent this processor with its Python class name, instance name, and C++ name"""
+        return f'{self.__class__.__name__}({self.name} of class {self.class_name})'
+
+    def __str__(self) :
+        """A full str print of the processor includes the repr as well as all of its parameters"""
+        msg = f'\n {repr(self)}'
+        if len(self.__dict__) > 2 :
+            msg += '\n  Parameters:'
+            for k, v in self.__dict__.items() :
+                if k in ['name','class_name'] :
+                    msg += f'\n   {str(k)} : {str(v)}'
+        return msg
 
 class Producer(Processor):
     """A producer object.
@@ -40,25 +55,8 @@ class Producer(Processor):
     fire.cfg.Processor : base class
     """
 
-    def __init__(self, name, class_name, module)
-        super().__init__(name, class_name, module)
-
-    def __str__(self) :
-        """Stringify this Producer, creates a message with all the internal parameters.
-
-        Returns
-        -------
-        str
-            A message with all the parameters and member variables in a human readable format
-        """
-
-        msg = "\n  Producer(%s of class %s)"%(self.instanceName,self.className)
-        if len(self.__dict__)>0:
-            msg += "\n   Parameters:"
-            for k, v in self.__dict__.items():
-                msg += "\n    " + str(k) + " : " + str(v)
-
-        return msg
+    def __init__(self, name, class_name, module, **kwargs)
+        super().__init__(name, class_name, module, **kwargs)
 
 class Analyzer(Processor):
     """A analyzer object.
@@ -70,25 +68,8 @@ class Analyzer(Processor):
     fire.cfg.Processor : base class
     """
 
-    def __init__(self, name, class_name, module)
-        super().__init__(name, class_name, module)
-
-    def __str__(self) :
-        """Stringify this Analyzer, creates a message with all the internal parameters.
-
-        Returns
-        -------
-        str
-            A message with all the parameters and member variables in a human readable format
-        """
-
-        msg = "\n  Analyzer(%s of class %s)"%(self.instanceName,self.className)
-        if len(self.__dict__)>0:
-            msg += "\n   Parameters:"
-            for k, v in self.__dict__.items():
-                msg += "\n    " + str(k) + " : " + str(v)
-
-        return msg
+    def __init__(self, name, class_name, module, **kwargs)
+        super().__init__(name, class_name, module, **kwargs)
 
 class ConditionsObjectProvider:
     """A ConditionsObjectProvider
@@ -269,8 +250,8 @@ class Process:
 
     See Also
     --------
-    Producer : one type of event processor
-    Analyzer : the other type of event processor
+    fire.cfg.Producer : one type of event processor
+    fire.cfg.Analyzer : the other type of event processor
     """
 
     lastProcess=None
