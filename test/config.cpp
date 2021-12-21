@@ -54,7 +54,9 @@ std::string fire::config::root_object = "test_root";
  * - make sure mis-spelled or mis-typed parameters throw errors
  * - make sure catch python errors
  */
-BOOST_AUTO_TEST_CASE(config_no_arg) {
+BOOST_AUTO_TEST_SUITE(config)
+
+BOOST_AUTO_TEST_CASE(no_arg) {
   {
     std::ofstream config_py(config_file_name);
     config_py << class_defs << '\n' << root_obj << std::endl;
@@ -97,7 +99,7 @@ BOOST_AUTO_TEST_CASE(config_no_arg) {
   BOOST_CHECK_THROW(config.get<double>("integer"), fire::config::Parameters::Exception);
   BOOST_CHECK_THROW(config.get<double>("doubl"), fire::config::Parameters::Exception);
 }
-BOOST_AUTO_TEST_CASE(config_one_arg) {
+BOOST_AUTO_TEST_CASE(one_arg) {
   {
     std::ofstream config_py(config_file_name);
     config_py << class_defs << "\n" << root_obj << "\n" << arg_parse << std::endl;
@@ -111,7 +113,7 @@ BOOST_AUTO_TEST_CASE(config_one_arg) {
   BOOST_CHECK(config.get<int>("integer") == correct);
 }
 
-BOOST_AUTO_TEST_CASE(config_no_root) {
+BOOST_AUTO_TEST_CASE(no_root) {
   {
     std::ofstream config_py(config_file_name);
     config_py << class_defs << std::endl;
@@ -119,7 +121,7 @@ BOOST_AUTO_TEST_CASE(config_no_root) {
   char *args[1];
   BOOST_CHECK_THROW(fire::config::run(config_file_name,args,0), fire::config::PyException);
 }
-BOOST_AUTO_TEST_CASE(config_py_except) {
+BOOST_AUTO_TEST_CASE(py_except) {
   {
     std::ofstream config_py(config_file_name);
     config_py << class_defs << "\n" << throw_exception << "\n" << root_obj << std::endl;
@@ -127,3 +129,5 @@ BOOST_AUTO_TEST_CASE(config_py_except) {
   char *args[1];
   BOOST_CHECK_THROW(fire::config::run(config_file_name,args,0), fire::config::PyException);
 }
+
+BOOST_AUTO_TEST_SUITE_END()

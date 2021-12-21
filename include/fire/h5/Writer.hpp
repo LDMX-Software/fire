@@ -59,7 +59,7 @@ class Writer {
     } else {
       // we need to create a fully new dataset
       static const std::vector<size_t> limit = {HighFive::DataSpace::UNLIMITED};
-      std::vector<size_t> initial_size = {entries_};
+      std::vector<size_t> initial_size = {i+1}; // or {entries_}
       HighFive::DataSpace space(initial_size, limit);
       HighFive::DataSetCreateProps props;
       // NOTE this is where chunking is done

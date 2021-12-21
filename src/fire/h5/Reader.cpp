@@ -4,6 +4,7 @@ namespace fire::h5 {
 
 const std::string Reader::EVENT_HEADER_NAME = "EventHeader";
 const std::string Reader::EVENT_GROUP = "events";
+const std::string Reader::RUN_HEADER_NAME = "runs";
 
 Reader::Reader(const std::string& name) : file_{name} {
   // TODO unify this with the event header constant
@@ -12,6 +13,10 @@ Reader::Reader(const std::string& name) : file_{name} {
 }
 
 const std::string& Reader::name() const { return file_.getName(); }
+
+std::size_t Reader::runs() const {
+  return file_.getDataSet(RUN_HEADER_NAME+"/number").getDimensions().at(0);
+}
 
 std::vector<std::string> Reader::list(const std::string& group_path) const {
   // just return empty list of group does not exist

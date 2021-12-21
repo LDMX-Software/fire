@@ -1,5 +1,7 @@
 #include "fire/RunHeader.hpp"
 
+#include "fire/h5/Reader.hpp"
+
 /*~~~~~~~~~~~~~~~~*/
 /*   C++ StdLib   */
 /*~~~~~~~~~~~~~~~~*/
@@ -7,7 +9,7 @@
 
 namespace fire {
 
-const std::string RunHeader::NAME = "runs";
+const std::string RunHeader::NAME = h5::Reader::RUN_HEADER_NAME;
 
 void RunHeader::stream(std::ostream &s) const {
   s << "RunHeader { run: " << getRunNumber()

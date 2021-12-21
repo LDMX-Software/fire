@@ -64,6 +64,8 @@ int main(int argc, char* argv[]) {
 
   try {
     p->run();
+  } catch (const HighFive::Exception& e) {
+    std::cerr << "[H5 Error] " << e.what() << std::endl;
   } catch (fire::exception::Exception& e) {
     /*
     auto theLog_{fire::logging::makeLogger(

@@ -127,10 +127,10 @@ class RunHeader {
   std::string description_{""};
 
   /// Run start in seconds since epoch
-  int runStart_{0};
+  long int runStart_{0};
 
   /// Run end in seconds since epoch
-  int runEnd_{0};
+  long int runEnd_{0};
 
   /**
    * git SHA-1 hash associated with the software tag used to generate

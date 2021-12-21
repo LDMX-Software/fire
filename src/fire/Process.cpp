@@ -113,15 +113,8 @@ void Process::run() {
     runHeader().runEnd();
     //ldmx_log(info) << runHeader();
 
-    /**
-     * TODO write run header to output file
-     */
-    try {
-      h5::DataSet<RunHeader> write_ds{RunHeader::NAME,true,run_header_};
-      write_ds.save(output_file_,0);
-    } catch (.../*insert high five exception here*/) {
-      // rethrow
-    }
+    h5::DataSet<RunHeader> write_ds{RunHeader::NAME,true,run_header_};
+    write_ds.save(output_file_,0);
 
   } else {
     // there are input files
@@ -139,11 +132,12 @@ void Process::run() {
        */
       try {
         h5::DataSet<RunHeader> read_ds{RunHeader::NAME,false};
-        /* TODO write h5::DataSet<RunHeader>::load_all function for DataSet
-        for (const auto& rh : read_ds.load_all(input_file)) {
-          input_runs[rh.getRunNumber()] = rh;
+        std::size_t num_runs = input_file.runs();
+        for (std::size_t i_run{0}; i_run < num_runs; i_run++) {
+          read_ds.load(input_file, i_run);
+          // deep copy
+          input_runs[read_ds.get().getRunNumber()] = read_ds.get();
         }
-        */
       } catch (.../*insert high five exception here*/) {
         // rethrow
       }
@@ -154,7 +148,7 @@ void Process::run() {
       event_.setInputFile(input_file);
 
       long unsigned int max_index = input_file.entries();
-      if (max_index + n_events_processed > event_limit_) 
+      if (event_limit_ > 0 and max_index + n_events_processed > event_limit_) 
         max_index = event_limit_ - n_events_processed;
 
       for (std::size_t i_entry_file{0}; i_entry_file < max_index; i_entry_file++) {

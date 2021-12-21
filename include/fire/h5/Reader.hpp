@@ -20,6 +20,8 @@ class Reader {
   static const std::string EVENT_HEADER_NAME;
   /// the name of the group holding all of the events
   static const std::string EVENT_GROUP;
+  /// the name of the run header data set
+  static const std::string RUN_HEADER_NAME;
  public:
   /**
    * Open the file in read mode
@@ -52,6 +54,12 @@ class Reader {
   inline std::size_t entries() const {
     return entries_;
   }
+
+  /**
+   * Get the number of runs in the file
+   *  Actually looks at entries on disk, so use should be limited.
+   */
+  std::size_t runs() const;
 
   /**
    * Try to load a single value of an atomic type into the input handle

@@ -4,6 +4,7 @@ add_executable(test_fire
   main_test.cpp
   dataset.cpp
   config.cpp
+  process.cpp
   )
   
 target_link_libraries(test_fire
@@ -12,6 +13,6 @@ target_link_libraries(test_fire
 
 # insert running of test_executable as the 'make test' target
 add_custom_target(test
-  COMMAND $<TARGET_FILE:test_fire>
+  COMMAND $<TARGET_FILE:test_fire> --report_level=detailed
   COMMENT "Run the unit test executable"
 )
