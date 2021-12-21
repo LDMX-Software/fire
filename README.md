@@ -4,6 +4,10 @@
 
 It's a stretch but it's worth it for the cool name.
 
+<a href="https://github.com/LDMX-Software/Framework/actions" alt="Actions">
+    <img src="https://github.com/LDMX-Software/Framework/workflows/CI/badge.svg" />
+</a>
+
 A event-by-event processing framework using [HDF5](https://www.hdfgroup.org/) via [HighFive](github.com/BlueBrain/HighFive) for serialization, [Boost](https://www.boost.org/) for logging, and C++17.
 
 The core idea of this framework is the assumption that our data (simulated or real) can be grouped into "events" that we can assume are independent (for the software, not necessarily true in real life).
@@ -25,10 +29,11 @@ Besides this core functionality of processors looking at data event-by-event, th
   or choosing to _not_ save data created during processing
 - Modern CMake infrasture enabling simple `find_package(fire)` syntax
 
+### TBD
 - Basic interface to a conditions system
 - Veto: Voting system for processors to decide on if entire event
   should be saved into the output file
-- Logging through Boost (optional)
+- Logging through Boost
 
 ## Dependencies
 
