@@ -1,148 +1,47 @@
-"""ldmxcfg
+"""cfg
 
-Basic python configuration for ldmx-sw application
+Basic python configuration for fire
 """
 
-class EventProcessor:
-    """An EventProcessor object
+class Processor:
+    """A Processor configuration object
 
-    This object contains the parameters that are necessary for a framework::EventProcessor to be configured.
+    This object contains the parameters that are necessary for a fire::Processor to be configured.
 
     You should NOT use this class directly. Use one of the derived classes Producer or Analyzer for clarity.
 
     Parameters
     ----------
-    instanceName : str
-        Name of this copy of the producer object
-    className : str
+    name : str
+        Name of this copy of the processor object
+    class_name : str
         Name (including namespace) of the C++ class that this processor should be
-    moduleName : str
-        Name of module the C++ class is in (e.g. Ecal or SimCore)
-
-    Attributes
-    ----------
-    histograms : list of histogram1D objects
-        List of histogram configure objects for the HistogramPool to make for this processor
+    module : str
+        Name of module the C++ class is in (i.e. the library that should be loaded)
 
     See Also
     --------
-    LDMX.Framework.ldmxcfg.Producer : Producer configuration object
-    LDMX.Framework.ldmxcfg.Analyzer : Analyzer configuration object
-    LDMX.Framework.histogram.histogram : histogram configuration object
+    fire.cfg.Process.addModule : how module names are interpreted as libraries to be loaded
     """
 
-    def __init__(self, instanceName, className, moduleName):
-        self.instanceName=instanceName
-        self.className=className
-        self.histograms=[]
+    def __init__(self, name, class_name, module):
+        self.name = name
+        self.class_name = class_name
 
-        Process.addModule(moduleName)
+        Process.addModule(module)
 
-    def build1DHistogram(self, name, xlabel, bins, xmin = None, xmax = None):
-        """Make a 1D histogram 
-
-        If xmin and xmax are not provided, bins is assumed to be
-        the bin edges on the x-axis. If they are both provided,
-        bins is assumed to be the number of bins on the x-axis.
-
-        Parameters
-        ----------
-        name : str
-            variable name of histogram
-        xlabel : str
-            title of x-axis of histogram
-        bins : int OR list of floats
-            Number of bins on x-axis OR bin edges on x-axis
-        xmin : float
-            Minimum edge of bins on x-axis
-        xmax : float
-            Maximum edge of bins on x-axis
-
-        See Also
-        --------
-        LDMX.Framework.histogram.histogram : histogram configuration object
-        """
-
-        import LDMX.Framework.histogram as h
-        theBinEdges = bins
-        if xmin is not None and xmax is not None :
-            theBinEdges = h.uniform_binning(bins,xmin,xmax)
-
-        self.histograms.append(h.histogram(name, xlabel,theBinEdges))
-
-    def build2DHistogram(self, name, 
-            xlabel = 'X Axis', xbins = 1, xmin = None, xmax = None, 
-            ylabel = 'Y Axis', ybins = 1, ymin = None, ymax = None) :
-        """Create a 2D histogram
-
-        If {x,y}min or {x,y}max are not provided, {x,y}bins is assumed
-        to be the bin edges on the {x,y}-axis. If they are both provided,
-        {x,y}-bins is assumed to be the number of bins on the {x,y}-axis.
-
-        Parameters
-        ----------
-        name : str
-            variable name of histogram
-        xlabel : str
-            title of x-axis of histogram
-        xbins : int OR list of floats
-            Number of bins on x-axis OR list of bin edges on x-axis
-        xmin : float
-            Minimum edge of bins on x-axis
-        xmax : float
-            Maximum edge of bins on x-axis
-        ylabel : str
-            title of y-axis of histogram
-        ybins : int OR list of floats
-            Number of bins on y-axis OR list of bin edges on y-axis
-        ymin : float
-            Minimum edge of bins on y-axis
-        ymay : float
-            Mayimum edge of bins on y-axis
-
-        See Also
-        --------
-        LDMX.Framework.histogram.histogram : histogram configuration object
-
-        Examples
-        --------
-
-        When doing all uniform binning, you can specify the arguments by position.
-            myProcessor.build2DHistogram( 'dummy' ,
-                'My X Axis' , 20 , 0. , 1. ,
-                'My Y Axis' , 60 , 0. , 10. )
-
-        When using variable binning, you have to use the parameter names.
-            myProcessor.build2DHistogram( 'dummy2' ,
-                xlabel='My X Axis', xbins=[0.,1.,2.],
-                ylabel='My Y Axis', ybins=60, ymin=0., ymax=10. )
-        """
-
-        import LDMX.Framework.histogram as h
-        theBinEdgesX = xbins
-        if xmin is not None and xmax is not None :
-            theBinEdgesX = h.uniform_binning(xbins,xmin,xmax)
-
-        theBinEdgesY = ybins
-        if ymin is not None and ymax is not None :
-            theBinEdgesY = h.uniform_binning(ybins,ymin,ymax)
-
-        self.histograms.append(
-                h.histogram(name, xlabel,theBinEdgesX, ylabel,theBinEdgesY)
-                )
-
-class Producer(EventProcessor):
+class Producer(Processor):
     """A producer object.
 
     This object contains the parameters that are necessary for a framework::Producer to be configured.
 
     See Also
     --------
-    LDMX.Framwork.ldmxcfg.EventProcessor : base class
+    fire.cfg.Processor : base class
     """
 
-    def __init__(self, instanceName, className, moduleName):
-        super().__init__(instanceName,className, moduleName)
+    def __init__(self, name, class_name, module)
+        super().__init__(name, class_name, module)
 
     def __str__(self) :
         """Stringify this Producer, creates a message with all the internal parameters.
@@ -161,18 +60,18 @@ class Producer(EventProcessor):
 
         return msg
 
-class Analyzer(EventProcessor):
+class Analyzer(Processor):
     """A analyzer object.
 
     This object contains the parameters that are necessary for a framework::Analyzer to be configured.
 
     See Also
     --------
-    LDMX.Framework.ldmxcfg.EventProcessor : base class
+    fire.cfg.Processor : base class
     """
 
-    def __init__(self, instanceName, className, moduleName):
-        super().__init__(instanceName,className, moduleName)
+    def __init__(self, name, class_name, module)
+        super().__init__(name, class_name, module)
 
     def __str__(self) :
         """Stringify this Analyzer, creates a message with all the internal parameters.
@@ -194,7 +93,7 @@ class Analyzer(EventProcessor):
 class ConditionsObjectProvider:
     """A ConditionsObjectProvider
 
-    This object contains the parameters that are necessary for a framework::ConditionsObjectProvider to be configured.
+    This object contains the parameters that are necessary for a fire::ConditionsObjectProvider to be configured.
 
     In this constructor we also do two helpful processes.
     1. We append the module that this provider is in to the list of libraries to load
@@ -213,15 +112,20 @@ class ConditionsObjectProvider:
     ----------
     tagName : str
         Tag which identifies the generation of information
+
+    See Also
+    --------
+    fire.cfg.Process.addModule : how modules are interpreted as libraries to load
+    fire.cfg.Process.declareConditionsObjectProvider : how COPs are registered
     """
 
-    def __init__(self, objectName, className, moduleName):
-        self.objectName=objectName
-        self.className=className
+    def __init__(self, object_name, class_name, module):
+        self.objectName=object_name
+        self.className=class_name
         self.tagName=''
 
         # make sure process loads this library if it hasn't yet
-        Process.addModule(moduleName)
+        Process.addModule(module)
         
         #register this conditions object provider with the process
         Process.declareConditionsObjectProvider(self)
@@ -320,7 +224,7 @@ class Process:
 
     Parameters
     ----------
-    passName : str
+    pass_name : str
         Short reference name for this run of the process
 
     Attributes
@@ -371,12 +275,12 @@ class Process:
 
     lastProcess=None
     
-    def __init__(self, passName):
+    def __init__(self, pass_name):
 
         if ( Process.lastProcess is not None ) :
             raise Exception( "Process object is already created! You can only create one Process object in a script." )
 
-        self.passName=passName
+        self.pass_name=pass_name
         self.maxEvents=-1
         self.maxTriesPerEvent=1
         self.run=-1
@@ -392,10 +296,10 @@ class Process:
         self.fileLogLevel=0 #print all messages
         self.logFileName='' #won't setup log file
         self.compressionSetting=9
-        self.histogramFile=''
+
         self.conditionsGlobalTag='Default'
         self.conditionsObjectProviders=[]
-        self.tree_name = 'LDMX_Events'
+
         Process.lastProcess=self
 
         # needs lastProcess defined to self-register
@@ -453,7 +357,7 @@ class Process:
         """
 
         actual_module_name = module.replace('/','_').replace('::','_')
-        Process.addLibrary('@CMAKE_INSTALL_PREFIX@/lib/lib%s.so'%(actual_module_name))
+        Process.addLibrary('lib%s.so'%(actual_module_name))
 
     def declareConditionsObjectProvider(cop):
         """Declare a conditions object provider to be loaded with the process
@@ -619,11 +523,6 @@ class Process:
         Only includes objects somehow attached to the process.
         """
 
-        keys_to_skip = [ 'histograms' , 'libraries' ]
-
-        from LDMX.SimCore import simcfg
-        from LDMX.Framework import histogram as h
-
         def extract(obj):
             """Extract the parameter from the input object"""
 
@@ -632,13 +531,15 @@ class Process:
             elif hasattr(obj,'__dict__') :
                 params = dict()
                 for k in obj.__dict__ :
-                    if k not in keys_to_skip :
+                    if k not in parameterDump.keys_to_skip :
                         params[k] = extract(obj.__dict__[k])
                 return params
             else :
                 return obj
 
         return extract(self)
+
+    parameterDump.keys_to_skip = [ 'libraries' ]
 
 
     def pause(self) :
