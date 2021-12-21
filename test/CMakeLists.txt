@@ -10,7 +10,7 @@ add_executable(test_fire
   
 target_link_libraries(test_fire
   PRIVATE Boost::unit_test_framework 
-          fire_framework)
+          framework)
 
 # insert running of test_executable as the 'make test' target
 add_custom_target(test
