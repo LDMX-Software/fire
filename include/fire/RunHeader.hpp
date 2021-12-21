@@ -4,7 +4,7 @@
 #include <map>
 #include <string>
 
-//#include "fire/Version.hpp"
+#include "fire/version/Version.hpp"
 #include "fire/h5/DataSet.hpp"
 #include "fire/h5/ParameterStorage.hpp"
 
@@ -136,7 +136,7 @@ class RunHeader {
    * git SHA-1 hash associated with the software tag used to generate
    * this file.
    */
-  std::string softwareTag_{"NOTSET"};
+  std::string softwareTag_{version::GIT_SHA1};
 
   /// run parameteres
   h5::ParameterStorage parameters_;

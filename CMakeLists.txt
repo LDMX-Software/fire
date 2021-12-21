@@ -26,19 +26,37 @@ find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
 find_package(Boost REQUIRED COMPONENTS log)
 find_package(HighFive REQUIRED)
 
-# Execute the command to extract the SHA1 hash of the current git tag. The
-# variable GIT_SHA1 will be set to contain the hash.
-execute_process(COMMAND git rev-parse HEAD OUTPUT_VARIABLE GIT_SHA1)
-
-# Remove the newline character
-string(REGEX REPLACE "\n$" "" GIT_SHA1 "${GIT_SHA1}")
+# Execute the command to extract the SHA1 hash of the current git tag.
+# 'git' is removed from within the container to discourage opening a shell
+# in the container, so we need to go to some lengths in order to avoid using 'git'
+# The variable GIT_SHA1 will be set to contain the hash.
+set(git_dir "${PROJECT_SOURCE_DIR}/.git")
+if (NOT IS_DIRECTORY "${git_dir}")
+  # we are a submodule of another project
+  file(READ "${git_dir}" git_dir)
+  string(REGEX REPLACE "^gitdir: " "" git_dir ${git_dir})
+  string(REGEX REPLACE "\n$" "" git_dir ${git_dir})
+endif()
+file(READ "${git_dir}/HEAD" current_ref)
+string(REGEX REPLACE "^ref: " "" current_ref "${current_ref}")
+string(REGEX REPLACE "\n$" "" current_ref ${current_ref})
+file(READ "${git_dir}/${current_ref}" GIT_SHA1)
+string(REGEX REPLACE "\n$" "" GIT_SHA1 ${GIT_SHA1})
+message(STATUS "Deduced git SHA: ${GIT_SHA1}")
 
 # Copies the file 'Version.h.in', substitutes the value of GIT_SHA1 and writes
 # it out to Version.h.
-configure_file(${PROJECT_SOURCE_DIR}/include/fire/Version.hpp.in
-              ${PROJECT_BINARY_DIR}/include/Version.hpp)
-install(FILES ${PROJECT_BINARY_DIR}/include/Version.hpp
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/include/fire)
+configure_file(${PROJECT_SOURCE_DIR}/include/fire/version/Version.hpp.in
+              ${PROJECT_BINARY_DIR}/include/fire/version/Version.hpp)
+install(FILES ${PROJECT_BINARY_DIR}/include/fire/version/Version.hpp
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/include/fire/version)
+
+add_library(version INTERFACE)
+target_include_directories(version
+  INTERFACE
+  "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/include>"
+  "$<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>"
+  )
 
 add_library(exception SHARED src/fire/exception/Exception.cpp)
 target_include_directories(exception
@@ -85,7 +103,7 @@ target_include_directories(framework
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
   "$<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>"
   )
-target_link_libraries(framework PUBLIC Boost::log exception config factory h5)
+target_link_libraries(framework PUBLIC Boost::log version exception config factory h5)
 
 # Compiling the fire library requires features introduced by the cpp 17 standard.
 set_target_properties(
@@ -97,7 +115,7 @@ set_target_properties(
 # installing the fire target and generate CMake-compatible package files
 #   is done by following the documentation linked below
 # https://cmake.org/cmake/help/git-stage/guide/importing-exporting/index.html
-install(TARGETS framework exception config factory h5
+install(TARGETS framework exception config factory h5 version
   EXPORT fireTargets 
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
@@ -127,7 +145,6 @@ install(FILES
       "${CMAKE_CURRENT_BINARY_DIR}/fireConfigVersion.cmake"
       DESTINATION lib/cmake/fire
       )
-
 
 # Add the fire executable
 add_executable(fire app/fire.cpp)
