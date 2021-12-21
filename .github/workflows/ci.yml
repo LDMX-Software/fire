@@ -32,7 +32,7 @@ jobs:
         ldmx base ..
         echo "::endgroup::"
         echo "::group::Configure Build"
-        ldmx cmake -B build -S .
+        ldmx cmake -B build -S . -DCMAKE_INSTALL_PREFIX=${LDMX_BASE}/.container-install
         echo "::endgroup::"
         echo "::group::Build Tests"
         cd build
