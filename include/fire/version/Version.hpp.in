@@ -9,6 +9,8 @@
 #ifndef FIRE_VERSION_HPP
 #define FIRE_VERSION_HPP
 
+#include <string_view>
+
 /**
  * @namespace version
  * The version namespace holds variables that are configured by CMake
@@ -19,14 +21,14 @@ namespace fire::version {
 /**
  * The git commit sha for this installation of fire
  */
-constexpr char * GIT_SHA1 = "${GIT_SHA1}"
+constexpr std::string_view GIT_SHA1 = "${GIT_SHA1}";
 
 /**
  * the recorded CMake version of fire
  *  This is defined by the VERSION keyword
  *  in the 'project' command in CMakeLists.txt.
  */
-constexpr char * VERSION = "${PROJECT_VERSION}"
+constexpr std::string_view VERSION = "${PROJECT_VERSION}";
 
 }
 
