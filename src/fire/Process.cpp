@@ -22,6 +22,7 @@ Process::Process(const fire::config::Parameters &configuration)
       log_frequency_{configuration.get<int>("log_frequency")},
       max_tries_{configuration.get<int>("max_tries")},
       run_{configuration.get<int>("run")},
+      storage_control_{configuration.get<config::Parameters>("storage")},
       run_header_{nullptr}
       {
   /*
@@ -32,7 +33,6 @@ Process::Process(const fire::config::Parameters &configuration)
       );
    */
 
-  //storage_control::configure(configuration.get<config::Parameters>("storage"));
   for (const auto &lib :
        configuration.get<std::vector<std::string>>("libraries", {}))
     factory::loadLibrary(lib);
@@ -207,9 +207,10 @@ bool Process::process(const std::size_t& n, std::size_t& i_output_file) {
                    
   }
 
+  // new event processing, forget old information
+  storage_control_.resetEventState();
+
   try {
-    // new event processing, forget old information
-    //storage_controller_.resetEventState();
     // go through each processor in the sequence in order
     for (auto& proc : sequence_) proc->process(event_);
   } catch (Processor::AbortEventException& ) {
@@ -217,10 +218,11 @@ bool Process::process(const std::size_t& n, std::size_t& i_output_file) {
   }
 
   // we didn't abort the event, so we should give the option to save it
-  if (true/*storage_controller_.keepEvent()*/) {
+  if (storage_control_.keepEvent()) {
     event_.save(output_file_, i_output_file++);
   }
 
+  // move to the next event
   event_.next();
 
   return true;

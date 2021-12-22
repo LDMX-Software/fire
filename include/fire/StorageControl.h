@@ -1,32 +1,20 @@
-/**
- * @file StorageControl.h
- * @brief Definitions related to event storage control from an EventProcessor
- * @author Jeremy Mans, University of Minnesota
- */
+#ifndef FIRE_STORAGECONTROL_H_
+#define FIRE_STORAGECONTROL_H_
 
-#ifndef FRAMEWORK_STORAGECONTROL_H_
-#define FRAMEWORK_STORAGECONTROL_H_
-
+#include <regex>
 #include <string>
 #include <vector>
 
-namespace fire {
+#include "fire/config/Parameters.hpp"
 
-typedef enum enum_StorageControlHint {
-  hint_Undefined = 0,
-  hint_NoOpinion,
-  hint_shouldKeep = 10,
-  hint_mustKeep = 11,
-  hint_shouldDrop = 20,
-  hint_mustDrop = 21
-} StorageControlHint;
+namespace fire {
 
 /**
  * @class StorageControl
  * @brief Class which encapsulates storage control functionality, used by the
  * Process class
  *
- * Any EventProcessor can provide a hint as to whether a given
+ * Any Processor can provide a hint as to whether a given
  * event should be kept or dropped.  The hint is cached in the
  * StorageControl object until the end of the event.  At that
  * point, the process queries the StorageControl to determine if
@@ -34,108 +22,87 @@ typedef enum enum_StorageControlHint {
  */
 class StorageControl {
  public:
-  /** Set the default state */
-  void setDefaultKeep(bool keep) { defaultIsKeep_ = keep; }
+  /**
+   * Hints that can be provided by processors to the storage controller
+   *
+   * Integer values of the hints are currently not used for anything,
+   * although one could imagine a "weighting" system being implemented
+   * where different Hints are weighted based on how "strong" the hint is.
+   */
+  enum class Hint {
+    NoOpinion = 0,
+    Undefined = -1,
+    ShouldKeep = 1,
+    MustKeep = 10,
+    ShouldDrop = 2,
+    MustDrop = 20
+  };  // enum Hint
+
+ public:
+  /**
+   * Constructor
+   * Configure the various options for how the storage contol behaves.
+   * @throws config::Exception if required parameters are not found
+   * @throws regex exception if malformed regex
+   *
+   * @param[in] ps Parameters used to configure storage controller
+   */
+  StorageControl(const config::Parameters& ps);
 
   /**
-   * Reset the event-by-event state
+   * Reset the event-by-event state by removing any hints
+   * provided by processors during the previous event.
    */
   void resetEventState();
 
   /**
    * Add a storage hint for a given module
-   * @param processor_name Name of the event processor
-   * @param controlhint The storage control hint to apply for the given event
-   * @param purposeString A purpose string which can be used in the skim control
+   *
+   * The hint needs to match at least one of the listening rules in order
+   * to be considered.
+   *
+   * @note This means if no listing rules are provided then no storage
+   * hints are considered!
+   *
+   * @param hint The storage control hint to apply for the given event
+   * @param purpose A purpose string which can be used in the skim control
    * configuration
+   * @param processor_name Name of the event processor
    */
-  void addHint(const std::string& processor_name,
-               fire::StorageControlHint hint,
-               const std::string& purposeString);
-
-  /**
-   * Add a rule
-   * @param processor_pattern Regex pattern to compare with event processor
-   * @param purpose_pattern Regex pattern to compare with the purpose string
-   */
-  void addRule(const std::string& processor_pat,
-               const std::string& purpose_pat);
+  void addHint(Hint hint, const std::string& purpose,
+               const std::string& processor_name);
 
   /**
    * Determine if the current event should be kept, based on the defined rules
    *
-   * @note If event_completed is false, we don't listen to **anything** and
-   * decide not to keep the event.
-   *
-   * @param[in] event_completed did we complete processing of the current event?
    * @returns true if we should store the current event into the output file
    */
-  bool keepEvent(bool event_completed) const;
+  bool keepEvent() const;
 
  private:
   /**
    * Default state for storage control
    */
-  bool defaultIsKeep_{true};
+  bool default_keep_{true};
 
   /**
-   * Structure to hold hints
+   * Collection of rules allowing certain processors
+   * or purposes to be considered ("listened to") during
+   * the storage decision.
+   *
+   * Each rule has two entries:
+   * 1. a processor regex to match hints coming from processors named a certain
+   * way
+   * 2. a purpose regex to match hints form all processors with a specific
+   * purpose
    */
-  struct Hint {
-    /**
-     * Event Processor name
-     */
-    std::string evpName_;
-    /**
-     * Hint level
-     */
-    StorageControlHint hint_;
-    /**
-     * Purpose string, if used
-     */
-    std::string purpose_;
-  };
+  std::vector<std::pair<std::regex, std::regex>> rules_;
 
+ private:
   /**
    * Collection of hints from the event processors
    */
   std::vector<Hint> hints_;
-
-  /**
-   * Structure to hold rules
-   *
-   * Eventually need a cleanup function to remove the compiled regex buffers,
-   * but only in the _StorageControl_ destructor, not during regular vector
-   * operations.
-   */
-  struct Rule {
-    bool matches(const Hint& h);
-
-    /**
-     * Event Processor Regex
-     */
-    std::string evpNamePattern_;
-
-    /**
-     * Purpose string Regex
-     */
-    std::string purposePattern_;
-
-    /**
-     * Compiled event processor regex
-     */
-    void* evpNameRegex_{0};
-
-    /**
-     * Compiled event processor regex
-     */
-    void* purposeRegex_{0};
-  };
-
-  /**
-   * Collection of hints from the event processors
-   */
-  std::vector<Rule> rules_;
 };
 }  // namespace fire
 

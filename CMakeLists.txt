@@ -93,6 +93,7 @@ target_include_directories(h5
   )
 
 add_library(framework SHARED
+  src/fire/StorageControl.cxx
   src/fire/Event.cpp
   src/fire/EventHeader.cpp
   src/fire/Processor.cpp

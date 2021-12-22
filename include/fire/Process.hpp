@@ -1,7 +1,7 @@
 #ifndef FIRE_PROCESS_HPP
 #define FIRE_PROCESS_HPP
 
-#include "fire/exception/Exception.hpp"
+#include "fire/StorageControl.h"
 #include "fire/Event.hpp"
 #include "fire/Processor.hpp"
 #include "fire/RunHeader.hpp"
@@ -71,7 +71,7 @@ class Process {
   std::vector<std::unique_ptr<Processor>> sequence_;
 
   /// object used to determine if an event should be saved or not
-  //StorageController storage_controller_;
+  StorageControl storage_control_;
 
   /// handle to conditions system
   //Conditions conditions_;
