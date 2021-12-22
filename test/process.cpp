@@ -27,6 +27,10 @@ BOOST_AUTO_TEST_CASE(production_mode) {
   output_file.add("rows_per_chunk", 1000);
   configuration.add("output_file",output_file);
 
+  fire::config::Parameters storage;
+  storage.add("default_keep",true);
+  configuration.add("storage",storage);
+
   //configuration.add("input_files",vec<str> );
   
   //fire::config::Parameters& dk_rule;
@@ -43,12 +47,21 @@ BOOST_AUTO_TEST_CASE(production_mode) {
   //configuration.add("sequence",vec<Param>);
   configuration.add("testing",true); // ok for no sequence
 
+  std::unique_ptr<fire::Process> p;
   try {
-    fire::Process p(configuration);
-    p.run();
-  } catch (const std::exception& e) {
+    p = std::make_unique<fire::Process>(configuration);
+  } catch (fire::config::Parameters::Exception& e) {
+    std::cerr << "[Config Error] " << e.what() << std::endl;
+    BOOST_REQUIRE(false);
+  }
+  try {
+    p->run();
+  } catch (const HighFive::Exception& e) {
+    std::cerr << "[H5 Error]" << e.what() << std::endl;
+    BOOST_REQUIRE(false);
+  } catch (fire::exception::Exception& e) {
     std::cerr << e.what() << std::endl;
-    BOOST_CHECK(false);
+    BOOST_REQUIRE(false);
   }
 
   // check that the event and run numbers in the output file are correct
@@ -79,6 +92,10 @@ BOOST_AUTO_TEST_CASE(recon_mode_single_file, *boost::unit_test::depends_on("proc
   //dk_rule.add("keep",false);
   //configuration.add("keep", vec<Param> );
   
+  fire::config::Parameters storage;
+  storage.add("default_keep",true);
+  configuration.add("storage",storage);
+
   configuration.add("event_limit", -1);
   configuration.add("log_frequency", -1);
 
@@ -118,6 +135,10 @@ BOOST_AUTO_TEST_CASE(recon_mode_multi_file, *boost::unit_test::depends_on("proce
     output_file.add("rows_per_chunk", 1000);
     configuration.add("output_file",output_file);
 
+    fire::config::Parameters storage;
+    storage.add("default_keep",true);
+    configuration.add("storage",storage);
+
     configuration.add("event_limit", 8);
     configuration.add("log_frequency", -1);
     configuration.add("run", 2);
@@ -147,6 +168,10 @@ BOOST_AUTO_TEST_CASE(recon_mode_multi_file, *boost::unit_test::depends_on("proce
   //dk_rule.add("keep",false);
   //configuration.add("keep", vec<Param> );
   
+  fire::config::Parameters storage;
+  storage.add("default_keep",true);
+  configuration.add("storage",storage);
+
   configuration.add("event_limit", -1);
   configuration.add("log_frequency", -1);
 

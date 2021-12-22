@@ -49,6 +49,7 @@ Process::Process(const fire::config::Parameters &configuration)
     auto class_name{proc.get<std::string>("class_name")};
     sequence_.emplace_back(Processor::Factory::get().make(class_name, proc));
   }
+  for (auto& proc : sequence_) proc->attach(this);
 
   /*
   auto conditionsObjectProviders{

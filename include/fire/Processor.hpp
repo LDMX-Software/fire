@@ -10,7 +10,7 @@
 #include "fire/exception/Exception.hpp"
 //#include "fire/Logger.hpp"
 #include "fire/RunHeader.hpp"
-//#include "fire/StorageControl.hpp"
+#include "fire/StorageControl.h"
 #include "fire/factory/Factory.hpp"
 
 /*~~~~~~~~~~~~~~~~*/
@@ -18,6 +18,14 @@
 /*~~~~~~~~~~~~~~~~*/
 
 namespace fire {
+
+/**
+ * Forward declaration of Process class.
+ * Each processor holds a reference to the current process class
+ * so that they can access central systems like storage control
+ * and conditions.
+ */
+class Process;
 
 /**
  * @class Processor
@@ -58,6 +66,7 @@ class Processor {
    * the Processor class name.
    *
    * @param[in] ps Parameter set to be used to configure this processor
+   * @param[in] p handle to process
    */
   Processor(const config::Parameters &ps);
 
@@ -119,27 +128,10 @@ class Processor {
   }
    */
 
-  /** Mark the current event as having the given storage control hint from this
-   * module
-   * @param controlhint The storage control hint to apply for the given event
-  void setStorageHint(fire::StorageControlHint hint) {
-    setStorageHint(hint, "");
-  }
-   */
-
-  /** Mark the current event as having the given storage control hint from this
-   * module and the given purpose string
-   * @param controlhint The storage control hint to apply for the given event
-   * @param purposeString A purpose string which can be used in the skim control
-   * configuration
-  void setStorageHint(fire::StorageControlHint hint,
-                      const std::string &purposeString);
-   */
-
   /**
    * Get the processor name
    */
-  std::string getName() const { return name_; }
+  const std::string& getName() const { return name_; }
 
   /**
    * The type of factory that can be used to create processors
@@ -150,7 +142,27 @@ class Processor {
   /// have the derived processors do what they need to do
   virtual void process(Event &event) = 0;
 
+  /**
+   * Attach the current process to this processor.
+   * Marked 'final' to prevent derived classes from redefining
+   * this function and potentially abusing the handle to the current process.
+   */
+  virtual void attach(Process* p) final {
+    process_ = p;
+  }
+
  protected:
+  /** 
+   * Mark the current event as having the given storage control hint from this
+   * processor and the given purpose string
+   *
+   * @param hint The storage control hint to apply for the given event
+   * @param purpose A purpose string which can be used in the skim control
+   * configuration to select which hints to "listen" to
+   */
+  void setStorageHint(StorageControl::Hint hint,
+                      const std::string &purpose = "");
+
   /**
    * Abort the event immediately.
    *
@@ -160,7 +172,6 @@ class Processor {
 
   /// The logger for this Processor
   // logging::logger theLog_;
-
  private:
   /**
    * Internal getter for conditions without exposing all of Process
@@ -169,6 +180,9 @@ class Processor {
 
   /** The name of the Processor. */
   std::string name_;
+
+  /// Handle to current process
+  Process* process_{nullptr};
 };
 
 /**

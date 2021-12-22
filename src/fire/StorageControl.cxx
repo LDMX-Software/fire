@@ -4,8 +4,8 @@ namespace fire {
 
 StorageControl::StorageControl(const config::Parameters& ps)
     : default_keep_{ps.get<bool>("default_keep")} {
-  for (const auto& listening_rule :
-       ps.get<std::vector<config::Parameters>>("listening_rules")) {
+  auto listening_rules{ps.get<std::vector<config::Parameters>>("listening_rules",{})};
+  for (const auto& listening_rule : listening_rules) {
     const auto& proc_regex_str = listening_rule.get<std::string>("processor");
     auto purp_regex_str = listening_rule.get<std::string>("purpose");
     // skip rules without processor pattern

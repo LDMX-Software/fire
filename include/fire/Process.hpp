@@ -34,6 +34,14 @@ class Process {
     return *run_header_;
   }
 
+  void addStorageControlHint(
+      StorageControl::Hint hint,
+      const std::string& purpose,
+      const std::string& processor
+      ) {
+    storage_control_.addHint(hint,purpose,processor);
+  }
+
  private:
   /// initialize a new run during the process
   void newRun(RunHeader& rh);

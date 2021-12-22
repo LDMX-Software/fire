@@ -1,7 +1,5 @@
 #include "fire/Processor.hpp"
-
-// LDMX
-#include "fire/RunHeader.hpp"
+#include "fire/Process.hpp"
 
 namespace fire {
 
@@ -14,12 +12,12 @@ Conditions &Processor::getConditions() const {
 }
 */
 
-/*
-void Processor::setStorageHint(fire::StorageControlHint hint,
-                               const std::string &purposeString) {
-  process_.getStorageController().addHint(name_, hint, purposeString);
+
+void Processor::setStorageHint(StorageControl::Hint hint,
+                               const std::string &purpose) {
+  assert(process_);
+  process_->addStorageControlHint(hint, purpose, name_);
 }
-*/
 
 Producer::Producer(const config::Parameters& ps)
     : Processor(ps) {}
