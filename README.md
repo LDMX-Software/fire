@@ -31,11 +31,13 @@ Besides this core functionality of processors looking at data event-by-event, th
 - Veto: Voting system for processors to decide if an entire event
   should be saved into the output file
 - Logging through Boost
+- Interface to a conditions system
 
 ### TBD
-- Basic interface to a conditions system
+- Test conditions system
 - Test drop/keep rules
 - Make boost logging optional
+- Processor- and Conditions- specific exceptions
 
 ## Dependencies
 
