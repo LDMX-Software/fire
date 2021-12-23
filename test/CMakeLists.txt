@@ -7,6 +7,7 @@ add_executable(test_fire
   process.cpp
   processor.cpp
   storage_control.cpp
+  conditions.cpp
   )
   
 target_link_libraries(test_fire

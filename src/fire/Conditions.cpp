@@ -9,29 +9,29 @@ namespace fire {
 Conditions::Conditions(const config::Parameters& ps, Process& p) : process_{p} {
   auto providers{ps.get<std::vector<config::Parameters>>("providers",{})};
   for (const auto& provider : providers) {
-    auto cop{ConditionsProvider::Factory::get().make(
+    auto cp{ConditionsProvider::Factory::get().make(
         provider.get<std::string>("class_name"), provider)};
-    std::string provides{cop->getConditionObjectName()};
+    std::string provides{cp->getConditionObjectName()};
     if (providers_.find(provides) != providers_.end()) {
       throw config::Parameters::Exception(
           "Multiple ConditonsObjectProviders configured to provide " +
           provides);
     }
-    cop->attach(this);
-    providers_[provides] = cop;
+    cp->attach(this);
+    providers_[provides] = cp;
   }
 }
 
 void Conditions::onProcessStart() {
-  for (auto& [_, cop] : providers_) cop->onProcessStart();
+  for (auto& [_, cp] : providers_) cp->onProcessStart();
 }
 
 void Conditions::onProcessEnd() {
-  for (auto& [_, cop] : providers_) cop->onProcessEnd();
+  for (auto& [_, cp] : providers_) cp->onProcessEnd();
 }
 
 void Conditions::onNewRun(RunHeader& rh) {
-  for (auto& [_, cop] : providers_) cop->onNewRun(rh);
+  for (auto& [_, cp] : providers_) cp->onNewRun(rh);
 }
 
 ConditionsIntervalOfValidity Conditions::getConditionIOV(
@@ -49,27 +49,25 @@ const ConditionsObject* Conditions::getConditionPtr(
   auto cacheptr = cache_.find(condition_name);
 
   if (cacheptr == cache_.end()) {
-    auto copptr = providers_.find(condition_name);
+    auto cpptr = providers_.find(condition_name);
 
-    if (copptr == providers_.end()) {
+    if (cpptr == providers_.end()) {
       throw Exception("No provider is available for : " + condition_name);
     }
 
-    std::pair<const ConditionsObject*, ConditionsIntervalOfValidity> cond =
-        copptr->second->getCondition(context);
-
-    if (!cond.first) {
+    const auto& [co, iov] = cpptr->second->getCondition(context);
+    if (!co) {
       throw Exception("Null condition returned for requested item : " +
                       condition_name);
     }
 
     // first request, create a cache entry
     CacheEntry ce;
-    ce.iov = cond.second;
-    ce.obj = cond.first;
-    ce.provider = copptr->second;
+    ce.iov = iov;
+    ce.obj = co;
+    ce.provider = cpptr->second;
     cache_[condition_name] = ce;
-    return ce.obj;
+    return co;
   } else {
     /// if still valid, we return what we have
     if (cacheptr->second.iov.validForEvent(context))
@@ -78,10 +76,9 @@ const ConditionsObject* Conditions::getConditionPtr(
       // if not, we release the old object
       cacheptr->second.provider->release(cacheptr->second.obj);
       // now ask for a new one
-      std::pair<const ConditionsObject*, ConditionsIntervalOfValidity> cond =
-          cacheptr->second.provider->getCondition(context);
+      const auto& [co, iov] = cacheptr->second.provider->getCondition(context);
 
-      if (!cond.first) {
+      if (!co) {
         std::stringstream s;
         s << "Unable to update condition '" << condition_name << "' for event "
           << context.getEventNumber() << " run " << context.getRun();
@@ -91,9 +88,9 @@ const ConditionsObject* Conditions::getConditionPtr(
           s << " MC";
         throw Exception(s.str());
       }
-      cacheptr->second.iov = cond.second;
-      cacheptr->second.obj = cond.first;
-      return cond.first;
+      cacheptr->second.iov = iov;
+      cacheptr->second.obj = co;
+      return co;
     }
   }
 }
