@@ -13,6 +13,7 @@
 #include <typeinfo>
 #include <vector>
 #include <boost/core/demangle.hpp>
+#include "fire/exception/Exception.hpp"
 
 namespace fire {
 namespace config {
@@ -22,15 +23,9 @@ namespace config {
  */
 class Parameters {
  public:
-  /**
-   * Light Exception class for parameters
-   */
-  class Exception : public std::runtime_error {
-   public:
-    Exception(const std::string& what) noexcept : std::runtime_error(what) {}
-  }; // Exception
+  /// specific exception for this class
+  ENABLE_EXCEPTIONS();
 
- public:
   /**
    * Add a parameter to the parameter list.  If the parameter already
    * exists in the list, throw an exception.

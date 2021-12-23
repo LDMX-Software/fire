@@ -110,7 +110,7 @@ static char *addr2line(const char *image, void *addr, bool color_output) {
 
 // This function produces a stack backtrace with demangled function & method
 // names.
-static std::string Backtrace(int skip = 1) throw() {
+static std::string Backtrace(int skip = 1) {
   void *callstack[128];
   const int nMaxFrames = sizeof(callstack) / sizeof(callstack[0]);
   char buf[1024];
@@ -150,8 +150,6 @@ static std::string Backtrace(int skip = 1) throw() {
 
 #include "fire/exception/Exception.hpp"
 
-namespace fire {
-namespace exception {
-void Exception::buildStackTrace() throw() { stackTrace_ = Backtrace(2); }
-}  // namespace exception
-}  // namespace fire
+namespace fire::exception {
+std::string Exception::buildStackTrace() const { return Backtrace(2); }
+}  // namespace fire::exception

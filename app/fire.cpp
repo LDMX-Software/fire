@@ -23,6 +23,7 @@ void printUsage();
 /**
  * @mainpage
  * TODO rewrite
+ * TODO build stack traces
  */
 int main(int argc, char* argv[]) {
   if (argc < 2) {
@@ -50,7 +51,7 @@ int main(int argc, char* argv[]) {
     fire::config::Parameters config{
         fire::config::run(argv[ptrpy], argv + ptrpy + 1, argc - ptrpy - 1)};
     p = std::make_unique<fire::Process>(config);
-  } catch (fire::config::PyException& e) {
+  } catch (fire::config::python::Exception& e) {
     std::cerr << "[Python Error] " << e.what() << std::endl;
     return 1;
   } catch (fire::config::Parameters::Exception& e) {
@@ -59,8 +60,11 @@ int main(int argc, char* argv[]) {
   } catch (fire::factory::Exception& e) {
     std::cerr << "[Creation Error] " << e.what() << std::endl;
     return 3;
+  } catch (fire::exception::Exception& e) {
+    std::cerr << "[General Error] " << e.what() << std::endl;
+    return 4;
   } catch (std::exception& e) {
-    std::cerr << "Unknown Exception: " << e.what() << std::endl;
+    std::cerr << "UNKNOWN EXCEPTION: " << e.what() << std::endl;
     return 127;
   }
 
@@ -76,14 +80,22 @@ int main(int argc, char* argv[]) {
     p->run();
   } catch (const HighFive::Exception& e) {
     fire_log(fatal) << "[H5 Error] " << e.what();
+    return 5;
+  } catch (const fire::h5::Exception& e) {
+    fire_log(fatal) << "[H5 Error] " << e.what();
+    return 6;
   } catch (const fire::Conditions::Exception& e) {
     fire_log(fatal) << "[Conditions Error] " << e.what();
+    return 7;
+  } catch (const fire::Processor::Exception& e) {
+    fire_log(fatal) << "[" << e.name() << "] : " << e.what();
+    return 8;
   } catch (fire::exception::Exception& e) {
-    fire_log(fatal) << "[" << e.name() << "] : " << e.message() << "\n"
-                    << "  at " << e.module() << ":" << e.line() << " in "
-                    << e.function() << "\nStack trace: " << std::endl
-                    << e.stackTrace();
+    fire_log(fatal) << "[General Error] " << e.what();
     return 127;  // return non-zero error-status
+  } catch (std::exception& e) {
+    std::cerr << "UNKNOWN EXCEPTION: " << e.what() << std::endl;
+    return 127;
   }
 
   std::cout << "---- FIRE: Event processing complete  --------" << std::endl;

@@ -119,7 +119,7 @@ BOOST_AUTO_TEST_CASE(no_root) {
     config_py << class_defs << std::endl;
   }
   char *args[1];
-  BOOST_CHECK_THROW(fire::config::run(config_file_name,args,0), fire::config::PyException);
+  BOOST_CHECK_THROW(fire::config::run(config_file_name,args,0), fire::config::python::Exception);
 }
 BOOST_AUTO_TEST_CASE(py_except) {
   {
@@ -127,7 +127,7 @@ BOOST_AUTO_TEST_CASE(py_except) {
     config_py << class_defs << "\n" << throw_exception << "\n" << root_obj << std::endl;
   }
   char *args[1];
-  BOOST_CHECK_THROW(fire::config::run(config_file_name,args,0), fire::config::PyException);
+  BOOST_CHECK_THROW(fire::config::run(config_file_name,args,0), fire::config::python::Exception);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

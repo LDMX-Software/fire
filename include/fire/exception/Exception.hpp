@@ -1,5 +1,5 @@
-#ifndef FRAMEWORK_EXCEPTION_H
-#define FRAMEWORK_EXCEPTION_H
+#ifndef FIRE_EXCEPTION_EXCEPTION_H
+#define FIRE_EXCEPTION_EXCEPTION_H
 
 /*~~~~~~~~~~~~~~~~*/
 /*   C++ StdLib   */
@@ -7,8 +7,7 @@
 #include <exception>
 #include <string>
 
-namespace fire {
-namespace exception {
+namespace fire::exception {
 
 /**
  * @class Exception
@@ -24,106 +23,59 @@ class Exception : public std::exception {
    *
    * Don't build stack trace for empty exceptions.
    */
-  Exception() throw() {}
+  Exception() noexcept {}
 
   /**
    * Class constructor.
-   * @param name Name of the exception.
-   * @param message Extended message describing the exception.
-   * @param module Filename in the source code where the exception occurred.
-   * @param line Line in the source code where the exception occurred.
-   * @param function Function in which the exception occurred.
+   * @param message message describing the exception.
    */
-  Exception(const std::string &name, const std::string &message,
-            const std::string &module, int line, const std::string &function)
-      : name_{name},
-        message_{message},
-        module_{module},
-        function_{function},
-        line_{line} {
-    buildStackTrace();
-  }
+  Exception(const std::string &msg) noexcept : message_{msg} {}
 
   /**
    * Class destructor.
    */
-  virtual ~Exception() throw() {}
-
-  /**
-   * Get the name of the exception.
-   * @return The name of the exception.
-   */
-  const std::string &name() const throw() { return name_; }
+  virtual ~Exception() = default;
 
   /**
    * Get the message of the exception.
    * @return The message of the exception.
    */
-  const std::string &message() const throw() { return message_; }
-
-  /**
-   * Get the source filename where the exception occurred.
-   * @return The source filename where the exception occurred.
-   */
-  const std::string &module() const throw() { return module_; }
-
-  /**
-   * Get the function name where the exception occurred.
-   * @return The function name where the exception occurred.
-   */
-  const std::string &function() const throw() { return function_; }
-
-  /**
-   * Get the source line number where the exception occurred.
-   * @return The source line number where the exception occurred.
-   */
-  int line() const throw() { return line_; }
+  const std::string &message() const noexcept { return message_; }
 
   /**
    * The error message.
    * @return The error message.
    */
-  virtual const char *what() const throw() { return message_.c_str(); }
+  virtual const char *what() const noexcept override {
+    return message_.c_str();
+  }
 
   /**
    * Get the full stack trace
    */
-  const std::string &stackTrace() const throw() { return stackTrace_; }
+  std::string buildStackTrace() const;
 
  private:
-  void buildStackTrace() throw();
-
-  /** Exception name. */
-  std::string name_;
-
   /** Error message. */
   std::string message_;
-
-  /** Source filename where the exception occurred. */
-  std::string module_;
-
-  /** Function name where the exception occurred. */
-  std::string function_;
-
-  /** Source line number where the exception occurred. */
-  int line_{0};
-
-  /** The stack trace */
-  std::string stackTrace_;
 };
-}  // namespace exception
-}  // namespace fire
+}  // namespace fire::exception
 
 /**
- * @def EXCEPTION_RAISE(EXCEPTION, MSG)
- * @param EXCEPTION Exception name
- * @param MSG Error message
+ * @macro ENABLE_EXCEPTIONS
+ * This macro defines a simple derived class
+ * within the current namespace or class
  *
- * @brief Utility macro for throwing exceptions, automatically including the
- * necessary file, line, and function information.  The user need only
- * supply the exception name and error message
+ * If the user puts this macro inside a namespace
+ * or 'public' part of a class, then the class
+ * Exception is available to be thrown within that
+ * namespace or class.
  */
-#define EXCEPTION_RAISE(EXCEPTION, MSG)                                     \
-  throw fire::exception::Exception(EXCEPTION, MSG, __FILE__, __LINE__, \
-                                        __FUNCTION__)
+#define ENABLE_EXCEPTIONS()                               \
+  class Exception : public ::fire::exception::Exception { \
+   public:                                                \
+    Exception(const std::string &msg) noexcept            \
+        : ::fire::exception::Exception(msg) {}            \
+  }
+
 #endif

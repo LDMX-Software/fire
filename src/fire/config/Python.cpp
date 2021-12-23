@@ -72,7 +72,7 @@ static Parameters getMembers(PyObject* object) {
     if (PyDict_Check(object))
       dictionary = object;
     else {
-      throw PyException("Python Object does not have a __dict__ member");
+      throw python::Exception("Python Object does not have a __dict__ member");
     }
   }
 
@@ -191,7 +191,7 @@ Parameters run(const std::string& pythonScript, char* args[], int nargs) {
   if (PyRun_SimpleFile(fp.get(), pythonScript.c_str()) != 0) {
     // running the script executed with an error
     PyErr_Print();
-    throw PyException("Execution of python script failed.");
+    throw python::Exception("Execution of python script failed.");
   } 
 
   // script has been run so we can
@@ -205,7 +205,7 @@ Parameters run(const std::string& pythonScript, char* args[], int nargs) {
   PyObject* script = PyImport_ImportModule("__main__");
   if (!script) {
     PyErr_Print();
-    throw PyException("I don't know what happened. This should never happen.");
+    throw python::Exception("I don't know what happened. This should never happen.");
   }
 
   PyObject* pConfigObj = PyObject_GetAttrString(script, root_object.c_str());
@@ -213,10 +213,10 @@ Parameters run(const std::string& pythonScript, char* args[], int nargs) {
   if (pConfigObj == 0) {
     // wasn't able to get root config object
     PyErr_Print();
-    throw PyException("Unable to find root configuration object "+root_object+". This object is required to run.");
+    throw python::Exception("Unable to find root configuration object "+root_object+". This object is required to run.");
   } else if (pConfigObj == Py_None) {
     // root config object left undefined
-    throw PyException("Root configuration object "+root_object+" not defined. This object is required to run.");
+    throw python::Exception("Root configuration object "+root_object+" not defined. This object is required to run.");
   }
 
   // okay, now we have fully imported the script and gotten the handle
@@ -233,7 +233,7 @@ Parameters run(const std::string& pythonScript, char* args[], int nargs) {
   // close up python interpreter
   if (Py_FinalizeEx() < 0) {
     PyErr_Print();
-    throw PyException("I wasn't able to close up the python interpreter!");
+    throw python::Exception("I wasn't able to close up the python interpreter!");
   }
 
   return configuration;

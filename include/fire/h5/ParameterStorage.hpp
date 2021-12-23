@@ -27,11 +27,11 @@ class ParameterStorage {
     try {
       return std::get<ParameterType>(parameters_.at(name));
     } catch (const std::bad_variant_access&) {
-      throw std::runtime_error(
+      throw h5::Exception(
           "Parameter named " + name + " is not type " +
           boost::core::demangle(typeid(ParameterType).name()));
     } catch (const std::out_of_range&) {
-      throw std::runtime_error("Parameter named " + name + " not found.");
+      throw h5::Exception("Parameter named " + name + " not found.");
     }
   }
 

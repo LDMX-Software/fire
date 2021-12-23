@@ -1,9 +1,7 @@
 #ifndef FIRE_PROCESSOR_HPP
 #define FIRE_PROCESSOR_HPP
 
-/*~~~~~~~~~~~~~~~*/
-/*   fire   */
-/*~~~~~~~~~~~~~~~*/
+#include "fire/exception/Exception.hpp"
 #include "fire/Conditions.hpp"
 #include "fire/Event.hpp"
 #include "fire/config/Parameters.hpp"
@@ -35,26 +33,31 @@ class Processor {
  public:
   /**
    * @class AbortEventException
-   *
    * @brief Specific exception used to abort an event.
+   * This inherits directly from std exception to try to 
+   * keep it light. It should never be seen outside.
    */
   class AbortEventException : public std::exception {
    public:
-    /**
-     * Constructor
-     *
-     * Use empty Exception constructor so stack trace isn't built.
-     */
     AbortEventException() noexcept : std::exception() {}
   };
 
  public:
   /**
    * Exceptions thrown by processors
+   * We don't use the ENABLE_EXCEPTIONS macro here because
+   * we want to add an extra parameter - the processor's name.
    */
-  class Exception : public std::runtime_error {
+  class Exception : public fire::exception::Exception {
    public:
-    Exception(const std::string &what) noexcept : std::runtime_error(what) {}
+    Exception(const std::string& name, const std::string &what) noexcept 
+      : fire::exception::Exception(what), name_{name} {}
+    const std::string& name() const noexcept {
+      return name_;
+    }
+   private:
+    /// name of processor which threw this exception
+    std::string name_;
   };
 
  public:
@@ -169,6 +172,13 @@ class Processor {
    * Skip the rest of the sequence and don't save anything in the event bus.
    */
   void abortEvent() { throw AbortEventException(); }
+
+  /**
+   * End processing due to a fatal runtime error.
+   */
+  void fatalError(const std::string& msg) {
+    throw Exception(name_, msg);
+  }
 
   /**
    * The logger for this Processor

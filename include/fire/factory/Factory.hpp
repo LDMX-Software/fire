@@ -1,10 +1,11 @@
 #ifndef FIRE_FACTORY_FACTORY_HPP
 #define FIRE_FACTORY_FACTORY_HPP
 
-#include <exception>      // for throwing errors
 #include <memory>         // for the unique_ptr default
 #include <string>         // for the keys in the library map
 #include <unordered_map>  // for the library of prototypes
+
+#include "fire/exception/Exception.hpp"
 
 namespace fire {
 
@@ -24,10 +25,7 @@ namespace factory {
  * factory class for registration and creation of objects
  * from prototypes.
  */
-class Exception : public std::runtime_error {
- public:
-  Exception(const std::string& what) noexcept : std::runtime_error(what) {}
-};
+ENABLE_EXCEPTIONS();
 
 /**
  * load a library by name

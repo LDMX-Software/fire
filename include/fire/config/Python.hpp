@@ -1,9 +1,7 @@
 #ifndef FRAMEWORK_CONFIGUREPYTHON_H
 #define FRAMEWORK_CONFIGUREPYTHON_H
 
-/*~~~~~~~~~~~~~~~*/
-/*   fire   */
-/*~~~~~~~~~~~~~~~*/
+#include "fire/exception/Exception.hpp"
 #include "fire/config/Parameters.hpp"
 
 namespace fire {
@@ -19,10 +17,14 @@ namespace config {
  */
 extern std::string root_object;
 
-class PyException : public std::runtime_error {
- public:
-  PyException(const std::string& what) noexcept : std::runtime_error(what) {}
-};
+/**
+ * Specific Exception class hidden within the 'python'
+ * namespace to make it more apparent about when/why
+ * these errors are thrown.
+ */
+namespace python {
+ENABLE_EXCEPTIONS();
+}
 
 /**
  * run

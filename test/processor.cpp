@@ -30,10 +30,26 @@ class TestAnalyzer : public fire::Analyzer {
   }
 };
 
+class TestThrow : public fire::Analyzer {
+ public:
+  TestThrow(const fire::config::Parameters& ps)
+    : fire::Analyzer(ps) {}
+  void onProcessStart() final override {
+    fatalError("test throw");
+  }
+  void onProcessEnd() final override {
+    fatalError("test throw");
+  }
+  void analyze(const fire::Event& event) final override {
+    fatalError("test throw");
+  }
+};
+
 }
 
 DECLARE_PROCESSOR_NS(test,TestProducer);
 DECLARE_PROCESSOR_NS(test,TestAnalyzer);
+DECLARE_PROCESSOR_NS(test,TestThrow);
 
 /**
  * Test basic functionality of processors
@@ -65,6 +81,25 @@ BOOST_AUTO_TEST_CASE(mimic_process) {
   sequence.emplace_back(fire::Processor::Factory::get().make("test::TestAnalyzer",analyzer));
 
   for (auto& proc : sequence) proc->process(event);
+}
+
+BOOST_AUTO_TEST_CASE(throw_exceptions) {
+  fire::config::Parameters analyzer;
+  analyzer.add<std::string>("name","analyzer");
+
+  auto p{fire::Processor::Factory::get().make("test::TestThrow",analyzer)};
+  BOOST_CHECK_THROW(p->onProcessStart(), fire::Processor::Exception);
+  BOOST_CHECK_THROW(p->onProcessEnd(), fire::Processor::Exception);
+
+  fire::Event event{fire::Event::test()};
+  BOOST_REQUIRE_THROW(p->process(event), fire::Processor::Exception);
+
+  // check that exception has correct name
+  try {
+    p->process(event);
+  } catch (const fire::Processor::Exception& e) {
+    BOOST_TEST(e.name() == analyzer.get<std::string>("name"));
+  }
 }
 
 BOOST_AUTO_TEST_SUITE_END()

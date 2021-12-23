@@ -1,7 +1,6 @@
 #ifndef FIRE_EVENT_HPP
 #define FIRE_EVENT_HPP
 
-#include <exception>
 #include <regex>
 #include <boost/core/demangle.hpp>
 
@@ -57,8 +56,8 @@ class Event {
   /**
    * add a piece of data to the event
    *
-   * @throw Exception if two data sets of the same name are added
-   * @throw Exception if input DataType doesn't match the type stored in the
+   * @throw h5::Exception if two data sets of the same name are added
+   * @throw h5::Exception if input DataType doesn't match the type stored in the
    * data set
    *
    * @tparam[in] DataType type of data being added
@@ -84,21 +83,21 @@ class Event {
       auto& s{dynamic_cast<h5::DataSet<DataType>&>(*sets_[full_name])};
       if (s.updated()) {
         // this data set has been updated by another processor
-        throw std::runtime_error("DataSet named " + full_name +
-                               " already added to the event.");
+        throw h5::Exception("DataSet named " + full_name +
+                        " already added to the event.");
       }
       s.update(data);
     } catch (std::bad_cast const&) {
-      throw std::runtime_error("DataSet corresponding to " + full_name +
-                               " has different type.");
+      throw h5::Exception("DataSet corresponding to " + full_name +
+                      " has different type.");
     }
   }
 
   /**
    * get a piece of data from the event
    *
-   * @throw Exception if requested data doesn't exist
-   * @throw Exception if requested DataType doesn't match type in data set
+   * @throw h5::Exception if requested data doesn't exist
+   * @throw h5::Exception if requested DataType doesn't match type in data set
    *
    * @tparam[in] DataType type of requested data
    * @param[in] name Name of requested data
@@ -119,11 +118,11 @@ class Event {
       auto type = boost::core::demangle(typeid(DataType).name());
       auto options{search("^" + name + "$", "", "^" + type + "$")};
       if (options.size() == 0) {
-        throw std::runtime_error("DataSet " + name + " of type " + type +
-                                 " not found.");
+        throw h5::Exception("DataSet " + name + " of type " + type +
+                        " not found.");
       } else if (options.size() > 1) {
-        throw std::runtime_error("DataSet " + name + " of type " + type +
-                                 " is ambiguous. Provide a pass name.");
+        throw h5::Exception("DataSet " + name + " of type " + type +
+                        " is ambiguous. Provide a pass name.");
       }
 
       // exactly one option
@@ -138,8 +137,8 @@ class Event {
       //  data yet
       if (!input_file_) {
         // no input file
-        throw std::runtime_error("DataSet named " + full_name +
-                                 " does not exist.");
+        throw h5::Exception("DataSet named " + full_name +
+                        " does not exist.");
       }
       // create a new set to track set being read in
       //   also check if the set being read in should also be written to output
@@ -156,8 +155,8 @@ class Event {
       return dynamic_cast<const h5::DataSet<DataType>&>(*sets_.at(full_name))
           .get();
     } catch (std::bad_cast const&) {
-      throw std::runtime_error("DataSet corresponding to " + full_name +
-                               " has different type.");
+      throw h5::Exception("DataSet corresponding to " + full_name +
+                      " has different type.");
     }
   }
 

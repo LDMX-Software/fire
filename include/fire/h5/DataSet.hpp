@@ -6,10 +6,20 @@
 #include <vector>
 #include <map>
 
+#include "fire/exception/Exception.hpp"
 #include "fire/h5/Reader.hpp"
 #include "fire/h5/Writer.hpp"
 
 namespace fire::h5 {
+
+/**
+ * Allow for a specific h5 Exception
+ *
+ * These exceptions aren't used directly here,
+ * but are used in downstream classes like Event
+ * and ParameterStorage.
+ */
+ENABLE_EXCEPTIONS();
 
 /**
  * @class BaseDataSet

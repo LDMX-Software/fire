@@ -4,6 +4,7 @@
 /*~~~~~~~~~~~*/
 /*   Event   */
 /*~~~~~~~~~~~*/
+#include "fire/exception/Exception.hpp"
 #include "fire/EventHeader.hpp"
 #include "fire/exception/Exception.hpp"
 #include "fire/ConditionsProvider.hpp"
@@ -25,11 +26,9 @@ class Process;
  */
 class Conditions {
  public:
-  class Exception : public std::runtime_error {
-   public:
-    Exception(const std::string& what) noexcept : std::runtime_error(what) {}
-  };
- public:
+  /// define a Conditions-specific exception
+  ENABLE_EXCEPTIONS();
+
   /**
    * Constructor
    */
