@@ -1,14 +1,14 @@
-#ifndef FIRE_CONDITIONS_CONDITIONS_HPP
-#define FIRE_CONDITIONS_CONDITIONS_HPP
+#ifndef FIRE_CONDITIONS_HPP
+#define FIRE_CONDITIONS_HPP
 
 /*~~~~~~~~~~~*/
 /*   Event   */
 /*~~~~~~~~~~~*/
 #include "fire/EventHeader.hpp"
 #include "fire/exception/Exception.hpp"
-#include "fire/conditions/Provider.hpp"
-#include "fire/config/Parameters.h"
-#include "fire/Logger.hpp"
+#include "fire/ConditionsProvider.hpp"
+#include "fire/config/Parameters.hpp"
+#include "fire/logging/Logger.h"
 
 /*~~~~~~~~~~~~~~~~*/
 /*   C++ StdLib   */
@@ -19,23 +19,21 @@ namespace fire {
 
 class Process;
 
-namespace conditions {
-
 /**
  * @class Conditions
  * @brief Container and cache for conditions and conditions providers
  */
 class Conditions {
  public:
+  class Exception : public std::runtime_error {
+   public:
+    Exception(const std::string& what) noexcept : std::runtime_error(what) {}
+  };
+ public:
   /**
    * Constructor
    */
-  Conditions(Process& p) noexcept : process_{p} {}
-
-  /**
-   * Class destructor.
-   */
-  ~Conditions() = default;
+  Conditions(const config::Parameters& ps, Process& p);
 
   /**
    * Primary request action for a conditions object If the
@@ -50,7 +48,7 @@ class Conditions {
    * @param[in] condition_name name of condition to retrieve
    * @returns pointer to conditions object with input name
    */
-  const Base* getConditionPtr(const std::string& condition_name);
+  const ConditionsObject* getConditionPtr(const std::string& condition_name);
 
   /**
    * Primary request action for a conditions object If the
@@ -65,7 +63,7 @@ class Conditions {
    * @returns const reference to conditions object
    */
   template <class T>
-  const T& getCondition(const std::string& condition_name) {
+  const T& get(const std::string& condition_name) {
     return dynamic_cast<const T&>(*getConditionPtr(condition_name));
   }
 
@@ -75,7 +73,7 @@ class Conditions {
    * @param[in] condition_name name of condition to get IOV for
    * @returns Interval Of Validity for the input condition name
    */
-  IntervalOfValidity getConditionIOV(const std::string& condition_name) const;
+  ConditionsIntervalOfValidity getConditionIOV(const std::string& condition_name) const;
 
   /**
    * Calls onProcessStart for all ConditionsObjectProviders
@@ -90,32 +88,25 @@ class Conditions {
   /**
    * Calls onNewRun for all ConditionsObjectProviders
    */
-  void onNewRun(ldmx::RunHeader&);
-
-  /**
-   * Create a ConditionsObjectProvider given the information
-   */
-  void createProvider(
-      const std::string& classname, const std::string& instancename,
-      const std::string& tagname, const fire::config::Parameters& params);
+  void onNewRun(RunHeader&);
 
  private:
   /** Handle to the Process. */
   Process& process_;
 
   /** Map of who provides which condition */
-  std::map<std::string, std::unique_ptr<Provider>> providers_;
+  std::map<std::string, std::shared_ptr<ConditionsProvider>> providers_;
 
   /**
    * An entry to store an already loaded conditions object
    */
   struct CacheEntry {
     /// Interval Of Validity for this entry in the cache
-    IntervalOfValidity iov;
+    ConditionsIntervalOfValidity iov;
     /// Provider that gave us the conditions object
-    Provider* provider;
+    std::shared_ptr<ConditionsProvider> provider;
     /// Const pointer to the retrieved conditions object
-    const Base* obj;
+    const ConditionsObject* obj;
   };
 
   /** Conditions cache */

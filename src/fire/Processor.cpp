@@ -8,16 +8,15 @@ Processor::Processor(const config::Parameters& ps)
     : theLog_{logging::makeLogger(ps.get<std::string>("name"))},
       name_{ps.get<std::string>("name")} {}
 
-/*
-Conditions &Processor::getConditions() const {
-  return process_.getConditions();
-}
-*/
-
 void Processor::setStorageHint(StorageControl::Hint hint,
-                               const std::string& purpose) {
+                               const std::string& purpose) const {
   assert(process_);
   process_->addStorageControlHint(hint, purpose, name_);
+}
+
+Conditions &Processor::getConditions() const {
+  assert(process_);
+  return process_->conditions();
 }
 
 Producer::Producer(const config::Parameters& ps) : Processor(ps) {}

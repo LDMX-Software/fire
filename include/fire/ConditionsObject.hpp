@@ -1,26 +1,25 @@
-#ifndef FIRE_CONDITIONS_BASE_HPP
-#define FIRE_CONDITIONS_BASE_HPP
+#ifndef FIRE_CONDITIONSOBJECT_HPP
+#define FIRE_CONDITIONSOBJECT_HPP
 
 #include <string>
 
 namespace fire {
-namespace conditions {
 
 /**
- * @class Base
+ * @class ConditionsObject
  * @brief Base class for all conditions objects, very simple
  */
-class Base {
+class ConditionsObject {
  public:
   /**
    * Class constructor
    */
-  Base(const std::string& name) noexcept : name_(name) {}
+  ConditionsObject(const std::string& name) noexcept : name_(name) {}
 
   /**
    * Destructor
    */
-  virtual ~Base() = default;
+  virtual ~ConditionsObject() = default;
 
   /**
    * Get the name of this object
@@ -34,7 +33,6 @@ class Base {
   std::string name_;
 };
 
-}  // namespace conditions
 }  // namespace fire
 
 #endif

@@ -4,7 +4,7 @@
 /*~~~~~~~~~~~~~~~*/
 /*   fire   */
 /*~~~~~~~~~~~~~~~*/
-//#include "fire/Conditions.h"
+#include "fire/Conditions.hpp"
 #include "fire/Event.hpp"
 #include "fire/config/Parameters.hpp"
 #include "fire/exception/Exception.hpp"
@@ -121,14 +121,6 @@ class Processor {
   virtual void onProcessEnd() {}
 
   /**
-   * Access a conditions object for the current event
-  template <class T>
-  const T &getCondition(const std::string &condition_name) {
-    return getConditions().getCondition<T>(condition_name);
-  }
-   */
-
-  /**
    * Get the processor name
    */
   const std::string& getName() const { return name_; }
@@ -161,7 +153,15 @@ class Processor {
    * configuration to select which hints to "listen" to
    */
   void setStorageHint(StorageControl::Hint hint,
-                      const std::string &purpose = "");
+                      const std::string &purpose = "") const;
+
+  /**
+   * Access a conditions object for the current event
+   */
+  template <class T>
+  const T &getCondition(const std::string &condition_name) {
+    return getConditions().get<T>(condition_name);
+  }
 
   /**
    * Abort the event immediately.
@@ -179,8 +179,8 @@ class Processor {
  private:
   /**
    * Internal getter for conditions without exposing all of Process
-  Conditions &getConditions() const;
    */
+  Conditions &getConditions() const;
 
   /** The name of the Processor. */
   std::string name_;

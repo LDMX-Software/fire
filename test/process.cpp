@@ -46,6 +46,7 @@ BOOST_AUTO_TEST_CASE(production_mode) {
   //configuration.add("libraries",vec<str>);
   //configuration.add("sequence",vec<Param>);
   configuration.add("testing",true); // ok for no sequence
+  configuration.add<fire::config::Parameters>("conditions",{});
 
   std::unique_ptr<fire::Process> p;
   try {
@@ -105,6 +106,7 @@ BOOST_AUTO_TEST_CASE(recon_mode_single_file, *boost::unit_test::depends_on("proc
   //configuration.add("libraries",vec<str>);
   //configuration.add("sequence",vec<Param>);
   configuration.add("testing",true); // ok for no sequence
+  configuration.add<fire::config::Parameters>("conditions",{});
 
   try {
     fire::Process p(configuration);
@@ -145,6 +147,7 @@ BOOST_AUTO_TEST_CASE(recon_mode_multi_file, *boost::unit_test::depends_on("proce
     configuration.add("max_tries", 1);
 
     configuration.add("testing",true); // ok for no sequence
+    configuration.add<fire::config::Parameters>("conditions",{});
 
     fire::Process p(configuration);
     p.run();
@@ -181,6 +184,7 @@ BOOST_AUTO_TEST_CASE(recon_mode_multi_file, *boost::unit_test::depends_on("proce
   //configuration.add("libraries",vec<str>);
   //configuration.add("sequence",vec<Param>);
   configuration.add("testing",true); // ok for no sequence
+  configuration.add<fire::config::Parameters>("conditions",{});
 
   try {
     fire::Process p(configuration);

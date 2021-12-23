@@ -3,6 +3,7 @@
 
 #include "fire/logging/Logger.h"
 #include "fire/StorageControl.h"
+#include "fire/Conditions.hpp"
 #include "fire/Event.hpp"
 #include "fire/Processor.hpp"
 #include "fire/RunHeader.hpp"
@@ -39,6 +40,10 @@ class Process {
       const std::string& processor
       ) {
     storage_control_.addHint(hint,purpose,processor);
+  }
+
+  Conditions& conditions() {
+    return conditions_;
   }
 
  private:
@@ -81,7 +86,7 @@ class Process {
   StorageControl storage_control_;
 
   /// handle to conditions system
-  //Conditions conditions_;
+  Conditions conditions_;
 
   /// event object
   Event event_;

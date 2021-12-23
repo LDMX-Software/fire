@@ -7,7 +7,7 @@
 namespace fire {
 
 Process::Process(const fire::config::Parameters &configuration)
-    : /*conditions_{*this},*/
+    : conditions_{configuration.get<config::Parameters>("conditions"),*this},
       output_file_{configuration.get<config::Parameters>("output_file")},
       input_files_{configuration.get<std::vector<std::string>>("input_files",{})},
       event_{configuration.get<std::string>("pass"),
@@ -41,20 +41,6 @@ Process::Process(const fire::config::Parameters &configuration)
     sequence_.emplace_back(Processor::Factory::get().make(class_name, proc));
     sequence_.back()->attach(this);
   }
-
-  /*
-  auto conditionsObjectProviders{
-      configuration.getParameter<std::vector<fire::config::Parameters>>(
-          "conditionsObjectProviders", {})};
-  for (const auto &cop : conditionsObjectProviders) {
-    auto class_name{cop.get<std::string>("class_name")};
-    auto object_name{cop.get<std::string>("object_name")};
-    auto tag_name{cop.get<std::string>("tag_name")};
-
-    conditions_.createConditionsObjectProvider(class_name, object_name,
-                                               tag_name, cop);
-  }
-  */
 }
 
 Process::~Process() {
@@ -69,7 +55,7 @@ void Process::run() {
   std::size_t i_output_file{0};
 
   // Start by notifying everyone that modules processing is beginning
-  //conditions_.onProcessStart();
+  conditions_.onProcessStart();
   for (auto& proc : sequence_) proc->onProcessStart();
 
   // If we have no input files, but do have an event number, run for
@@ -191,7 +177,7 @@ void Process::newRun(RunHeader &rh) {
   for (auto& proc : sequence_) proc->beforeNewRun(rh);
   // now run header has been modified by Producers,
   // it is valid to read from for everyone else in 'onNewRun'
-  //conditions_.onNewRun(rh);
+  conditions_.onNewRun(rh);
   for (auto& proc : sequence_) proc->onNewRun(rh);
 }
 

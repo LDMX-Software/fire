@@ -76,6 +76,8 @@ int main(int argc, char* argv[]) {
     p->run();
   } catch (const HighFive::Exception& e) {
     fire_log(fatal) << "[H5 Error] " << e.what();
+  } catch (const fire::Conditions::Exception& e) {
+    fire_log(fatal) << "[Conditions Error] " << e.what();
   } catch (fire::exception::Exception& e) {
     fire_log(fatal) << "[" << e.name() << "] : " << e.message() << "\n"
                     << "  at " << e.module() << ":" << e.line() << " in "

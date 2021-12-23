@@ -106,7 +106,11 @@ add_library(framework SHARED
   src/fire/EventHeader.cpp
   src/fire/Processor.cpp
   src/fire/Process.cpp
-  src/fire/RunHeader.cpp)
+  src/fire/RunHeader.cpp
+  src/fire/ConditionsIntervalOfValidity.cpp
+  src/fire/ConditionsProvider.cpp
+  src/fire/Conditions.cpp
+  )
 target_include_directories(framework 
   PUBLIC 
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
