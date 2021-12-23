@@ -6,22 +6,28 @@ StorageControl::StorageControl(const config::Parameters& ps)
     : default_keep_{ps.get<bool>("default_keep")} {
   auto listening_rules{ps.get<std::vector<config::Parameters>>("listening_rules",{})};
   for (const auto& listening_rule : listening_rules) {
-    const auto& proc_regex_str = listening_rule.get<std::string>("processor");
+    auto proc_regex_str = listening_rule.get<std::string>("processor");
     auto purp_regex_str = listening_rule.get<std::string>("purpose");
-    // skip rules without processor pattern
-    if (proc_regex_str.empty()) continue;
-    // default purpose pattern is match all
+    // default regex is match all
+    if (proc_regex_str.empty()) proc_regex_str = ".*";
     if (purp_regex_str.empty()) purp_regex_str = ".*";
 
     // since the types in the pair are the same, order really matters here
     // the order we put the rules into the pair needs to be the same as the
     // order used in the for-loop in addHint
-    rules_.emplace_back(
+    try {
+      rules_.emplace_back(
         std::piecewise_construct,
         std::forward_as_tuple(proc_regex_str,
                               std::regex::extended | std::regex::nosubs),
         std::forward_as_tuple(purp_regex_str,
                               std::regex::extended | std::regex::nosubs));
+    } catch (const std::regex_error& e) {
+      // re-throw regex error with our Parameter error
+      std::string msg{"Invalid regex given to storage control: "};
+      msg += e.what();
+      throw fire::config::Parameters::Exception(msg);
+    }
   }
 }
 
