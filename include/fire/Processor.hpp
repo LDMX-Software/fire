@@ -8,7 +8,7 @@
 #include "fire/Event.hpp"
 #include "fire/config/Parameters.hpp"
 #include "fire/exception/Exception.hpp"
-//#include "fire/Logger.hpp"
+#include "fire/logging/Logger.h"
 #include "fire/RunHeader.hpp"
 #include "fire/StorageControl.h"
 #include "fire/factory/Factory.hpp"
@@ -170,8 +170,12 @@ class Processor {
    */
   void abortEvent() { throw AbortEventException(); }
 
-  /// The logger for this Processor
-  // logging::logger theLog_;
+  /**
+   * The logger for this Processor
+   *  The channel name for this logging stream is set to the
+   *  name of the processor as configured.
+   */
+  mutable logging::logger theLog_;
  private:
   /**
    * Internal getter for conditions without exposing all of Process

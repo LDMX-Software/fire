@@ -1,6 +1,7 @@
 #ifndef FIRE_PROCESS_HPP
 #define FIRE_PROCESS_HPP
 
+#include "fire/logging/Logger.h"
 #include "fire/StorageControl.h"
 #include "fire/Event.hpp"
 #include "fire/Processor.hpp"
@@ -12,9 +13,7 @@ class Process {
  public:
   Process(const config::Parameters& configuration);
   void run(); 
-  ~Process() {
-    //logging::close();
-  }
+  ~Process();
 
   const EventHeader& eventHeader() const {
     return event_.header();
@@ -89,6 +88,9 @@ class Process {
 
   /// the current run header
   RunHeader* run_header_;
+
+  /// log through the 'Process' channel
+  ENABLE_LOGGING(Process);
 };  // Process
 
 }  // namespace fire

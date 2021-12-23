@@ -1,5 +1,5 @@
-#ifndef FRAMEWORK_LOGGER_H
-#define FRAMEWORK_LOGGER_H
+#ifndef FIRE_LOGGING_LOGGER_H
+#define FIRE_LOGGING_LOGGER_H
 
 /**
  * Necessary to get linking to work?
@@ -22,9 +22,7 @@
 #include <boost/log/sources/record_ostream.hpp>
 #include <boost/log/utility/setup/file.hpp>
 
-namespace fire {
-
-namespace logging {
+namespace fire::logging {
 
 /**
  * Severity/Logging levels
@@ -46,7 +44,7 @@ enum level {
  * @param[in] iLvl integer level to be converted
  * @return converted enum level
  */
-level convertLevel(int& iLvl);
+level convertLevel(int iLvl);
 
 /**
  * Severity level to human readable name map
@@ -77,7 +75,7 @@ namespace sinks = boost::log::sinks;
 /**
  * Define the type of logger we will be using in ldmx-sw
  */
-typedef log::sources::severity_channel_logger_mt<level, std::string> logger;
+using logger = log::sources::severity_channel_logger_mt<level, std::string>;
 
 /**
  * Gets a logger for the user
@@ -116,12 +114,10 @@ void open(const level termLevel, const level fileLevel,
  */
 void close();
 
-}  // namespace logging
-
-}  // namespace fire
+}  // namespace fire::logging
 
 /**
- * @macro enableLogging
+ * @macro ENABLE_LOGGING
  * Enables logging in a class.
  *
  * Should be put in the 'private' section of the class
@@ -131,17 +127,17 @@ void close();
  * name as the channel name.
  *
  * Makes theLog_ mutable so that the log can be used
- * in any class functions.
+ * in any class function.
  */
-#define enableLogging(name) \
-  mutable logging::logger theLog_{logging::makeLogger(name)};
+#define ENABLE_LOGGING(name) \
+  mutable logging::logger theLog_{logging::makeLogger(#name)};
 
 /**
- * @macro ldmx_log
+ * @macro fire_log
  *
  * Assumes to have access to a variable named theLog_ of type logger.
  * Input logging level (without namespace or enum).
  */
-#define ldmx_log(lvl) BOOST_LOG_SEV(theLog_, fire::logging::level::lvl)
+#define fire_log(lvl) BOOST_LOG_SEV(theLog_, fire::logging::level::lvl)
 
 #endif  // FRAMEWORK_LOGGER_H

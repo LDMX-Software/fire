@@ -25,20 +25,22 @@ Besides this core functionality of processors looking at data event-by-event, th
 - Header for run-wide information
 - Simple serialization of user-defined classes allowing for quick h5py-based analyses
 - Configuration through running a python script
+- Modern CMake infrasture enabling simple `find_package(fire)` syntax
 - Drop/Keep Rules: Regex-based rules for copying data from input file to output file
   or choosing to _not_ save data created during processing
-- Modern CMake infrasture enabling simple `find_package(fire)` syntax
+- Veto: Voting system for processors to decide if an entire event
+  should be saved into the output file
+- Logging through Boost
 
 ### TBD
 - Basic interface to a conditions system
-- Veto: Voting system for processors to decide on if entire event
-  should be saved into the output file
-- Logging through Boost
+- Test drop/keep rules
+- Make boost logging optional
 
 ## Dependencies
 
 - C++ compiler with C++17 support
 - HDF5
 - HighFive C++ interface for HDF5
-- Boost.Logging (optional, for logging through fire)
-- Boost Unit Testing Framework (optional, for testing)
+- Boost.Logging (looking to be optional, for logging through fire)
+- Boost Unit Testing Framework (optional, for testing during development)

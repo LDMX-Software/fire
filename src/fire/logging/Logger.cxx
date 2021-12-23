@@ -1,4 +1,4 @@
-#include "fire/Logger.h"
+#include "fire/logging/Logger.h"
 
 // STL
 #include <fstream>
@@ -9,11 +9,9 @@
 #include <boost/core/null_deleter.hpp>  //to avoid deleting std::cout
 #include <boost/log/utility/setup/common_attributes.hpp>  //for loading commont attributes
 
-namespace fire {
+namespace fire::logging {
 
-namespace logging {
-
-level convertLevel(int &iLvl) {
+level convertLevel(int iLvl) {
   if (iLvl < 0)
     iLvl = 0;
   else if (iLvl > 4)
@@ -29,14 +27,14 @@ logger makeLogger(const std::string &name) {
 void open(const level termLevel, const level fileLevel,
           const std::string &fileName) {
   // some helpful types
-  typedef sinks::text_ostream_backend ourSinkBack_t;
-  typedef sinks::synchronous_sink<ourSinkBack_t> ourSinkFront_t;
+  using ourSinkBack_t = sinks::text_ostream_backend;
+  using ourSinkFront_t = sinks::synchronous_sink<ourSinkBack_t>;
 
   // allow our logs to access common attributes, the ones availabe are
-  //  "LineID"    : counter increments for each record being made (terminal or
-  //  file) "TimeStamp" : time the log message was created "ProcessID" : machine
-  //  ID for the process that is running "ThreadID"  : machine ID for the thread
-  //  the message is in
+  //  "LineID"    : counter increments for each record being made
+  //  "TimeStamp" : time the log message was created 
+  //  "ProcessID" : machine ID for the process that is running 
+  //  "ThreadID"  : machine ID for the thread the message is in
   log::add_common_attributes();
 
   // get the core logging service
@@ -61,13 +59,9 @@ void open(const level termLevel, const level fileLevel,
     //  [ Channel ] int severity : message
     fileSink->set_formatter([](const log::record_view &view,
                                log::formatting_ostream &os) {
-      os
-          //                            <<
-          //                            log::extract<boost::date_time::int_adapter>(
-          //                            "TimeStamp" , view )
-          << " [ " << log::extract<std::string>("Channel", view) << " ] "
-          << /*humanReadableLevel.at*/ (log::extract<level>("Severity", view))
-          << " : " << view[log::expressions::smessage];
+      os << " [ " << log::extract<std::string>("Channel", view) << " ] "
+         << /*humanReadableLevel.at*/ (log::extract<level>("Severity", view))
+         << " : " << view[log::expressions::smessage];
     });
 
     core->add_sink(fileSink);
@@ -91,16 +85,13 @@ void open(const level termLevel, const level fileLevel,
 
   // TODO change format to something helpful
   // Currently:
-  //  [ Channel ](int severity) : message
+  // [ Channel ](int severity) : message
   termSink->set_formatter([](const log::record_view &view,
                              log::formatting_ostream &os) {
-    os
-        //                        <<
-        //                        log::extract<boost::date_time::int_adapter>(
-        //                        "TimeStamp" , view )
-        << " [ " << log::extract<std::string>("Channel", view) << " ] "
-        << /*humanReadableLevel.at*/ (log::extract<level>("Severity", view))
-        << " : " << view[log::expressions::smessage];
+    os << "[ " << log::extract<std::string>("Channel", view) << " ] "
+       << boost::core::demangle(typeid(log::extract<level>("Severity",view)).name())
+       << /*humanReadableLevel.at*/ (log::extract<level>("Severity", view))
+       << " : " << view[log::expressions::smessage];
   });
 
   core->add_sink(termSink);
@@ -116,6 +107,4 @@ void close() {
   return;
 }
 
-}  // namespace logging
-
-}  // namespace fire
+}  // namespace fire::logging

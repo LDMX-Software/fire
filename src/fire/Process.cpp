@@ -1,13 +1,7 @@
-/**
- * @file Process.cxx
- * Implementation file for Process class
- */
-
 #include "fire/Process.hpp"
 
 #include <iostream>
 
-//#include "fire/Logger.h"
 #include "fire/factory/Factory.hpp"
 
 namespace fire {
@@ -25,13 +19,11 @@ Process::Process(const fire::config::Parameters &configuration)
       storage_control_{configuration.get<config::Parameters>("storage")},
       run_header_{nullptr}
       {
-  /*
   logging::open(
-      logging::convertLevel(configuration.get<int>("term_level")),
-      logging::convertLevel(configuration.get<int>("file_level")),
-      configuration.get<std::string>("log_file")
+      logging::convertLevel(configuration.get<int>("term_level",4)),
+      logging::convertLevel(configuration.get<int>("file_level",4)),
+      configuration.get<std::string>("log_file","")
       );
-   */
 
   for (const auto &lib :
        configuration.get<std::vector<std::string>>("libraries", {}))
@@ -66,6 +58,10 @@ Process::Process(const fire::config::Parameters &configuration)
   */
 }
 
+Process::~Process() {
+  logging::close();
+}
+
 void Process::run() {
   // counter for number of events we have processed
   std::size_t n_events_processed{0};
@@ -80,6 +76,7 @@ void Process::run() {
   // If we have no input files, but do have an event number, run for
   // that number of events and generate an output file.
   if (input_files_.empty()) {
+    fire_log(info) << "No input files, starting production mode run.";
     for (auto& proc : sequence_) proc->onFileOpen(output_file_.name());
 
     RunHeader run_header;
@@ -100,12 +97,13 @@ void Process::run() {
     for (auto& proc : sequence_) proc->onFileClose(output_file_.name());
 
     runHeader().runEnd();
-    //ldmx_log(info) << runHeader();
+    fire_log(info) << runHeader();
 
     h5::DataSet<RunHeader> write_ds{RunHeader::NAME,true,run_header_};
     write_ds.save(output_file_,0);
 
   } else {
+    fire_log(info) << input_files_.size() << " input file(s), starting reconstruction mode run.";
     // there are input files
     
     /// the cache of runs from the opened input files
@@ -129,7 +127,7 @@ void Process::run() {
         }
       }
 
-      //ldmx_log(info) << "Opening " << input_file;
+      fire_log(info) << "Opening " << input_file;
 
       for (auto &module : sequence_) module->onFileOpen(input_file.name());
       event_.setInputFile(input_file);
@@ -147,12 +145,12 @@ void Process::run() {
           wasRun = event_.header().getRun();
           if (input_runs.find(wasRun) != input_runs.end()) {
             newRun(input_runs[wasRun]);
-            /*ldmx_log(info) << "Got new run header from '" << input_file
+            fire_log(info) << "Got new run header from '" << input_file
                            << "\n"
-                           << runHeader();*/
+                           << runHeader();
           } else {
-            /*ldmx_log(warn) << "Run header for run " << wasRun
-                           << " was not found!";*/
+            fire_log(warn) << "Run header for run " << wasRun
+                           << " was not found!";
           }
         }
 
@@ -162,10 +160,10 @@ void Process::run() {
       }  // loop through events
 
       if (event_limit_ > 0 && n_events_processed == event_limit_) {
-        //ldmx_log(info) << "Reached event limit of " << event_limit_ << " events";
+        fire_log(info) << "Reached event limit of " << event_limit_ << " events";
       }
 
-      //ldmx_log(info) << "Closing " << input_file;
+      fire_log(info) << "Closing " << input_file;
 
       for (auto& proc : sequence_) proc->onFileClose(input_file.name());
     }  // loop through input files
@@ -201,10 +199,11 @@ void Process::newRun(RunHeader &rh) {
 bool Process::process(const std::size_t& n, std::size_t& i_output_file) {
   // status statement printed to log
   if ((log_frequency_ != -1) && ((n + 1) % log_frequency_ == 0)) {
-    // TODO print time
-    /*ldmx_log(info) << "Processing " << n + 1 << " Run "
+    std::time_t time = std::time(nullptr);
+    fire_log(info) << "Processing " << n + 1 << " Run "
                    << event_.header().getRun() << " Event "
-                   << event_.header().getEventNumber() <<;*/
+                   << event_.header().getEventNumber()
+                   << " : " << std::asctime(std::localtime(&time));
                    
   }
 

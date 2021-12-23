@@ -72,6 +72,14 @@ target_include_directories(factory
   "$<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>"
   )
 
+add_library(logging SHARED src/fire/logging/Logger.cxx)
+target_link_libraries(logging PUBLIC Boost::log)
+target_include_directories(logging
+  PUBLIC 
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+  "$<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>"
+  )
+
 add_library(config SHARED src/fire/config/Python.cpp)
 target_link_libraries(config PUBLIC Python3::Python)
 target_include_directories(config
@@ -104,7 +112,7 @@ target_include_directories(framework
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
   "$<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>"
   )
-target_link_libraries(framework PUBLIC Boost::log version exception config factory h5)
+target_link_libraries(framework PUBLIC logging version exception config factory h5)
 
 # Compiling the fire library requires features introduced by the cpp 17 standard.
 set_target_properties(
@@ -116,7 +124,7 @@ set_target_properties(
 # installing the fire target and generate CMake-compatible package files
 #   is done by following the documentation linked below
 # https://cmake.org/cmake/help/git-stage/guide/importing-exporting/index.html
-install(TARGETS framework exception config factory h5 version
+install(TARGETS framework exception config factory h5 version logging
   EXPORT fireTargets 
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
