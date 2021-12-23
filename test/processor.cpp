@@ -26,7 +26,7 @@ class TestAnalyzer : public fire::Analyzer {
   TestAnalyzer(const fire::config::Parameters& ps)
     : fire::Analyzer(ps) {}
   void analyze(const fire::Event& event) {
-    BOOST_CHECK(event.header().getEventNumber() == event.get<int>("TestProducer"));
+    BOOST_TEST(event.header().getEventNumber() == event.get<int>("TestProducer"));
   }
 };
 

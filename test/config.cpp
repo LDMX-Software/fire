@@ -63,34 +63,34 @@ BOOST_AUTO_TEST_CASE(no_arg) {
   }
   char *args[1];
   fire::config::Parameters config{fire::config::run(config_file_name, args,0)};
-  BOOST_CHECK(config.get<std::string>("string") == "test");
-  BOOST_CHECK(config.get<int>("integer") == 10);
-  BOOST_CHECK(config.get<double>("double") == 6.9);
+  BOOST_TEST(config.get<std::string>("string") == "test");
+  BOOST_TEST(config.get<int>("integer") == 10);
+  BOOST_TEST(config.get<double>("double") == 6.9);
 
   auto int_vec{config.get<std::vector<int>>("int_vec")};
-  for (std::size_t i{0}; i < int_vec.size(); i++) BOOST_CHECK(int_vec.at(i) == i+1);
+  for (std::size_t i{0}; i < int_vec.size(); i++) BOOST_TEST(int_vec.at(i) == i+1);
 
   auto double_vec{config.get<std::vector<double>>("double_vec")};
-  for (std::size_t i{0}; i < double_vec.size(); i++) BOOST_CHECK(double_vec.at(i) == (i+1)*0.1);
+  for (std::size_t i{0}; i < double_vec.size(); i++) BOOST_TEST(double_vec.at(i) == (i+1)*0.1);
 
   auto string_vec{config.get<std::vector<std::string>>("string_vec")};
-  BOOST_CHECK(string_vec.at(0) == "first");
-  BOOST_CHECK(string_vec.at(1) == "second");
-  BOOST_CHECK(string_vec.at(2) == "third");
+  BOOST_TEST(string_vec.at(0) == "first");
+  BOOST_TEST(string_vec.at(1) == "second");
+  BOOST_TEST(string_vec.at(2) == "third");
 
   auto dict{config.get<fire::config::Parameters>("dict")};
-  BOOST_CHECK(dict.get<int>("one") == 1);
-  BOOST_CHECK(dict.get<int>("two") == 2);
+  BOOST_TEST(dict.get<int>("one") == 1);
+  BOOST_TEST(dict.get<int>("two") == 2);
 
   auto sub_class{config.get<fire::config::Parameters>("sub_class")};
-  BOOST_CHECK(sub_class.get<std::string>("substr") == "subtest");
-  BOOST_CHECK(sub_class.get<int>("subint") == 100);
+  BOOST_TEST(sub_class.get<std::string>("substr") == "subtest");
+  BOOST_TEST(sub_class.get<int>("subint") == 100);
 
   auto vec_dict{sub_class.get<std::vector<fire::config::Parameters>>("vec_dict")};
-  BOOST_CHECK(vec_dict.at(0).get<int>("sub") == 3);
-  BOOST_CHECK(vec_dict.at(0).get<int>("bla") == 55);
-  BOOST_CHECK(vec_dict.at(1).get<std::string>("foo") == "bar");
-  BOOST_CHECK(vec_dict.at(1).get<std::string>("baz") == "buz");
+  BOOST_TEST(vec_dict.at(0).get<int>("sub") == 3);
+  BOOST_TEST(vec_dict.at(0).get<int>("bla") == 55);
+  BOOST_TEST(vec_dict.at(1).get<std::string>("foo") == "bar");
+  BOOST_TEST(vec_dict.at(1).get<std::string>("baz") == "buz");
 
   // just check that we can 'get' vector of subclasses
   auto vec_class{config.get<std::vector<fire::config::Parameters>>("vec_class")};
@@ -110,7 +110,7 @@ BOOST_AUTO_TEST_CASE(one_arg) {
   snprintf(arg,sizeof(arg),"%d",correct);
   args[0] = arg;
   fire::config::Parameters config{fire::config::run(config_file_name, args, 1)};
-  BOOST_CHECK(config.get<int>("integer") == correct);
+  BOOST_TEST(config.get<int>("integer") == correct);
 }
 
 BOOST_AUTO_TEST_CASE(no_root) {
