@@ -133,7 +133,7 @@ install(TARGETS framework exception config factory h5 version logging
   )
 # need pattern to exclude version header configured by CMake above
 install(DIRECTORY include/ DESTINATION include/ FILES_MATCHING PATTERN "*.hpp")
-install(DIRECTORY python/ DESTINATION python/fire)
+install(DIRECTORY python/ DESTINATION python/)
 
 # install the export file
 install(EXPORT fireTargets
