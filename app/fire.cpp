@@ -9,7 +9,7 @@
 //-------------//
 #include "fire/config/Python.hpp"
 /// define the object to pull parameters from
-std::string fire::config::root_object = "firecfg.Process.lastProcess";
+std::string fire::config::root_object = "fire.cfg.Process.lastProcess";
 
 #include "fire/Process.hpp"
 
@@ -47,7 +47,8 @@ int main(int argc, char* argv[]) {
 
   std::unique_ptr<fire::Process> p;
   try {
-    fire::config::Parameters config{fire::config::run(argv[ptrpy], argv + ptrpy + 1, argc - ptrpy - 1)};
+    fire::config::Parameters config{
+        fire::config::run(argv[ptrpy], argv + ptrpy + 1, argc - ptrpy - 1)};
     p = std::make_unique<fire::Process>(config);
   } catch (fire::config::PyException& e) {
     std::cerr << "[Python Error] " << e.what() << std::endl;
@@ -58,23 +59,28 @@ int main(int argc, char* argv[]) {
   } catch (fire::factory::Exception& e) {
     std::cerr << "[Creation Error] " << e.what() << std::endl;
     return 3;
+  } catch (std::exception& e) {
+    std::cerr << "Unknown Exception: " << e.what() << std::endl;
+    return 127;
   }
 
   std::cout << "---- FIRE: Starting event processing --------" << std::endl;
 
+  // successfully creating the Process also means the logger
+  // was successfully opened, create one here for printing
+  // exceptions
+  // the fire_log macro expects this variable to be named 'theLog_'
+  auto theLog_{fire::logging::makeLogger("fire")};
+
   try {
     p->run();
   } catch (const HighFive::Exception& e) {
-    std::cerr << "[H5 Error] " << e.what() << std::endl;
+    fire_log(fatal) << "[H5 Error] " << e.what();
   } catch (fire::exception::Exception& e) {
-    /*
-    auto theLog_{fire::logging::makeLogger(
-        "fire")};  // ldmx_log macro needs this variable to be named 'theLog_'
-    ldmx_log(fatal) << "[" << e.name() << "] : " << e.message() << "\n"
+    fire_log(fatal) << "[" << e.name() << "] : " << e.message() << "\n"
                     << "  at " << e.module() << ":" << e.line() << " in "
                     << e.function() << "\nStack trace: " << std::endl
                     << e.stackTrace();
-                   */
     return 127;  // return non-zero error-status
   }
 
