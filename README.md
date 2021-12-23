@@ -34,10 +34,9 @@ Besides this core functionality of processors looking at data event-by-event, th
 - Interface to a conditions system
 
 ### TBD
-- Test conditions system
 - Test drop/keep rules
 - Make boost logging optional
-- Processor- and Conditions- specific exceptions
+- Much more documentation
 
 ## Dependencies
 
