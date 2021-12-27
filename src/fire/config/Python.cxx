@@ -13,6 +13,7 @@
 #include <cstring>
 #include <iostream>
 #include <string>
+#include <sstream>
 #include <vector>
 #include <memory>
 
@@ -199,22 +200,33 @@ Parameters run(const std::string& pythonScript, char* args[], int nargs) {
   for (int i = 0; i < nargs + 1; i++) PyMem_RawFree(targs[i]);
   delete[] targs;
 
-  // running a python script defines the script as the module __main__
+  // running a python script effectively imports the script into the top-level
+  // code environment called '__main__'
   //  we "import" this module which is already imported to get a handle
   //  on the necessary objects
-  PyObject* script = PyImport_ImportModule("__main__");
-  if (!script) {
+  PyObject* py_root_obj = PyImport_ImportModule("__main__");
+  if (!py_root_obj) {
     PyErr_Print();
     throw python::Exception("I don't know what happened. This should never happen.");
   }
 
-  PyObject* pConfigObj = PyObject_GetAttrString(script, root_object.c_str());
-  Py_DECREF(script);  // don't need the script anymore
-  if (pConfigObj == 0) {
-    // wasn't able to get root config object
-    PyErr_Print();
-    throw python::Exception("Unable to find root configuration object "+root_object+". This object is required to run.");
-  } else if (pConfigObj == Py_None) {
+  // descend the hierarchy of modules that hold the root_object
+  // manually expanding the '.' allows us to handle all of the different
+  // cases of how the configuration Python class could have been imported
+  // and constructed
+  std::string attr;
+  std::stringstream root_obj_ss{root_object};
+  while (std::getline(root_obj_ss, attr, '.')) {
+    PyObject* one_level_down = PyObject_GetAttrString(py_root_obj, attr.c_str());
+    if (one_level_down == 0) {
+      throw python::Exception("Unable to find python object '"+attr+"'.");
+    }
+    Py_DECREF(py_root_obj); // don't need previous python object anymore
+    py_root_obj = one_level_down;
+  }
+
+  // now py_root_obj should hold the root configuration object
+  if (py_root_obj == Py_None) {
     // root config object left undefined
     throw python::Exception("Root configuration object "+root_object+" not defined. This object is required to run.");
   }
@@ -223,13 +235,13 @@ Parameters run(const std::string& pythonScript, char* args[], int nargs) {
   // to the root configuration object defined in the script.
   // We can now look at this object and recursively get all of our parameters out of it.
 
-  Parameters configuration(getMembers(pConfigObj));
+  Parameters configuration(getMembers(py_root_obj));
 
   // all done with python nonsense
   // delete one parent python object
   // MEMORY still not sure if this is enough, but not super worried about it
   //  because this only happens once per run
-  Py_DECREF(pConfigObj);
+  Py_DECREF(py_root_obj);
   // close up python interpreter
   if (Py_FinalizeEx() < 0) {
     PyErr_Print();
