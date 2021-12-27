@@ -37,11 +37,11 @@ class Processor:
 
     def __str__(self) :
         """A full str print of the processor includes the repr as well as all of its parameters"""
-        msg = f'\n {repr(self)}'
+        msg = f'{repr(self)}'
         if len(self.__dict__) > 2 :
             msg += '\n  Parameters:'
             for k, v in self.__dict__.items() :
-                if k in ['name','class_name'] :
+                if k not in ['name','class_name'] :
                     msg += f'\n   {str(k)} : {str(v)}'
         return msg
 
@@ -55,7 +55,7 @@ class Producer(Processor):
     fire.cfg.Processor : base class
     """
 
-    def __init__(self, name, class_name, module, **kwargs)
+    def __init__(self, name, class_name, module, **kwargs) :
         super().__init__(name, class_name, module, **kwargs)
 
 class Analyzer(Processor):
@@ -68,13 +68,13 @@ class Analyzer(Processor):
     fire.cfg.Processor : base class
     """
 
-    def __init__(self, name, class_name, module, **kwargs)
+    def __init__(self, name, class_name, module, **kwargs) :
         super().__init__(name, class_name, module, **kwargs)
 
-class ConditionsObjectProvider:
-    """A ConditionsObjectProvider
+class ConditionsProvider:
+    """A ConditionsProvider
 
-    This object contains the parameters that are necessary for a fire::ConditionsObjectProvider to be configured.
+    This object contains the parameters that are necessary for a fire::ConditionsProvider to be configured.
 
     In this constructor we also do two helpful processes.
     1. We append the module that this provider is in to the list of libraries to load
@@ -91,25 +91,25 @@ class ConditionsObjectProvider:
 
     Attributes
     ----------
-    tagName : str
+    tag_name : str
         Tag which identifies the generation of information
 
     See Also
     --------
     fire.cfg.Process.addModule : how modules are interpreted as libraries to load
-    fire.cfg.Process.declareConditionsObjectProvider : how COPs are registered
+    fire.cfg.Process.declareConditionsProvider : how COPs are registered
     """
 
     def __init__(self, object_name, class_name, module):
-        self.objectName=object_name
-        self.className=class_name
-        self.tagName=''
+        self.obj_name=object_name
+        self.class_name=class_name
+        self.tag_name=''
 
         # make sure process loads this library if it hasn't yet
         Process.addModule(module)
         
         #register this conditions object provider with the process
-        Process.declareConditionsObjectProvider(self)
+        Process.declareConditionsProvider(self)
 
     def setTag(self,newtag) :
         """Set the tag generation of the Conditions
@@ -120,7 +120,7 @@ class ConditionsObjectProvider:
             Tag for generation of conditions
         """
 
-        self.tagName=newtag
+        self.tag_name=newtag
 
     def __eq__(self,other) :
         """Check if two COPs are the same
@@ -129,33 +129,43 @@ class ConditionsObjectProvider:
         
         Parameters
         ----------
-        other : ConditionsObjectProvider
+        other : ConditionsProvider
             other COP to compare agains
         """
 
-        if not isinstance(other,ConditionsObjectProvider) :
+        if not isinstance(other,ConditionsProvider) :
             return NotImplemented
 
         return (self.objectName == other.objectName and self.className == other.className)
 
+    def __repr__(self) :
+        """Represent this provider with its Python class name, instance name, and C++ name"""
+        return f'{self.__class__.__name__}({self.class_name} providing {self.obj_name})'
+
     def __str__(self) :
-        """Stringify this ConditionsObjectProvider, creates a message with all the internal parameters.
-
-        Returns
-        -------
-        str
-            A message with all the parameters and member variables in a human readable format
-        """
-
-        msg = "\n  ConditionsObjectProvider(%s of class %s, tag='%s')"%(self.objectName,self.className,self.tagName)
-        if len(self.__dict__)>0:
-            msg += "\n   Parameters:"
-            for k, v in self.__dict__.items():
-                msg += "\n    " + str(k) + " : " + str(v)
-
+        """A full str print of the processor includes the repr as well as all of its parameters"""
+        msg = f'{repr(self)}'
+        if len(self.__dict__) > 3 :
+            msg += '\n  Parameters:'
+            for k, v in self.__dict__.items() :
+                if k not in ['name','class_name'] :
+                    msg += f'\n   {str(k)} : {str(v)}'
         return msg
 
-class RandomNumberSeedService(ConditionsObjectProvider):
+class Conditions :
+    """The configuration for the central conditions system"""
+
+    def __init__(self, global_tag = 'Default') :
+        self.global_tag = 'Default'
+        self.providers = []
+
+    def __repr__(self) :
+        return f'Conditions(tag = {self.global_tag})'
+
+    def __str__(self) :
+        return f'{repr(self)}\n {repr(self.providers)}'
+
+class RandomNumberSeedService(ConditionsProvider):
     """The random number seed service
 
     This object registers the random number seed service with the process and
@@ -168,7 +178,7 @@ class RandomNumberSeedService(ConditionsObjectProvider):
     """
 
     def __init__(self) :
-        super().__init__('RandomNumberSeedService','framework::RandomNumberSeedService','Framework')
+        super().__init__('RandomNumberSeedService','fire::RandomNumberSeedService','fire::framework')
         self.seedMode = ''
         self.seed=-1 #only used in external mode
 
@@ -335,11 +345,8 @@ class Process:
         Minimum severity of log messages to print to file: 0 (debug) - 4 (fatal)
     log_file : str
         File to print log messages to, won't setup file logging if this parameter is not set
-
-    conditionsGlobalTag : str
-        Global tag for the current generation of conditions
-    conditionsObjectProviders : list of ConditionsObjectProviders
-        List of the sources of calibration and conditions information
+    conditions : Conditions
+        System handling providers as well as the global tag
     randomNumberSeedService : RandomNumberSeedService
         conditions object that provides random number seeds in a deterministic way
 
@@ -372,8 +379,7 @@ class Process:
         self.file_level = 0 #print all messages
         self.log_file   = '' #won't setup log file
 
-        self.conditionsGlobalTag = 'Default'
-        self.conditionsObjectProviders = []
+        self.conditions = Conditions('Default')
 
         Process.lastProcess=self
 
@@ -442,14 +448,14 @@ class Process:
         """Add a regex rule for dropping event objects whose name matches the regex"""
         self.drop_keep_rules.append(DropKeepRule(regex,False))
 
-    def declareConditionsObjectProvider(cop):
+    def declareConditionsProvider(cp):
         """Declare a conditions object provider to be loaded with the process
 
         A process object must already have been created.
 
         Parameters
         ----------
-        cop : ConditionsObjectProvider
+        cp : ConditionsProvider
             provider to load with the process
 
         Warnings
@@ -460,21 +466,21 @@ class Process:
 
         if ( Process.lastProcess is not None ) :
 
-            cop.setTag(Process.lastProcess.conditionsGlobalTag)
+            cp.setTag(Process.lastProcess.conditions.global_tag)
 
             # check if the input COP matches one already declared
             #   if it does match, override the already declared one with the passed one
-            for index, already_defined_cop in enumerate(Process.lastProcess.conditionsObjectProviders) :
-                if cop == already_defined_cop :
-                    Process.lastProcess.conditionsObjectProviders[index] = cop
+            for index, already_defined_cp in enumerate(Process.lastProcess.conditions.providers) :
+                if cp == already_defined_cp :
+                    Process.lastProcess.conditions.providers[index] = cp
                     return
 
-            Process.lastProcess.conditionsObjectProviders.append( cop )
+            Process.lastProcess.conditions.providers.append( cp )
         else :
-            raise Exception( "No Process object defined yet! You need to create a Process before declaring any ConditionsObjectProviders." )
+            raise Exception( "No Process object defined yet! You need to create a Process before declaring any ConditionsProviders." )
 
     def setConditionsGlobalTag(self,tag) :
-        """Set the global tag for all the ConditionsObjectProviders
+        """Set the global tag for all the ConditionsProviders
 
         Parameters
         ----------
@@ -482,9 +488,9 @@ class Process:
             Global generation tag to pass to all COPs
         """
 
-        self.conditionsGlobalTag=tag
-        for cop in self.conditionsObjectProviders :
-            cop.setTag(tag)
+        self.conditions.global_tag = tag
+        for cp in self.conditions.providers :
+            cp.setTag(tag)
 
     def inputDir(self, indir) :
         """Scan the input directory and make a list of input root files to read from it
@@ -555,35 +561,18 @@ class Process:
         if (self.run>0): msg += "\n using run number %d"%(self.run)
         if (self.event_limit>0): msg += "\n Maximum events to process: %d"%(self.event_limit)
         else: msg += "\n No limit on maximum events to process"
-        if (len(self.conditionsObjectProviders)>0):
-            msg += "\n conditionsObjectProviders:\n";
-            for cop in self.conditionsObjectProviders:
-                msg+=str(cop)
-        msg += "\n Processor sequence:"
+        msg += f'\n{str(self.conditions)}'
+        msg += '\nProcessor sequence:'
         for proc in self.sequence:
-            msg += str(proc)
+            msg += '\n ' + str(proc)
         if len(self.input_files) > 0:
             msg += "\n Input files:"
             for afile in self.input_files:
                 msg += '\n  ' + afile
-        msg += "\n Output file: " + self.output_file[0]
-        msg += "\n Skim rules:"
-        if self.skimDefaultIsKeep: msg += "\n  Default: keep the event"
-        else: msg += "\n  Default: drop the event"
-        for i in range(0,len(self.skimRules)-1,2):
-            if self.skimRules[i+1]=="": 
-                msg += "\n  Listen to hints from processors with names matching '%s'"%(self.skimRules[i])
-            else:
-                msg += "\n  Listen to hints with labels matching '%s' from processors with names matching '%s'"%(self.skimRules[i+1],self.skimRules[i])
-        if len(self.keep) > 0:
-            msg += "\n Rules for keeping previous products:"
-            for arule in self.keep:
-                msg += '\n  ' + arule
-        if len(self.libraries) > 0:
-            msg += "\n Shared libraries to load:"
-            for afile in set(self.libraries):
-                msg += '\n  ' + afile
-
+        msg += f"\n {self.output_file}"
+        msg += "\n Listening rules:"
+        msg += '\n DK Rules:'
+        # TODO print listening rules and drop keep rules
         return msg
 
     

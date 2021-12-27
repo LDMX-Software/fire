@@ -16,7 +16,7 @@ Each event is given to a sequence of "processors" that can look at the current d
 The behavior of this framework is dynamically configured at run-time by running an input python script and then translating python objects into their C++ counter-parts.
 This configuration style is extermely flexible and allows both C++ and Python to do what they do best.
 
-Besides this core functionality of processors looking at data event-by-event, there are optional helpers that allow processors to log through boost logging.
+Besides this core functionality of processors looking at data event-by-event, there are optional helpers that allow processors to log through boost logging and access "conditions" through a centrally-controlled system.
 
 ## Features
 - Dynamic loading of libraries containing processors
