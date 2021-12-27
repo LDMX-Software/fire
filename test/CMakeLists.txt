@@ -14,8 +14,16 @@ target_link_libraries(test_fire
   PRIVATE Boost::unit_test_framework 
           framework)
 
-# insert running of test_executable as the 'make test' target
-add_custom_target(test
+add_test(NAME "TestFire"
   COMMAND $<TARGET_FILE:test_fire> --report_level=detailed
-  COMMENT "Run the unit test executable"
 )
+
+add_test(NAME "CMakeFind"
+  COMMAND
+    "${CMAKE_CTEST_COMMAND}"
+      --build-and-test "${CMAKE_CURRENT_SOURCE_DIR}/module"
+      "${CMAKE_CURRENT_BINARY_DIR}/module"
+      --build-generator "${CMAKE_GENERATOR}"
+      --test-command "${CMAKE_CTEST_COMMAND}"
+)
+
