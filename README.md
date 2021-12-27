@@ -37,6 +37,7 @@ Besides this core functionality of processors looking at data event-by-event, th
 - Test drop/keep rules
 - Much more documentation
 - Doxygen including markdown note files
+- Dockerfile for building container with `fire` and necessary dependencies
 
 ## Dependencies
 
