@@ -35,15 +35,15 @@ jobs:
         ldmx cmake -B build -S . -DCMAKE_INSTALL_PREFIX=${LDMX_BASE}/.container-install
         echo "::endgroup::"
         echo "::group::Build fire"
-        cd build
-        ldmx make
+        ldmx cmake --build build
         echo "::endgroup::"
         echo "::group::Test fire"
-        ldmx ctest --extra-verbose
+        ldmx ctest --extra-verbose build/
         echo "::endgroup::"
         echo "::group::Use fire in Test Module"
-        ldmx make install
+        ldmx cmake --build build/ --target install
         cd ../test/module
-        ldmx cmake -B build -S .
+        ldmx cmake -B build/test/module -S test/module
+        ldmx cmake --build build/test/module
         echo "::endgroup::"
 
