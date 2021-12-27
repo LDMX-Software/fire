@@ -47,26 +47,6 @@ enum level {
 level convertLevel(int iLvl);
 
 /**
- * Severity level to human readable name map
- *
- * Human readable names are the same width in characters
- *
- * We could also add terminal color here if we wanted.
- *
- * @note Not in use right now. boost's extract returns some
- * weird templated type that cannot be implicitly converted to level.
- *
- * We _can_ stream the output to a string stream and use
- * that as the key in our map, but that is lame.
- */
-const std::unordered_map<level, std::string> humanReadableLevel = {
-    {debug, "debug"},
-    {info, "info "},
-    {warn, "warn "},
-    {error, "error"},
-    {fatal, "fatal"}};
-
-/**
  * Short names for boost namespaces
  */
 namespace log = boost::log;

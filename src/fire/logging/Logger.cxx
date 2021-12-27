@@ -4,6 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include <ostream>
+#include <type_traits>
 
 // Boost
 #include <boost/core/null_deleter.hpp>  //to avoid deleting std::cout
@@ -17,6 +18,31 @@ level convertLevel(int iLvl) {
   else if (iLvl > 4)
     iLvl = 4;
   return level(iLvl);
+}
+
+/**
+ * Severity level to human readable name map
+ *
+ * Human readable names are the same width in characters
+ *
+ * We could also add terminal color here if we wanted.
+ *
+ * This function will only compile with values that can be implicity
+ * converted to a 'level'.
+ */
+template <typename InputType, std::enable_if_t<std::is_convertible_v<InputType,level>>>
+std::string print(InputType severity_level) {
+  static const std::unordered_map<level, std::string> human_readable_level = {
+    {debug, "debug"},
+    {info, "info "},
+    {warn, "warn "},
+    {error, "error"},
+    {fatal, "fatal"}};
+
+  // if we are able to case the input severity_level into our level type,
+  // then we can use the map
+  level l = severity_level;
+  return human_readable_level.at(l);
 }
 
 logger makeLogger(const std::string &name) {
@@ -60,7 +86,7 @@ void open(const level termLevel, const level fileLevel,
     fileSink->set_formatter([](const log::record_view &view,
                                log::formatting_ostream &os) {
       os << " [ " << log::extract<std::string>("Channel", view) << " ] "
-         << /*humanReadableLevel.at*/ (log::extract<level>("Severity", view))
+         << /*print*/(log::extract<level>("Severity", view))
          << " : " << view[log::expressions::smessage];
     });
 
@@ -89,8 +115,7 @@ void open(const level termLevel, const level fileLevel,
   termSink->set_formatter([](const log::record_view &view,
                              log::formatting_ostream &os) {
     os << "[ " << log::extract<std::string>("Channel", view) << " ] "
-       << boost::core::demangle(typeid(log::extract<level>("Severity",view)).name())
-       << /*humanReadableLevel.at*/ (log::extract<level>("Severity", view))
+       << /*print*/(log::extract<level>("Severity", view))
        << " : " << view[log::expressions::smessage];
   });
 
