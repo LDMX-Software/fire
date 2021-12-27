@@ -24,3 +24,5 @@ endif()
 #  can be loaded by another CMake project cannot be folded into ctest
 #  or (more accurately) should NOT be folded into ctest
 find_package(fire REQUIRED)
+
+add_subdirectory(src)
