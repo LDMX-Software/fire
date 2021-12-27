@@ -40,9 +40,10 @@ jobs:
         echo "::group::Test fire"
         ldmx ctest --extra-verbose build/
         echo "::endgroup::"
-        echo "::group::Use fire in Test Module"
+        echo "::group::Install fire for Test Module"
         ldmx cmake --build build/ --target install
-        cd ../test/module
+        echo "::endgroup::"
+        echo "::group::Use fire in Test Module"
         ldmx cmake -B build/test/module -S test/module
         ldmx cmake --build build/test/module
         echo "::endgroup::"
