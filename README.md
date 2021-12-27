@@ -35,8 +35,8 @@ Besides this core functionality of processors looking at data event-by-event, th
 
 ### TBD
 - Test drop/keep rules
-- Make boost logging optional
 - Much more documentation
+- Doxygen
 
 ## Dependencies
 
