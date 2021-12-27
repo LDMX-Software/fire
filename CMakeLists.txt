@@ -46,9 +46,9 @@ message(STATUS "Deduced git SHA: ${GIT_SHA1}")
 
 # Copies the file 'Version.h.in', substitutes the value of GIT_SHA1 and writes
 # it out to Version.h.
-configure_file(${PROJECT_SOURCE_DIR}/include/fire/version/Version.hpp.in
-              ${PROJECT_BINARY_DIR}/include/fire/version/Version.hpp)
-install(FILES ${PROJECT_BINARY_DIR}/include/fire/version/Version.hpp
+configure_file(${PROJECT_SOURCE_DIR}/include/fire/version/Version.h.in
+              ${PROJECT_BINARY_DIR}/include/fire/version/Version.h)
+install(FILES ${PROJECT_BINARY_DIR}/include/fire/version/Version.h
         DESTINATION ${CMAKE_INSTALL_PREFIX}/include/fire/version)
 
 add_library(version INTERFACE)
@@ -136,7 +136,7 @@ install(TARGETS framework exception config factory h5 version logging
   INCLUDES DESTINATION include
   )
 # need pattern to exclude version header configured by CMake above
-install(DIRECTORY include/ DESTINATION include/) # FILES_MATCHING PATTERN "*.hpp")
+install(DIRECTORY include/ DESTINATION include/ FILES_MATCHING PATTERN "*.h")
 install(DIRECTORY python/ DESTINATION python/)
 
 # install the export file
