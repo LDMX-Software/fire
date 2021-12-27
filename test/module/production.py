@@ -9,7 +9,4 @@ p.output_file = fire.cfg.OutputFile('production_output.h5')
 
 p.sequence = [ fire.cfg.Producer('make','mymodule::MyProducer','MyModule') ]
 
-import os
-p.libraries = [os.path.realpath('build/src/libMyModule.so')]
-
 p.pause()

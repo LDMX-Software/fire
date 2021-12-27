@@ -46,5 +46,6 @@ jobs:
         echo "::group::Use fire in Test Module"
         ldmx cmake -B build/test/module -S test/module
         ldmx cmake --build build/test/module
+        ldmx 'LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:$(pwd)/build/test/module/src fire test/module/production.py'
         echo "::endgroup::"
 
