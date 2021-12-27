@@ -136,7 +136,7 @@ install(TARGETS framework exception config factory h5 version logging
   INCLUDES DESTINATION include
   )
 # need pattern to exclude version header configured by CMake above
-install(DIRECTORY include/ DESTINATION include/ FILES_MATCHING PATTERN "*.hpp")
+install(DIRECTORY include/ DESTINATION include/) # FILES_MATCHING PATTERN "*.hpp")
 install(DIRECTORY python/ DESTINATION python/)
 
 # install the export file

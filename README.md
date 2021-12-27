@@ -36,7 +36,7 @@ Besides this core functionality of processors looking at data event-by-event, th
 ### TBD
 - Test drop/keep rules
 - Much more documentation
-- Doxygen
+- Doxygen including markdown note files
 
 ## Dependencies
 
