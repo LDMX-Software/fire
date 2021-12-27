@@ -14,7 +14,7 @@ namespace fire::h5 {
 /**
  * A HighFive::File specialized to fire's usecase.
  *
- * @TODO implement compression and chunking settings
+ * @TODO implement compression settings
  * @TODO should we cache dataset handles?
  * @TODO need to write vecotr<Atomic> save?
  */
@@ -24,7 +24,7 @@ class Writer {
    * Open the file in write mode
    *  our write == HDF5 TRUNC (overwrite) mode
    */
-  Writer(const config::Parameters& ps);
+  Writer(const int& event_limit, const config::Parameters& ps);
 
   /**
    * Close up our file, making sure to flush contents to disk if writing

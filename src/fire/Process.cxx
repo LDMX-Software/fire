@@ -6,26 +6,25 @@
 
 namespace fire {
 
-Process::Process(const fire::config::Parameters &configuration)
-    : conditions_{configuration.get<config::Parameters>("conditions"),*this},
-      output_file_{configuration.get<config::Parameters>("output_file")},
-      input_files_{configuration.get<std::vector<std::string>>("input_files",{})},
-      event_{configuration.get<std::string>("pass"),
-             configuration.get<std::vector<config::Parameters>>("keep", {})},
+Process::Process(const fire::config::Parameters& configuration)
+    : conditions_{configuration.get<config::Parameters>("conditions"), *this},
+      output_file_{configuration.get<int>("event_limit"),
+                   configuration.get<config::Parameters>("output_file")},
+      input_files_{
+          configuration.get<std::vector<std::string>>("input_files", {})},
+      event_{configuration.get<std::string>("pass_name"),
+             configuration.get<std::vector<config::Parameters>>("drop_keep_rules", {})},
       event_limit_{configuration.get<int>("event_limit")},
       log_frequency_{configuration.get<int>("log_frequency")},
       max_tries_{configuration.get<int>("max_tries")},
       run_{configuration.get<int>("run")},
       storage_control_{configuration.get<config::Parameters>("storage")},
-      run_header_{nullptr}
-      {
-  logging::open(
-      logging::convertLevel(configuration.get<int>("term_level",4)),
-      logging::convertLevel(configuration.get<int>("file_level",4)),
-      configuration.get<std::string>("log_file","")
-      );
+      run_header_{nullptr} {
+  logging::open(logging::convertLevel(configuration.get<int>("term_level", 4)),
+                logging::convertLevel(configuration.get<int>("file_level", 4)),
+                configuration.get<std::string>("log_file", ""));
 
-  for (const auto &lib :
+  for (const auto& lib :
        configuration.get<std::vector<std::string>>("libraries", {}))
     factory::loadLibrary(lib);
 
@@ -36,16 +35,14 @@ Process::Process(const fire::config::Parameters &configuration)
         "No sequence has been defined. What should I be doing?\nUse "
         "p.sequence to tell me what processors to run.");
   }
-  for (const auto &proc : sequence) {
+  for (const auto& proc : sequence) {
     auto class_name{proc.get<std::string>("class_name")};
     sequence_.emplace_back(Processor::Factory::get().make(class_name, proc));
     sequence_.back()->attach(this);
   }
 }
 
-Process::~Process() {
-  logging::close();
-}
+Process::~Process() { logging::close(); }
 
 void Process::run() {
   // counter for number of events we have processed
@@ -76,7 +73,7 @@ void Process::run() {
       // keep trying to process this event until successful
       // or we hit the maximum number of tries
       for (int num_tries{0}; num_tries < max_tries_; num_tries++)
-        if (process(n_events_processed,i_output_file)) break;
+        if (process(n_events_processed, i_output_file)) break;
     }
 
     for (auto& proc : sequence_) proc->onFileClose(output_file_.name());
@@ -84,15 +81,16 @@ void Process::run() {
     runHeader().runEnd();
     fire_log(info) << runHeader();
 
-    h5::DataSet<RunHeader> write_ds{RunHeader::NAME,true,run_header_};
-    write_ds.save(output_file_,0);
+    h5::DataSet<RunHeader> write_ds{RunHeader::NAME, true, run_header_};
+    write_ds.save(output_file_, 0);
 
   } else {
-    fire_log(info) << input_files_.size() << " input file(s), starting reconstruction mode run.";
+    fire_log(info) << input_files_.size()
+                   << " input file(s), starting reconstruction mode run.";
     // there are input files
-    
+
     /// the cache of runs from the opened input files
-    std::unordered_map<int,RunHeader> input_runs;
+    std::unordered_map<int, RunHeader> input_runs;
 
     int ifile = 0;
     int wasRun = -1;
@@ -103,7 +101,7 @@ void Process::run() {
        * Load runs into in-memory cache
        */
       {
-        h5::DataSet<RunHeader> read_ds{RunHeader::NAME,false};
+        h5::DataSet<RunHeader> read_ds{RunHeader::NAME, false};
         std::size_t num_runs = input_file.runs();
         for (std::size_t i_run{0}; i_run < num_runs; i_run++) {
           read_ds.load(input_file, i_run);
@@ -114,14 +112,15 @@ void Process::run() {
 
       fire_log(info) << "Opening " << input_file;
 
-      for (auto &module : sequence_) module->onFileOpen(input_file.name());
+      for (auto& module : sequence_) module->onFileOpen(input_file.name());
       event_.setInputFile(input_file);
 
       long unsigned int max_index = input_file.entries();
-      if (event_limit_ > 0 and max_index + n_events_processed > event_limit_) 
+      if (event_limit_ > 0 and max_index + n_events_processed > event_limit_)
         max_index = event_limit_ - n_events_processed;
 
-      for (std::size_t i_entry_file{0}; i_entry_file < max_index; i_entry_file++) {
+      for (std::size_t i_entry_file{0}; i_entry_file < max_index;
+           i_entry_file++) {
         // load data from input file
         event_.load(input_file, i_entry_file);
 
@@ -130,8 +129,7 @@ void Process::run() {
           wasRun = event_.header().getRun();
           if (input_runs.find(wasRun) != input_runs.end()) {
             newRun(input_runs[wasRun]);
-            fire_log(info) << "Got new run header from '" << input_file
-                           << "\n"
+            fire_log(info) << "Got new run header from '" << input_file << "\n"
                            << runHeader();
           } else {
             fire_log(warn) << "Run header for run " << wasRun
@@ -145,7 +143,8 @@ void Process::run() {
       }  // loop through events
 
       if (event_limit_ > 0 && n_events_processed == event_limit_) {
-        fire_log(info) << "Reached event limit of " << event_limit_ << " events";
+        fire_log(info) << "Reached event limit of " << event_limit_
+                       << " events";
       }
 
       fire_log(info) << "Closing " << input_file;
@@ -155,20 +154,20 @@ void Process::run() {
 
     // copy the input run headers to the output file
     {
-      h5::DataSet<RunHeader> write_ds(RunHeader::NAME,true);
+      h5::DataSet<RunHeader> write_ds(RunHeader::NAME, true);
       std::size_t i_run{0};
-      for (const auto& [_,rh] : input_runs) {
+      for (const auto& [_, rh] : input_runs) {
         write_ds.update(rh);
-        write_ds.save(output_file_, i_run++);  
+        write_ds.save(output_file_, i_run++);
       }
     }
-  }    // are there input files? if-else tree
+  }  // are there input files? if-else tree
 
   // finally, notify everyone that we are stopping
   for (auto& proc : sequence_) proc->onProcessEnd();
 }
 
-void Process::newRun(RunHeader &rh) {
+void Process::newRun(RunHeader& rh) {
   // update pointer so asynchronous callers
   // can access the run header via the Process
   run_header_ = &rh;
@@ -187,9 +186,8 @@ bool Process::process(const std::size_t& n, std::size_t& i_output_file) {
     std::time_t time = std::time(nullptr);
     fire_log(info) << "Processing " << n + 1 << " Run "
                    << event_.header().getRun() << " Event "
-                   << event_.header().getEventNumber()
-                   << " : " << std::asctime(std::localtime(&time));
-                   
+                   << event_.header().getEventNumber() << " : "
+                   << std::asctime(std::localtime(&time));
   }
 
   // new event processing, forget old information
@@ -198,7 +196,7 @@ bool Process::process(const std::size_t& n, std::size_t& i_output_file) {
   try {
     // go through each processor in the sequence in order
     for (auto& proc : sequence_) proc->process(event_);
-  } catch (Processor::AbortEventException& ) {
+  } catch (Processor::AbortEventException&) {
     return false;
   }
 

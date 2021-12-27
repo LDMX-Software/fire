@@ -4,12 +4,9 @@
  * @author Jeremy Mans, University of Minnesota
  */
 
-#ifndef FRAMEWORK_RANDOMNUMBERSEEDSERVICE_H_
-#define FRAMEWORK_RANDOMNUMBERSEEDSERVICE_H_
+#ifndef FIRE_RANDOMNUMBERSEEDSERVICE_H_ 
+#define FIRE_RANDOMNUMBERSEEDSERVICE_H_ 
 
-/*~~~~~~~~~~~~~~~*/
-/*   fire   */
-/*~~~~~~~~~~~~~~~*/
 #include "fire/ConditionsObject.h"
 #include "fire/ConditionsObjectProvider.h"
 
@@ -20,13 +17,13 @@ namespace fire {
  * System for consistent seeding of random number generators
  *
  * The system can be configured in a number of different ways.  In general,
- * seeds are constructed based on a master seed.  That master seed can be
+ * seeds are constructed based on a root seed.  That root seed can be
  * constructed in a number of ways, chosen in the python configuration. (a) The
- * master seed can be the run number of the first run observed by the service
- * ("Run") (b) The master seed can be based on the current time ("Time") (c) The
- * master seed can be provided in the python configuration ("External")
+ * root seed can be the run number of the first run observed by the service
+ * ("Run") (b) The root seed can be based on the current time ("Time") (c) The
+ * root seed can be provided in the python configuration ("External")
  *
- * Individual seeds are then constructed using the master seed and a simple hash
+ * Individual seeds are then constructed using the root seed and a simple hash
  * based on the name of the seed. Seeds can also be specified in the python
  * file, in which case no autoseeding will be performed.
  */
@@ -48,22 +45,20 @@ class RandomNumberSeedService : public ConditionsObject,
    * @param[in] parameters configuration parameters from python
    * @param[in] process reference to the running process object
    */
-  RandomNumberSeedService(const std::string& name, const std::string& tagname,
-                          const fire::config::Parameters& parameters,
-                          Process& process);
+  RandomNumberSeedService(const fire::config::Parameters& parameters);
 
   /**
    * Configure the seed service when a new run starts
    *
-   * If we are using the run number as the master seed,
-   * then we get the run number and set the master seed to it.
+   * If we are using the run number as the root seed,
+   * then we get the run number and set the root seed to it.
    *
-   * No matter what, we put the master seed into the RunHeader
+   * No matter what, we put the root seed into the RunHeader
    * to be persisted into the output file.
    *
    * @param[in,out] header RunHeader for the new run that is starting
    */
-  virtual void onNewRun(ldmx::RunHeader& header);
+  virtual void onNewRun(RunHeader& header);
 
   /**
    * Access a given seed by name
@@ -71,10 +66,10 @@ class RandomNumberSeedService : public ConditionsObject,
    * Checks the cache for the input name.
    * If the input name is not in the cache,
    * it generates the seed for that name by combining
-   * the master seed with a hash of the name.
+   * the root seed with a hash of the name.
    *
    * @param[in] name Name of seed
-   * @return seed derived from master seed using the input name
+   * @return seed derived from root seed using the input name
    */
   uint64_t getSeed(const std::string& name) const;
 
@@ -86,11 +81,11 @@ class RandomNumberSeedService : public ConditionsObject,
   std::vector<std::string> getSeedNames() const;
 
   /**
-   * Access the master seed
+   * Access the root seed
    *
-   * @returns master seed that is used to derive all other seeds
+   * @returns root seed that is used to derive all other seeds
    */
-  uint64_t getMasterSeed() const { return masterSeed_; }
+  uint64_t getRootSeed() const { return rootSeed_; }
 
   /**
    * Get the seed service as a conditions object
@@ -103,7 +98,7 @@ class RandomNumberSeedService : public ConditionsObject,
    * @returns reference to ourselves and unlimited interval of validity
    */
   virtual std::pair<const ConditionsObject*, ConditionsIOV> getCondition(
-      const ldmx::EventHeader& context);
+      const EventHeader& context) final override;
 
   /**
    * This object is both the provider of the seed service and the conditions
@@ -111,8 +106,7 @@ class RandomNumberSeedService : public ConditionsObject,
    *
    * @param[in] co ConditionsObject to release, unused
    */
-  virtual void releaseConditionsObject(const ConditionsObject* co) {
-  }  // it is us, never destroy it.
+  virtual void release(const ConditionsObject* co) final override {}
 
   /**
    * Stream the configuration of this object to the input ostream
@@ -136,14 +130,14 @@ class RandomNumberSeedService : public ConditionsObject,
   }
 
  private:
-  /// whether the master seed has been initialized
+  /// whether the root seed has been initialized
   bool initialized_{false};
 
-  /// what mode of master seed are we using
-  int seedMode_{0};
+  /// what mode of root seed are we using
+  int mode_{0};
 
-  /// what the master seed actually is
-  uint64_t masterSeed_{0};
+  /// what the root seed actually is
+  uint64_t root_{0};
 
   /// cache of seeds by name
   mutable std::map<std::string, uint64_t> seeds_;

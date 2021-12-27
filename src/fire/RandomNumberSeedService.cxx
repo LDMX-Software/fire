@@ -15,42 +15,38 @@ static const int SEED_TIME = 4;
 
 void RandomNumberSeedService::stream(std::ostream& s) const {
   s << "RandomNumberSeedService(";
-  if (seedMode_ == SEED_RUN) s << "Seed on RUN";
-  if (seedMode_ == SEED_TIME) s << "Seed on TIME";
-  if (seedMode_ == SEED_EXTERNAL) s << "Seeded EXTERNALLY";
-  s << ") Master seed = " << masterSeed_ << std::endl;
+  if (mode_ == SEED_RUN) s << "Seed on RUN";
+  if (mode_ == SEED_TIME) s << "Seed on TIME";
+  if (mode_ == SEED_EXTERNAL) s << "Seeded EXTERNALLY";
+  s << ") Root seed = " << root_ << std::endl;
   for (auto i : seeds_) {
     s << " " << i.first << "=>" << i.second << std::endl;
   }
 }
 
-RandomNumberSeedService::RandomNumberSeedService(
-    const std::string& name, const std::string& tagname,
-    const fire::config::Parameters& parameters, Process& process)
+RandomNumberSeedService::RandomNumberSeedService(const fire::config::Parameters& parameters)
     : ConditionsObject(CONDITIONS_OBJECT_NAME),
-      ConditionsObjectProvider(CONDITIONS_OBJECT_NAME, tagname, parameters,
-                               process) {
-  auto seeding = parameters.getParameter<std::string>("seedMode", "run");
+      ConditionsObjectProvider(parameters) {
+  auto seeding = parameters.get<std::string>("mode", "run");
   if (!strcasecmp(seeding.c_str(), "run")) {
-    seedMode_ = SEED_RUN;
+    mode_ = SEED_RUN;
   } else if (!strcasecmp(seeding.c_str(), "external")) {
-    seedMode_ = SEED_EXTERNAL;
-    masterSeed_ = parameters.getParameter<int>("masterSeed");
+    mode_ = SEED_EXTERNAL;
+    root_ = parameters.get<int>("root");
     initialized_ = true;
   } else if (!strcasecmp(seeding.c_str(), "time")) {
-    masterSeed_ = time(0);
-    seedMode_ = SEED_TIME;
+    root_ = time(0);
+    mode_ = SEED_TIME;
     initialized_ = true;
   }
 }
 
-void RandomNumberSeedService::onNewRun(ldmx::RunHeader& rh) {
-  if (seedMode_ == SEED_RUN) {
-    masterSeed_ = rh.getRunNumber();
+void RandomNumberSeedService::onNewRun(RunHeader& rh) {
+  if (mode_ == SEED_RUN) {
+    root_ = rh.getRunNumber();
     initialized_ = true;
   }
-  std::string key = "RandomNumberMasterSeed[" + process().getPassName() + "]";
-  rh.setIntParameter(key, int(masterSeed_));
+  rh.set<int>("RandomNumberRootSeed", root_);
 }
 
 uint64_t RandomNumberSeedService::getSeed(const std::string& name) const {
@@ -60,7 +56,7 @@ uint64_t RandomNumberSeedService::getSeed(const std::string& name) const {
     // hash is sum of characters shifted by position, mod 8
     for (size_t j = 0; j < name.size(); j++)
       seed += (uint64_t(name[j]) << (j % 8));
-    seed += masterSeed_;
+    seed += root_;
     // break const here only to cache the seed
     seeds_[name] = seed;
   } else
@@ -77,10 +73,10 @@ std::vector<std::string> RandomNumberSeedService::getSeedNames() const {
 }
 
 std::pair<const ConditionsObject*, ConditionsIOV>
-RandomNumberSeedService::getCondition(const ldmx::EventHeader& context) {
+RandomNumberSeedService::getCondition(const EventHeader& context) final override {
   if (!initialized_) {
-    if (seedMode_ == SEED_RUN) {
-      masterSeed_ = context.getRun();
+    if (mode_ == SEED_RUN) {
+      root_ = context.getRun();
     }
     initialized_ = true;
   }
