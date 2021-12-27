@@ -1,14 +1,14 @@
-#ifndef FIRE_H5_DATASET_HPP
-#define FIRE_H5_DATASET_HPP
+#ifndef FIRE_H5_DATASET_H
+#define FIRE_H5_DATASET_H
 
 #include <memory>
 #include <type_traits>
 #include <vector>
 #include <map>
 
-#include "fire/exception/Exception.hpp"
-#include "fire/h5/Reader.hpp"
-#include "fire/h5/Writer.hpp"
+#include "fire/exception/Exception.h"
+#include "fire/h5/Reader.h"
+#include "fire/h5/Writer.h"
 
 namespace fire::h5 {
 
@@ -436,5 +436,5 @@ class DataSet<std::map<KeyType,ValType>>
 
 }  // namespace fire::h5
 
-#endif  // FIRE_H5_DATASET_HPP
+#endif  // FIRE_H5_DATASET_H
 

@@ -3,7 +3,7 @@
 #include <boost/test/unit_test.hpp>
 #include <highfive/H5Easy.hpp>
 
-#include "fire/Processor.hpp"
+#include "fire/Processor.h"
 
 namespace test {
 

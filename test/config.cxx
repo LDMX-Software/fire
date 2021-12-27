@@ -5,7 +5,7 @@
 #include <fstream>  // writing test files
 #include <string_view> // test file literals
 
-#include "fire/config/Python.hpp"
+#include "fire/config/Python.h"
 
 /// python class defs for testing python running of script
 std::string_view class_defs = " \n\

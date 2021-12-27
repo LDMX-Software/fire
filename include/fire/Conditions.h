@@ -1,14 +1,14 @@
-#ifndef FIRE_CONDITIONS_HPP
-#define FIRE_CONDITIONS_HPP
+#ifndef FIRE_CONDITIONS_H
+#define FIRE_CONDITIONS_H
 
 /*~~~~~~~~~~~*/
 /*   Event   */
 /*~~~~~~~~~~~*/
-#include "fire/exception/Exception.hpp"
-#include "fire/EventHeader.hpp"
-#include "fire/exception/Exception.hpp"
-#include "fire/ConditionsProvider.hpp"
-#include "fire/config/Parameters.hpp"
+#include "fire/exception/Exception.h"
+#include "fire/EventHeader.h"
+#include "fire/exception/Exception.h"
+#include "fire/ConditionsProvider.h"
+#include "fire/config/Parameters.h"
 #include "fire/logging/Logger.h"
 
 /*~~~~~~~~~~~~~~~~*/

@@ -1,4 +1,4 @@
-#include "fire/factory/Factory.hpp"
+#include "fire/factory/Factory.h"
 
 #include <dlfcn.h> // for shared library loading
 #include <set>     // for caching loaded libraries

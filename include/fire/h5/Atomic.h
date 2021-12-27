@@ -1,5 +1,5 @@
-#ifndef FIRE_H5_ATOMIC_HPP
-#define FIRE_H5_ATOMIC_HPP
+#ifndef FIRE_H5_ATOMIC_H
+#define FIRE_H5_ATOMIC_H
 
 #include <highfive/H5DataType.hpp>
 

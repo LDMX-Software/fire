@@ -1,4 +1,4 @@
-#include "fire/ConditionsIntervalOfValidity.hpp"
+#include "fire/ConditionsIntervalOfValidity.h"
 
 namespace fire {
 

@@ -1,4 +1,4 @@
-#include "fire/Event.hpp"
+#include "fire/Event.h"
 
 namespace fire {
 

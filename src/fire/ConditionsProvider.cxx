@@ -1,5 +1,5 @@
-#include "fire/ConditionsProvider.hpp"
-#include "fire/Conditions.hpp"
+#include "fire/ConditionsProvider.h"
+#include "fire/Conditions.h"
 
 namespace fire {
 

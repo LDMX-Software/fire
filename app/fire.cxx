@@ -7,11 +7,11 @@
 //-------------//
 //   ldmx-sw   //
 //-------------//
-#include "fire/config/Python.hpp"
+#include "fire/config/Python.h"
 /// define the object to pull parameters from
 std::string fire::config::root_object = "fire.cfg.Process.lastProcess";
 
-#include "fire/Process.hpp"
+#include "fire/Process.h"
 
 /**
  * @func printUsage

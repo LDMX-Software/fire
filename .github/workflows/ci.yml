@@ -40,3 +40,10 @@ jobs:
         echo "::endgroup::"
         echo "::group::Test fire"
         ldmx ctest --extra-verbose
+        echo "::endgroup::"
+        echo "::group::Use fire in Test Module"
+        ldmx make install
+        cd ../test/module
+        ldmx cmake -B build -S .
+        echo "::endgroup::"
+

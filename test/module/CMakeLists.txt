@@ -17,4 +17,10 @@ if(NOT DEFINED CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_EXTENSIONS OFF)
 endif()
 
-find_package(fire)
+# the fireTarget.cmake file that specifies
+#  where to find all of the libraries and headers
+#  is not written until install time (so that the targets file
+#  can have the full paths). This means, testing whether fire
+#  can be loaded by another CMake project cannot be folded into ctest
+#  or (more accurately) should NOT be folded into ctest
+find_package(fire REQUIRED)

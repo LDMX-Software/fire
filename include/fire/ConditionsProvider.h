@@ -1,15 +1,15 @@
-#ifndef FIRE_CONDITIONSPROVIDER_HPP
-#define FIRE_CONDITIONSPROVIDER_HPP
+#ifndef FIRE_CONDITIONSPROVIDER_H
+#define FIRE_CONDITIONSPROVIDER_H
 
 #include <map>
 
-#include "fire/ConditionsIntervalOfValidity.hpp"
-#include "fire/ConditionsObject.hpp"
-#include "fire/config/Parameters.hpp"
-#include "fire/exception/Exception.hpp"
-#include "fire/factory/Factory.hpp"
+#include "fire/ConditionsIntervalOfValidity.h"
+#include "fire/ConditionsObject.h"
+#include "fire/config/Parameters.h"
+#include "fire/exception/Exception.h"
+#include "fire/factory/Factory.h"
 #include "fire/logging/Logger.h"
-#include "fire/RunHeader.hpp"
+#include "fire/RunHeader.h"
 
 namespace fire {
 

@@ -1,6 +1,6 @@
-#include "fire/RunHeader.hpp"
+#include "fire/RunHeader.h"
 
-#include "fire/h5/Reader.hpp"
+#include "fire/h5/Reader.h"
 
 /*~~~~~~~~~~~~~~~~*/
 /*   C++ StdLib   */

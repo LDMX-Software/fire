@@ -1,10 +1,10 @@
-#ifndef FIRE_H5_READER_HPP
-#define FIRE_H5_READER_HPP
+#ifndef FIRE_H5_READER_H
+#define FIRE_H5_READER_H
 
 // using HighFive
 #include <highfive/H5File.hpp>
 
-#include "fire/h5/Atomic.hpp"
+#include "fire/h5/Atomic.h"
 
 namespace fire::h5 {
 
@@ -85,4 +85,4 @@ class Reader {
 
 }  // namespace fire::h5
 
-#endif  // FIRE_H5_READER_HPP
+#endif  // FIRE_H5_READER_H

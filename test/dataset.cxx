@@ -2,9 +2,9 @@
 #define BOOST_TEST_DYN_LINK
 #include <boost/test/unit_test.hpp>
 
-#include "fire/EventHeader.hpp"
-#include "fire/config/Parameters.hpp"
-#include "fire/h5/DataSet.hpp"
+#include "fire/EventHeader.h"
+#include "fire/config/Parameters.h"
+#include "fire/h5/DataSet.h"
 
 // plain old data class
 class Hit {
@@ -108,8 +108,7 @@ BOOST_AUTO_TEST_CASE(dataset) {
     fire::config::Parameters output_params;
     output_params.add("name",filename);
     output_params.add("rows_per_chunk",10);
-    output_params.add("event_limit",int(doubles.size()));
-    fire::h5::Writer f{output_params};
+    fire::h5::Writer f{doubles.size(),output_params};
 
     fire::EventHeader eh;
     fire::h5::DataSet<fire::EventHeader> event_header(fire::EventHeader::NAME,true,&eh);

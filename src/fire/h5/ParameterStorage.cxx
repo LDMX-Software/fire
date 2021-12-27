@@ -1,5 +1,5 @@
 
-#include "fire/h5/ParameterStorage.hpp"
+#include "fire/h5/ParameterStorage.h"
 
 namespace fire::h5 {
 

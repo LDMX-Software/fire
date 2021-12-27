@@ -1,8 +1,8 @@
 #ifndef FRAMEWORK_CONFIGUREPYTHON_H
 #define FRAMEWORK_CONFIGUREPYTHON_H
 
-#include "fire/exception/Exception.hpp"
-#include "fire/config/Parameters.hpp"
+#include "fire/exception/Exception.h"
+#include "fire/config/Parameters.h"
 
 namespace fire {
 

@@ -8,7 +8,7 @@
 #define FIRE_RANDOMNUMBERSEEDSERVICE_H_ 
 
 #include "fire/ConditionsObject.h"
-#include "fire/ConditionsObjectProvider.h"
+#include "fire/ConditionsProvider.h"
 
 namespace fire {
 
@@ -24,11 +24,14 @@ namespace fire {
  * root seed can be provided in the python configuration ("External")
  *
  * Individual seeds are then constructed using the root seed and a simple hash
- * based on the name of the seed. Seeds can also be specified in the python
+ * based on the name of the seed. 
+ *
+ * @TODO specify seeds by name in the python configuration
+ * Seeds can also be specified in the python
  * file, in which case no autoseeding will be performed.
  */
 class RandomNumberSeedService : public ConditionsObject,
-                                public ConditionsObjectProvider {
+                                public ConditionsProvider {
  public:
   /// Conditions object name
   static const std::string CONDITIONS_OBJECT_NAME;
@@ -58,7 +61,7 @@ class RandomNumberSeedService : public ConditionsObject,
    *
    * @param[in,out] header RunHeader for the new run that is starting
    */
-  virtual void onNewRun(RunHeader& header);
+  virtual void onNewRun(RunHeader& header) final override;
 
   /**
    * Access a given seed by name
@@ -85,7 +88,7 @@ class RandomNumberSeedService : public ConditionsObject,
    *
    * @returns root seed that is used to derive all other seeds
    */
-  uint64_t getRootSeed() const { return rootSeed_; }
+  uint64_t getRootSeed() const { return root_; }
 
   /**
    * Get the seed service as a conditions object
@@ -97,8 +100,8 @@ class RandomNumberSeedService : public ConditionsObject,
    * @param[in] context EventHeader for the event context
    * @returns reference to ourselves and unlimited interval of validity
    */
-  virtual std::pair<const ConditionsObject*, ConditionsIOV> getCondition(
-      const EventHeader& context) final override;
+  virtual std::pair<const ConditionsObject*, ConditionsIntervalOfValidity> 
+    getCondition(const EventHeader& context) final override;
 
   /**
    * This object is both the provider of the seed service and the conditions

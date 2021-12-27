@@ -2,8 +2,8 @@
 #define BOOST_TEST_DYN_LINK
 #include <boost/test/unit_test.hpp>
 
-#include "fire/Conditions.hpp"
-#include "fire/Process.hpp"
+#include "fire/Conditions.h"
+#include "fire/Process.h"
 
 namespace test {
 
@@ -98,7 +98,7 @@ BOOST_AUTO_TEST_SUITE_END()
 BOOST_AUTO_TEST_CASE(system) {
   std::string output{"conditions_system_output.h5"};
   fire::config::Parameters configuration;
-  configuration.add<std::string>("pass", "test");
+  configuration.add<std::string>("pass_name", "test");
 
   fire::config::Parameters output_file;
   output_file.add("name", output);

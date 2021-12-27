@@ -1,13 +1,13 @@
-#ifndef FIRE_H5_WRITER_HPP
-#define FIRE_H5_WRITER_HPP
+#ifndef FIRE_H5_WRITER_H
+#define FIRE_H5_WRITER_H
 
 // using HighFive
 #include <highfive/H5File.hpp>
 
-#include "fire/h5/Atomic.hpp"
+#include "fire/h5/Atomic.h"
 
 // configuration parameters
-#include "fire/config/Parameters.hpp"
+#include "fire/config/Parameters.h"
 
 namespace fire::h5 {
 
@@ -88,4 +88,4 @@ class Writer {
 
 }  // namespace fire::h5
 
-#endif  // FIRE_H5_WRITER_HPP
+#endif  // FIRE_H5_WRITER_H

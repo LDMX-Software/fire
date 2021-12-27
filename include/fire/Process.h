@@ -1,12 +1,12 @@
-#ifndef FIRE_PROCESS_HPP
-#define FIRE_PROCESS_HPP
+#ifndef FIRE_PROCESS_H
+#define FIRE_PROCESS_H
 
 #include "fire/logging/Logger.h"
 #include "fire/StorageControl.h"
-#include "fire/Conditions.hpp"
-#include "fire/Event.hpp"
-#include "fire/Processor.hpp"
-#include "fire/RunHeader.hpp"
+#include "fire/Conditions.h"
+#include "fire/Event.h"
+#include "fire/Processor.h"
+#include "fire/RunHeader.h"
 
 namespace fire {
 
@@ -100,4 +100,4 @@ class Process {
 
 }  // namespace fire
 
-#endif  // FIRE_PROCESS_HPP
+#endif  // FIRE_PROCESS_H

@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "fire/config/Parameters.hpp"
+#include "fire/config/Parameters.h"
 
 namespace fire {
 

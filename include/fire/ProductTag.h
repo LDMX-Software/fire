@@ -1,11 +1,11 @@
 /**
- * @file ProductTag.hpp
+ * @file ProductTag.h
  * @brief Class defining the identity of a data product in the event
  * @author Jeremy Mans, University of Minnesota
  */
 
-#ifndef FIRE_PRODUCTTAG_HPP
-#define FIRE_PRODUCTTAG_HPP
+#ifndef FIRE_PRODUCTTAG_H
+#define FIRE_PRODUCTTAG_H
 
 #include <ostream>
 #include <string>

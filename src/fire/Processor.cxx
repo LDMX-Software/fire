@@ -1,6 +1,6 @@
-#include "fire/Processor.hpp"
+#include "fire/Processor.h"
 
-#include "fire/Process.hpp"
+#include "fire/Process.h"
 
 namespace fire {
 

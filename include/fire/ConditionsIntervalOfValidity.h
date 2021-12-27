@@ -1,11 +1,11 @@
-#ifndef FIRE_CONDITIONSINTERVALOFVALIDITY_HPP
-#define FIRE_CONDITIONSINTERVALOFVALIDITY_HPP
+#ifndef FIRE_CONDITIONSINTERVALOFVALIDITY_H
+#define FIRE_CONDITIONSINTERVALOFVALIDITY_H
 
 /*~~~~~~~~~~~*/
 /*   Event   */
 /*~~~~~~~~~~~*/
 #include <iostream>
-#include "fire/EventHeader.hpp"
+#include "fire/EventHeader.h"
 
 namespace fire {
 

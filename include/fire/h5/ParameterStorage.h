@@ -1,5 +1,5 @@
-#ifndef FIRE_PARAMETERSTORAGE_HPP
-#define FIRE_PARAMETERSTORAGE_HPP
+#ifndef FIRE_PARAMETERSTORAGE_H
+#define FIRE_PARAMETERSTORAGE_H
 
 // STL
 #include <boost/core/demangle.hpp>
@@ -9,8 +9,8 @@
 #include <string>
 #include <variant>
 
-#include "fire/h5/DataSet.hpp"
-#include "fire/h5/Reader.hpp"
+#include "fire/h5/DataSet.h"
+#include "fire/h5/Reader.h"
 
 namespace fire::h5 {
 

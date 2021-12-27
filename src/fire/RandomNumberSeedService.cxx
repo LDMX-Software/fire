@@ -26,7 +26,7 @@ void RandomNumberSeedService::stream(std::ostream& s) const {
 
 RandomNumberSeedService::RandomNumberSeedService(const fire::config::Parameters& parameters)
     : ConditionsObject(CONDITIONS_OBJECT_NAME),
-      ConditionsObjectProvider(parameters) {
+      ConditionsProvider(parameters) {
   auto seeding = parameters.get<std::string>("mode", "run");
   if (!strcasecmp(seeding.c_str(), "run")) {
     mode_ = SEED_RUN;
@@ -72,16 +72,15 @@ std::vector<std::string> RandomNumberSeedService::getSeedNames() const {
   return rv;
 }
 
-std::pair<const ConditionsObject*, ConditionsIOV>
-RandomNumberSeedService::getCondition(const EventHeader& context) final override {
+std::pair<const ConditionsObject*, ConditionsIntervalOfValidity>
+RandomNumberSeedService::getCondition(const EventHeader& context) {
   if (!initialized_) {
     if (mode_ == SEED_RUN) {
       root_ = context.getRun();
     }
     initialized_ = true;
   }
-  return std::pair<const ConditionsObject*, ConditionsIOV>(
-      this, ConditionsIOV(true, true));
+  return std::make_pair(this, ConditionsIntervalOfValidity(true, true));
 }
 
 }  // namespace fire

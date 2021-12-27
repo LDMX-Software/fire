@@ -1,11 +1,11 @@
-#ifndef FIRE_FACTORY_FACTORY_HPP
-#define FIRE_FACTORY_FACTORY_HPP
+#ifndef FIRE_FACTORY_FACTORY_H
+#define FIRE_FACTORY_FACTORY_H
 
 #include <memory>         // for the unique_ptr default
 #include <string>         // for the keys in the library map
 #include <unordered_map>  // for the library of prototypes
 
-#include "fire/exception/Exception.hpp"
+#include "fire/exception/Exception.h"
 
 namespace fire {
 
@@ -167,4 +167,4 @@ class Factory {
 }  // namespace factory
 }  // namespace fire
 
-#endif  // FACTORY_FACTORY_HPP
+#endif  // FACTORY_FACTORY_H

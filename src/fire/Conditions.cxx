@@ -1,8 +1,8 @@
-#include "fire/Conditions.hpp"
+#include "fire/Conditions.h"
 
 #include <sstream>
 
-#include "fire/Process.hpp"
+#include "fire/Process.h"
 
 namespace fire {
 

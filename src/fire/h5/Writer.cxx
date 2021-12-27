@@ -1,4 +1,4 @@
-#include "fire/h5/Writer.hpp"
+#include "fire/h5/Writer.h"
 
 namespace fire::h5 {
 

@@ -1,5 +1,5 @@
-#ifndef FIRE_EVENTHEADER_HPP
-#define FIRE_EVENTHEADER_HPP
+#ifndef FIRE_EVENTHEADER_H
+#define FIRE_EVENTHEADER_H
 
 // STL
 #include <ctime>
@@ -8,7 +8,7 @@
 #include <string>
 #include <variant>
 
-#include "fire/h5/ParameterStorage.hpp"
+#include "fire/h5/ParameterStorage.h"
 
 namespace fire {
 

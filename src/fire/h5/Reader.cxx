@@ -1,4 +1,4 @@
-#include "fire/h5/Reader.hpp"
+#include "fire/h5/Reader.h"
 
 namespace fire::h5 {
 

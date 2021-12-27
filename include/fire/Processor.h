@@ -1,15 +1,15 @@
-#ifndef FIRE_PROCESSOR_HPP
-#define FIRE_PROCESSOR_HPP
+#ifndef FIRE_PROCESSOR_H
+#define FIRE_PROCESSOR_H
 
-#include "fire/exception/Exception.hpp"
-#include "fire/Conditions.hpp"
-#include "fire/Event.hpp"
-#include "fire/config/Parameters.hpp"
-#include "fire/exception/Exception.hpp"
+#include "fire/exception/Exception.h"
+#include "fire/Conditions.h"
+#include "fire/Event.h"
+#include "fire/config/Parameters.h"
+#include "fire/exception/Exception.h"
 #include "fire/logging/Logger.h"
-#include "fire/RunHeader.hpp"
+#include "fire/RunHeader.h"
 #include "fire/StorageControl.h"
-#include "fire/factory/Factory.hpp"
+#include "fire/factory/Factory.h"
 
 /*~~~~~~~~~~~~~~~~*/
 /*   C++ StdLib   */

@@ -1,12 +1,12 @@
-#ifndef FIRE_EVENT_HPP
-#define FIRE_EVENT_HPP
+#ifndef FIRE_EVENT_H
+#define FIRE_EVENT_H
 
 #include <regex>
 #include <boost/core/demangle.hpp>
 
-#include "fire/h5/DataSet.hpp"
-#include "fire/ProductTag.hpp"
-#include "fire/EventHeader.hpp"
+#include "fire/h5/DataSet.h"
+#include "fire/ProductTag.h"
+#include "fire/EventHeader.h"
 
 namespace fire {
 
@@ -292,4 +292,4 @@ class Event {
 
 }  // namespace fire
 
-#endif  // FIRE_EVENT_HPP
+#endif  // FIRE_EVENT_H

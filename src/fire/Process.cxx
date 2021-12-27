@@ -1,8 +1,8 @@
-#include "fire/Process.hpp"
+#include "fire/Process.h"
 
 #include <iostream>
 
-#include "fire/factory/Factory.hpp"
+#include "fire/factory/Factory.h"
 
 namespace fire {
 

@@ -1,12 +1,12 @@
-#ifndef FIRE_RUNHEADER_HPP
-#define FIRE_RUNHEADER_HPP
+#ifndef FIRE_RUNHEADER_H
+#define FIRE_RUNHEADER_H
 
 #include <map>
 #include <string>
 
-#include "fire/version/Version.hpp"
-#include "fire/h5/DataSet.hpp"
-#include "fire/h5/ParameterStorage.hpp"
+#include "fire/version/Version.h"
+#include "fire/h5/DataSet.h"
+#include "fire/h5/ParameterStorage.h"
 
 namespace fire {
 

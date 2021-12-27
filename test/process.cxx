@@ -3,7 +3,7 @@
 #include <boost/test/unit_test.hpp>
 #include <highfive/H5Easy.hpp>
 
-#include "fire/Process.hpp"
+#include "fire/Process.h"
 
 /**
  * Test running of Process class with no processors
@@ -19,7 +19,7 @@ BOOST_AUTO_TEST_SUITE(process)
 BOOST_AUTO_TEST_CASE(production_mode) {
   std::string output{"production_mode_output.h5"};
   fire::config::Parameters configuration;
-  configuration.add("pass",std::string("test"));
+  configuration.add("pass_name",std::string("test"));
 
   fire::config::Parameters output_file;
   output_file.add("name", output);
@@ -77,7 +77,7 @@ BOOST_AUTO_TEST_CASE(production_mode) {
 BOOST_AUTO_TEST_CASE(recon_mode_single_file, *boost::unit_test::depends_on("process/production_mode")) {
   std::string output{"recon_mode_output.h5"};
   fire::config::Parameters configuration;
-  configuration.add("pass",std::string("test"));
+  configuration.add("pass_name",std::string("test"));
 
   fire::config::Parameters output_file;
   output_file.add("name", output);
@@ -129,7 +129,7 @@ BOOST_AUTO_TEST_CASE(recon_mode_multi_file, *boost::unit_test::depends_on("proce
 
   { // generate another input file
     fire::config::Parameters configuration;
-    configuration.add("pass",std::string("test"));
+    configuration.add("pass_name",std::string("test"));
 
     fire::config::Parameters output_file;
     output_file.add("name", std::string("recon_mode_multi_input.h5"));
@@ -155,7 +155,7 @@ BOOST_AUTO_TEST_CASE(recon_mode_multi_file, *boost::unit_test::depends_on("proce
 
   std::string output{"recon_mode_multi_output.h5"};
   fire::config::Parameters configuration;
-  configuration.add("pass",std::string("test"));
+  configuration.add("pass_name",std::string("test"));
 
   fire::config::Parameters output_file;
   output_file.add("name", output);

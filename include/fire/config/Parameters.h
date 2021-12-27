@@ -13,7 +13,7 @@
 #include <typeinfo>
 #include <vector>
 #include <boost/core/demangle.hpp>
-#include "fire/exception/Exception.hpp"
+#include "fire/exception/Exception.h"
 
 namespace fire {
 namespace config {

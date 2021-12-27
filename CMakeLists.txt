@@ -58,14 +58,14 @@ target_include_directories(version
   "$<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>"
   )
 
-add_library(exception SHARED src/fire/exception/Exception.cpp)
+add_library(exception SHARED src/fire/exception/Exception.cxx)
 target_include_directories(exception
   PUBLIC 
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
   "$<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>"
   )
 
-add_library(factory SHARED src/fire/factory/Factory.cpp)
+add_library(factory SHARED src/fire/factory/Factory.cxx)
 target_include_directories(factory
   PUBLIC 
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
@@ -80,7 +80,7 @@ target_include_directories(logging
   "$<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>"
   )
 
-add_library(config SHARED src/fire/config/Python.cpp)
+add_library(config SHARED src/fire/config/Python.cxx)
 target_link_libraries(config PUBLIC Python3::Python)
 target_include_directories(config
   PUBLIC 
@@ -89,10 +89,10 @@ target_include_directories(config
   )
 
 add_library(h5 SHARED
-  src/fire/h5/Writer.cpp
-  src/fire/h5/Reader.cpp
-  src/fire/h5/DataSet.cpp
-  src/fire/h5/ParameterStorage.cpp)
+  src/fire/h5/Writer.cxx
+  src/fire/h5/Reader.cxx
+  src/fire/h5/DataSet.cxx
+  src/fire/h5/ParameterStorage.cxx)
 target_link_libraries(h5 PUBLIC HighFive config)
 target_include_directories(h5
   PUBLIC 
@@ -102,14 +102,15 @@ target_include_directories(h5
 
 add_library(framework SHARED
   src/fire/StorageControl.cxx
-  src/fire/Event.cpp
-  src/fire/EventHeader.cpp
-  src/fire/Processor.cpp
-  src/fire/Process.cpp
-  src/fire/RunHeader.cpp
-  src/fire/ConditionsIntervalOfValidity.cpp
-  src/fire/ConditionsProvider.cpp
-  src/fire/Conditions.cpp
+  src/fire/Event.cxx
+  src/fire/EventHeader.cxx
+  src/fire/Processor.cxx
+  src/fire/Process.cxx
+  src/fire/RunHeader.cxx
+  src/fire/ConditionsIntervalOfValidity.cxx
+  src/fire/ConditionsProvider.cxx
+  src/fire/Conditions.cxx
+  src/fire/RandomNumberSeedService.cxx
   )
 target_include_directories(framework 
   PUBLIC 
@@ -118,7 +119,7 @@ target_include_directories(framework
   )
 target_link_libraries(framework PUBLIC logging version exception config factory h5)
 
-# Compiling the fire library requires features introduced by the cpp 17 standard.
+# Compiling the fire library requires features introduced by the cxx 17 standard.
 set_target_properties(
   framework
   PROPERTIES CXX_STANDARD 17
@@ -160,7 +161,7 @@ install(FILES
       )
 
 # Add the fire executable
-add_executable(fire app/fire.cpp)
+add_executable(fire app/fire.cxx)
 target_link_libraries(fire PRIVATE framework)
 install(TARGETS fire DESTINATION bin)
 
