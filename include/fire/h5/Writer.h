@@ -64,8 +64,8 @@ class Writer {
       HighFive::DataSetCreateProps props;
       // NOTE this is where chunking is done
       props.add(HighFive::Chunking({rows_per_chunk_}));
-      // TODO compression
-      // TODO creation options in this function
+      props.add(HighFive::Shuffle()); // not sure what this does
+      props.add(HighFive::Deflate(compression_level_));
       // set access properties to their default
       // and create parents to 'true' (default - create necessary groups along the way)
       HighFive::DataSet set = file_.createDataSet(path, space, HighFive::AtomicType<AtomicType>(), props);
@@ -82,8 +82,10 @@ class Writer {
   HighFive::File file_;
   /// number of rows to keep in each chunk
   std::size_t rows_per_chunk_;
+  /// compression level (0-9), 0 being no compression
+  int compression_level_;
   /// the expected number of entries in this file
-  std::size_t entries_{0};
+  std::size_t entries_;
 };
 
 }  // namespace fire::h5
