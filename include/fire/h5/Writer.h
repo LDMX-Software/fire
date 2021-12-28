@@ -64,7 +64,7 @@ class Writer {
       HighFive::DataSetCreateProps props;
       // NOTE this is where chunking is done
       props.add(HighFive::Chunking({rows_per_chunk_}));
-      props.add(HighFive::Shuffle()); // not sure what this does
+      //props.add(HighFive::Shuffle()); // resort bits to hopefully improve compression
       props.add(HighFive::Deflate(compression_level_));
       // set access properties to their default
       // and create parents to 'true' (default - create necessary groups along the way)
