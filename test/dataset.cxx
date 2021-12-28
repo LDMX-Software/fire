@@ -108,6 +108,7 @@ BOOST_AUTO_TEST_CASE(dataset) {
     fire::config::Parameters output_params;
     output_params.add("name",filename);
     output_params.add("rows_per_chunk",10);
+    output_params.add("compression_level", 6);
     fire::h5::Writer f{doubles.size(),output_params};
 
     fire::EventHeader eh;

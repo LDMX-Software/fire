@@ -25,6 +25,7 @@ BOOST_AUTO_TEST_CASE(production_mode) {
   output_file.add("name", output);
   output_file.add("event_limit", 10);
   output_file.add("rows_per_chunk", 1000);
+  output_file.add("compression_level", 6);
   configuration.add("output_file",output_file);
 
   fire::config::Parameters storage;
@@ -83,6 +84,7 @@ BOOST_AUTO_TEST_CASE(recon_mode_single_file, *boost::unit_test::depends_on("proc
   output_file.add("name", output);
   output_file.add("event_limit", 10);
   output_file.add("rows_per_chunk", 1000);
+  output_file.add("compression_level", 6);
   configuration.add("output_file",output_file);
 
   std::vector<std::string> input_files = { "production_mode_output.h5" };
@@ -135,6 +137,7 @@ BOOST_AUTO_TEST_CASE(recon_mode_multi_file, *boost::unit_test::depends_on("proce
     output_file.add("name", std::string("recon_mode_multi_input.h5"));
     output_file.add("event_limit", 10);
     output_file.add("rows_per_chunk", 1000);
+    output_file.add("compression_level", 6);
     configuration.add("output_file",output_file);
 
     fire::config::Parameters storage;
@@ -161,6 +164,7 @@ BOOST_AUTO_TEST_CASE(recon_mode_multi_file, *boost::unit_test::depends_on("proce
   output_file.add("name", output);
   output_file.add("event_limit", 10);
   output_file.add("rows_per_chunk", 1000);
+  output_file.add("compression_level", 6);
   configuration.add("output_file",output_file);
 
   std::vector<std::string> input_files = { "production_mode_output.h5", "recon_mode_multi_input.h5" };
