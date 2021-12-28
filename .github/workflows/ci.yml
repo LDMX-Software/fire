@@ -38,7 +38,7 @@ jobs:
         ldmx cmake --build build
         echo "::endgroup::"
         echo "::group::Test fire"
-        ldmx ctest --extra-verbose build/
+        ldmx cmake --build build --target test
         echo "::endgroup::"
         echo "::group::Install fire for Test Module"
         ldmx cmake --build build/ --target install
