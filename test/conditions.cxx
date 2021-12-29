@@ -105,6 +105,7 @@ BOOST_AUTO_TEST_CASE(system) {
   output_file.add("event_limit", 10);
   output_file.add("rows_per_chunk", 1000);
   output_file.add("compression_level", 6);
+  output_file.add("shuffle",false);
   configuration.add("output_file", output_file);
 
   fire::config::Parameters storage;

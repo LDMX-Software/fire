@@ -64,7 +64,8 @@ class Writer {
       HighFive::DataSetCreateProps props;
       // NOTE this is where chunking is done
       props.add(HighFive::Chunking({rows_per_chunk_}));
-      //props.add(HighFive::Shuffle()); // resort bits to hopefully improve compression
+      // resort bits to hopefully improve compression
+      if (shuffle_) props.add(HighFive::Shuffle());
       props.add(HighFive::Deflate(compression_level_));
       // set access properties to their default
       // and create parents to 'true' (default - create necessary groups along the way)
@@ -84,6 +85,8 @@ class Writer {
   std::size_t rows_per_chunk_;
   /// compression level (0-9), 0 being no compression
   int compression_level_;
+  /// should we shuffle
+  bool shuffle_;
   /// the expected number of entries in this file
   std::size_t entries_;
 };

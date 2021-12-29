@@ -215,10 +215,11 @@ class OutputFile :
         Number of "rows" in the output file to "chunk" together
     """
 
-    def __init__(self, name, rows_per_chunk = 10000, compression_level = 6) :
+    def __init__(self, name, rows_per_chunk = 10000, compression_level = 6, shuffle = False) :
         self.name = name
         self.rows_per_chunk = rows_per_chunk
         self.compression_level = compression_level
+        self.shuffle = shuffle
 
     def __repr__(self) :
         return f'OutputFile({self.name})'
