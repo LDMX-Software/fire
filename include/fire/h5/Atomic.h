@@ -2,8 +2,18 @@
 #define FIRE_H5_ATOMIC_H
 
 #include <highfive/H5DataType.hpp>
+#include "fire/exception/Exception.h"
 
 namespace fire::h5 {
+
+/**
+ * Allow for a specific h5 Exception
+ *
+ * These exceptions aren't used directly here,
+ * but are used in downstream classes like Event
+ * and ParameterStorage.
+ */
+ENABLE_EXCEPTIONS();
 
 /**
  * HighFive supports many C++ "atomic" types that are used regularly. 
