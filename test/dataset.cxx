@@ -109,14 +109,14 @@ BOOST_AUTO_TEST_CASE(dataset) {
     output_params.add("name",filename);
     output_params.add("rows_per_chunk",10);
     output_params.add("compression_level", 6);
-    output_file.add("shuffle",false);
+    output_params.add("shuffle",false);
     fire::h5::Writer f{doubles.size(),output_params};
 
     fire::EventHeader eh;
     fire::h5::DataSet<fire::EventHeader> event_header(fire::EventHeader::NAME,true,&eh);
     fire::h5::DataSet<double> double_ds("double",true);
     fire::h5::DataSet<int>    int_ds("int",true);
-    fire::h5::DataSet<bool>   bool_ds("bool",true);
+    //fire::h5::DataSet<bool>   bool_ds("bool",true);
     fire::h5::DataSet<std::vector<double>> vector_double_ds("vector_double",true);
     fire::h5::DataSet<std::vector<int>> vector_int_ds("vector_int",true);
     fire::h5::DataSet<std::map<int,double>> map_int_double_ds("map_int_double",true);
@@ -139,8 +139,10 @@ BOOST_AUTO_TEST_CASE(dataset) {
       BOOST_CHECK(save(double_ds,doubles.at(i_entry),f,i_entry));
       BOOST_CHECK(save(int_ds,ints.at(i_entry),f,i_entry));
 
+      /*
       bool positive{ints.at(i_entry) > 0};
       BOOST_CHECK(save(bool_ds,positive,f,i_entry));
+      */
 
       BOOST_CHECK(save(vector_double_ds,doubles,f,i_entry));
       BOOST_CHECK(save(vector_int_ds,ints,f,i_entry));
@@ -172,6 +174,7 @@ BOOST_AUTO_TEST_CASE(dataset) {
       };
       BOOST_CHECK(save(map_cluster_ds,map_clusters,f,i_entry));
     }
+
   }
 
   { // Reading
@@ -181,7 +184,7 @@ BOOST_AUTO_TEST_CASE(dataset) {
     fire::h5::DataSet<fire::EventHeader> event_header(fire::EventHeader::NAME,true,&eh);
     fire::h5::DataSet<double> double_ds("double",true);
     fire::h5::DataSet<int>    int_ds("int",true);
-    fire::h5::DataSet<bool>   bool_ds("bool",true);
+    //fire::h5::DataSet<bool>   bool_ds("bool",true);
     fire::h5::DataSet<std::vector<double>> vector_double_ds("vector_double",true);
     fire::h5::DataSet<std::vector<int>> vector_int_ds("vector_int",true);
     fire::h5::DataSet<std::map<int,double>> map_int_double_ds("map_int_double",true);
@@ -203,8 +206,10 @@ BOOST_AUTO_TEST_CASE(dataset) {
       
       BOOST_CHECK(load(double_ds,doubles.at(i_entry),f,i_entry));
       BOOST_CHECK(load(int_ds,ints.at(i_entry),f,i_entry));
+      /*
       bool positive{ints.at(i_entry) > 0};
       BOOST_CHECK(load(bool_ds,positive,f,i_entry));
+      */
       BOOST_CHECK(load(vector_double_ds,doubles,f,i_entry));
       BOOST_CHECK(load(vector_int_ds,ints,f,i_entry));
       std::map<int,double> map_int_double;
