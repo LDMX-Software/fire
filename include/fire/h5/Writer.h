@@ -15,47 +15,41 @@ class BufferHandle {
  public:
   BufferHandle() = default;
   virtual ~BufferHandle() = default;
-  virtual void flush(HighFive::File&) = 0;
+  virtual void flush(HighFive::File&, const std::string&) = 0;
 };
 
 template <typename AtomicType>
 class Buffer : public BufferHandle {
-  std::string path_;
   std::vector<AtomicType> buffer_;
-  std::size_t curr_buffer_len_;
   std::size_t i_output_;
   std::size_t max_buffer_leng_;
 
  public:
-  explicit Buffer(const std::string& path, std::size_t max)
+  explicit Buffer(std::size_t max)
       : BufferHandle(),
-        path_{path},
         buffer_{},
-        curr_buffer_len_{0},
         i_output_{0},
-        max_buffer_leng_{max} {
-    std::cout << boost::core::demangle(typeid(AtomicType).name()) << std::endl;
-    buffer_.resize(max_buffer_leng_);
+        max_buffer_leng_{max} {}
+  virtual ~Buffer() { 
+    buffer_.clear();
   }
-  virtual ~Buffer() { std::cout << "~Buffer(" << path_ << ")" << std::endl; }
-  void save(HighFive::File& f, const AtomicType& val) {
-    buffer_[curr_buffer_len_] = val;
-    curr_buffer_len_++;
-    if (curr_buffer_len_ > max_buffer_leng_) flush(f);
+  void save(HighFive::File& f, const std::string& path, const AtomicType& val) {
+    buffer_.push_back(val);
+    if (buffer_.size() > max_buffer_leng_) flush(f,path);
   }
-  virtual void flush(HighFive::File& f) final override {
-    if (curr_buffer_len_ == 0) return;
-    std::size_t new_extent = i_output_ + curr_buffer_len_;
+  virtual void flush(HighFive::File& f, const std::string& path) final override {
+    if (buffer_.size() == 0) return;
+    std::size_t new_extent = i_output_ + buffer_.size();
     // throws if not created yet
-    HighFive::DataSet set = f.getDataSet(path_);
+    HighFive::DataSet set = f.getDataSet(path);
     if (set.getDimensions().at(0) < new_extent) {
       set.resize({new_extent});
     }
-    set.select({i_output_}, {curr_buffer_len_}).write(buffer_);
-    i_output_ += curr_buffer_len_;
-    curr_buffer_len_ = 0;
+    set.select({i_output_}, {buffer_.size()}).write(buffer_);
+    i_output_ += buffer_.size();
+    buffer_.clear();
   }
-};  // namespace fire::h5
+};
 
 /**
  * A HighFive::File specialized to fire's usecase.
@@ -108,11 +102,10 @@ class Writer {
       props.add(HighFive::Deflate(compression_level_));
       file_.createDataSet(path, space, HighFive::AtomicType<AtomicType>(),
                           props);
-      buffers_.try_emplace(path, 
-          std::make_unique<Buffer<AtomicType>>(path, rows_per_chunk_));
+      buffers_.emplace(path, std::make_unique<Buffer<AtomicType>>(rows_per_chunk_));
     }
     try {
-      dynamic_cast<Buffer<AtomicType>*>(buffers_[path].get())->save(file_, val);
+      dynamic_cast<Buffer<AtomicType>&>(*buffers_.at(path)).save(file_, path, val);
     } catch (const std::bad_cast&) {
       throw Exception("Attempting to insert incorrect type into buffer.");
     }

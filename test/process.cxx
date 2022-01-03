@@ -50,21 +50,23 @@ BOOST_AUTO_TEST_CASE(production_mode) {
   configuration.add("testing",true); // ok for no sequence
   configuration.add<fire::config::Parameters>("conditions",{});
 
-  std::unique_ptr<fire::Process> p;
-  try {
-    p = std::make_unique<fire::Process>(configuration);
-  } catch (fire::config::Parameters::Exception& e) {
-    std::cerr << "[Config Error] " << e.what() << std::endl;
-    BOOST_REQUIRE(false);
-  }
-  try {
-    p->run();
-  } catch (const HighFive::Exception& e) {
-    std::cerr << "[H5 Error]" << e.what() << std::endl;
-    BOOST_REQUIRE(false);
-  } catch (fire::exception::Exception& e) {
-    std::cerr << e.what() << std::endl;
-    BOOST_REQUIRE(false);
+  {
+    std::unique_ptr<fire::Process> p;
+    try {
+      p = std::make_unique<fire::Process>(configuration);
+    } catch (fire::config::Parameters::Exception& e) {
+      std::cerr << "[Config Error] " << e.what() << std::endl;
+      BOOST_REQUIRE(false);
+    }
+    try {
+      p->run();
+    } catch (const HighFive::Exception& e) {
+      std::cerr << "[H5 Error]" << e.what() << std::endl;
+      BOOST_REQUIRE(false);
+    } catch (fire::exception::Exception& e) {
+      std::cerr << e.what() << std::endl;
+      BOOST_REQUIRE(false);
+    }
   }
 
   // check that the event and run numbers in the output file are correct

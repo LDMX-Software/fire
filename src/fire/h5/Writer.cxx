@@ -14,14 +14,10 @@ Writer::Writer(const int& event_limit, const config::Parameters& ps)
 Writer::~Writer() { this->flush(); }
 
 void Writer::flush() {
-  for (auto& [_, buff] : buffers_) {
-    std::cout << _ << "..." << std::flush;
-    buff->flush(file_);
-    std::cout << "done" << std::endl;
+  for (auto& [path, buff] : buffers_) {
+    buff->flush(file_,path);
   }
-  std::cout << "flushing file..." << std::flush;
   file_.flush();
-  std::cout << "done" << std::endl;
 }
 
 const std::string& Writer::name() const { return file_.getName(); }
