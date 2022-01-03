@@ -24,14 +24,14 @@ Besides this core functionality of processors looking at data event-by-event, th
 - Header for event-wide information
 - Header for run-wide information
 - Simple serialization of user-defined classes allowing for quick h5py-based analyses
-- Configuration through running a python script
+- Run-time configuration via a python script
 - Modern CMake infrasture enabling simple `find_package(fire)` syntax
 - Drop/Keep Rules: Regex-based rules for copying data from input file to output file
   or choosing to _not_ save data created during processing
 - Veto: Voting system for processors to decide if an entire event
   should be saved into the output file
 - Logging through Boost
-- Interface to a conditions system
+- Interface to a conditions system for support data
 
 ### TBD
 - Test drop/keep rules
