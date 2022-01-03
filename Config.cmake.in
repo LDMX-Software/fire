@@ -5,6 +5,8 @@ if (fire_FOUND)
   return()
 endif()
 
+message(STATUS "fire @PROJECT_VERSION@ found")
+
 # We need to find_dependency for the same packages
 #   we needed to find_package for
 #   this registers the packages we need to dynamically
