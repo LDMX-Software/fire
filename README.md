@@ -8,7 +8,7 @@ It's a stretch but it's worth it for the cool name.
     <img src="https://github.com/LDMX-Software/Framework/workflows/CI/badge.svg" />
 </a>
 
-A event-by-event processing framework using [HDF5](https://www.hdfgroup.org/) via [HighFive](github.com/BlueBrain/HighFive) for serialization, [Boost](https://www.boost.org/) for logging, and C++17.
+A event-by-event processing framework using [HDF5](https://www.hdfgroup.org/) via [HighFive](https://github.com/BlueBrain/HighFive) for serialization, [Boost](https://www.boost.org/) for logging, and C++17.
 
 The core idea of this framework is the assumption that our data (simulated or real) can be grouped into "events" that we can assume are independent (for the software, not necessarily true in real life).
 Each event is given to a sequence of "processors" that can look at the current data in the event and potentially produce more data to put into the event.
@@ -36,7 +36,7 @@ Besides this core functionality of processors looking at data event-by-event, th
 ### TBD
 - Test drop/keep rules
 - Much more documentation
-- Doxygen including markdown note files
+- Move note files into doxygen comments
 - Dockerfile for building container with `fire` and necessary dependencies
 - Tune compression/caching/chunking for our use case
 
@@ -45,6 +45,7 @@ Besides this core functionality of processors looking at data event-by-event, th
 - C++ compiler with C++17 support
 - HDF5
 - HighFive C++ interface for HDF5
+  - Accessing the HDF5 C API directly is feasible; however, HighFive provides support for Exception translation and `std::string` which I don't want to have to figure out myself.
 - Boost Core (for various low-level tasks like demangling)
 - Boost Logging (for logging through fire)
 - Boost Unit Testing Framework (optional, for testing during development)
