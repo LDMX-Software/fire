@@ -45,7 +45,14 @@ class Buffer : public BufferHandle {
     if (set.getDimensions().at(0) < new_extent) {
       set.resize({new_extent});
     }
-    set.select({i_output_}, {buffer_.size()}).write(buffer_);
+    if constexpr (std::is_same_v<AtomicType,bool>) {
+      // handle bool specialization
+      std::vector<short> buff;
+      for (const auto& v : buffer_) buff.push_back(v);
+      set.select({i_output_}, {buffer_.size()}).write(buff);
+    } else {
+      set.select({i_output_}, {buffer_.size()}).write(buffer_);
+    }
     i_output_ += buffer_.size();
     buffer_.clear();
   }

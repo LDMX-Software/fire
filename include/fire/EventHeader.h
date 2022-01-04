@@ -112,7 +112,7 @@ class EventHeader {
     set.attach("run",run_);
     set.attach("timestamp",timestamp_);
     set.attach("weight",weight_);
-    //set.attach("isRealData",isRealData_);
+    set.attach("isRealData",isRealData_);
     set.attach("parameters",parameters_);
   }
 
