@@ -63,7 +63,7 @@ class ParameterStorage {
 template <>
 class DataSet<ParameterStorage> : public AbstractDataSet<ParameterStorage> {
  public:
-  DataSet(const std::string& name, bool should_save, ParameterStorage* handle);
+  DataSet(const std::string& name, ParameterStorage* handle);
   void load(Reader& r, long unsigned int i);
   void save(Writer& w, long unsigned int i);
 
@@ -71,7 +71,7 @@ class DataSet<ParameterStorage> : public AbstractDataSet<ParameterStorage> {
   template <typename ParameterType>
   void attach(const std::string& name) {
     parameters_[name] = std::make_unique<DataSet<ParameterType>>(
-        this->name_ + "/" + name, true,
+        this->name_ + "/" + name, 
         std::get_if<ParameterType>(&(this->handle_->parameters_[name])));
   }
 

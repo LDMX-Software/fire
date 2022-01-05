@@ -36,7 +36,6 @@ Besides this core functionality of processors looking at data event-by-event, th
 ### TBD
 - Test drop/keep rules
 - Much more documentation
-- Move note files into doxygen comments
 - Dockerfile for building container with `fire` and necessary dependencies
 - Tune compression/caching/chunking for our use case
 

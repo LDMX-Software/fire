@@ -3,8 +3,8 @@
 
 namespace fire::h5 {
 
-DataSet<ParameterStorage>::DataSet(const std::string& name, bool should_save, ParameterStorage* handle)
-    : AbstractDataSet<ParameterStorage>(name, should_save, handle) {}
+DataSet<ParameterStorage>::DataSet(const std::string& name, ParameterStorage* handle)
+    : AbstractDataSet<ParameterStorage>(name, handle) {}
 
 void DataSet<ParameterStorage>::load(Reader& r, long unsigned int i) {
   static bool first_load{true};

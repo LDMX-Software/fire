@@ -27,11 +27,9 @@ namespace fire::h5 {
 class BaseDataSet {
  public:
   /**
-   * Constructor defining whether this dataset is a transient
-   * in-memory data set (should_save == false) or a data set
-   * that should be saved into the output file (should_save == true).
+   * Basic constructor
    */
-  explicit BaseDataSet(bool should_save) : should_save_{should_save} {}
+  explicit BaseDataSet() = default;
 
   /**
    * virtual destructor so inherited classes can be properly destructed.
@@ -52,19 +50,6 @@ class BaseDataSet {
    * pure virtual method for resetting the current data set handle to a blank state
    */
   virtual void clear() = 0;
-
-  /**
-   * The method used in the event class,
-   * we check if the data set should be saved before
-   * calling the save method overridden by derived classes.
-   */
-  void checkThenSave(Writer& f, long unsigned int i) {
-    if (should_save_) save(f,i);
-  }
-
- protected:
-  /// should we save this data set into output file?
-  bool should_save_;
 };
 
 /**
@@ -96,8 +81,8 @@ class AbstractDataSet : public BaseDataSet {
    * @param[in] name name of dataset
    * @param[in] handle address of object already created (optional)
    */
-  explicit AbstractDataSet(std::string const& name, bool should_save, DataType* handle = nullptr)
-      : BaseDataSet(should_save), name_{name}, owner_{handle == nullptr} {
+  explicit AbstractDataSet(std::string const& name, DataType* handle = nullptr)
+      : BaseDataSet(), name_{name}, owner_{handle == nullptr} {
     if (owner_) {
       handle_ = new DataType;
     } else {
@@ -213,8 +198,8 @@ class DataSet : public AbstractDataSet<DataType> {
    * pointed to by our handle. This allows us to register
    * its member variables with our own 'attach' method.
    */
-  explicit DataSet(std::string const& name, bool should_save, DataType* handle = nullptr)
-      : AbstractDataSet<DataType>(name, should_save, handle) {
+  explicit DataSet(std::string const& name, DataType* handle = nullptr)
+      : AbstractDataSet<DataType>(name, handle) {
     this->handle_->attach(*this);
   }
 
@@ -247,7 +232,7 @@ class DataSet : public AbstractDataSet<DataType> {
   template <typename MemberType>
   void attach(std::string const& name, MemberType& m) {
     members_.push_back(
-        std::make_unique<DataSet<MemberType>>(this->name_ + "/" + name, this->should_save_, &m));
+        std::make_unique<DataSet<MemberType>>(this->name_ + "/" + name, &m));
   }
 
  private:
@@ -269,8 +254,8 @@ class DataSet<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
    * We don't do any more initialization except which is handled by the
    * AbstractDataSet
    */
-  explicit DataSet(std::string const& name, bool should_save, AtomicType* handle = nullptr)
-      : AbstractDataSet<AtomicType>(name, should_save, handle) {}
+  explicit DataSet(std::string const& name, AtomicType* handle = nullptr)
+      : AbstractDataSet<AtomicType>(name, handle) {}
   /**
    * Call the H5Easy::load method with our atomic type and our name
    */
@@ -302,10 +287,10 @@ class DataSet<std::vector<ContentType>>
    * We create two child data sets, one to hold the successive sizes of the
    * vectors and one to hold all of the data in all of the vectors serially.
    */
-  explicit DataSet(std::string const& name, bool should_save, std::vector<ContentType>* handle = nullptr)
-      : AbstractDataSet<std::vector<ContentType>>(name, should_save, handle),
-        size_{name + "/size",should_save},
-        data_{name + "/data",should_save},
+  explicit DataSet(std::string const& name, std::vector<ContentType>* handle = nullptr)
+      : AbstractDataSet<std::vector<ContentType>>(name, handle),
+        size_{name + "/size"},
+        data_{name + "/data"},
         i_data_entry_{0} {}
 
   /**
@@ -369,11 +354,11 @@ class DataSet<std::map<KeyType,ValType>>
    * We create three child data sets, one for the successive sizes
    * of the maps and two to hold all the keys and values serially.
    */
-  explicit DataSet(std::string const& name, bool should_save, std::map<KeyType,ValType>* handle = nullptr)
-      : AbstractDataSet<std::map<KeyType,ValType>>(name, should_save, handle),
-        size_{name + "/size",should_save},
-        keys_{name + "/keys",should_save},
-        vals_{name + "/vals",should_save},
+  explicit DataSet(std::string const& name, std::map<KeyType,ValType>* handle = nullptr)
+      : AbstractDataSet<std::map<KeyType,ValType>>(name, handle),
+        size_{name + "/size"},
+        keys_{name + "/keys"},
+        vals_{name + "/vals"},
         i_data_entry_{0} {}
 
   /**

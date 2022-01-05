@@ -67,20 +67,27 @@ class Event {
   template <typename DataType>
   void add(const std::string& name, const DataType& data) {
     std::string full_name{fullName(name, pass_)};
-    if (sets_.find(full_name) == sets_.end()) {
+    if (objects_.find(full_name) == objects_.end()) {
       // a data set hasn't been created for this data yet
       // we good, lets create the new data set
-      //   also check if new data is going to be written to output file or just
-      //   used during this run without any applicable drop/keep rules, we do
-      //   save these datasets
-      sets_.emplace(full_name, std::make_unique<h5::DataSet<DataType>>(
-          full_name, keep(full_name, true)));
+      //
+      // NOTES:
+      // - check if new data is going to be written to output file 
+      //   or just used during this run 
+      // - without any applicable drop/keep rules, 
+      //   we do save these datasets
+      // - we mark these objects as should_load == false because
+      //   they are new and not from an input file
+      auto& obj{objects_[full_name]};
+      obj.set_ = std::make_unique<h5::DataSet<DataType>>(full_name);
+      obj.should_save_ = keep(full_name, true);
+      obj.should_load_ = false;
       products_.emplace_back(name, pass_,boost::core::demangle(typeid(DataType).name()));
     }
 
     try {
       /// maybe throw bad_cast exception
-      auto& s{dynamic_cast<h5::DataSet<DataType>&>(*sets_[full_name])};
+      auto& s{objects_.at(full_name).getDataSetRef<DataType>()};
       if (s.updated()) {
         // this data set has been updated by another processor
         throw h5::Exception("DataSet named " + full_name +
@@ -131,7 +138,7 @@ class Event {
       known_lookups_[name] = full_name;
     }
 
-    if (sets_.find(full_name) == sets_.end()) {
+    if (objects_.find(full_name) == objects_.end()) {
       // check if file on disk by trying to create and load it
       //  this line won't throw an error because we haven't tried accessing the
       //  data yet
@@ -140,21 +147,28 @@ class Event {
         throw h5::Exception("DataSet named " + full_name +
                         " does not exist.");
       }
-      // create a new set to track set being read in
-      //   also check if the set being read in should also be written to output
-      //   file without any applicable drop/keep rules, we do NOT save these
-      //   datasets
-      sets_.emplace(full_name, std::make_unique<h5::DataSet<DataType>>(
-          full_name, keep(full_name, false)));
+      // a data set hasn't been created for this data yet
+      // we good, lets create the new data set
+      //
+      // NOTES:
+      // - check if new data is going to be written to output file 
+      //   or just used during this run 
+      // - without any applicable drop/keep rules, 
+      //   we do save these datasets
+      // - we mark these objects as should_load == false because
+      //   they are new and not from an input file
+      auto& obj{objects_[full_name]};
+      obj.set_ = std::make_unique<h5::DataSet<DataType>>(full_name);
+      obj.should_save_ = keep(full_name, false);
+      obj.should_load_ = true;
       //  this line may throw an error
-      sets_[full_name]->load(*input_file_, i_entry_);
+      obj.set_->load(*input_file_, i_entry_);
     }
 
     // type casting, 'bad_cast' thrown if unable
     try {
-      return dynamic_cast<const h5::DataSet<DataType>&>(*sets_.at(full_name))
-          .get();
-    } catch (std::bad_cast const&) {
+      return objects_[full_name].getDataSetRef<DataType>().get();
+    } catch (const std::bad_cast&) {
       throw h5::Exception("DataSet corresponding to " + full_name +
                       " has different type.");
     }
@@ -276,9 +290,28 @@ class Event {
   h5::Reader* input_file_;
   /// name of current processing pass
   std::string pass_;
-  /// list of datasets being processed
-  mutable std::unordered_map<std::string, std::unique_ptr<h5::BaseDataSet>>
-      sets_;
+  /**
+   * structure to hold event data in memory
+   */
+  struct EventObject {
+    /// the dataset for save/load the data
+    std::unique_ptr<h5::BaseDataSet> set_;
+    /// should we save the data into output file?
+    bool should_save_;
+    /// should we load the data from the input file?
+    bool should_load_;
+    /**
+     * Helper for getting a reference to the dataset
+     *
+     * @throws bad_cast if DataSet does not hold the same type
+     */
+    template <typename DataType>
+    h5::DataSet<DataType>& getDataSetRef() {
+      return dynamic_cast<h5::DataSet<DataType>&>(*set_);
+    }
+  };
+  /// list of event objects being processed
+  mutable std::unordered_map<std::string, EventObject> objects_;
   /// current index in the datasets
   long unsigned int i_entry_;
   /// regular expressions determining if a dataset should be written to output

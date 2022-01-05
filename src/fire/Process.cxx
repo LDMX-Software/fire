@@ -81,7 +81,7 @@ void Process::run() {
     runHeader().runEnd();
     fire_log(info) << runHeader();
 
-    h5::DataSet<RunHeader> write_ds{RunHeader::NAME, true, run_header_};
+    h5::DataSet<RunHeader> write_ds{RunHeader::NAME, run_header_};
     write_ds.save(output_file_, 0);
 
   } else {
@@ -101,7 +101,7 @@ void Process::run() {
        * Load runs into in-memory cache
        */
       {
-        h5::DataSet<RunHeader> read_ds{RunHeader::NAME, false};
+        h5::DataSet<RunHeader> read_ds{RunHeader::NAME};
         std::size_t num_runs = input_file.runs();
         for (std::size_t i_run{0}; i_run < num_runs; i_run++) {
           read_ds.load(input_file, i_run);
@@ -154,7 +154,7 @@ void Process::run() {
 
     // copy the input run headers to the output file
     {
-      h5::DataSet<RunHeader> write_ds(RunHeader::NAME, true);
+      h5::DataSet<RunHeader> write_ds(RunHeader::NAME);
       std::size_t i_run{0};
       for (const auto& [_, rh] : input_runs) {
         write_ds.update(rh);
