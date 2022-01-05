@@ -65,7 +65,7 @@ class Event {
    * @param[in] data actual value of data being added
    */
   template <typename DataType>
-  void add(const std::string& name, DataType& data) {
+  void add(const std::string& name, const DataType& data) {
     std::string full_name{fullName(name, pass_)};
     if (sets_.find(full_name) == sets_.end()) {
       // a data set hasn't been created for this data yet

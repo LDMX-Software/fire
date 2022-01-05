@@ -152,7 +152,7 @@ class AbstractDataSet : public BaseDataSet {
    *
    * @param[in] val new value the in-memory object should be
    */
-  virtual void update(DataType const& val) { 
+  virtual void update(const DataType& val) { 
     *handle_ = val; 
     updated_ = true;
   }
