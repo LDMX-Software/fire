@@ -114,19 +114,19 @@ BOOST_AUTO_TEST_CASE(dataset) {
 
     fire::EventHeader eh;
     fire::h5::DataSet<fire::EventHeader> event_header(fire::EventHeader::NAME,&eh);
-    fire::h5::DataSet<double> double_ds("double",true);
-    fire::h5::DataSet<int>    int_ds("int",true);
-    fire::h5::DataSet<bool>   bool_ds("bool",true);
-    fire::h5::DataSet<std::vector<double>> vector_double_ds("vector_double",true);
-    fire::h5::DataSet<std::vector<int>> vector_int_ds("vector_int",true);
-    fire::h5::DataSet<std::map<int,double>> map_int_double_ds("map_int_double",true);
-    fire::h5::DataSet<Hit> hit_ds("hit",true);
-    fire::h5::DataSet<std::vector<Hit>> vector_hit_ds("vector_hit",true);
-    fire::h5::DataSet<SpecialHit> special_hit_ds("special_hit",true);
-    fire::h5::DataSet<std::vector<SpecialHit>> vector_special_hit_ds("vector_special_hit",true);
-    fire::h5::DataSet<Cluster> cluster_ds("cluster",true);
-    fire::h5::DataSet<std::vector<Cluster>> vector_cluster_ds("vector_cluster",true);
-    fire::h5::DataSet<std::map<int,Cluster>> map_cluster_ds("map_cluster",true);
+    fire::h5::DataSet<double> double_ds("double");
+    fire::h5::DataSet<int>    int_ds("int");
+    fire::h5::DataSet<bool>   bool_ds("bool");
+    fire::h5::DataSet<std::vector<double>> vector_double_ds("vector_double");
+    fire::h5::DataSet<std::vector<int>> vector_int_ds("vector_int");
+    fire::h5::DataSet<std::map<int,double>> map_int_double_ds("map_int_double");
+    fire::h5::DataSet<Hit> hit_ds("hit");
+    fire::h5::DataSet<std::vector<Hit>> vector_hit_ds("vector_hit");
+    fire::h5::DataSet<SpecialHit> special_hit_ds("special_hit");
+    fire::h5::DataSet<std::vector<SpecialHit>> vector_special_hit_ds("vector_special_hit");
+    fire::h5::DataSet<Cluster> cluster_ds("cluster");
+    fire::h5::DataSet<std::vector<Cluster>> vector_cluster_ds("vector_cluster");
+    fire::h5::DataSet<std::map<int,Cluster>> map_cluster_ds("map_cluster");
 
     for (std::size_t i_entry{0}; i_entry < doubles.size(); i_entry++) {
       eh.setEventNumber(i_entry);
@@ -180,19 +180,19 @@ BOOST_AUTO_TEST_CASE(dataset) {
 
     fire::EventHeader eh;
     fire::h5::DataSet<fire::EventHeader> event_header(fire::EventHeader::NAME,&eh);
-    fire::h5::DataSet<double> double_ds("double",true);
-    fire::h5::DataSet<int>    int_ds("int",true);
-    fire::h5::DataSet<bool>   bool_ds("bool",true);
-    fire::h5::DataSet<std::vector<double>> vector_double_ds("vector_double",true);
-    fire::h5::DataSet<std::vector<int>> vector_int_ds("vector_int",true);
-    fire::h5::DataSet<std::map<int,double>> map_int_double_ds("map_int_double",true);
-    fire::h5::DataSet<Hit> hit_ds("hit",true);
-    fire::h5::DataSet<std::vector<Hit>> vector_hit_ds("vector_hit",true);
-    fire::h5::DataSet<SpecialHit> special_hit_ds("special_hit",true);
-    fire::h5::DataSet<std::vector<SpecialHit>> vector_special_hit_ds("vector_special_hit",true);
-    fire::h5::DataSet<Cluster> cluster_ds("cluster",true);
-    fire::h5::DataSet<std::vector<Cluster>> vector_cluster_ds("vector_cluster",true);
-    fire::h5::DataSet<std::map<int,Cluster>> map_cluster_ds("map_cluster",true);
+    fire::h5::DataSet<double> double_ds("double");
+    fire::h5::DataSet<int>    int_ds("int");
+    fire::h5::DataSet<bool>   bool_ds("bool");
+    fire::h5::DataSet<std::vector<double>> vector_double_ds("vector_double");
+    fire::h5::DataSet<std::vector<int>> vector_int_ds("vector_int");
+    fire::h5::DataSet<std::map<int,double>> map_int_double_ds("map_int_double");
+    fire::h5::DataSet<Hit> hit_ds("hit");
+    fire::h5::DataSet<std::vector<Hit>> vector_hit_ds("vector_hit");
+    fire::h5::DataSet<SpecialHit> special_hit_ds("special_hit");
+    fire::h5::DataSet<std::vector<SpecialHit>> vector_special_hit_ds("vector_special_hit");
+    fire::h5::DataSet<Cluster> cluster_ds("cluster");
+    fire::h5::DataSet<std::vector<Cluster>> vector_cluster_ds("vector_cluster");
+    fire::h5::DataSet<std::map<int,Cluster>> map_cluster_ds("map_cluster");
 
     for (std::size_t i_entry{0}; i_entry < doubles.size(); i_entry++) {
       event_header.load(f, i_entry);
