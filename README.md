@@ -39,6 +39,7 @@ Besides this core functionality of processors looking at data event-by-event, th
 - Dockerfile for building container with `fire` and necessary dependencies
 - Tune compression/caching/chunking for our use case
 - Read buffering
+- Cleanup exception handling
 
 ## Dependencies
 
