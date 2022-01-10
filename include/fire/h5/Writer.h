@@ -91,11 +91,11 @@ class Writer {
   template <typename AtomicType>
   class Buffer : public BufferHandle {
     std::vector<AtomicType> buffer_;
-    std::size_t i_output_;
+    std::size_t i_file_;
 
    public:
     explicit Buffer(std::size_t max, HighFive::DataSet s)
-        : BufferHandle(max, s), buffer_{}, i_output_{0} {
+        : BufferHandle(max, s), buffer_{}, i_file_{0} {
       buffer_.reserve(this->max_len_);
     }
     virtual ~Buffer() = default;
@@ -105,7 +105,7 @@ class Writer {
     }
     virtual void flush() final override {
       if (buffer_.size() == 0) return;
-      std::size_t new_extent = i_output_ + buffer_.size();
+      std::size_t new_extent = i_file_ + buffer_.size();
       // throws if not created yet
       if (this->set_.getDimensions().at(0) < new_extent) {
         this->set_.resize({new_extent});
@@ -115,11 +115,11 @@ class Writer {
         std::vector<short> buff;
         buff.reserve(buffer_.size());
         for (const auto& v : buffer_) buff.push_back(v);
-        this->set_.select({i_output_}, {buff.size()}).write(buff);
+        this->set_.select({i_file_}, {buff.size()}).write(buff);
       } else {
-        this->set_.select({i_output_}, {buffer_.size()}).write(buffer_);
+        this->set_.select({i_file_}, {buffer_.size()}).write(buffer_);
       }
-      i_output_ += buffer_.size();
+      i_file_ += buffer_.size();
       buffer_.clear();
       buffer_.reserve(this->max_len_);
     }
