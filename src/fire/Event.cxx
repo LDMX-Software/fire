@@ -96,6 +96,10 @@ void Event::next() {
 }
 
 void Event::done(h5::Writer& w) {
+  // make sure writer is flushed
+  w.flush();
+  
+  // copy type traits into output as attributes
   for (const ProductTag& p : products_) {
     auto fn = fullName(p.name(), p.pass());
     if (objects_.find(fn) != objects_.end() and objects_.at(fn).should_save_) {
