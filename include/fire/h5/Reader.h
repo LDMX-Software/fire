@@ -22,6 +22,8 @@ class Reader {
   static const std::string EVENT_GROUP;
   /// the name of the run header data set
   static const std::string RUN_HEADER_NAME;
+  /// the name of the attribute that stores the type of event object
+  static const std::string TYPE_ATTR_NAME;
 
  public:
   /**
@@ -48,6 +50,11 @@ class Reader {
    * Deduce the type of the dataset requested.
    */
   HighFive::DataTypeClass getDataSetType(const std::string& dataset) const;
+
+  /**
+   * Get the 'type' attribute from the input group name
+   */
+  std::string getTypeName(const std::string& obj_name) const;
 
   /**
    * Get the number of entries in the file

@@ -163,6 +163,8 @@ void Process::run() {
     }
   }  // are there input files? if-else tree
 
+  // allow event bus to put final touches into the output file
+  event_.done(output_file_);
   // finally, notify everyone that we are stopping
   for (auto& proc : sequence_) proc->onProcessEnd();
 }

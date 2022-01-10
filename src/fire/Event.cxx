@@ -41,9 +41,9 @@ Event::Event(const std::string& pass,
   //    we own the pointer in this special case so we can return both mutable
   //    and const references
   auto& obj{objects_[EventHeader::NAME]};
-  obj.set_ = std::make_unique<h5::DataSet<EventHeader>>(
-        EventHeader::NAME, header_.get()),
-  obj.should_save_ = true;  // always save event header
+  obj.set_ = std::make_unique<h5::DataSet<EventHeader>>(EventHeader::NAME,
+                                                        header_.get()),
+  obj.should_save_ = true;   // always save event header
   obj.should_load_ = false;  // don't load unless input files are passed
   // construct rules from rule configuration parameters
   //   TODO check for regex construction failures
@@ -73,13 +73,36 @@ void Event::setInputFile(h5::Reader& r) {
   // there are input file, so mark the event header as should_load
   objects_[EventHeader::NAME].should_load_ = true;
 
-  // TODO search through file and import the products that are there
-  // products_.clear();
+  // search through file and import the products that are there
+  products_.clear();
+  known_lookups_.clear();
+  std::vector<std::string> passes = r.list(h5::Reader::EVENT_GROUP);
+  for (const std::string& pass : passes) {
+    // skip the event header
+    if (pass == h5::Reader::EVENT_HEADER_NAME) continue;
+    // get a list of objects in this pass group
+    std::vector<std::string> object_names =
+        r.list(h5::Reader::EVENT_GROUP + "/" + pass);
+    for (const std::string& obj_name : object_names) {
+      products_.emplace_back(obj_name, pass,
+                             r.getTypeName(fullName(obj_name, pass)));
+    }
+  }
 }
 
 void Event::next() {
   i_entry_++;
   for (auto& [_, obj] : objects_) obj.set_->clear();
+}
+
+void Event::done(h5::Writer& w) {
+  for (const ProductTag& p : products_) {
+    auto fn = fullName(p.name(), p.pass());
+    if (objects_.find(fn) != objects_.end() and objects_.at(fn).should_save_) {
+      // this product has been written to output file
+      w.setTypeName(fn, p.type());
+    }
+  }
 }
 
 }  // namespace fire

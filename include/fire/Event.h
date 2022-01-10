@@ -198,7 +198,7 @@ class Event {
    * as where it is used and therefore will hopefully improve performance.
    */
   inline std::string fullName(const std::string& name, const std::string& pass) const {
-    return "events/" + (pass.empty() ? pass_ : pass) + "/" + name;
+    return (pass.empty() ? pass_ : pass) + "/" + name;
   }
 
   /**
@@ -282,6 +282,14 @@ class Event {
    *  and reset the other event objects to their empty state.
    */
   void next();
+
+  /**
+   * Let the event bus know we are done
+   *
+   * This gives us an opportunity to go through the products in the output file
+   * and attach the 'type' attributes to them
+   */
+  void done(h5::Writer& w);
 
  private:
   /// header that we control

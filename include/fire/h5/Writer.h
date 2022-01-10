@@ -38,6 +38,11 @@ class Writer {
   const std::string& name() const;
 
   /**
+   * Set the name of the type stored in this Group (or DataSet if atomic)
+   */
+  void setTypeName(const std::string& full_obj_name, const std::string& type);
+
+  /**
    * Get the number of entries in the file
    */
   inline std::size_t entries() const { return entries_; }
