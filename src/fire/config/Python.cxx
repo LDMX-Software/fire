@@ -189,6 +189,11 @@ Parameters run(const std::string& pythonScript, char* args[], int nargs) {
 
   // the following line is what actually runs the script
   std::unique_ptr<FILE, int (*)(FILE*)> fp{fopen(pythonScript.c_str(),"r"),&fclose};
+  if (fp.get() == NULL) {
+    // file does not exist
+    throw python::Exception("Configuration script "+pythonScript+
+        " either does not exist or can't be read.");
+  }
   if (PyRun_SimpleFile(fp.get(), pythonScript.c_str()) != 0) {
     // running the script executed with an error
     PyErr_Print();

@@ -7,17 +7,15 @@
 
 #include "fire/exception/Exception.h"
 
-namespace fire {
-
 /**
- * @namespace factory used to isolate base templated Factory class
+ * used to isolate base templated Factory class
  *
  * This namespace is used to isolate the templated Factory
  * from where other Factories are defined. There should be
  * nothing else in this namespace in order to avoid potential
  * name conflicts.
  */
-namespace factory {
+namespace fire::factory {
 
 /**
  * The Factory's exception object
@@ -308,7 +306,6 @@ class Factory {
   std::unordered_map<std::string, PrototypeMaker> library_;
 };  // Factory
 
-}  // namespace factory
-}  // namespace fire
+}  // namespace fire::factory
 
 #endif  // FACTORY_FACTORY_H
