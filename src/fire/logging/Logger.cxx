@@ -29,6 +29,9 @@ level convertLevel(int iLvl) {
  *
  * This function will only compile with values that can be implicity
  * converted to a 'level'.
+ *
+ * @note Not compatible with funky type returned via Boost's `extract` method,
+ * so this function is currently not in use.
  */
 template <typename InputType, std::enable_if_t<std::is_convertible_v<InputType,level>>>
 std::string print(InputType severity_level) {

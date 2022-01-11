@@ -1,11 +1,18 @@
+/**
+ * @file Logger.h
+ * @brief Interface to Boost.Logging
+ */
+
 #ifndef FIRE_LOGGING_LOGGER_H
 #define FIRE_LOGGING_LOGGER_H
 
 /**
  * Necessary to get linking to work?
- * https://stackoverflow.com/questions/23137637/linker-error-while-linking-boost-log-tutorial-undefined-references
- * https://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/rationale/namespace_mangling.html
- * https://stackoverflow.com/a/40016057
+ *
+ * ## References
+ * - [Stackoverflow Question](https://stackoverflow.com/questions/23137637/linker-error-while-linking-boost-log-tutorial-undefined-references)
+ * - [Boost Docs](https://www.boost.org/doc/libs/1_54_0/libs/log/doc/html/log/rationale/namespace_mangling.html)
+ * - [Another Stackoverflow](https://stackoverflow.com/a/40016057)
  */
 #define BOOST_ALL_DYN_LINK 1
 
@@ -22,17 +29,31 @@
 #include <boost/log/sources/record_ostream.hpp>
 #include <boost/log/utility/setup/file.hpp>
 
+/**
+ * Housing for logging infrastructure
+ *
+ * This namespace holds the functions that allow fire to interact
+ * with boost's central logging framework in a helpful way.
+ */
 namespace fire::logging {
 
 /**
- * Severity/Logging levels
+ * Different logging levels available to fire's log
+ *
+ * Boost calls these "severity" levels becuase the 
+ * higher numbers are assigned to "more sever" logging messages.
  */
 enum level {
-  debug = 0,  ///> 0
-  info,       ///> 1
-  warn,       ///> 2
-  error,      ///> 3
-  fatal       ///> 4
+  /// 0
+  debug = 0,
+  /// 1
+  info,
+  /// 2
+  warn,
+  /// 3
+  error,
+  /// 5
+  fatal
 };
 
 /**
@@ -46,14 +67,17 @@ enum level {
  */
 level convertLevel(int iLvl);
 
-/**
- * Short names for boost namespaces
- */
+/// Short names for boost::log
 namespace log = boost::log;
+
+/// short name for boost::log::sinks
 namespace sinks = boost::log::sinks;
 
 /**
- * Define the type of logger we will be using in ldmx-sw
+ * Define the type of logger we will be using in fire
+ *
+ * We choose a logger that allows us to define a severity/logging level,
+ * has different "channels" for the log, and is multi-thread capable.
  */
 using logger = log::sources::severity_channel_logger_mt<level, std::string>;
 
@@ -63,7 +87,7 @@ using logger = log::sources::severity_channel_logger_mt<level, std::string>;
  * Returns a logger type with some extra initialization procedures done.
  * Should _only be called ONCE_ during a run.
  *
- * @note Use the enableLogging macro in your class declaration instead
+ * @note Use the ENABLE_LOGGING macro in your class declaration instead
  * of this function directly.
  *
  * @param name name of this logging channel (e.g. processor name)
@@ -97,26 +121,29 @@ void close();
 }  // namespace fire::logging
 
 /**
- * @macro ENABLE_LOGGING
  * Enables logging in a class.
  *
- * Should be put in the 'private' section of the class
- * and before the closing bracket '};'
+ * Should be put in the `private` section of the class
+ * and before the closing bracket `};`
  *
- * Defines the member variable theLog_ with the input
+ * Defines the member variable `theLog_` with the input
  * name as the channel name.
  *
- * Makes theLog_ mutable so that the log can be used
+ * Makes `theLog_` mutable so that the log can be used
  * in any class function.
+ *
+ * @param[in] name Name of logging channel
  */
 #define ENABLE_LOGGING(name) \
   mutable logging::logger theLog_{logging::makeLogger(#name)};
 
 /**
- * @macro fire_log
+ * Log a message at the input level through fire
  *
- * Assumes to have access to a variable named theLog_ of type logger.
- * Input logging level (without namespace or enum).
+ * Assumes to have access to a variable named `theLog_` of type 
+ * fire::logging::logger.
+ *
+ * @param[in] lvl logging level without namespace or enum (e.g. `info`)
  */
 #define fire_log(lvl) BOOST_LOG_SEV(theLog_, fire::logging::level::lvl)
 
