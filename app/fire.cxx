@@ -1,12 +1,9 @@
+/**
+ * @file fire.cxx
+ * @brief main definition for fire executable
+ */
 
-//----------------//
-//   C++ StdLib   //
-//----------------//
 #include <iostream>
-
-//-------------//
-//   ldmx-sw   //
-//-------------//
 #include "fire/config/Python.h"
 /// define the object to pull parameters from
 std::string fire::config::root_object = "fire.cfg.Process.lastProcess";
@@ -14,20 +11,39 @@ std::string fire::config::root_object = "fire.cfg.Process.lastProcess";
 #include "fire/Process.h"
 
 /**
- * @func printUsage
- *
  * Print how to use this executable to the terminal.
  */
-void printUsage();
+static void usage() {
+  std::cout << 
+    "\n"
+    " USAGE:\n"
+    "  fire {configuration_script.py} [arguments to configuration script]\n"
+    "\n"
+    " ARGUMENTS:\n"
+    "  configuration_script.py  (required) "
+    "python script to configure the processing\n"
+    "  additional arguments     (optional) "
+    "passed to configuration script when run in python\n"
+    << std::endl;
+}
 
 /**
- * @mainpage
- * TODO rewrite
- * TODO build stack traces
+ * definition of fire executable
+ *
+ * fire is done in two steps
+ * 1. Configuration - we run the python script provided
+ *    and decode the parameters connected to the root
+ *    configuration object, passing these parameters to 
+ *    the corresponding C++ classes by creating the Process.
+ * 2. Running - we run the Process that has been configured.
+ *
+ * @TODO build stack traces
+ * @param[in] argc command line argument count
+ * @param[in] argv array of command line arguments
  */
 int main(int argc, char* argv[]) {
   if (argc < 2) {
-    printUsage();
+    usage();
     return 1;
   }
 
@@ -37,7 +53,7 @@ int main(int argc, char* argv[]) {
   }
 
   if (ptrpy == argc) {
-    printUsage();
+    usage();
     std::cout << " ** No python configuration script provided (must end in "
                  "'.py'). ** "
               << std::endl;
@@ -103,14 +119,3 @@ int main(int argc, char* argv[]) {
   return 0;
 }
 
-void printUsage() {
-  std::cout << "Usage: fire {configuration_script.py} [arguments to "
-               "configuration script]"
-            << std::endl;
-  std::cout << "     configuration_script.py  (required) python script to "
-               "configure the processing"
-            << std::endl;
-  std::cout << "     arguments                (optional) passed to "
-               "configuration script when run in python"
-            << std::endl;
-}
