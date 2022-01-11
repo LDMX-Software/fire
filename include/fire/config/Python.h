@@ -50,7 +50,7 @@ ENABLE_EXCEPTIONS();
  *
  * @param[in] pythonScript Filename location of the python script.
  * @param[in] args Commandline arguments to be passed to the python script.
- * @param[in] nargs Number of commandline arguments.
+ * @param[in] nargs Number of commandline arguments, assumed to be >= 0
  */
 Parameters run(const std::string& pythonScript, char* args[], int nargs);
 

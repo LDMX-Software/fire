@@ -26,7 +26,7 @@ namespace config {
  * Helpful to condense down the multi-line nature of
  * the python3 code.
  *
- * @param[in] python object assumed to be a string python object
+ * @param[in] pyObj python object assumed to be a string python object
  * @return the value stored in it
  */
 static std::string getPyString(PyObject* pyObj) {
@@ -49,21 +49,36 @@ static std::string getPyString(PyObject* pyObj) {
  *
  * We rely completely on python being awesome. For all higher level class
  * objects, python keeps track of all of its member variables in the member
- * dictionary __dict__.
+ * dictionary `__dict__`.
  *
  * No Py_DECREF calls are made because all of the members of an object
  * are borrowed references, meaning that when we destory that object, it handles
- * the other members. We destroy the one parent object pProcess at the end
- * of ConfigurePython::ConfigurePython.
+ * the other members. We destroy the one Python object owning all of
+ * these references at the end of this function.
  *
  * @note Not sure if this is not leaking memory, kinda just trusting
  * the Python / C API docs on this one.
  *
  * @note Empty lists are NOT read in because there is no way for us
  * to know what type should be inside the list. This means list
- * parameters that can be empty need to put in a default empty list * value: {}.
+ * parameters that can be empty need to put in a default empty list value: 
+ * `{}`.
  *
- * @param object Python object to get members from
+ * This recursive extraction method is able to handle the following cases.
+ * - User-defined classes (via the `__dict__` member) are extracted to Parameters
+ * - one-dimensional lists whose entries all have the same type are extracted
+ *   to `std::vector` of the type of the first entry in the list
+ * - `dict` objects are extracted to Parameters
+ * - Python `str` are extracted to `std::string`
+ * - Python `int` are extracted to C++ `int`
+ * - Python `bool` are extracted to C++ `bool`
+ * - Python `float` are extracted to C++ `double`
+ *
+ * Known design flaws include
+ * - No support for nested Python lists
+ * - Annoying band-aid solution for empty Python lists
+ *
+ * @param[in] object Python object to get members from
  * @return Mapping between member name and value.
  */
 static Parameters getMembers(PyObject* object) {
@@ -95,8 +110,8 @@ static Parameters getMembers(PyObject* object) {
       params.add(skey, PyFloat_AsDouble(value));
     } else if (PyUnicode_Check(value)) {
       params.add(skey, getPyString(value));
-    } else if (PyList_Check(
-                   value)) {  // assume everything is same value as first value
+    } else if (PyList_Check(value)) {
+      // assume everything is same value as first value
       if (PyList_Size(value) > 0) {
         auto vec0{PyList_GetItem(value, 0)};
 

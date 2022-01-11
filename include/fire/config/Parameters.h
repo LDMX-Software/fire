@@ -15,11 +15,16 @@
 #include <boost/core/demangle.hpp>
 #include "fire/exception/Exception.h"
 
-namespace fire {
-namespace config {
+namespace fire::config {
 
 /**
  * Class encapsulating parameters for configuring a processor.
+ *
+ * The storage of arbitrary parameters recursively is done using a map
+ * from parameter names (`std::string`) to parameter values. The values
+ * are stored in [`std::any`](https://en.cppreference.com/w/cpp/utility/any) 
+ * which allows the user to store any object they wish 
+ * in a memory-safe environment.
  */
 class Parameters {
  public:
@@ -32,6 +37,7 @@ class Parameters {
    *
    * @param[in] name Name of the parameter.
    * @param[in] value The value of the parameter.
+   * @tparam T type of parameter being added
    * @throw Exception if a parameter by that name already exist in
    *  the list.
    */
@@ -58,13 +64,10 @@ class Parameters {
    * Retrieve the parameter of the given name.
    *
    * @throw Exception if parameter of the given name isn't found
-   *
    * @throw Exception if parameter is found but not of the input type
    *
-   * @param T the data type to cast the parameter to.
-   *
+   * @tparam T the data type to cast the parameter to.
    * @param[in] name the name of the parameter value to retrieve.
-   *
    * @return The user specified parameter of type T.
    */
   template <typename T>
@@ -90,6 +93,9 @@ class Parameters {
    *
    * Return the input default if a parameter is not found in map.
    *
+   * @tparam T type of parameter to return
+   * @param[in] name parameter name to retrieve
+   * @param[in,out] def default to use if parameter is not found
    * @return the user parameter of type T
    */
   template <typename T>
@@ -102,8 +108,11 @@ class Parameters {
 
   /**
    * Get a list of the keys available.
+   *
    * This may be helpful in debugging to make sure the parameters are spelled
    * correctly.
+   *
+   * @return list of all keys in this map of parameters
    */
   std::vector<std::string> keys() const {
     std::vector<std::string> key;
@@ -112,11 +121,10 @@ class Parameters {
   }
 
  private:
-  /// Parameters
+  /// container holding parameter names and their values
   std::map<std::string, std::any> parameters_;
 
 };  // Parameters
-}  // namespace config
-}  // namespace fire
+}  // namespace fire::config
 
 #endif  // FRAMEWORK_PARAMETERS_H
