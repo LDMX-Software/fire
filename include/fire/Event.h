@@ -79,7 +79,7 @@ class Event {
       // - we mark these objects as should_load == false because
       //   they are new and not from an input file
       auto& obj{objects_[full_name]};
-      obj.set_ = std::make_unique<h5::DataSet<DataType>>(full_name);
+      obj.set_ = std::make_unique<h5::DataSet<DataType>>(h5::Reader::EVENT_GROUP+"/"+full_name);
       obj.should_save_ = keep(full_name, true);
       obj.should_load_ = false;
       products_.emplace_back(name, pass_,boost::core::demangle(typeid(DataType).name()));
@@ -158,7 +158,7 @@ class Event {
       // - we mark these objects as should_load == false because
       //   they are new and not from an input file
       auto& obj{objects_[full_name]};
-      obj.set_ = std::make_unique<h5::DataSet<DataType>>(full_name);
+      obj.set_ = std::make_unique<h5::DataSet<DataType>>(h5::Reader::EVENT_GROUP+"/"+full_name);
       obj.should_save_ = keep(full_name, false);
       obj.should_load_ = true;
       //  this line may throw an error
