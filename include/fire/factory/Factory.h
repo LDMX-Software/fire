@@ -53,6 +53,15 @@ void loadLibrary(const std::string& libname);
  *
  * This factory is a singleton class meaning it cannot be created by the user.
  *
+ * @tparam Prototype the type of object that this factory creates.
+ *    This should be the base class that all types in this factory derive from.
+ * @tparam PrototypePtr the type of pointer to the object
+ *    By defeault, we use 
+ *    [`std::unique_ptr`](https://en.cppreference.com/w/cpp/memory/unique_ptr)
+ *    for good memory management.
+ * @tparam PrototypeMakerArgs parameter pack of arguments to pass 
+ *    to the object makers and subsequently the constructor.
+ *
  * ## Terminology
  *
  * - Factory: An object that has a look-up table between class names and
@@ -69,15 +78,6 @@ void loadLibrary(const std::string& libname);
  *    name they should be referred to by.
  * 2. The factory creates any of the registered classes and returns a pointer
  *    to it in the form of a prototype-class pointer.
- *
- * The factory has three template parameters in order of complexity.
- * 1. Prototype - REQUIRED - the type of object that this factory creates.
- *    This should be the base class that all types in this factory derive from.
- * 2. PrototypePtr - optional - the type of pointer to object
- *    By default, we use std::unique_ptr for good memory management.
- * 3. PrototypeMakerArgs - optional - type of objects passed into the object
- * maker i.e. same as arguments to the constructor used by the object maker
- *
  *
  * ## Usage
  *
