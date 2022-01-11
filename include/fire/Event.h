@@ -162,7 +162,7 @@ class Event {
       obj.should_save_ = keep(full_name, false);
       obj.should_load_ = true;
       //  this line may throw an error
-      obj.set_->load(*input_file_, i_entry_);
+      obj.set_->load(*input_file_);
     }
 
     // type casting, 'bad_cast' thrown if unable
@@ -251,18 +251,16 @@ class Event {
    * when it was created.
    *
    * @param[in] f output HDF5 file to write to
-   * @param[in] i index of dataset to write to
    */
-  void save(h5::Writer& w, unsigned long int i);
+  void save(h5::Writer& w);
 
   /**
    * Go through and load the input index into the in-memory
    * objects from the input file.
    *
    * @param[in] f input HDF5 file to read from
-   * @param[in] i index of dataset to read from
    */
-  void load(h5::Reader& r, unsigned long int i);
+  void load(h5::Reader& r);
 
   /**
    * Attach a HDF5 file to this event as the input file

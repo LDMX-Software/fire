@@ -90,6 +90,11 @@ class EventHeader {
   /// clear the event header, required by serialization technique
   void clear() {
     weight_ = 1.;
+    isRealData_ = false;
+    timestamp_ = 0.;
+    run_ = -1;
+    number_ = -1;
+    parameters_.clear();
   }
 
   /// get a parameter

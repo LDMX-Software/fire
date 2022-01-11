@@ -48,8 +48,7 @@ class Writer {
   inline std::size_t entries() const { return entries_; }
 
   template <typename AtomicType>
-  void save(const std::string& path, long unsigned int i,
-            const AtomicType& val) {
+  void save(const std::string& path, const AtomicType& val) {
     static_assert(
         is_atomic_v<AtomicType>,
         "Type unsupported by HighFive as Atomic made its way to Writer::save");

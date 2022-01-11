@@ -90,6 +90,19 @@ class RunHeader {
   void Print() const;
 
   /**
+   * clear the run header
+   */
+  void clear() {
+    number_ = -1;
+    runStart_ = 0;
+    runEnd_ = 0;
+    detectorName_.clear();
+    description_.clear();
+    softwareTag_.clear();
+    parameters_.clear();
+  }
+
+  /**
    * Stream this object to an output stream
    *
    * Needs to be here and labeled as friend for
@@ -114,6 +127,7 @@ class RunHeader {
     set.attach("detectorName",detectorName_);
     set.attach("description",description_);
     set.attach("softwareTag",softwareTag_);
+    set.attach("parameters",parameters_);
   }
 
  private:

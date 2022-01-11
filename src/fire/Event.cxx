@@ -57,14 +57,14 @@ Event::Event(const std::string& pass,
   }
 }
 
-void Event::save(h5::Writer& w, unsigned long int i) {
+void Event::save(h5::Writer& w) {
   for (auto& [_, obj] : objects_)
-    if (obj.should_save_) obj.set_->save(w, i);
+    if (obj.should_save_) obj.set_->save(w);
 }
 
-void Event::load(h5::Reader& r, unsigned long int i) {
+void Event::load(h5::Reader& r) {
   for (auto& [_, obj] : objects_)
-    if (obj.should_load_) obj.set_->load(r, i);
+    if (obj.should_load_) obj.set_->load(r);
 }
 
 void Event::setInputFile(h5::Reader& r) {

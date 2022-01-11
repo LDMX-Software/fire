@@ -3,10 +3,22 @@
 
 namespace fire::h5 {
 
+void ParameterStorage::clear() {
+  for (auto& [_, pval] : parameters_) {
+    std::visit([&](auto && val) {
+      if constexpr (std::is_same_v<std::decay_t<decltype(val)>,std::string>) {
+        val.clear();
+      } else {
+        val = std::numeric_limits<std::decay_t<decltype(val)>>::min();
+      }
+    }, pval);
+  }
+}
+
 DataSet<ParameterStorage>::DataSet(const std::string& name, ParameterStorage* handle)
     : AbstractDataSet<ParameterStorage>(name, handle) {}
 
-void DataSet<ParameterStorage>::load(Reader& r, long unsigned int i) {
+void DataSet<ParameterStorage>::load(Reader& r) {
   static bool first_load{true};
   if (first_load) {
     first_load = false;
@@ -29,10 +41,10 @@ void DataSet<ParameterStorage>::load(Reader& r, long unsigned int i) {
       }
     }
   }
-  for (auto& [name, set] : parameters_) set->load(r,i);
+  for (auto& [name, set] : parameters_) set->load(r);
 }
 
-void DataSet<ParameterStorage>::save(Writer& w, long unsigned int i) {
+void DataSet<ParameterStorage>::save(Writer& w) {
   // go through all of the ParameterStorage's parameters and make a new dataset
   // if it hasn't been made yet, and then save the dataset for that parameter
   for (auto& [name, val] : this->handle_->parameters_) {
@@ -42,7 +54,7 @@ void DataSet<ParameterStorage>::save(Writer& w, long unsigned int i) {
         attach<std::decay_t<decltype(val)>>(name);
       }, val);
     } 
-    parameters_[name]->save(w,i);
+    parameters_[name]->save(w);
   }
 }
 

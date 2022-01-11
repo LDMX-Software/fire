@@ -37,14 +37,14 @@ class BaseDataSet {
   virtual ~BaseDataSet() = default;
 
   /**
-   * pure virtual method for loading the input entry in the data set
+   * pure virtual method for loading the next entry in the data set
    */
-  virtual void load(Reader& f, long unsigned int i) = 0;
+  virtual void load(Reader& f) = 0;
 
   /**
-   * pure virtual method for saving the input entry in the data set
+   * pure virtual method for saving the next entry in the data set
    */
-  virtual void save(Writer& f, long unsigned int i) = 0;
+  virtual void save(Writer& f) = 0;
 
   /**
    * pure virtual method for resetting the current data set handle to a blank state
@@ -100,15 +100,24 @@ class AbstractDataSet : public BaseDataSet {
   }
 
   /// pass on pure virtual load function
-  virtual void load(Reader& f, long unsigned int i) = 0;
+  virtual void load(Reader& f) = 0;
   /// pass on pure virtual save function
-  virtual void save(Writer& f, long unsigned int i) = 0;
+  virtual void save(Writer& f) = 0;
 
   /**
    * Define the clear function here to handle the most common cases.
    *
    * We re-set the flag checking if the dataset has been updated to 'false'
-   * and we call the 'clear' method of the object our handle points to.
+   * and we 'clear' the object our handle points to.
+   * 'clear' means two different things depending on the object.
+   * 1. If the object is apart of 'numeric_limits', then we set it to the minimum.
+   * 2. Otherwise, we assume the object has the 'clear' method defined.
+   *
+   * Case (1) handles the common fundamental types listed in the reference
+   * https://en.cppreference.com/w/cpp/types/numeric_limits
+   *
+   * Case (2) handles common STL containers as well as std::string and is
+   * a simple requirement on user classes.
    *
    * Downstream datasets can re-implement this method, but **they must**
    * include the 'updated_ = false;' line in order to prevent two processors
@@ -116,7 +125,13 @@ class AbstractDataSet : public BaseDataSet {
    */
   virtual void clear() {
     updated_ = false;
-    //if (owner_) handle_->clear();
+    if (owner_) {
+      if constexpr (std::numeric_limits<DataType>::is_specialized) {
+        *(this->handle_) = std::numeric_limits<DataType>::min();
+      } else {
+        handle_->clear();
+      }
+    }
   }
 
   /**
@@ -207,16 +222,16 @@ class DataSet : public AbstractDataSet<DataType> {
    * Loading this dataset from the file involves simply loading
    * all of the members of the data type.
    */
-  void load(Reader& f, long unsigned int i) {
-    for (auto& m : members_) m->load(f, i);
+  void load(Reader& f) final override {
+    for (auto& m : members_) m->load(f);
   }
 
   /*
    * Saving this dataset from the file involves simply saving
    * all of the members of the data type.
    */
-  void save(Writer& f, long unsigned int i) {
-    for (auto& m : members_) m->save(f, i);
+  void save(Writer& f) final override {
+    for (auto& m : members_) m->save(f);
   }
 
   /**
@@ -259,14 +274,14 @@ class DataSet<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
   /**
    * Call the H5Easy::load method with our atomic type and our name
    */
-  void load(Reader& f, long unsigned int i) {
-    f.load(this->name_, i, *(this->handle_));
+  void load(Reader& f) final override {
+    f.load(this->name_, *(this->handle_));
   }
   /**
    * Call the H5Easy::save method with our atomic type and our name
    */
-  void save(Writer& f, long unsigned int i) {
-    f.save(this->name_, i, *(this->handle_));
+  void save(Writer& f) final override {
+    f.save(this->name_, *(this->handle_));
   }
 };  // DataSet<AtomicType>
 
@@ -290,8 +305,7 @@ class DataSet<std::vector<ContentType>>
   explicit DataSet(std::string const& name, std::vector<ContentType>* handle = nullptr)
       : AbstractDataSet<std::vector<ContentType>>(name, handle),
         size_{name + "/size"},
-        data_{name + "/data"},
-        i_data_entry_{0} {}
+        data_{name + "/data"} {}
 
   /**
    * Load a vector from the input file
@@ -301,13 +315,12 @@ class DataSet<std::vector<ContentType>>
    * We read the next size and then read that many items from
    * the content data set into the vector handle.
    */
-  void load(Reader& f, long unsigned int i_entry) {
-    size_.load(f, i_entry);
+  void load(Reader& f) final override {
+    size_.load(f);
     this->handle_->resize(size_.get());
     for (std::size_t i_vec{0}; i_vec < size_.get(); i_vec++) {
-      data_.load(f, i_data_entry_);
+      data_.load(f);
       (*(this->handle_))[i_vec] = data_.get();
-      i_data_entry_++;
     }
   }
 
@@ -318,13 +331,12 @@ class DataSet<std::vector<ContentType>>
    *
    * We write the size and the content onto the end of their data sets.
    */
-  void save(Writer& f, long unsigned int i_entry) {
+  void save(Writer& f) final override {
     size_.update(this->handle_->size());
-    size_.save(f, i_entry);
+    size_.save(f);
     for (std::size_t i_vec{0}; i_vec < this->handle_->size(); i_vec++) {
       data_.update(this->handle_->at(i_vec));
-      data_.save(f, i_data_entry_);
-      i_data_entry_++;
+      data_.save(f);
     }
   }
 
@@ -333,8 +345,6 @@ class DataSet<std::vector<ContentType>>
   DataSet<std::size_t> size_;
   /// the data set holding the content of all the vectors
   DataSet<ContentType> data_;
-  /// the entry in the content data set we are currently on
-  unsigned long int i_data_entry_;
 };  // DataSet<std::vector>
 
 /**
@@ -358,8 +368,7 @@ class DataSet<std::map<KeyType,ValType>>
       : AbstractDataSet<std::map<KeyType,ValType>>(name, handle),
         size_{name + "/size"},
         keys_{name + "/keys"},
-        vals_{name + "/vals"},
-        i_data_entry_{0} {}
+        vals_{name + "/vals"} {}
 
   /**
    * Load a map from the input file
@@ -369,13 +378,12 @@ class DataSet<std::map<KeyType,ValType>>
    * We read the next size and then read that many items from
    * the content data set into the vector handle.
    */
-  void load(Reader& f, long unsigned int i_entry) {
-    size_.load(f, i_entry);
+  void load(Reader& f) final override {
+    size_.load(f);
     for (std::size_t i_map{0}; i_map < size_.get(); i_map++) {
-      keys_.load(f, i_data_entry_);
-      vals_.load(f, i_data_entry_);
+      keys_.load(f);
+      vals_.load(f);
       this->handle_->emplace(keys_.get(), vals_.get());
-      i_data_entry_++;
     }
   }
 
@@ -386,15 +394,14 @@ class DataSet<std::map<KeyType,ValType>>
    *
    * We write the size and the content onto the end of their data sets.
    */
-  void save(Writer& f, long unsigned int i_entry) {
+  void save(Writer& f) final override {
     size_.update(this->handle_->size());
-    size_.save(f, i_entry);
+    size_.save(f);
     for (auto const& [key,val] : *(this->handle_)) {
       keys_.update(key);
-      keys_.save(f, i_data_entry_);
+      keys_.save(f);
       vals_.update(val);
-      vals_.save(f, i_data_entry_);
-      i_data_entry_++;
+      vals_.save(f);
     }
   }
 
@@ -405,8 +412,6 @@ class DataSet<std::map<KeyType,ValType>>
   DataSet<KeyType> keys_;
   /// the data set holding the content of all the vals
   DataSet<ValType> vals_;
-  /// the entry in the content data set we are currently on
-  unsigned long int i_data_entry_;
 };  // DataSet<std::map>
 
 }  // namespace fire::h5

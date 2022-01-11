@@ -46,6 +46,14 @@ class ParameterStorage {
     parameters_[name] = val;
   }
 
+  /**
+   * clear the parameters
+   *
+   * We don't clear the container of parameters, we clear them individually
+   * by setting them to the numeric_limits minimum or clearing the std::string.
+   */
+  void clear();
+
  private:
   /// allow data set access for reading/writing
   friend class DataSet<ParameterStorage>;
@@ -64,8 +72,13 @@ template <>
 class DataSet<ParameterStorage> : public AbstractDataSet<ParameterStorage> {
  public:
   DataSet(const std::string& name, ParameterStorage* handle);
-  void load(Reader& r, long unsigned int i);
-  void save(Writer& w, long unsigned int i);
+  /**
+   * @note This load mechanic does not support changing pass names.
+   * This limits us to only using this type of dataset in the event
+   * and run headers.
+   */
+  void load(Reader& r) final override;
+  void save(Writer& w) final override;
 
  private:
   template <typename ParameterType>

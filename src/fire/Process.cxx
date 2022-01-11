@@ -47,9 +47,6 @@ Process::~Process() { logging::close(); }
 void Process::run() {
   // counter for number of events we have processed
   std::size_t n_events_processed{0};
-  // index of the entries in the output file
-  //  equal to n_events_processed unless we are dropping events
-  std::size_t i_output_file{0};
 
   // Start by notifying everyone that modules processing is beginning
   conditions_.onProcessStart();
@@ -73,7 +70,7 @@ void Process::run() {
       // keep trying to process this event until successful
       // or we hit the maximum number of tries
       for (int num_tries{0}; num_tries < max_tries_; num_tries++)
-        if (process(n_events_processed, i_output_file)) break;
+        if (process(n_events_processed)) break;
     }
 
     for (auto& proc : sequence_) proc->onFileClose(output_file_.name());
@@ -82,7 +79,7 @@ void Process::run() {
     fire_log(info) << runHeader();
 
     h5::DataSet<RunHeader> write_ds{RunHeader::NAME, run_header_};
-    write_ds.save(output_file_, 0);
+    write_ds.save(output_file_);
 
   } else {
     fire_log(info) << input_files_.size()
@@ -104,7 +101,7 @@ void Process::run() {
         h5::DataSet<RunHeader> read_ds{RunHeader::NAME};
         std::size_t num_runs = input_file.runs();
         for (std::size_t i_run{0}; i_run < num_runs; i_run++) {
-          read_ds.load(input_file, i_run);
+          read_ds.load(input_file);
           // deep copy
           input_runs[read_ds.get().getRunNumber()] = read_ds.get();
         }
@@ -122,7 +119,7 @@ void Process::run() {
       for (std::size_t i_entry_file{0}; i_entry_file < max_index;
            i_entry_file++) {
         // load data from input file
-        event_.load(input_file, i_entry_file);
+        event_.load(input_file);
 
         // notify for new run if necessary
         if (event_.header().getRun() != wasRun) {
@@ -137,7 +134,7 @@ void Process::run() {
           }
         }
 
-        process(n_events_processed, i_output_file);
+        process(n_events_processed);
 
         n_events_processed++;
       }  // loop through events
@@ -155,10 +152,9 @@ void Process::run() {
     // copy the input run headers to the output file
     {
       h5::DataSet<RunHeader> write_ds(RunHeader::NAME);
-      std::size_t i_run{0};
       for (const auto& [_, rh] : input_runs) {
         write_ds.update(rh);
-        write_ds.save(output_file_, i_run++);
+        write_ds.save(output_file_);
       }
     }
   }  // are there input files? if-else tree
@@ -182,7 +178,7 @@ void Process::newRun(RunHeader& rh) {
   for (auto& proc : sequence_) proc->onNewRun(rh);
 }
 
-bool Process::process(const std::size_t& n, std::size_t& i_output_file) {
+bool Process::process(const std::size_t& n) {
   // status statement printed to log
   if ((log_frequency_ != -1) && ((n + 1) % log_frequency_ == 0)) {
     std::time_t time = std::time(nullptr);
@@ -204,7 +200,7 @@ bool Process::process(const std::size_t& n, std::size_t& i_output_file) {
 
   // we didn't abort the event, so we should give the option to save it
   if (storage_control_.keepEvent()) {
-    event_.save(output_file_, i_output_file++);
+    event_.save(output_file_);
   }
 
   // move to the next event

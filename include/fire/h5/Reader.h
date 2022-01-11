@@ -71,7 +71,7 @@ class Reader {
    * Try to load a single value of an atomic type into the input handle
    */
   template <typename AtomicType>
-  void load(const std::string& path, long unsigned int i, AtomicType& val) {
+  void load(const std::string& path, AtomicType& val) {
     static_assert(
         is_atomic_v<AtomicType>,
         "Type not supported by HighFive atomic made its way to Reader::load");

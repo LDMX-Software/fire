@@ -55,10 +55,9 @@ class Process {
    *
    * If the event is not aborted, the storage controller is given the choice
    * on whether the event should be kept. If it decides to "keep" the event,
-   * then the event is saved to the output file and the i_output_file index
-   * is incremented by one.
+   * then the event is saved to the output file 
    */
-  bool process(const std::size_t& n_events_processed, std::size_t& i_output_file);
+  bool process(const std::size_t& n_events_processed);
 
  private:
   /// limit on number of events to process
