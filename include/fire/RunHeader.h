@@ -10,8 +10,17 @@
 
 namespace fire {
 
+/**
+ * Container for run parameters
+ *
+ * There are several parameters that we hold for all runs
+ * and then we also hold a more dynamic ParameterStorage object
+ * for holding parameters that users wish to add within
+ * Processor::beforeNewRun.
+ */
 class RunHeader {
  public:
+  /// the name of the dataset holding the run headers
   static const std::string NAME;
 
   /** @return The run number. */
@@ -44,7 +53,7 @@ class RunHeader {
   int getRunStart() const { return runStart_; }
 
   /**
-   * Start the run. Provide the run number and recorde the timestamp.
+   * Start the run. Provide the run number and record the timestamp.
    *
    * @param[in] run the run number
    */
@@ -67,11 +76,25 @@ class RunHeader {
     runEnd_ = std::time(nullptr); 
   }
 
+  /**
+   * Get a run parameter
+   *
+   * @tparam ParameterType type of parameter to retrieve
+   * @param[in] name name of parameter to retrieve
+   * @return value of parameter for this run
+   */
   template <typename ParameterType>
   const ParameterType& get(const std::string& name) const {
     return parameters_.get<ParameterType>(name);
   }
 
+  /**
+   * Set a run parameter
+   * 
+   * @tparam ParameterType type of parameter to set
+   * @param[in] name name of parameter to set
+   * @param[in] val value of parameter to set for this run
+   */
   template <typename ParameterType>
   void set(const std::string& name, const ParameterType& val) {
     parameters_.set(name,val);
@@ -108,7 +131,7 @@ class RunHeader {
    * Needs to be here and labeled as friend for
    * it to be compatible with Boost logging.
    *
-   * @see ldmx::RunHeader::stream
+   * @see RunHeader::stream
    * @param[in] s ostream to write to
    * @param[in] h RunHeader to write out
    * @return modified ostream
@@ -119,7 +142,16 @@ class RunHeader {
   }
 
  private:
+  /// friends with the DataSet that can read/write us
   friend class h5::DataSet<RunHeader>;
+
+  /**
+   * Attach to our DataSet
+   *
+   * We attach all of our parameters.
+   *
+   * @param[in] set DataSet to attach to
+   */
   void attach(h5::DataSet<RunHeader>& set) {
     set.attach("number",number_);
     set.attach("start",runStart_);

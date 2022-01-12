@@ -10,13 +10,11 @@
 namespace fire {
 
 /**
- * @class StorageControl
- * @brief Class which encapsulates storage control functionality, used by the
- * Process class
+ * Isolation of voting system deciding if events should be kept
  *
  * Any Processor can provide a hint as to whether a given
- * event should be kept or dropped.  The hint is cached in the
- * StorageControl object until the end of the event.  At that
+ * event should be kept or dropped. The hint is cached in the
+ * StorageControl object until the end of the event. At that
  * point, the process queries the StorageControl to determine if
  * the event should be stored in the output file.
  */
@@ -40,10 +38,10 @@ class StorageControl {
 
  public:
   /**
-   * Constructor
    * Configure the various options for how the storage contol behaves.
-   * @throws config::Exception if required parameters are not found
-   * @throws regex exception if malformed regex
+   *
+   * @throws Exception if required parameters are not found
+   * @throws Exception if one of the listening rule regex's is malformed
    *
    * @param[in] ps Parameters used to configure storage controller
    */
@@ -56,7 +54,7 @@ class StorageControl {
   void resetEventState();
 
   /**
-   * Add a storage hint for a given module
+   * Add a storage hint for a given processor
    *
    * The hint needs to match at least one of the listening rules in order
    * to be considered.
@@ -64,16 +62,26 @@ class StorageControl {
    * @note This means if no listing rules are provided then no storage
    * hints are considered!
    *
-   * @param hint The storage control hint to apply for the given event
-   * @param purpose A purpose string which can be used in the skim control
+   * @param[in] hint The storage control hint to apply for the given event
+   * @param[in] purpose A purpose string which can be used in the skim control
    * configuration
-   * @param processor_name Name of the event processor
+   * @param[in] processor_name Name of the event processor
    */
   void addHint(Hint hint, const std::string& purpose,
                const std::string& processor_name);
 
   /**
    * Determine if the current event should be kept, based on the defined rules
+   *
+   * @note Currently, no weighting system is implemented.
+   *
+   * Both "should" and "must" type of hints are given equal weighting.
+   * The "keep" and "drop" votes are counted and then
+   * the following logic is applied.
+   * 1. If there are no votes either way, we return the default decision.
+   * 2. If there are strictly more keep votes, we decide to keep.
+   * 3. If there are strictly more drop votes, we decide to drop.
+   * 4. If there are an equal number of votes, we return the default decision.
    *
    * @returns true if we should store the current event into the output file
    */
@@ -91,10 +99,10 @@ class StorageControl {
    * the storage decision.
    *
    * Each rule has two entries:
-   * 1. a processor regex to match hints coming from processors named a certain
-   * way
-   * 2. a purpose regex to match hints form all processors with a specific
-   * purpose
+   * 1. a processor regex to match hints coming 
+   *    from processors named a certain way
+   * 2. a purpose regex to match hints 
+   *    from all processors with a specific purpose
    */
   std::vector<std::pair<std::regex, std::regex>> rules_;
 
