@@ -11,6 +11,9 @@ namespace fire {
 
 /**
  * Standard base exception class with some useful output information
+ *
+ * This is the Exception calss that the executable expects and can
+ * print easily. 
  */
 class Exception : public std::exception {
  public:
@@ -23,6 +26,10 @@ class Exception : public std::exception {
 
   /**
    * Class constructor.
+   *
+   * Here is where the category of this exception and its message are defined.
+   * The user is also given the option to turn off the building of the stack trace.
+   *
    * @param[in] cat category of this exception
    * @param[in] message message describing the exception.
    * @param[in] build_trace true if we want the stack trace to be built

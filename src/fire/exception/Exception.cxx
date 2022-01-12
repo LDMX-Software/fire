@@ -1,3 +1,8 @@
+/**
+ * @file Exception.cxx
+ * @brief Definition of stack trace building functions
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,6 +13,13 @@
 /**
  * Invokes addr2line utility to determine the function name 
  * and the line information from an address in the code segment.
+ *
+ * @note This function is not fully tested or designed well.
+ *
+ * @param[in] image
+ * @param[in] addr function address
+ * @param[in] color_output true if output should be colored
+ * @return string holding function name and line
  */
 static char *addr2line(const char *image, void *addr, bool color_output) {
   static char exename[4096] = {0};
@@ -113,7 +125,10 @@ static char *addr2line(const char *image, void *addr, bool color_output) {
 /**
  * Produce a stack backtrace with demangled function and method names.
  *
- * @param[in] skip number of calls in the trace to skip
+ * @note Some backtraces are causing segmentation violations. Not sure why...
+ *
+ * @param[in] skip number of calls in the trace to skip from the bottom
+ * @return string holding backtrace information
  */
 static std::string Backtrace(int skip = 1) {
   void *callstack[128];
