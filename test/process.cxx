@@ -54,7 +54,7 @@ BOOST_AUTO_TEST_CASE(production_mode) {
     std::unique_ptr<fire::Process> p;
     try {
       p = std::make_unique<fire::Process>(configuration);
-    } catch (fire::config::Parameters::Exception& e) {
+    } catch (fire::Exception& e) {
       std::cerr << "[Config Error] " << e.what() << std::endl;
       BOOST_REQUIRE(false);
     }
@@ -63,7 +63,7 @@ BOOST_AUTO_TEST_CASE(production_mode) {
     } catch (const HighFive::Exception& e) {
       std::cerr << "[H5 Error]" << e.what() << std::endl;
       BOOST_REQUIRE(false);
-    } catch (fire::exception::Exception& e) {
+    } catch (fire::Exception& e) {
       std::cerr << e.what() << std::endl;
       BOOST_REQUIRE(false);
     }

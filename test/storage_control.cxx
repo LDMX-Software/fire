@@ -125,7 +125,7 @@ BOOST_AUTO_TEST_CASE(bad_regex) {
   listening_rules.push_back(listening_rule);
   storage.add("listening_rules",listening_rules);
 
-  BOOST_CHECK_THROW(fire::StorageControl sc{storage}, fire::config::Parameters::Exception);
+  BOOST_CHECK_THROW(fire::StorageControl sc{storage}, fire::Exception);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

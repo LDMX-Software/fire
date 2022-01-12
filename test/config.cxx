@@ -96,8 +96,8 @@ BOOST_AUTO_TEST_CASE(no_arg) {
   auto vec_class{config.get<std::vector<fire::config::Parameters>>("vec_class")};
 
   // check that mis-spells and mis-types throw errors
-  BOOST_CHECK_THROW(config.get<double>("integer"), fire::config::Parameters::Exception);
-  BOOST_CHECK_THROW(config.get<double>("doubl"), fire::config::Parameters::Exception);
+  BOOST_CHECK_THROW(config.get<double>("integer"), fire::Exception);
+  BOOST_CHECK_THROW(config.get<double>("doubl"), fire::Exception);
 }
 BOOST_AUTO_TEST_CASE(one_arg) {
   {
@@ -119,7 +119,7 @@ BOOST_AUTO_TEST_CASE(no_root) {
     config_py << class_defs << std::endl;
   }
   char *args[1];
-  BOOST_CHECK_THROW(fire::config::run(config_file_name,args,0), fire::config::python::Exception);
+  BOOST_CHECK_THROW(fire::config::run(config_file_name,args,0), fire::Exception);
 }
 BOOST_AUTO_TEST_CASE(py_except) {
   {
@@ -127,7 +127,7 @@ BOOST_AUTO_TEST_CASE(py_except) {
     config_py << class_defs << "\n" << throw_exception << "\n" << root_obj << std::endl;
   }
   char *args[1];
-  BOOST_CHECK_THROW(fire::config::run(config_file_name,args,0), fire::config::python::Exception);
+  BOOST_CHECK_THROW(fire::config::run(config_file_name,args,0), fire::Exception);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

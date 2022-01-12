@@ -13,9 +13,9 @@ Conditions::Conditions(const config::Parameters& ps, Process& p) : process_{p} {
         provider.get<std::string>("class_name"), provider)};
     std::string provides{cp->getConditionObjectName()};
     if (providers_.find(provides) != providers_.end()) {
-      throw config::Parameters::Exception(
+      throw Exception("Config",
           "Multiple ConditonsObjectProviders configured to provide " +
-          provides);
+          provides,false);
     }
     cp->attach(this);
     providers_[provides] = cp;
@@ -52,12 +52,14 @@ const ConditionsObject* Conditions::getConditionPtr(
     auto cpptr = providers_.find(condition_name);
 
     if (cpptr == providers_.end()) {
-      throw Exception("No provider is available for : " + condition_name);
+      throw Exception("Conditions",
+          "No provider is available for : " + condition_name);
     }
 
     const auto& [co, iov] = cpptr->second->getCondition(context);
     if (!co) {
-      throw Exception("Null condition returned for requested item : " +
+      throw Exception("Conditions",
+          "Null condition returned for requested item : " +
                       condition_name);
     }
 
@@ -86,7 +88,7 @@ const ConditionsObject* Conditions::getConditionPtr(
           s << " DATA";
         else
           s << " MC";
-        throw Exception(s.str());
+        throw Exception("Conditions",s.str());
       }
       cacheptr->second.iov = iov;
       cacheptr->second.obj = co;

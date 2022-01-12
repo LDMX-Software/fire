@@ -14,7 +14,7 @@ void loadLibrary(const std::string& libname) {
 
   void* handle = dlopen(libname.c_str(), RTLD_NOW);
   if (handle == nullptr) {
-    throw exception::Exception(
+    throw Exception(
         "LibLoad", "Error loading library '" + libname + "':" + dlerror(),
         false);
   }

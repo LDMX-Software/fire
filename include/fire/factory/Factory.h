@@ -239,7 +239,7 @@ class Factory {
    * We insert the new object into the library after
    * checking that it hasn't been defined before.
    *
-   * @throws exception::Exception if the object has been declared before.
+   * @throws Exception if the object has been declared before.
    * This exception can easily be avoided by making sure the declaration
    * macro for a prototype links the name of the PrototypeMaker function to
    * the name of the derived class. This means the user would have a
@@ -251,7 +251,7 @@ class Factory {
   void declare(const std::string& full_name, PrototypeMaker maker) {
     auto lib_it{library_.find(full_name)};
     if (lib_it != library_.end()) {
-      throw exception::Exception("Factory",
+      throw Exception("Factory",
           "An object named " + full_name +
           " has already been declared.",false);
     }
@@ -265,7 +265,7 @@ class Factory {
    * If found, we create one and return a pointer to the newly
    * created object. If not found, we raise an exception.
    *
-   * @throws exception::Exception if the input object name could not be found
+   * @throws Exception if the input object name could not be found
    *
    * The arguments to the maker are determined at compiletime
    * using the template parameters of Factory.
@@ -279,7 +279,7 @@ class Factory {
                     PrototypeMakerArgs... maker_args) {
     auto lib_it{library_.find(full_name)};
     if (lib_it == library_.end()) {
-      throw exception::Exception("Factory","An object named " + full_name +
+      throw Exception("Factory","An object named " + full_name +
                        " has not been declared.",false);
     }
     return lib_it->second(maker_args...);

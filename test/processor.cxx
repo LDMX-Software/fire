@@ -60,11 +60,11 @@ BOOST_AUTO_TEST_CASE(misspell) {
   fire::config::Parameters ps;
   
   // misspell class name
-  BOOST_CHECK_THROW(fire::Processor::Factory::get().make("DNE",ps), fire::factory::Exception);
+  BOOST_CHECK_THROW(fire::Processor::Factory::get().make("DNE",ps), fire::Exception);
 
   // misspell a different parameter
   ps.add("run_number", 420);
-  BOOST_CHECK_THROW(fire::Processor::Factory::get().make("test::TestProducer",ps), fire::config::Parameters::Exception);
+  BOOST_CHECK_THROW(fire::Processor::Factory::get().make("test::TestProducer",ps), fire::Exception);
 }
 
 BOOST_AUTO_TEST_CASE(mimic_process) {
@@ -88,17 +88,17 @@ BOOST_AUTO_TEST_CASE(throw_exceptions) {
   analyzer.add<std::string>("name","analyzer");
 
   auto p{fire::Processor::Factory::get().make("test::TestThrow",analyzer)};
-  BOOST_CHECK_THROW(p->onProcessStart(), fire::Processor::Exception);
-  BOOST_CHECK_THROW(p->onProcessEnd(), fire::Processor::Exception);
+  BOOST_CHECK_THROW(p->onProcessStart(), fire::Exception);
+  BOOST_CHECK_THROW(p->onProcessEnd(), fire::Exception);
 
   fire::Event event{fire::Event::test()};
-  BOOST_REQUIRE_THROW(p->process(event), fire::Processor::Exception);
+  BOOST_REQUIRE_THROW(p->process(event), fire::Exception);
 
   // check that exception has correct name
   try {
     p->process(event);
-  } catch (const fire::Processor::Exception& e) {
-    BOOST_TEST(e.name() == analyzer.get<std::string>("name"));
+  } catch (const fire::Exception& e) {
+    BOOST_TEST(e.category() == analyzer.get<std::string>("name"));
   }
 }
 

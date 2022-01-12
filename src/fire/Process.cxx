@@ -31,9 +31,9 @@ Process::Process(const fire::config::Parameters& configuration)
   auto sequence{
       configuration.get<std::vector<config::Parameters>>("sequence", {})};
   if (sequence.empty() and not configuration.get<bool>("testing")) {
-    throw fire::config::Parameters::Exception(
+    throw Exception("Config",
         "No sequence has been defined. What should I be doing?\nUse "
-        "p.sequence to tell me what processors to run.");
+        "p.sequence to tell me what processors to run.",false);
   }
   for (const auto& proc : sequence) {
     auto class_name{proc.get<std::string>("class_name")};

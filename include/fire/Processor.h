@@ -44,24 +44,6 @@ class Processor {
 
  public:
   /**
-   * Exceptions thrown by processors
-   * We don't use the ENABLE_EXCEPTIONS macro here because
-   * we want to add an extra parameter - the processor's name.
-   */
-  class Exception : public fire::exception::Exception {
-   public:
-    Exception(const std::string& name, const std::string &what) noexcept 
-      : fire::exception::Exception(what), name_{name} {}
-    const std::string& name() const noexcept {
-      return name_;
-    }
-   private:
-    /// name of processor which threw this exception
-    std::string name_;
-  };
-
- public:
-  /**
    * Class constructor.
    *
    * The parameters a processor has access to are the member variables

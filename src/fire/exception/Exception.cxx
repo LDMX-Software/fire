@@ -155,9 +155,9 @@ static std::string Backtrace(int skip = 1) {
 
 #include "fire/exception/Exception.h"
 
-namespace fire::exception {
+namespace fire {
 Exception::Exception(const std::string& cat, const std::string& msg, bool build_trace) noexcept
   : category_{cat}, message_{msg} {
     if (build_trace) stack_trace_ = Backtrace(2);
 }
-}  // namespace fire::exception
+}  // namespace fire

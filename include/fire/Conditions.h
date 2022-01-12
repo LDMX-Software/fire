@@ -26,9 +26,6 @@ class Process;
  */
 class Conditions {
  public:
-  /// define a Conditions-specific exception
-  ENABLE_EXCEPTIONS();
-
   /**
    * Constructor
    */

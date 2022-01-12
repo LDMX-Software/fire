@@ -7,10 +7,7 @@
 #include <exception>
 #include <string>
 
-/**
- * isolation of exception helper functions and base class
- */
-namespace fire::exception {
+namespace fire {
 
 /**
  * Standard base exception class with some useful output information
@@ -75,6 +72,6 @@ class Exception : public std::exception {
   /// the stored stack trace at the throw point (if created)
   std::string stack_trace_;
 };
-}  // namespace fire::exception
+}  // namespace fire
 
 #endif
