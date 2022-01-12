@@ -1,5 +1,6 @@
 
 #include "fire/config/Python.h"
+#include "fire/exception/Exception.h"
 
 /*~~~~~~~~~~~~*/
 /*   python   */
@@ -88,7 +89,7 @@ static Parameters getMembers(PyObject* object) {
     if (PyDict_Check(object))
       dictionary = object;
     else {
-      throw python::Exception("Python Object does not have a __dict__ member");
+      throw exception::Exception("Python","Python Object does not have a __dict__ member",false);
     }
   }
 
@@ -206,13 +207,13 @@ Parameters run(const std::string& pythonScript, char* args[], int nargs) {
   std::unique_ptr<FILE, int (*)(FILE*)> fp{fopen(pythonScript.c_str(),"r"),&fclose};
   if (fp.get() == NULL) {
     // file does not exist
-    throw python::Exception("Configuration script "+pythonScript+
-        " either does not exist or can't be read.");
+    throw exception::Exception("Python","Configuration script "+pythonScript+
+        " either does not exist or can't be read.",false);
   }
   if (PyRun_SimpleFile(fp.get(), pythonScript.c_str()) != 0) {
     // running the script executed with an error
     PyErr_Print();
-    throw python::Exception("Execution of python script failed.");
+    throw exception::Exception("Python","Execution of python script failed.",false);
   } 
 
   // script has been run so we can
@@ -227,7 +228,7 @@ Parameters run(const std::string& pythonScript, char* args[], int nargs) {
   PyObject* py_root_obj = PyImport_ImportModule("__main__");
   if (!py_root_obj) {
     PyErr_Print();
-    throw python::Exception("I don't know what happened. This should never happen.");
+    throw exception::Exception("Python","I don't know what happened. This should never happen.");
   }
 
   // descend the hierarchy of modules that hold the root_object
@@ -239,7 +240,7 @@ Parameters run(const std::string& pythonScript, char* args[], int nargs) {
   while (std::getline(root_obj_ss, attr, '.')) {
     PyObject* one_level_down = PyObject_GetAttrString(py_root_obj, attr.c_str());
     if (one_level_down == 0) {
-      throw python::Exception("Unable to find python object '"+attr+"'.");
+      throw exception::Exception("Python","Unable to find python object '"+attr+"'.",false);
     }
     Py_DECREF(py_root_obj); // don't need previous python object anymore
     py_root_obj = one_level_down;
@@ -248,7 +249,7 @@ Parameters run(const std::string& pythonScript, char* args[], int nargs) {
   // now py_root_obj should hold the root configuration object
   if (py_root_obj == Py_None) {
     // root config object left undefined
-    throw python::Exception("Root configuration object "+root_object+" not defined. This object is required to run.");
+    throw exception::Exception("Python","Root configuration object "+root_object+" not defined. This object is required to run.",false);
   }
 
   // okay, now we have fully imported the script and gotten the handle
@@ -265,7 +266,7 @@ Parameters run(const std::string& pythonScript, char* args[], int nargs) {
   // close up python interpreter
   if (Py_FinalizeEx() < 0) {
     PyErr_Print();
-    throw python::Exception("I wasn't able to close up the python interpreter!");
+    throw exception::Exception("Python","I wasn't able to close up the python interpreter!",false);
   }
 
   return configuration;

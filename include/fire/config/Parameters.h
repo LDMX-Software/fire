@@ -28,9 +28,6 @@ namespace fire::config {
  */
 class Parameters {
  public:
-  /// specific exception for this class
-  ENABLE_EXCEPTIONS();
-
   /**
    * Add a parameter to the parameter list.  If the parameter already
    * exists in the list, throw an exception.
@@ -38,13 +35,14 @@ class Parameters {
    * @param[in] name Name of the parameter.
    * @param[in] value The value of the parameter.
    * @tparam T type of parameter being added
-   * @throw Exception if a parameter by that name already exist in
+   * @throw exception::Exception if a parameter by that name already exist in
    *  the list.
    */
   template <typename T>
   void add(const std::string& name, const T& value) {
     if (exists(name)) {
-      throw Exception("The parameter " + name + " already exists in the list of parameters.");
+      throw exception::Exception("Config",
+          "The parameter " + name + " already exists in the list of parameters.");
     }
 
     parameters_[name] = value;
@@ -63,8 +61,8 @@ class Parameters {
   /**
    * Retrieve the parameter of the given name.
    *
-   * @throw Exception if parameter of the given name isn't found
-   * @throw Exception if parameter is found but not of the input type
+   * @throw exception::Exception if parameter of the given name isn't found
+   * @throw exception::Exception if parameter is found but not of the input type
    *
    * @tparam T the data type to cast the parameter to.
    * @param[in] name the name of the parameter value to retrieve.
@@ -75,13 +73,13 @@ class Parameters {
     // Check if the variable exists in the map.  If it doesn't,
     // raise an exception.
     if (not exists(name)) {
-      throw Exception("Parameter '" + name + "' does not exist in list of parameters.");
+      throw exception::Exception("Config","Parameter '" + name + "' does not exist in list of parameters.");
     }
 
     try {
       return std::any_cast<const T&>(parameters_.at(name));
     } catch (const std::bad_any_cast& e) {
-      throw Exception("Parameter '" + name + "' of type '" +
+      throw exception::Exception("Config","Parameter '" + name + "' of type '" +
                           boost::core::demangle(parameters_.at(name).type().name()) +
                           "' is being cast to incorrect type '" +
                           boost::core::demangle(typeid(T).name()) + "'.");

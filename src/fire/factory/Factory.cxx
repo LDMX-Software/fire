@@ -1,7 +1,8 @@
 #include "fire/factory/Factory.h"
 
-#include <dlfcn.h> // for shared library loading
-#include <set>     // for caching loaded libraries
+#include <dlfcn.h>  // for shared library loading
+
+#include <set>  // for caching loaded libraries
 
 namespace fire::factory {
 
@@ -13,10 +14,12 @@ void loadLibrary(const std::string& libname) {
 
   void* handle = dlopen(libname.c_str(), RTLD_NOW);
   if (handle == nullptr) {
-    throw Exception("Error loading library '" + libname + "':" + dlerror());
+    throw exception::Exception(
+        "LibLoad", "Error loading library '" + libname + "':" + dlerror(),
+        false);
   }
 
   libraries_loaded_.insert(libname);
 }
 
-}
+}  // namespace fire::factory

@@ -69,6 +69,9 @@ class Reader {
 
   /**
    * Try to load a single value of an atomic type into the input handle
+   *
+   * @throws std::bad_cast if mismatched type is passed
+   * @throws HighFive::DataSetException if requested dataset doesn't exist
    */
   template <typename AtomicType>
   void load(const std::string& path, AtomicType& val) {
@@ -83,11 +86,7 @@ class Reader {
       buffers_[path]->load();
     }
 
-    try {
-      dynamic_cast<Buffer<AtomicType>&>(*buffers_[path]).read(val);
-    } catch (const std::bad_cast&) {
-      throw Exception("Attempting to read mis-matched type.");
-    }
+    dynamic_cast<Buffer<AtomicType>&>(*buffers_[path]).read(val);
   }
 
   friend std::ostream& operator<<(std::ostream& s, const Reader& r) {

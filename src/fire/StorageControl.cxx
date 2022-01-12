@@ -26,7 +26,7 @@ StorageControl::StorageControl(const config::Parameters& ps)
       // re-throw regex error with our Parameter error
       std::string msg{"Invalid regex given to storage control: "};
       msg += e.what();
-      throw fire::config::Parameters::Exception(msg);
+      throw exception::Exception("Config",msg,false);
     }
   }
 }

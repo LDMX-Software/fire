@@ -47,6 +47,10 @@ class Writer {
    */
   inline std::size_t entries() const { return entries_; }
 
+  /**
+   * @throws std::bad_cast if mismatched type is passed to buffer
+   * @throws HighFive::DataSetException if unable to create data set
+   */
   template <typename AtomicType>
   void save(const std::string& path, const AtomicType& val) {
     static_assert(
@@ -65,11 +69,7 @@ class Writer {
                                         HighFive::AtomicType<AtomicType>(),
                                         create_props_)));
     }
-    try {
-      dynamic_cast<Buffer<AtomicType>&>(*buffers_.at(path)).save(val);
-    } catch (const std::bad_cast&) {
-      throw Exception("Attempting to insert incorrect type into buffer.");
-    }
+    dynamic_cast<Buffer<AtomicType>&>(*buffers_.at(path)).save(val);
   }
 
   friend std::ostream& operator<<(std::ostream& s, const Writer& w) {

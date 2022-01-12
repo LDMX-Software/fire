@@ -18,14 +18,6 @@
 namespace fire::factory {
 
 /**
- * The Factory's exception object
- * Used by both the loadLibrary function as well as the base
- * factory class for registration and creation of objects
- * from prototypes.
- */
-ENABLE_EXCEPTIONS();
-
-/**
  * load a library by name
  *
  * Loading a library by name is similar to linking a shared library
@@ -247,7 +239,7 @@ class Factory {
    * We insert the new object into the library after
    * checking that it hasn't been defined before.
    *
-   * @throws Exception if the object has been declared before.
+   * @throws exception::Exception if the object has been declared before.
    * This exception can easily be avoided by making sure the declaration
    * macro for a prototype links the name of the PrototypeMaker function to
    * the name of the derived class. This means the user would have a
@@ -259,8 +251,9 @@ class Factory {
   void declare(const std::string& full_name, PrototypeMaker maker) {
     auto lib_it{library_.find(full_name)};
     if (lib_it != library_.end()) {
-      throw Exception("An object named " + full_name +
-                      " has already been declared.");
+      throw exception::Exception("Factory",
+          "An object named " + full_name +
+          " has already been declared.",false);
     }
     library_[full_name] = maker;
   }
@@ -272,7 +265,7 @@ class Factory {
    * If found, we create one and return a pointer to the newly
    * created object. If not found, we raise an exception.
    *
-   * @throws Exception if the input object name could not be found
+   * @throws exception::Exception if the input object name could not be found
    *
    * The arguments to the maker are determined at compiletime
    * using the template parameters of Factory.
@@ -286,8 +279,8 @@ class Factory {
                     PrototypeMakerArgs... maker_args) {
     auto lib_it{library_.find(full_name)};
     if (lib_it == library_.end()) {
-      throw Exception("An object named " + full_name +
-                       " has not been declared.");
+      throw exception::Exception("Factory","An object named " + full_name +
+                       " has not been declared.",false);
     }
     return lib_it->second(maker_args...);
   }

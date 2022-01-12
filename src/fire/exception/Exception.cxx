@@ -5,8 +5,10 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-/// @brief Invokes addr2line utility to determine the function name
-/// and the line information from an address in the code segment.
+/**
+ * Invokes addr2line utility to determine the function name 
+ * and the line information from an address in the code segment.
+ */
 static char *addr2line(const char *image, void *addr, bool color_output) {
   static char exename[4096] = {0};
   static char result[4096] = {0};
@@ -108,8 +110,11 @@ static char *addr2line(const char *image, void *addr, bool color_output) {
 #include <sstream>
 #include <string>
 
-// This function produces a stack backtrace with demangled function & method
-// names.
+/**
+ * Produce a stack backtrace with demangled function and method names.
+ *
+ * @param[in] skip number of calls in the trace to skip
+ */
 static std::string Backtrace(int skip = 1) {
   void *callstack[128];
   const int nMaxFrames = sizeof(callstack) / sizeof(callstack[0]);
@@ -151,5 +156,8 @@ static std::string Backtrace(int skip = 1) {
 #include "fire/exception/Exception.h"
 
 namespace fire::exception {
-std::string Exception::buildStackTrace() const { return Backtrace(2); }
+Exception::Exception(const std::string& cat, const std::string& msg, bool build_trace) noexcept
+  : category_{cat}, message_{msg} {
+    if (build_trace) stack_trace_ = Backtrace(2);
+}
 }  // namespace fire::exception

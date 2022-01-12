@@ -1,7 +1,6 @@
 #ifndef FRAMEWORK_CONFIGUREPYTHON_H
 #define FRAMEWORK_CONFIGUREPYTHON_H
 
-#include "fire/exception/Exception.h"
 #include "fire/config/Parameters.h"
 
 /**
@@ -21,15 +20,6 @@ namespace fire::config {
  * to use fire::config::run.
  */
 extern std::string root_object;
-
-/**
- * Specific Exception class hidden within the 'python'
- * namespace to make it more apparent about when/why
- * these errors are thrown.
- */
-namespace python {
-ENABLE_EXCEPTIONS();
-}
 
 /**
  * run the python script and extract the parameters

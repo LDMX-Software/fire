@@ -11,6 +11,7 @@
 
 #include "fire/h5/DataSet.h"
 #include "fire/h5/Reader.h"
+#include "fire/exception/Exception.h"
 
 namespace fire::h5 {
 
@@ -27,11 +28,11 @@ class ParameterStorage {
     try {
       return std::get<ParameterType>(parameters_.at(name));
     } catch (const std::bad_variant_access&) {
-      throw h5::Exception(
+      throw exception::Exception("BadType"
           "Parameter named " + name + " is not type " +
           boost::core::demangle(typeid(ParameterType).name()));
     } catch (const std::out_of_range&) {
-      throw h5::Exception("Parameter named " + name + " not found.");
+      throw exception::Exception("NotFound","Parameter named " + name + " not found.");
     }
   }
 
