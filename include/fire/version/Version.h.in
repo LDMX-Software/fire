@@ -2,8 +2,6 @@
  * @file Version.h.in
  * @brief Configure file used by CMake to generate a header file that defines
  *        software related constants e.g. git SHA-1. 
- * @author Omar Moreno, SLAC National Accelerator Laboratory
- * @author Tom Eichlersmith, University of Minnesota
  */
 
 #ifndef FIRE_VERSION_HPP
@@ -12,7 +10,8 @@
 #include <string_view>
 
 /**
- * @namespace version
+ * Housing for variables defined by CMake at configuration.
+ *
  * The version namespace holds variables that are configured by CMake
  * when the package is configured during the build process
  */
@@ -25,8 +24,9 @@ constexpr std::string_view GIT_SHA1 = "${GIT_SHA1}";
 
 /**
  * the recorded CMake version of fire
- *  This is defined by the VERSION keyword
- *  in the 'project' command in CMakeLists.txt.
+ *
+ * This is defined by the VERSION keyword
+ * in the 'project' command in CMakeLists.txt.
  */
 constexpr std::string_view VERSION = "${PROJECT_VERSION}";
 

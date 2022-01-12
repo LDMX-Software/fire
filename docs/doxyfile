@@ -322,8 +322,10 @@ OPTIMIZE_OUTPUT_SLICE  = NO
 #
 # Note that for custom extensions you also need to set FILE_PATTERNS otherwise
 # the files are not read by doxygen.
+# 
+# Files input to CMake configure_file are assumed to be interpreted through C++
 
-EXTENSION_MAPPING      =
+EXTENSION_MAPPING      = in=C++
 
 # If the MARKDOWN_SUPPORT tag is enabled then doxygen pre-processes all comments
 # according to the Markdown format, which allows for more readable
@@ -857,19 +859,9 @@ INPUT_ENCODING         = UTF-8
 # *.vhdl, *.ucf, *.qsf and *.ice.
 
 FILE_PATTERNS          = *.cxx \
-                         *.cpp \
                          *.h \
-                         *.hh \
-                         *.hxx \
-                         *.hpp \
-                         *.h++ \
-                         *.m \
-                         *.markdown \
+                         *.h.in \
                          *.md \
-                         *.mm \
-                         *.dox \
-                         *.doc \
-                         *.txt \
                          *.py
 
 # The RECURSIVE tag can be used to specify whether or not subdirectories should
