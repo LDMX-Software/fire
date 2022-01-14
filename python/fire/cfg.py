@@ -248,6 +248,12 @@ class ListeningRule :
         self.processor = processor_regex
         self.purpose = purpose_regex
 
+    def __repr__(self) :
+        return f'Name {self.processor} AND Purpose {self.purpose}'
+
+    def __str__(self) :
+        return repr(self)
+
 class StorageControl :
     """Configuration for how events are chosen to be stored.
     This configuration keeps the default storage decision and
@@ -266,10 +272,10 @@ class StorageControl :
         self.default_keep = True
         self.listening_rules = []
 
-    def default(keep = True) :
+    def default(self, keep = True) :
         self.default_keep = keep
 
-    def listen(processor) :
+    def listen(self, processor) :
         """Add a listening rule that will listen to the processor with
         name exactly matching the name of the input processor object
 
@@ -283,8 +289,14 @@ class StorageControl :
         
         self.listening_rules.append(ListeningRule(f'^{processor.name}$','.*'))
 
-    def listen_all() :
+    def listen_all(self) :
         self.listening_rules = [ ListeningRule('.*','.*') ]
+
+    def __str__(self) :
+        dk = 'drop'
+        if self.default_keep :
+            dk = 'keep'
+        return f'Storage(default: {dk}, listening: {self.listening_rules})'
 
 class DropKeepRule :
     """A single rule specifying if a specific event object should be
@@ -301,6 +313,15 @@ class DropKeepRule :
     def __init__(self,regex,keep) :
         self.keep = keep
         self.regex = regex
+
+    def __repr__(self) :
+        dk = 'drop'
+        if self.keep :
+            dk = 'keep'
+        return f'{dk}({self.regex})'
+
+    def __str__(self) :
+        return repr(self)
 
 class Process:
     """Process configuration object
@@ -572,9 +593,9 @@ class Process:
             for afile in self.input_files:
                 msg += '\n  ' + afile
         msg += f"\n {self.output_file}"
-        msg += "\n Listening rules:"
-        msg += '\n DK Rules:'
-        # TODO print listening rules and drop keep rules
+        msg += f"\n {self.storage}"
+        if len(self.drop_keep_rules) > 0 :
+            msg += f'\n DK Rules: {str(self.drop_keep_rules)}'
         return msg
 
     
