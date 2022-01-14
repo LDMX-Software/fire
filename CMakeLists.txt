@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.12)
 
 # Set the project name
 project(fire 
-  VERSION 0.8.0
+  VERSION 0.8.1
   DESCRIPTION "fire for sImulation and Reconstruction of Events"
   LANGUAGES C CXX)
 
