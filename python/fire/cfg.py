@@ -181,6 +181,7 @@ class RandomNumberSeedService(ConditionsProvider):
         super().__init__('RandomNumberSeedService','fire::RandomNumberSeedService','fire::framework')
         self.seedMode = ''
         self.seed=-1 #only used in external mode
+        self.overrides = {}
 
         # use run seed mode by default
         self.run()
@@ -203,6 +204,11 @@ class RandomNumberSeedService(ConditionsProvider):
     def time(self) :
         """Set master random seed based off of time"""
         self.seedMode = 'time'
+
+    def override(self, name, seed) :
+        """Override the RNSS and provide your own seed for a specific name"""
+
+        self.overrides[name] = seed
 
 class OutputFile :
     """Configuration for writing an output file

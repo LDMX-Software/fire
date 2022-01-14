@@ -39,6 +39,13 @@ RandomNumberSeedService::RandomNumberSeedService(const fire::config::Parameters&
     mode_ = SEED_TIME;
     initialized_ = true;
   }
+
+  // insert any overrides from python right away
+  overrides = parameters.get<config::Parameters>("overrides");
+  auto names = overrides.keys();
+  for (auto& n : names) {
+    seeds_[n] = overrides.get<uint64_t>(n);
+  }
 }
 
 void RandomNumberSeedService::onNewRun(RunHeader& rh) {

@@ -26,9 +26,8 @@ namespace fire {
  * Individual seeds are then constructed using the root seed and a simple hash
  * based on the name of the seed. 
  *
- * @TODO specify seeds by name in the python configuration
- * Seeds can also be specified in the python
- * file, in which case no autoseeding will be performed.
+ * Seeds can also be specified in the python file (using the 'override' function),
+ * in which case no autoseeding will be performed.
  */
 class RandomNumberSeedService : public ConditionsObject,
                                 public ConditionsProvider {
@@ -40,8 +39,6 @@ class RandomNumberSeedService : public ConditionsObject,
    * Create the random number seed service conditions object
    *
    * This is where we decide what seed mode we will be running in.
-   *
-   * @TODO allow loading of hand-provided seeds from python
    *
    * @param[in] name the name of this provider
    * @param[in] tagname the name of the tag generation of this condition
