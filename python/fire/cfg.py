@@ -442,11 +442,11 @@ class Process:
         actual_module_name = module.replace('/','_').replace('::','_')
         Process.addLibrary('lib%s.so'%(actual_module_name))
 
-    def keep(regex) :
+    def keep(self,regex) :
         """Add a regex rule for keeping event objects whose name matches the regex"""
         self.drop_keep_rules.append(DropKeepRule(regex,True))
 
-    def drop(regex) :
+    def drop(self,regex) :
         """Add a regex rule for dropping event objects whose name matches the regex"""
         self.drop_keep_rules.append(DropKeepRule(regex,False))
 
