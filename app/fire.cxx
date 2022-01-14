@@ -37,7 +37,6 @@ static void usage() {
  *    the corresponding C++ classes by creating the Process.
  * 2. Running - we run the Process that has been configured.
  *
- * @TODO build stack traces
  * @param[in] argc command line argument count
  * @param[in] argv array of command line arguments
  */

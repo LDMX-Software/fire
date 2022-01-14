@@ -46,14 +46,18 @@ Event::Event(const std::string& pass,
   obj.should_save_ = true;   // always save event header
   obj.should_load_ = false;  // don't load unless input files are passed
   // construct rules from rule configuration parameters
-  //   TODO check for regex construction failures
   for (const auto& rule : dk_rules) {
-    drop_keep_rules_.emplace_back(
+    auto regex{rule.get<std::string>("regex")};
+    try {
+      drop_keep_rules_.emplace_back(
         std::piecewise_construct,
-        std::forward_as_tuple(
-            rule.get<std::string>("regex"),
+        std::forward_as_tuple(regex,
             std::regex::extended | std::regex::icase | std::regex::nosubs),
         std::forward_as_tuple(rule.get<bool>("keep")));
+    } catch (const std::regex_error&) {
+      throw Exception("Config",
+          "Drop/Keep regex '"+regex+"' not a proper regex.",false);
+    }
   }
 }
 
