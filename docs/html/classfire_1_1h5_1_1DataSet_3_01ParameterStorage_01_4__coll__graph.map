@@ -1,0 +1,6 @@
+<map id="fire::h5::DataSet&lt; ParameterStorage &gt;" name="fire::h5::DataSet&lt; ParameterStorage &gt;">
+<area shape="rect" id="node1" title="DataSet specialization for ParameterStorage." alt="" coords="105,185,264,227"/>
+<area shape="rect" id="node2" href="$classfire_1_1h5_1_1AbstractDataSet.html" title=" " alt="" coords="94,95,275,136"/>
+<area shape="rect" id="node3" href="$classfire_1_1h5_1_1BaseDataSet.html" title=" " alt="" coords="5,5,164,32"/>
+<area shape="rect" id="node4" href="$classfire_1_1h5_1_1ParameterStorage.html" title="Provides dynamic parameter storage by interfacing between a map to variants storing parameters and a ..." alt="" coords="189,5,381,32"/>
+</map>

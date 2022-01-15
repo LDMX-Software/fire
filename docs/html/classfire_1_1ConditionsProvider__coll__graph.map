@@ -1,0 +1,11 @@
+<map id="fire::ConditionsProvider" name="fire::ConditionsProvider">
+<area shape="rect" id="node1" title="Base class for all providers of conditions objects." alt="" coords="5,184,180,211"/>
+<area shape="rect" id="node2" href="$classfire_1_1Conditions.html" title="Container and cache for conditions and conditions providers." alt="" coords="142,95,262,121"/>
+<area shape="rect" id="node3" href="$classfire_1_1Process.html" title=" " alt="" coords="393,184,494,211"/>
+<area shape="rect" id="node4" href="$classfire_1_1Event.html" title="Event class for interfacing with processors." alt="" coords="297,95,385,121"/>
+<area shape="rect" id="node5" href="$classfire_1_1h5_1_1Reader.html" title="A HighFive::File specialized to fire&#39;s usecase." alt="" coords="280,5,401,32"/>
+<area shape="rect" id="node6" href="$classfire_1_1StorageControl.html" title="Isolation of voting system deciding if events should be kept." alt="" coords="409,95,557,121"/>
+<area shape="rect" id="node7" href="$classfire_1_1h5_1_1Writer.html" title="A HighFive::File specialized to fire&#39;s usecase." alt="" coords="582,95,697,121"/>
+<area shape="rect" id="node8" href="$classfire_1_1RunHeader.html" title="Container for run parameters." alt="" coords="721,95,843,121"/>
+<area shape="rect" id="node9" href="$classfire_1_1h5_1_1ParameterStorage.html" title="Provides dynamic parameter storage by interfacing between a map to variants storing parameters and a ..." alt="" coords="686,5,878,32"/>
+</map>

@@ -27,8 +27,8 @@ This configuration style is extermely flexible and allows both C++ and Python to
 Besides this core functionality of processors looking at data event-by-event, there are optional helpers that allow processors to log through boost logging and access "conditions" through a centrally-controlled system.
 
 ## Features
-- Dynamic loading of libraries containing processors
-- Dynamic creation of registered processors using their full C++ class name
+- Dynamic run-time facotyr: loading of libraries containing processors 
+  and creation of registered processors using their full C++ class name
 - Header for event-wide information
 - Header for run-wide information
 - Simple serialization of user-defined classes allowing for quick h5py-based analyses

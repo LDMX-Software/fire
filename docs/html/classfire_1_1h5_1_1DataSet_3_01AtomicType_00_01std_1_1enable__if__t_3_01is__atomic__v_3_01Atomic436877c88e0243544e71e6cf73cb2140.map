@@ -1,0 +1,5 @@
+<map id="fire::h5::DataSet&lt; AtomicType, std::enable_if_t&lt; is_atomic_v&lt; AtomicType &gt; &gt; &gt;" name="fire::h5::DataSet&lt; AtomicType, std::enable_if_t&lt; is_atomic_v&lt; AtomicType &gt; &gt; &gt;">
+<area shape="rect" id="node1" title="Atomic types." alt="" coords="5,169,284,225"/>
+<area shape="rect" id="node2" href="$classfire_1_1h5_1_1AbstractDataSet.html" title=" " alt="" coords="54,80,235,121"/>
+<area shape="rect" id="node3" href="$classfire_1_1h5_1_1BaseDataSet.html" title=" " alt="" coords="65,5,224,32"/>
+</map>

@@ -1,0 +1,11 @@
+<map id="fire::Processor" name="fire::Processor">
+<area shape="rect" id="node1" title="Base class for all event processing components." alt="" coords="137,273,251,300"/>
+<area shape="rect" id="node2" href="$classfire_1_1Process.html" title=" " alt="" coords="235,184,337,211"/>
+<area shape="rect" id="node9" href="$classfire_1_1Conditions.html" title="Container and cache for conditions and conditions providers." alt="" coords="297,273,417,300"/>
+<area shape="rect" id="node3" href="$classfire_1_1Event.html" title="Event class for interfacing with processors." alt="" coords="22,95,110,121"/>
+<area shape="rect" id="node4" href="$classfire_1_1h5_1_1Reader.html" title="A HighFive::File specialized to fire&#39;s usecase." alt="" coords="5,5,127,32"/>
+<area shape="rect" id="node5" href="$classfire_1_1StorageControl.html" title="Isolation of voting system deciding if events should be kept." alt="" coords="135,95,283,121"/>
+<area shape="rect" id="node6" href="$classfire_1_1h5_1_1Writer.html" title="A HighFive::File specialized to fire&#39;s usecase." alt="" coords="307,95,422,121"/>
+<area shape="rect" id="node7" href="$classfire_1_1RunHeader.html" title="Container for run parameters." alt="" coords="446,95,569,121"/>
+<area shape="rect" id="node8" href="$classfire_1_1h5_1_1ParameterStorage.html" title="Provides dynamic parameter storage by interfacing between a map to variants storing parameters and a ..." alt="" coords="411,5,603,32"/>
+</map>
