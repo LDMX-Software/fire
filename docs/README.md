@@ -7,10 +7,5 @@ We assume that doxygen is run from the root directory of the fire repository.
 ```
 doxygen docs/doxyfile
 ```
-The output of the documentation then is put into the `docs` folder.
-
-Removing this large amount of files can be a pain, you can remove these files with `find`
-if it is available.
-```
-find docs/ ! -name doxyfile ! -name doxygen-awesome-css -delete
-```
+The output of the documentation then is put into the `docs/html` folder.
+You can then look at them locally using your favorite browser.
