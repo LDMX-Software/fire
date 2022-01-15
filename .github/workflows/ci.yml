@@ -9,6 +9,7 @@ on:
       - 'v*.*'
     paths-ignore:
       - '**.md'
+      - 'docs/**'
 
 # workflow consists of one building and testing job
 jobs:
@@ -44,9 +45,15 @@ jobs:
         ldmx cmake --build build/ --target install
         echo "::endgroup::"
         echo "::group::Use fire in Test Module"
+        echo "::group::Configure Test Module"
         ldmx cmake -B build/test/module -S test/module \
           -DCMAKE_INSTALL_PREFIX=${LDMX_BASE}/.container-install
+        echo "::endgroup::"
+        echo "::group::Build and Install Test Module"
         ldmx cmake --build build/test/module --target install
+        echo "::endgroup::"
+        echo "::group::Test Module Production"
         ldmx fire test/module/production.py
+        echo "::endgroup::"
         echo "::endgroup::"
 
