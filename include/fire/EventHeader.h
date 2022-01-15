@@ -113,7 +113,8 @@ class EventHeader {
   /// allow data set access for reading/writing
   friend class h5::DataSet<EventHeader>;
   void attach(h5::DataSet<EventHeader>& set) {
-    set.attach("number",number_);
+    // make sure we use the name for this variable that the reader expects
+    set.attach(h5::Reader::EVENT_HEADER_NUMBER,number_);
     set.attach("run",run_);
     set.attach("timestamp",timestamp_);
     set.attach("weight",weight_);

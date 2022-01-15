@@ -18,6 +18,8 @@ class Reader {
  public:
   /// the name of the event header data set
   static const std::string EVENT_HEADER_NAME;
+  /// the name of the variable in event header corresponding to event number
+  static const std::string EVENT_HEADER_NUMBER;
   /// the name of the group holding all of the events
   static const std::string EVENT_GROUP;
   /// the name of the run header data set

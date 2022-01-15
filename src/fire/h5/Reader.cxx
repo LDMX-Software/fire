@@ -3,13 +3,15 @@
 namespace fire::h5 {
 
 const std::string Reader::EVENT_HEADER_NAME = "EventHeader";
+const std::string Reader::EVENT_HEADER_NUMBER = "number";
 const std::string Reader::EVENT_GROUP = "events";
 const std::string Reader::RUN_HEADER_NAME = "runs";
 const std::string Reader::TYPE_ATTR_NAME = "type";
 
 Reader::Reader(const std::string& name) : file_{name} {
-  // TODO unify this with the event header constant
-  entries_ = file_.getDataSet(EVENT_GROUP + "/" + EVENT_HEADER_NAME + "/number")
+  entries_ = file_.getDataSet(EVENT_GROUP + "/" 
+      + EVENT_HEADER_NAME + "/" 
+      + EVENT_HEADER_NUMBER)
                  .getDimensions()
                  .at(0);
 }

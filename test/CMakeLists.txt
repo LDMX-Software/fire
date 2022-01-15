@@ -10,9 +10,7 @@ add_executable(test_fire
   conditions.cxx
   )
   
-target_link_libraries(test_fire
-  PRIVATE Boost::unit_test_framework 
-          framework)
+target_link_libraries(test_fire PRIVATE Boost::unit_test_framework framework) 
 
 add_test(NAME "TestFire"
   COMMAND $<TARGET_FILE:test_fire> --report_level=detailed
