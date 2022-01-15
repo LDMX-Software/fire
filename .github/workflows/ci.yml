@@ -5,13 +5,10 @@ on:
   push:
     branches:
       - '**'
-    tags:
-      - 'v*.*'
     paths-ignore:
       - '**.md'
       - 'docs/**'
 
-# workflow consists of one building and testing job
 jobs:
   test:
     runs-on: ubuntu-latest
