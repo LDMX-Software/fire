@@ -7,6 +7,11 @@ jobs:
   deploy:
     runs-on: ubuntu-20.04
     steps:
+      -
+        name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - 
         name: Install Doxygen 1.9.2
         run: |
@@ -15,11 +20,6 @@ jobs:
           wget https://www.doxygen.nl/files/doxygen-1.9.2.linux.bin.tar.gz
           tar -xvzf doxygen-1.9.2.linux.bin.tar.gz
           ln -s doxygen-1.9.2/bin/doxygen doxygen
-      -
-        name: Checkout repository
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
       - 
         name: set version
         run: echo "PROJECT_NUMBER = `git describe --tags`" >> Doxyfile
