@@ -8,6 +8,7 @@ add_executable(test_fire
   processor.cxx
   storage_control.cxx
   conditions.cxx
+  highlevel.cxx
   )
   
 target_link_libraries(test_fire PRIVATE Boost::unit_test_framework framework) 
