@@ -41,7 +41,7 @@ RandomNumberSeedService::RandomNumberSeedService(const fire::config::Parameters&
   }
 
   // insert any overrides from python right away
-  overrides = parameters.get<config::Parameters>("overrides");
+  auto overrides = parameters.get<config::Parameters>("overrides");
   auto names = overrides.keys();
   for (auto& n : names) {
     seeds_[n] = overrides.get<uint64_t>(n);
