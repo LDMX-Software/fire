@@ -1,12 +1,20 @@
-# fire :fire:
+# 🔥 fire 🔥
 
-**F**ramework for s**I**mulation and **R**econstruction of **E**vents.
+Framework for sImulation and Reconstruction of Events.
 
 It's a stretch but it's worth it for the cool name.
 
-<a href="https://github.com/LDMX-Software/Framework/actions" alt="Actions">
-    <img src="https://github.com/LDMX-Software/Framework/workflows/CI/badge.svg" />
-</a>
+<p align="center">
+    <a href="http://perso.crans.org/besson/LICENSE.html" alt="GPLv3 license">
+        <img src="https://img.shields.io/badge/License-GPLv3-blue.svg" />
+    </a>
+    <a href="https://github.com/LDMX-Software/Framework/actions" alt="Actions">
+        <img src="https://github.com/LDMX-Software/Framework/workflows/CI/badge.svg" />
+    </a>
+    <a href="https://hub.docker.com/r/ldmx/dev" alt="DockerHub">
+        <img src="https://img.shields.io/github/v/release/LDMX-Software/Framework" />
+    </a>
+</p>
 
 A event-by-event processing framework using [HDF5](https://www.hdfgroup.org/) via [HighFive](https://github.com/BlueBrain/HighFive) for serialization, [Boost](https://www.boost.org/) for logging, and C++17.
 
