@@ -12,7 +12,8 @@ Process::Process(const fire::config::Parameters& configuration)
                    configuration.get<config::Parameters>("output_file")},
       input_files_{
           configuration.get<std::vector<std::string>>("input_files", {})},
-      event_{configuration.get<std::string>("pass_name"),
+      event_{output_file_,
+             configuration.get<std::string>("pass_name"),
              configuration.get<std::vector<config::Parameters>>("drop_keep_rules", {})},
       event_limit_{configuration.get<int>("event_limit")},
       log_frequency_{configuration.get<int>("log_frequency")},
@@ -119,7 +120,7 @@ void Process::run() {
       for (std::size_t i_entry_file{0}; i_entry_file < max_index;
            i_entry_file++) {
         // load data from input file
-        event_.load(input_file);
+        event_.load();
 
         // notify for new run if necessary
         if (event_.header().getRun() != wasRun) {
@@ -160,7 +161,7 @@ void Process::run() {
   }  // are there input files? if-else tree
 
   // allow event bus to put final touches into the output file
-  event_.done(output_file_);
+  event_.done();
   // finally, notify everyone that we are stopping
   for (auto& proc : sequence_) proc->onProcessEnd();
 }
@@ -200,7 +201,7 @@ bool Process::process(const std::size_t& n) {
 
   // we didn't abort the event, so we should give the option to save it
   if (storage_control_.keepEvent()) {
-    event_.save(output_file_);
+    event_.save();
   }
 
   // move to the next event

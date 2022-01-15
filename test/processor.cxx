@@ -74,7 +74,15 @@ BOOST_AUTO_TEST_CASE(mimic_process) {
 
   analyzer.add<std::string>("name","analyzer");
 
-  fire::Event event{fire::Event::test()};
+  fire::config::Parameters output_file;
+  output_file.add<std::string>("name", "processor.h5");
+  output_file.add("event_limit", 10);
+  output_file.add("rows_per_chunk", 1000);
+  output_file.add("compression_level", 6);
+  output_file.add("shuffle",false);
+  fire::h5::Writer of{10,output_file};
+
+  fire::Event event{fire::Event::test(of)};
 
   std::vector<std::unique_ptr<fire::Processor>> sequence;
   sequence.emplace_back(fire::Processor::Factory::get().make("test::TestProducer",producer));
@@ -91,7 +99,15 @@ BOOST_AUTO_TEST_CASE(throw_exceptions) {
   BOOST_CHECK_THROW(p->onProcessStart(), fire::Exception);
   BOOST_CHECK_THROW(p->onProcessEnd(), fire::Exception);
 
-  fire::Event event{fire::Event::test()};
+  fire::config::Parameters output_file;
+  output_file.add<std::string>("name", "processor.h5");
+  output_file.add("event_limit", 10);
+  output_file.add("rows_per_chunk", 1000);
+  output_file.add("compression_level", 6);
+  output_file.add("shuffle",false);
+  fire::h5::Writer of{10,output_file};
+
+  fire::Event event{fire::Event::test(of)};
   BOOST_REQUIRE_THROW(p->process(event), fire::Exception);
 
   // check that exception has correct name

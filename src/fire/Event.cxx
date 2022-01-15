@@ -31,9 +31,11 @@ bool Event::keep(const std::string& full_name, bool def) const {
   return rule_it == drop_keep_rules_.rend() ? def : rule_it->second;
 }
 
-Event::Event(const std::string& pass,
+Event::Event(h5::Writer& output_file,
+             const std::string& pass,
              const std::vector<config::Parameters>& dk_rules)
-    : pass_{pass},
+    : output_file_{output_file},
+      pass_{pass},
       input_file_{nullptr},
       i_entry_{0},
       header_{std::make_unique<EventHeader>()} {
@@ -61,14 +63,15 @@ Event::Event(const std::string& pass,
   }
 }
 
-void Event::save(h5::Writer& w) {
+void Event::save() {
   for (auto& [_, obj] : objects_)
-    if (obj.should_save_) obj.set_->save(w);
+    if (obj.should_save_) obj.set_->save(output_file_);
 }
 
-void Event::load(h5::Reader& r) {
+void Event::load() {
+  assert(input_file_);
   for (auto& [_, obj] : objects_)
-    if (obj.should_load_) obj.set_->load(r);
+    if (obj.should_load_) obj.set_->load(*input_file_);
 }
 
 void Event::setInputFile(h5::Reader& r) {
@@ -99,16 +102,16 @@ void Event::next() {
   for (auto& [_, obj] : objects_) obj.set_->clear();
 }
 
-void Event::done(h5::Writer& w) {
+void Event::done() {
   // make sure writer is flushed
-  w.flush();
+  output_file_.flush();
   
   // copy type traits into output as attributes
   for (const ProductTag& p : products_) {
     auto fn = fullName(p.name(), p.pass());
     if (objects_.find(fn) != objects_.end() and objects_.at(fn).should_save_) {
       // this product has been written to output file
-      w.setTypeName(fn, p.type());
+      output_file_.setTypeName(fn, p.type());
     }
   }
 }

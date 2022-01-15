@@ -54,7 +54,7 @@ class TestGet : public Producer {
       BOOST_TEST(event.get<int>("async") == event.header().number() * 1000);
     } else if (not same_sequence_) {
       // make sure async was cleared when put into output file
-      BOOST_TEST(event.get<int>("async") == 0);
+      BOOST_TEST(event.get<int>("async") == std::numeric_limits<int>::min());
     }
   }
 };

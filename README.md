@@ -42,13 +42,11 @@ Besides this core functionality of processors looking at data event-by-event, th
 - Interface to a conditions system for support data
 
 ### TBD
-- Test drop/keep rules
 - Much more documentation
 - Dockerfile for building container with `fire` and necessary dependencies
 - Tune compression/caching/chunking for our use case
 - Looping and starting offset in reader
 - More thorough HighFive exception handling
-- Asynchronous (i.e. not every event) `add` and `get` support
 
 ## Dependencies
 

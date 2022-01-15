@@ -83,6 +83,16 @@ class Event {
       obj.should_save_ = keep(full_name, true);
       obj.should_load_ = false;
       products_.emplace_back(name, pass_,boost::core::demangle(typeid(DataType).name()));
+
+      // if we are saving this object, we should save the default value for all entries
+      // up to this one. This (along with 'clearing' at the end of each event) 
+      // allows users to asyncronously add event objects and the events without an 'add'
+      // have a 'default' or 'cleared' object value.
+      if (obj.should_save_) {
+        obj.set_->clear();
+        for (std::size_t i{0}; i < i_entry_; i++)
+          obj.set_->save(output_file_);
+      }
     }
 
     try {
@@ -155,8 +165,10 @@ class Event {
       obj.set_ = std::make_unique<h5::DataSet<DataType>>(h5::Reader::EVENT_GROUP+"/"+full_name);
       obj.should_save_ = keep(full_name, false);
       obj.should_load_ = true;
-      //  this line may throw an error
-      obj.set_->load(*input_file_);
+      // get this object up to the current entry
+      //    loading may throw an H5 error
+      for (std::size_t i{0}; i < i_entry_+1; i++)
+        obj.set_->load(*input_file_);
     }
 
     // type casting, 'bad_cast' thrown if unable
@@ -172,9 +184,11 @@ class Event {
    * Get a test event bus.
    *
    * @note This should only be used for testing!.
+   *
+   * @param[in] test_file Output file to write any testing to.
    */
-  static Event test() {
-    return Event("test",{});
+  static Event test(h5::Writer& test_file) {
+    return Event(test_file,"test",{});
   }
 
   /// Delete the copy constructor to prevent any in-advertent copies.
@@ -233,28 +247,21 @@ class Event {
    * @param[in] pass name of current processing pass
    * @param[in] dk_rules configuration for the drop/keep rules
    */
-  Event(const std::string& pass,
+  Event(h5::Writer& output_file,
+        const std::string& pass,
         const std::vector<config::Parameters>& dk_rules);
 
   /**
    * Go through and save the current in-memory objects into
-   * the output file at the input index.
-   *
-   * We call the 'checkThenSave' method of the base data set class.
-   * This class checks if the data set was marked as should be saved
-   * when it was created.
-   *
-   * @param[in] f output HDF5 file to write to
+   * the output file.
    */
-  void save(h5::Writer& w);
+  void save();
 
   /**
-   * Go through and load the input index into the in-memory
+   * Go through and load the next entry into the in-memory
    * objects from the input file.
-   *
-   * @param[in] f input HDF5 file to read from
    */
-  void load(h5::Reader& r);
+  void load();
 
   /**
    * Attach a HDF5 file to this event as the input file
@@ -281,13 +288,15 @@ class Event {
    * This gives us an opportunity to go through the products in the output file
    * and attach the 'type' attributes to them
    */
-  void done(h5::Writer& w);
+  void done();
 
  private:
   /// header that we control
   std::unique_ptr<EventHeader> header_;
-  /// pointer to input file (maybe nullptr)
+  /// pointer to input file (nullptr if no input files)
   h5::Reader* input_file_;
+  /// handle to output file (owned by Process)
+  h5::Writer& output_file_;
   /// name of current processing pass
   std::string pass_;
   /**
