@@ -26,7 +26,7 @@ jobs:
     -
       name: test fire
       run: |
-        source .github/rootless-env.sh
+        source .github/env.sh
         echo "::group::Setup Environment"
         ldmx use dev hdf5
         ldmx base ..
