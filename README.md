@@ -47,6 +47,11 @@ Besides this core functionality of processors looking at data event-by-event, th
 - Tune compression/caching/chunking for our use case
 - Looping and starting offset in reader
 - More thorough HighFive exception handling
+- Split `cfg.py` into subcomponents for better maintainability
+- Implement a `merge.py` for combining multiple `fire` files
+  - Add executable which just calls this directly (modeled after `pip`)
+- Shrink chunks if few events? Reduce size of file for low events?
+- Test python package with pytest
 
 ## Dependencies
 
