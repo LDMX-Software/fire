@@ -8,11 +8,11 @@ It's a stretch but it's worth it for the cool name.
   <a href="http://perso.crans.org/besson/LICENSE.html" alt="GPLv3 license">
     <img src="https://img.shields.io/badge/License-GPLv3-blue.svg" />
   </a>
-  <a href="https://github.com/LDMX-Software/Framework/actions" alt="Actions">
-    <img src="https://img.shields.io/github/workflow/status/LDMX-Software/Framework/CI" />
+  <a href="https://github.com/LDMX-Software/fire/actions" alt="Actions">
+    <img src="https://img.shields.io/github/workflow/status/LDMX-Software/fire/CI" />
   </a>
-  <a href="https://github.com/LDMX-Software/Framework/releases" alt="Releases">
-    <img src="https://img.shields.io/github/v/release/LDMX-Software/Framework" />
+  <a href="https://github.com/LDMX-Software/fire/releases" alt="Releases">
+    <img src="https://img.shields.io/github/v/release/LDMX-Software/fire" />
   </a>
 </p>
 
