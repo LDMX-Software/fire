@@ -12,8 +12,9 @@ if ! hash ldmx &> /dev/null; then
   return 1
 fi
 
-# shared variables for the action
-mkdir -p ${BENCH_OUTPUT_DIR} || { rc=$?; echo "Unable to create output dir."; return $rc; }
+if [ ! -z $BENCH_OUTPUT_DIR ]; then
+  mkdir -p ${BENCH_OUTPUT_DIR} || { rc=$?; echo "Unable to create output dir."; return $rc; }
+fi
 
 group() {
   echo "::group::$@"
