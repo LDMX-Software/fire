@@ -26,33 +26,34 @@ jobs:
     -
       name: test fire
       run: |
-        source .github/env.sh
-        echo "::group::Setup Environment"
+        source .github/workflows/env.sh
+        __group__ Init Environment
         ldmx use dev hdf5
         ldmx base ..
-        echo "::endgroup::"
-        echo "::group::Configure Build"
+        __endgroup__
+        __group__ Configure Build
         ldmx cmake -B build -S . -DCMAKE_INSTALL_PREFIX=${LDMX_BASE}/.container-install
-        echo "::endgroup::"
-        echo "::group::Build fire"
+        __endgroup__
+        __group__ Build fire
         ldmx cmake --build build
-        echo "::endgroup::"
-        echo "::group::Test fire"
+        __endgroup__
+        __group__ Test fire
         ldmx cmake --build build --target test
-        echo "::endgroup::"
-        echo "::group::Install fire for Test Module"
+        __endgroup__
+        __group__ Install fire for Test Module
         ldmx cmake --build build/ --target install
-        echo "::endgroup::"
-        echo "::group::Use fire in Test Module"
-        echo "::group::Configure Test Module"
+        __endgroup__
+        __group__ Configure Test Module
         ldmx cmake -B build/test/module -S test/module \
           -DCMAKE_INSTALL_PREFIX=${LDMX_BASE}/.container-install
-        echo "::endgroup::"
-        echo "::group::Build and Install Test Module"
+        __endgroup__
+        __group__ Build and Install Test Module
         ldmx cmake --build build/test/module --target install
-        echo "::endgroup::"
-        echo "::group::Test Module Production"
-        ldmx fire test/module/production.py
-        echo "::endgroup::"
-        echo "::endgroup::"
+        __endgroup__
+        __group__ Run Test Production
+        ldmx fire test/module/prod.py 10
+        __endgroup__
+        __group__ Run Test Reconstruction
+        ldmx fire test/module/recon.py test/module/output/output_10.h5
+        __endgroup__
 
