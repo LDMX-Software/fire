@@ -64,7 +64,7 @@ jobs:
         shell: bash
     env:
       BENCH_OUTPUT_DIR: .github/workflows/output
-      BENCH_OUTPUT_FILE: .github/workflows/output/data.csv
+      BENCH_DATA_FILE: .github/workflows/output/data.csv
       GITHUB_DEFAULT_BRANCH: trunk
       GITHUB_PR_NUMBER: ${{github.event.number}}
       N_TRIALS: 10
@@ -95,7 +95,7 @@ jobs:
         group Run Benchmark
         run_bench ${GITHUB_BRANCH} ${N_TRIALS} ${NEVENT_SAMPLE_POINTS}
         group Cleanup
-        git clean -xxfd -e ${BENCH_OUTPUT_FILE}
+        git clean -xxfd -e ${BENCH_OUTPUT_DIR}
     -
       name: switch to trunk
       uses: actions/checkout@v2
@@ -123,7 +123,7 @@ jobs:
         group Run Benchmark
         run_bench ${GITHUB_BRANCH} ${N_TRIALS} ${NEVENT_SAMPLE_POINTS}
         group Cleanup
-        git clean -xxfd -e ${BENCH_OUTPUT_FILE}
+        git clean -xxfd -e ${BENCH_OUTPUT_DIR}
     -
       name: Setup Python
       uses: actions/setup-python@v2
