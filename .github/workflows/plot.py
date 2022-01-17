@@ -69,7 +69,7 @@ def main() :
             prod[prod['serializer']==branch_name]['time'].to_numpy(),
             prod[prod['serializer']==branch_name]['size'].to_numpy(),
             branch_name, 'Production')
-        plt.savefig('production_'+data_file.replace('csv','png'))
+        plt.savefig(f'{os.path.dirname(data_file)}/production_{data_file.replace("csv","png")}')
         plt.clf()
 
         reco = data[data['mode']=='recon']
@@ -80,7 +80,7 @@ def main() :
             reco[reco['serializer']==branch_name]['time'].to_numpy(),
             reco[reco['serializer']==branch_name]['size'].to_numpy(),
             branch_name, 'Reconstruction')
-        plt.savefig('recon_'+data_file.replace('csv','png'))
+        plt.savefig(f'{os.path.dirname(data_file)}/recon_{data_file.replace("csv","png")}')
         plt.clf()
 
     sys.exit(0)

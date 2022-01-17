@@ -80,7 +80,7 @@ jobs:
       run: |
         source .github/workflows/env.sh
         group Init Environment
-        export GITHUB_BRANCH=${GITHUB_REF#refs/heads/}
+        export GITHUB_BRANCH=pr-${GITHUB_REF#refs/pull/}
         ldmx use dev hdf5
         ldmx base ..
         group Build fire
@@ -108,7 +108,7 @@ jobs:
       run: |
         source .github/workflows/env.sh
         group Init Environment
-        export GITHUB_BRANCH=${GITHUB_REF#refs/heads/}
+        export GITHUB_BRANCH=trunk
         ldmx use dev hdf5
         ldmx base ..
         group Build fire
