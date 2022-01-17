@@ -67,7 +67,7 @@ jobs:
       BENCH_DATA_FILE: .github/workflows/output/data.csv
       GITHUB_PR_NUMBER: ${{github.event.number}}
       N_TRIALS: 10
-      NEVENT_SAMPLE_POINTS: "1 5 10 50"
+      NEVENT_SAMPLE_POINTS: "1 5 10 50 100"
     steps:
     - 
       name: get fire
