@@ -3,7 +3,8 @@ name: Benchmark
 
 on:
   push:
-    - iss7-bench-pr
+    branches:
+      - iss7-bench-pr
   pull_request:
     branches:
       - trunk
