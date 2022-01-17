@@ -87,17 +87,15 @@ jobs:
           -DCMAKE_INSTALL_PREFIX=${LDMX_BASE}/.container-install
         group Build fire
         ldmx cmake --build build
-        group Test fire
-        ldmx cmake --build build --target test
-        group Install fire for Test Module
         ldmx cmake --build build/ --target install
-        group Configure Test Module
+        group Build Test Module
         ldmx cmake -B build/test/module -S test/module \
           -DCMAKE_INSTALL_PREFIX=${LDMX_BASE}/.container-install
-        group Build and Install Test Module
         ldmx cmake --build build/test/module --target install
         group Run Benchmark
         run_bench ${GITHUB_BRANCH} ${N_TRIALS} ${NEVENT_SAMPLE_POINTS}
+        group Cleanup
+        rm -vr build
 
         group Switch to ${GITHUB_DEFAULT_BRANCH}
         git checkout ${GITHUB_DEFAULT_BRANCH}
@@ -108,14 +106,10 @@ jobs:
           -DCMAKE_INSTALL_PREFIX=${LDMX_BASE}/.container-install
         group Build fire
         ldmx cmake --build build
-        group Test fire
-        ldmx cmake --build build --target test
-        group Install fire for Test Module
         ldmx cmake --build build/ --target install
-        group Configure Test Module
+        group Build Test Module
         ldmx cmake -B build/test/module -S test/module \
           -DCMAKE_INSTALL_PREFIX=${LDMX_BASE}/.container-install
-        group Build and Install Test Module
         ldmx cmake --build build/test/module --target install
         group Run Benchmark
         run_bench ${GITHUB_DEFAULT_BRANCH} ${N_TRIALS} ${NEVENT_SAMPLE_POINTS}
