@@ -71,12 +71,14 @@ run_bench() {
     echo "  benchmarking ${n_events} Events"
     local t=$(__time__ ${trials} ${FIRE_TEST_MODULE_PATH}/produce.py ${n_events})
     [[ "$?" != "0" ]] && { echo "fire produce.py Errored Out!"; return 1; }
-    local produce_output="${FIRE_TEST_MODULE_PATH}/output/${n_events}.h5"
+    local produce_output="${FIRE_TEST_MODULE_PATH}/output_${n_events}.h5"
     local s=$(stat -c "%s" ${produce_output})
+    [[ "$?" != "0" ]] && return 1
     __print_csv_line__ ${runner} ${tag} produce ${n_events} ${t} ${s} | tee -a ${BENCH_DATA_FILE}
     t=$(__time__ ${trials} ${FIRE_TEST_MODULE_PATH}/recon.py ${produce_output})
     [[ "$?" != "0" ]] && { echo "fire recon.py Errored Out!"; return 1; }
-    s=$(stat -c "%s" output/recon_output_${n_events}) 
+    s=$(stat -c "%s" ${FIRE_TEST_MODULE_PATH}/recon_output_${n_events}.h5) 
+    [[ "$?" != "0" ]] && return 1
     __print_csv_line__ ${runner} ${tag} recon ${n_events} ${t} ${s} | tee -a ${BENCH_DATA_FILE}
   done
 }

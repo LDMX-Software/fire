@@ -40,17 +40,17 @@ jobs:
         group Switch to ${GITHUB_BRANCH}
         git checkout ${GITHUB_BRANCH}
         group Configure Build
-        ldmx cmake -B build/${GITHUB_BRANCH} -S . -DCMAKE_INSTALL_PREFIX=.container-install
+        ldmx cmake -B build/${GITHUB_BRANCH} -S . \
+          -DCMAKE_INSTALL_PREFIX=${LDMX_BASE}/.container-install
         group Build and Install
         ldmx cmake --build build/${GITHUB_BRANCH} --target install
         group Build Test Module
         ldmx cmake -B build/${GITHUB_BRANCH}/test/module -S test/module \
-          -DCMAKE_INSTALL_PREFIX=.container-install
+          -DCMAKE_INSTALL_PREFIX=${LDMX_BASE}/.container-install
         ldmx cmake --build build/${GITHUB_BRANCH}/test/module --target install
         group Run Benchmark
         run_bench ${GITHUB_BRANCH} ${N_TRIALS} ${NEVENT_SAMPLE_POINTS}
-        group Delete Output Files
-        rm -vr output
+
         group Post Outputs
         set_output dir ${BENCH_OUTPUT_DIR}
         set_output file ${BENCH_DATA_FILE}

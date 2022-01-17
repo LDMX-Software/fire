@@ -27,33 +27,24 @@ jobs:
       name: test fire
       run: |
         source .github/workflows/env.sh
-        __group__ Init Environment
+        group Init Environment
         ldmx use dev hdf5
         ldmx base ..
-        __endgroup__
-        __group__ Configure Build
+        group Configure Build
         ldmx cmake -B build -S . -DCMAKE_INSTALL_PREFIX=${LDMX_BASE}/.container-install
-        __endgroup__
-        __group__ Build fire
+        group Build fire
         ldmx cmake --build build
-        __endgroup__
-        __group__ Test fire
+        group Test fire
         ldmx cmake --build build --target test
-        __endgroup__
-        __group__ Install fire for Test Module
+        group Install fire for Test Module
         ldmx cmake --build build/ --target install
-        __endgroup__
-        __group__ Configure Test Module
+        group Configure Test Module
         ldmx cmake -B build/test/module -S test/module \
           -DCMAKE_INSTALL_PREFIX=${LDMX_BASE}/.container-install
-        __endgroup__
-        __group__ Build and Install Test Module
+        group Build and Install Test Module
         ldmx cmake --build build/test/module --target install
-        __endgroup__
-        __group__ Run Test Production
+        group Run Test Production
         ldmx fire test/module/prod.py 10
-        __endgroup__
-        __group__ Run Test Reconstruction
+        group Run Test Reconstruction
         ldmx fire test/module/recon.py test/module/output/output_10.h5
-        __endgroup__
 
