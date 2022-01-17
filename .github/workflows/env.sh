@@ -43,16 +43,9 @@ __time__() {
     END { if (nr>0) printf("%f\n", real/nr); }'
 }
 
-__runner__() {
-  [ -f /.dockerenv ] && { echo "docker"; return 0; }
-  [ -f /singularity ] && { echo "singularity"; return 0; }
-  echo "bare"
-  return 0
-}
-
 # Print the five inputs into the five columns of a CSV line
 __print_csv_line__() {
-  printf "%s,%s,%s,%s,%s,%s\n" $@
+  printf "%s,%s,%s,%s,%s\n" $@
 }
 
 # input trials per n_events run and then squence of n_events to run
@@ -62,8 +55,7 @@ __print_csv_line__() {
 run_bench() {
   local tag=$1; shift
   local trials=$1; shift
-  [ -f ${BENCH_DATA_FILE} ] || __print_csv_line__ runner serializer mode events time size | tee ${BENCH_DATA_FILE}
-  local runner=$(__runner__)
+  [ -f ${BENCH_DATA_FILE} ] || __print_csv_line__ branch  mode events time size | tee ${BENCH_DATA_FILE}
   local n_events
   for n_events in $@; do
     echo "  benchmarking ${n_events} Events"
@@ -72,12 +64,12 @@ run_bench() {
     local produce_output="${FIRE_TEST_MODULE_PATH}/output_${n_events}.h5"
     local s=$(stat -c "%s" ${produce_output})
     [[ "$?" != "0" ]] && return 1
-    __print_csv_line__ ${runner} ${tag} produce ${n_events} ${t} ${s} | tee -a ${BENCH_DATA_FILE}
+    __print_csv_line__ ${tag} produce ${n_events} ${t} ${s} | tee -a ${BENCH_DATA_FILE}
     t=$(__time__ ${trials} ${FIRE_TEST_MODULE_PATH}/recon.py ${produce_output})
     [[ "$?" != "0" ]] && { echo "fire recon.py Errored Out!"; return 1; }
     s=$(stat -c "%s" ${FIRE_TEST_MODULE_PATH}/recon_output_${n_events}.h5) 
     [[ "$?" != "0" ]] && return 1
-    __print_csv_line__ ${runner} ${tag} recon ${n_events} ${t} ${s} | tee -a ${BENCH_DATA_FILE}
+    __print_csv_line__ ${tag} recon ${n_events} ${t} ${s} | tee -a ${BENCH_DATA_FILE}
   done
 }
 

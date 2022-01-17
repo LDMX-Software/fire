@@ -51,36 +51,38 @@ def main() :
         sys.stderr.write('ERROR: Need to provide file(s) with benchmarking data.\n')
         sys.exit(1)
 
-    branch_name = os.environ['GITHUB_REF'].replace('refs/heads/','')
+    name='pr-'+os.environ['GITHUB_PR_NUMBER']
 
-    for data_file in sys.argv[2:] :
+    for data_file in sys.argv[1:] :
         if not os.path.isfile(data_file) :
             sys.stderr.write(f'ERROR: {data_file} not accessible.\n')
             sys.exit(2)
 
         data = pd.read_csv(data_file)
+
+        filename = os.path.basename(data_file).replace('csv','png')
+        dirname = os.path.dirname(data_file)
     
         prod = data[data['mode']=='produce']
-    
         bench_plot(
-            prod[prod['serializer']=='trunk']['events'].to_numpy(),
-            prod[prod['serializer']=='trunk']['time'].to_numpy(),
-            prod[prod['serializer']=='trunk']['size'].to_numpy(),
-            prod[prod['serializer']==branch_name]['time'].to_numpy(),
-            prod[prod['serializer']==branch_name]['size'].to_numpy(),
-            branch_name, 'Production')
-        plt.savefig(f'{os.path.dirname(data_file)}/production_{data_file.replace("csv","png")}')
+            prod[prod['branch']=='trunk']['events'].to_numpy(),
+            prod[prod['branch']=='trunk']['time'].to_numpy(),
+            prod[prod['branch']=='trunk']['size'].to_numpy(),
+            prod[prod['branch']==name]['time'].to_numpy(),
+            prod[prod['branch']==name]['size'].to_numpy(),
+            name, 'Production')
+        plt.savefig(f'{dirname}/production_{filename}')
         plt.clf()
 
         reco = data[data['mode']=='recon']
         bench_plot(
-            reco[reco['serializer']=='trunk']['events'].to_numpy(),
-            reco[reco['serializer']=='trunk']['time'].to_numpy(),
-            reco[reco['serializer']=='trunk']['size'].to_numpy(),
-            reco[reco['serializer']==branch_name]['time'].to_numpy(),
-            reco[reco['serializer']==branch_name]['size'].to_numpy(),
-            branch_name, 'Reconstruction')
-        plt.savefig(f'{os.path.dirname(data_file)}/recon_{data_file.replace("csv","png")}')
+            reco[reco['branch']=='trunk']['events'].to_numpy(),
+            reco[reco['branch']=='trunk']['time'].to_numpy(),
+            reco[reco['branch']=='trunk']['size'].to_numpy(),
+            reco[reco['branch']==name]['time'].to_numpy(),
+            reco[reco['branch']==name]['size'].to_numpy(),
+            name, 'Reconstruction')
+        plt.savefig(f'{dirname}/recon_{filename}')
         plt.clf()
 
     sys.exit(0)

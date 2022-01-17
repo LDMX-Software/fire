@@ -65,7 +65,6 @@ jobs:
     env:
       BENCH_OUTPUT_DIR: .github/workflows/output
       BENCH_DATA_FILE: .github/workflows/output/data.csv
-      GITHUB_DEFAULT_BRANCH: trunk
       GITHUB_PR_NUMBER: ${{github.event.number}}
       N_TRIALS: 10
       NEVENT_SAMPLE_POINTS: "1 5 10 50"
@@ -80,7 +79,6 @@ jobs:
       run: |
         source .github/workflows/env.sh
         group Init Environment
-        export GITHUB_BRANCH=pr-${GITHUB_REF#refs/pull/}
         ldmx use dev hdf5
         ldmx base ..
         group Build fire
@@ -93,7 +91,7 @@ jobs:
           -DCMAKE_INSTALL_PREFIX=${LDMX_BASE}/.container-install
         ldmx cmake --build build/test/module --target install
         group Run Benchmark
-        run_bench ${GITHUB_BRANCH} ${N_TRIALS} ${NEVENT_SAMPLE_POINTS}
+        run_bench pr-${GITHUB_PR_NUMBER} ${N_TRIALS} ${NEVENT_SAMPLE_POINTS}
         group Cleanup
         git clean -xxfd -e ${BENCH_OUTPUT_DIR}
     -
@@ -108,7 +106,6 @@ jobs:
       run: |
         source .github/workflows/env.sh
         group Init Environment
-        export GITHUB_BRANCH=trunk
         ldmx use dev hdf5
         ldmx base ..
         group Build fire
@@ -121,7 +118,7 @@ jobs:
           -DCMAKE_INSTALL_PREFIX=${LDMX_BASE}/.container-install
         ldmx cmake --build build/test/module --target install
         group Run Benchmark
-        run_bench ${GITHUB_BRANCH} ${N_TRIALS} ${NEVENT_SAMPLE_POINTS}
+        run_bench trunk ${N_TRIALS} ${NEVENT_SAMPLE_POINTS}
         group Cleanup
         git clean -xxfd -e ${BENCH_OUTPUT_DIR}
     -
