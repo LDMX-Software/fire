@@ -63,6 +63,8 @@ jobs:
       run:
         shell: bash
     env:
+      BENCH_OUTPUT_DIR: .github/workflows/output
+      BENCH_OUTPUT_FILE: .github/workflows/output/data.csv
       GITHUB_DEFAULT_BRANCH: trunk
       GITHUB_PR_NUMBER: ${{github.event.number}}
       N_TRIALS: 10
@@ -74,19 +76,17 @@ jobs:
       with:
         submodules: 'recursive'
     -
-      name: bench fire
+      name: bench developments
       run: |
         source .github/workflows/env.sh
         group Init Environment
         export GITHUB_BRANCH=${GITHUB_REF#refs/heads/}
         ldmx use dev hdf5
         ldmx base ..
-        group Configure Build
+        group Build fire
         ldmx cmake -B build -S . \
           -DBUILD_TESTING=OFF \
           -DCMAKE_INSTALL_PREFIX=${LDMX_BASE}/.container-install
-        group Build fire
-        ldmx cmake --build build
         ldmx cmake --build build/ --target install
         group Build Test Module
         ldmx cmake -B build/test/module -S test/module \
@@ -95,29 +95,35 @@ jobs:
         group Run Benchmark
         run_bench ${GITHUB_BRANCH} ${N_TRIALS} ${NEVENT_SAMPLE_POINTS}
         group Cleanup
-        rm -vr build
-
-        group Switch to ${GITHUB_DEFAULT_BRANCH}
-        git checkout ${GITHUB_DEFAULT_BRANCH}
-
-        group Configure Build
+        git clean -xxfd -e ${BENCH_OUTPUT_FILE}
+    -
+      name: switch to trunk
+      uses: actions/checkout@v2
+      with:
+        ref: 'trunk'
+        submodules: 'recursive'
+        clean: false
+    -
+      name: bench trunk
+      run: |
+        source .github/workflows/env.sh
+        group Init Environment
+        export GITHUB_BRANCH=${GITHUB_REF#refs/heads/}
+        ldmx use dev hdf5
+        ldmx base ..
+        group Build fire
         ldmx cmake -B build -S . \
           -DBUILD_TESTING=OFF \
           -DCMAKE_INSTALL_PREFIX=${LDMX_BASE}/.container-install
-        group Build fire
-        ldmx cmake --build build
         ldmx cmake --build build/ --target install
         group Build Test Module
         ldmx cmake -B build/test/module -S test/module \
           -DCMAKE_INSTALL_PREFIX=${LDMX_BASE}/.container-install
         ldmx cmake --build build/test/module --target install
         group Run Benchmark
-        run_bench ${GITHUB_DEFAULT_BRANCH} ${N_TRIALS} ${NEVENT_SAMPLE_POINTS}
-
-        group Post Outputs
-        set_output dir ${BENCH_OUTPUT_DIR}
-        set_output file ${BENCH_DATA_FILE}
-        echo "::endgroup::"
+        run_bench ${GITHUB_BRANCH} ${N_TRIALS} ${NEVENT_SAMPLE_POINTS}
+        group Cleanup
+        git clean -xxfd -e ${BENCH_OUTPUT_FILE}
     -
       name: Setup Python
       uses: actions/setup-python@v2
@@ -129,14 +135,12 @@ jobs:
     -
       name: Plot
       run: python .github/workflows/plot.py ${BENCH_DATA_FILE}
-      env:
-        BENCH_DATA_FILE: ${{steps.bench.outputs.file}}
     -
       name: Upload Results
       uses: actions/upload-artifact@v2
       with:
         name: Benchmark-Results-PR-${{github.event.number}}
-        path: ${{steps.bench.outputs.dir}}
+        path: ${{env.BENCH_OUTPUT_DIR}}
         if-no-files-found: error
 
   update-docs:

@@ -13,12 +13,9 @@ if ! hash ldmx &> /dev/null; then
 fi
 
 # shared variables for the action
-export BENCH_OUTPUT_DIR=${GITHUB_WORKFLOWS_PATH}/output
 mkdir -p ${BENCH_OUTPUT_DIR} || { rc=$?; echo "Unable to create output dir."; return $rc; }
-export BENCH_DATA_FILE=${BENCH_OUTPUT_DIR}/data.csv
 
 group() {
-  echo "::engroup::"
   echo "::group::$@"
 }
 
