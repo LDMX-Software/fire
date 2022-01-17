@@ -15,10 +15,10 @@ var dir_c5d46fedc6ca6ca01b5c0ce44b89a70b =
     [ "Process.h", "Process_8h_source.html", null ],
     [ "Processor.h", "Processor_8h_source.html", null ],
     [ "ProductTag.h", "ProductTag_8h.html", [
-      [ "ProductTag", "classfire_1_1ProductTag.html", "classfire_1_1ProductTag" ]
+      [ "fire::ProductTag", "classfire_1_1ProductTag.html", "classfire_1_1ProductTag" ]
     ] ],
     [ "RandomNumberSeedService.h", "RandomNumberSeedService_8h.html", [
-      [ "RandomNumberSeedService", "classfire_1_1RandomNumberSeedService.html", "classfire_1_1RandomNumberSeedService" ]
+      [ "fire::RandomNumberSeedService", "classfire_1_1RandomNumberSeedService.html", "classfire_1_1RandomNumberSeedService" ]
     ] ],
     [ "RunHeader.h", "RunHeader_8h_source.html", null ],
     [ "StorageControl.h", "StorageControl_8h_source.html", null ]

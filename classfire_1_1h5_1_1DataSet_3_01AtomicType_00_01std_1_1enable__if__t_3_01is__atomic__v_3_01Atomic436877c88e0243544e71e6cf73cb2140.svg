@@ -38,7 +38,7 @@
 <!-- Node3 -->
 <g id="node3" class="node">
 <title>Node3</title>
-<g id="a_node3"><a xlink:href="classfire_1_1h5_1_1BaseDataSet.html" target="_top" xlink:title=" ">
+<g id="a_node3"><a xlink:href="classfire_1_1h5_1_1BaseDataSet.html" target="_top" xlink:title="Empty dataset base allowing recursion.">
 <polygon fill="none" stroke="black" points="45,-145.5 45,-164.5 164,-164.5 164,-145.5 45,-145.5"/>
 <text text-anchor="middle" x="104.5" y="-152.5" font-family="Helvetica,sans-Serif" font-size="10.00">fire::h5::BaseDataSet</text>
 </a>

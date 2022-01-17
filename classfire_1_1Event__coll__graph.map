@@ -1,4 +1,5 @@
 <map id="fire::Event" name="fire::Event">
-<area shape="rect" id="node1" title="Event class for interfacing with processors." alt="" coords="22,95,110,121"/>
+<area shape="rect" id="node1" title="Event class for interfacing with processors." alt="" coords="93,95,181,121"/>
 <area shape="rect" id="node2" href="$classfire_1_1h5_1_1Reader.html" title="A HighFive::File specialized to fire&#39;s usecase." alt="" coords="5,5,127,32"/>
+<area shape="rect" id="node3" href="$classfire_1_1h5_1_1Writer.html" title="A HighFive::File specialized to fire&#39;s usecase." alt="" coords="151,5,266,32"/>
 </map>

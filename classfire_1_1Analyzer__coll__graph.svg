@@ -5,15 +5,15 @@
  -->
 <!-- Title: fire::Analyzer Pages: 1 -->
 <svg width="457pt" height="286pt"
- viewBox="0.00 0.00 456.50 286.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ viewBox="0.00 0.00 457.00 286.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 282)">
 <title>fire::Analyzer</title>
 <!-- Node1 -->
 <g id="node1" class="node">
 <title>Node1</title>
 <g id="a_node1"><a xlink:title="Base class for a module which does not produce a data product.">
-<polygon fill="#bfbfbf" stroke="black" points="101,-0.5 101,-19.5 182,-19.5 182,-0.5 101,-0.5"/>
-<text text-anchor="middle" x="141.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">fire::Analyzer</text>
+<polygon fill="#bfbfbf" stroke="black" points="116.5,-0.5 116.5,-19.5 197.5,-19.5 197.5,-0.5 116.5,-0.5"/>
+<text text-anchor="middle" x="157" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">fire::Analyzer</text>
 </a>
 </g>
 </g>
@@ -21,151 +21,158 @@
 <g id="node2" class="node">
 <title>Node2</title>
 <g id="a_node2"><a xlink:href="classfire_1_1Processor.html" target="_top" xlink:title="Base class for all event processing components.">
-<polygon fill="none" stroke="black" points="98.5,-57.5 98.5,-76.5 184.5,-76.5 184.5,-57.5 98.5,-57.5"/>
-<text text-anchor="middle" x="141.5" y="-64.5" font-family="Helvetica,sans-Serif" font-size="10.00">fire::Processor</text>
+<polygon fill="none" stroke="black" points="114,-57.5 114,-76.5 200,-76.5 200,-57.5 114,-57.5"/>
+<text text-anchor="middle" x="157" y="-64.5" font-family="Helvetica,sans-Serif" font-size="10.00">fire::Processor</text>
 </a>
 </g>
 </g>
 <!-- Node2&#45;&gt;Node1 -->
 <g id="edge1" class="edge">
 <title>Node2&#45;&gt;Node1</title>
-<path fill="none" stroke="midnightblue" d="M141.5,-47.12C141.5,-37.82 141.5,-27.06 141.5,-19.71"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="138,-47.41 141.5,-57.41 145,-47.41 138,-47.41"/>
+<path fill="none" stroke="midnightblue" d="M157,-47.12C157,-37.82 157,-27.06 157,-19.71"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="153.5,-47.41 157,-57.41 160.5,-47.41 153.5,-47.41"/>
 </g>
 <!-- Node3 -->
 <g id="node3" class="node">
 <title>Node3</title>
 <g id="a_node3"><a xlink:href="classfire_1_1Process.html" target="_top" xlink:title=" ">
-<polygon fill="none" stroke="black" points="172.5,-124.5 172.5,-143.5 248.5,-143.5 248.5,-124.5 172.5,-124.5"/>
-<text text-anchor="middle" x="210.5" y="-131.5" font-family="Helvetica,sans-Serif" font-size="10.00">fire::Process</text>
+<polygon fill="none" stroke="black" points="188,-124.5 188,-143.5 264,-143.5 264,-124.5 188,-124.5"/>
+<text text-anchor="middle" x="226" y="-131.5" font-family="Helvetica,sans-Serif" font-size="10.00">fire::Process</text>
 </a>
 </g>
 </g>
 <!-- Node3&#45;&gt;Node2 -->
 <g id="edge2" class="edge">
 <title>Node3&#45;&gt;Node2</title>
-<path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M172.75,-119.92C166,-116.25 159.52,-111.66 154.5,-106 147.1,-97.65 143.87,-84.9 142.49,-76.5"/>
-<polygon fill="#9a32cd" stroke="#9a32cd" points="171.49,-123.2 182.02,-124.38 174.52,-116.89 171.49,-123.2"/>
-<text text-anchor="middle" x="177.5" y="-98" font-family="Helvetica,sans-Serif" font-size="10.00"> process_</text>
+<path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M188.25,-119.92C181.5,-116.25 175.02,-111.66 170,-106 162.6,-97.65 159.37,-84.9 157.99,-76.5"/>
+<polygon fill="#9a32cd" stroke="#9a32cd" points="186.99,-123.2 197.52,-124.38 190.02,-116.89 186.99,-123.2"/>
+<text text-anchor="middle" x="193" y="-98" font-family="Helvetica,sans-Serif" font-size="10.00"> process_</text>
 </g>
-<!-- Node10 -->
-<g id="node10" class="node">
-<title>Node10</title>
-<g id="a_node10"><a xlink:href="classfire_1_1Conditions.html" target="_top" xlink:title="Container and cache for conditions and conditions providers.">
-<polygon fill="none" stroke="black" points="218.5,-57.5 218.5,-76.5 308.5,-76.5 308.5,-57.5 218.5,-57.5"/>
-<text text-anchor="middle" x="263.5" y="-64.5" font-family="Helvetica,sans-Serif" font-size="10.00">fire::Conditions</text>
+<!-- Node6 -->
+<g id="node6" class="node">
+<title>Node6</title>
+<g id="a_node6"><a xlink:href="classfire_1_1Conditions.html" target="_top" xlink:title="Container and cache for conditions and conditions providers.">
+<polygon fill="none" stroke="black" points="234,-57.5 234,-76.5 324,-76.5 324,-57.5 234,-57.5"/>
+<text text-anchor="middle" x="279" y="-64.5" font-family="Helvetica,sans-Serif" font-size="10.00">fire::Conditions</text>
 </a>
 </g>
 </g>
-<!-- Node3&#45;&gt;Node10 -->
-<g id="edge10" class="edge">
-<title>Node3&#45;&gt;Node10</title>
-<path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M204.63,-114.34C203.66,-107.8 203.94,-100.67 207.5,-95 212.84,-86.5 221.69,-80.61 230.79,-76.56"/>
-<polygon fill="#9a32cd" stroke="#9a32cd" points="201.32,-115.55 207.07,-124.45 208.12,-113.91 201.32,-115.55"/>
-<text text-anchor="middle" x="230.5" y="-98" font-family="Helvetica,sans-Serif" font-size="10.00"> process_</text>
+<!-- Node3&#45;&gt;Node6 -->
+<g id="edge6" class="edge">
+<title>Node3&#45;&gt;Node6</title>
+<path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M220.13,-114.34C219.16,-107.8 219.44,-100.67 223,-95 228.34,-86.5 237.19,-80.61 246.29,-76.56"/>
+<polygon fill="#9a32cd" stroke="#9a32cd" points="216.82,-115.55 222.57,-124.45 223.62,-113.91 216.82,-115.55"/>
+<text text-anchor="middle" x="246" y="-98" font-family="Helvetica,sans-Serif" font-size="10.00"> process_</text>
 </g>
 <!-- Node4 -->
 <g id="node4" class="node">
 <title>Node4</title>
-<g id="a_node4"><a xlink:href="classfire_1_1Event.html" target="_top" xlink:title="Event class for interfacing with processors.">
-<polygon fill="none" stroke="black" points="12.5,-191.5 12.5,-210.5 78.5,-210.5 78.5,-191.5 12.5,-191.5"/>
-<text text-anchor="middle" x="45.5" y="-198.5" font-family="Helvetica,sans-Serif" font-size="10.00">fire::Event</text>
+<g id="a_node4"><a xlink:href="classfire_1_1h5_1_1Writer.html" target="_top" xlink:title="A HighFive::File specialized to fire&#39;s usecase.">
+<polygon fill="none" stroke="black" points="0,-258.5 0,-277.5 86,-277.5 86,-258.5 0,-258.5"/>
+<text text-anchor="middle" x="43" y="-265.5" font-family="Helvetica,sans-Serif" font-size="10.00">fire::h5::Writer</text>
 </a>
 </g>
 </g>
 <!-- Node4&#45;&gt;Node3 -->
 <g id="edge3" class="edge">
 <title>Node4&#45;&gt;Node3</title>
-<path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M68.19,-186.26C81.84,-178.41 99.76,-168.79 116.5,-162 135.06,-154.47 156.49,-148.14 174.19,-143.51"/>
-<polygon fill="#9a32cd" stroke="#9a32cd" points="66.34,-183.29 59.48,-191.37 69.88,-189.33 66.34,-183.29"/>
-<text text-anchor="middle" x="135" y="-165" font-family="Helvetica,sans-Serif" font-size="10.00"> event_</text>
-</g>
-<!-- Node5 -->
-<g id="node5" class="node">
-<title>Node5</title>
-<g id="a_node5"><a xlink:href="classfire_1_1h5_1_1Reader.html" target="_top" xlink:title="A HighFive::File specialized to fire&#39;s usecase.">
-<polygon fill="none" stroke="black" points="0,-258.5 0,-277.5 91,-277.5 91,-258.5 0,-258.5"/>
-<text text-anchor="middle" x="45.5" y="-265.5" font-family="Helvetica,sans-Serif" font-size="10.00">fire::h5::Reader</text>
-</a>
-</g>
-</g>
-<!-- Node5&#45;&gt;Node4 -->
-<g id="edge4" class="edge">
-<title>Node5&#45;&gt;Node4</title>
-<path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M45.5,-248.04C45.5,-235.67 45.5,-220.12 45.5,-210.63"/>
-<polygon fill="#9a32cd" stroke="#9a32cd" points="42,-248.23 45.5,-258.23 49,-248.23 42,-248.23"/>
-<text text-anchor="middle" x="72.5" y="-232" font-family="Helvetica,sans-Serif" font-size="10.00"> input_file_</text>
-</g>
-<!-- Node6 -->
-<g id="node6" class="node">
-<title>Node6</title>
-<g id="a_node6"><a xlink:href="classfire_1_1StorageControl.html" target="_top" xlink:title="Isolation of voting system deciding if events should be kept.">
-<polygon fill="none" stroke="black" points="97,-191.5 97,-210.5 208,-210.5 208,-191.5 97,-191.5"/>
-<text text-anchor="middle" x="152.5" y="-198.5" font-family="Helvetica,sans-Serif" font-size="10.00">fire::StorageControl</text>
-</a>
-</g>
-</g>
-<!-- Node6&#45;&gt;Node3 -->
-<g id="edge5" class="edge">
-<title>Node6&#45;&gt;Node3</title>
-<path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M154.42,-181.12C155.83,-174.55 158.28,-167.46 162.5,-162 168.7,-153.98 177.99,-147.97 186.76,-143.69"/>
-<polygon fill="#9a32cd" stroke="#9a32cd" points="150.91,-180.9 152.88,-191.31 157.83,-181.94 150.91,-180.9"/>
-<text text-anchor="middle" x="205" y="-165" font-family="Helvetica,sans-Serif" font-size="10.00"> storage_control_</text>
+<path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M38.48,-248.2C35.62,-231.43 34.49,-207.11 47,-191 80.24,-148.17 145.96,-137.37 187.85,-135.04"/>
+<polygon fill="#9a32cd" stroke="#9a32cd" points="35.14,-249.32 40.59,-258.4 41.99,-247.9 35.14,-249.32"/>
+<text text-anchor="middle" x="77.5" y="-198.5" font-family="Helvetica,sans-Serif" font-size="10.00"> output_file_</text>
 </g>
 <!-- Node7 -->
 <g id="node7" class="node">
 <title>Node7</title>
-<g id="a_node7"><a xlink:href="classfire_1_1h5_1_1Writer.html" target="_top" xlink:title="A HighFive::File specialized to fire&#39;s usecase.">
-<polygon fill="none" stroke="black" points="226.5,-191.5 226.5,-210.5 312.5,-210.5 312.5,-191.5 226.5,-191.5"/>
-<text text-anchor="middle" x="269.5" y="-198.5" font-family="Helvetica,sans-Serif" font-size="10.00">fire::h5::Writer</text>
+<g id="a_node7"><a xlink:href="classfire_1_1Event.html" target="_top" xlink:title="Event class for interfacing with processors.">
+<polygon fill="none" stroke="black" points="117,-191.5 117,-210.5 183,-210.5 183,-191.5 117,-191.5"/>
+<text text-anchor="middle" x="150" y="-198.5" font-family="Helvetica,sans-Serif" font-size="10.00">fire::Event</text>
 </a>
 </g>
 </g>
+<!-- Node4&#45;&gt;Node7 -->
+<g id="edge9" class="edge">
+<title>Node4&#45;&gt;Node7</title>
+<path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M59.09,-251.42C67.3,-244.01 77.71,-235.4 88,-229 99.87,-221.63 114.1,-215.27 125.93,-210.59"/>
+<polygon fill="#9a32cd" stroke="#9a32cd" points="56.63,-248.93 51.7,-258.31 61.41,-254.05 56.63,-248.93"/>
+<text text-anchor="middle" x="118.5" y="-232" font-family="Helvetica,sans-Serif" font-size="10.00"> output_file_</text>
+</g>
+<!-- Node5 -->
+<g id="node5" class="node">
+<title>Node5</title>
+<g id="a_node5"><a xlink:href="classfire_1_1StorageControl.html" target="_top" xlink:title="Isolation of voting system deciding if events should be kept.">
+<polygon fill="none" stroke="black" points="201.5,-191.5 201.5,-210.5 312.5,-210.5 312.5,-191.5 201.5,-191.5"/>
+<text text-anchor="middle" x="257" y="-198.5" font-family="Helvetica,sans-Serif" font-size="10.00">fire::StorageControl</text>
+</a>
+</g>
+</g>
+<!-- Node5&#45;&gt;Node3 -->
+<g id="edge4" class="edge">
+<title>Node5&#45;&gt;Node3</title>
+<path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M248.49,-182.16C242.51,-169.63 234.78,-153.41 230.11,-143.63"/>
+<polygon fill="#9a32cd" stroke="#9a32cd" points="245.36,-183.71 252.82,-191.23 251.67,-180.7 245.36,-183.71"/>
+<text text-anchor="middle" x="286.5" y="-165" font-family="Helvetica,sans-Serif" font-size="10.00"> storage_control_</text>
+</g>
+<!-- Node6&#45;&gt;Node3 -->
+<g id="edge5" class="edge">
+<title>Node6&#45;&gt;Node3</title>
+<path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M279.28,-86.77C278.57,-93.33 276.83,-100.43 273,-106 267.45,-114.06 258.65,-120.03 250.16,-124.27"/>
+<polygon fill="#9a32cd" stroke="#9a32cd" points="282.78,-86.75 279.67,-76.62 275.79,-86.48 282.78,-86.75"/>
+<text text-anchor="middle" x="307.5" y="-98" font-family="Helvetica,sans-Serif" font-size="10.00"> conditions_</text>
+</g>
 <!-- Node7&#45;&gt;Node3 -->
-<g id="edge6" class="edge">
+<g id="edge7" class="edge">
 <title>Node7&#45;&gt;Node3</title>
-<path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M261.27,-182.37C257.62,-175.58 252.91,-168.02 247.5,-162 241.01,-154.79 232.3,-148.32 224.97,-143.52"/>
-<polygon fill="#9a32cd" stroke="#9a32cd" points="258.24,-184.12 265.84,-191.49 264.5,-180.98 258.24,-184.12"/>
-<text text-anchor="middle" x="286" y="-165" font-family="Helvetica,sans-Serif" font-size="10.00"> output_file_</text>
+<path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M167.87,-184.71C182.85,-171.91 203.68,-154.09 215.91,-143.63"/>
+<polygon fill="#9a32cd" stroke="#9a32cd" points="165.57,-182.07 160.25,-191.23 170.12,-187.39 165.57,-182.07"/>
+<text text-anchor="middle" x="211.5" y="-165" font-family="Helvetica,sans-Serif" font-size="10.00"> event_</text>
 </g>
 <!-- Node8 -->
 <g id="node8" class="node">
 <title>Node8</title>
-<g id="a_node8"><a xlink:href="classfire_1_1RunHeader.html" target="_top" xlink:title="Container for run parameters.">
-<polygon fill="none" stroke="black" points="330.5,-191.5 330.5,-210.5 422.5,-210.5 422.5,-191.5 330.5,-191.5"/>
-<text text-anchor="middle" x="376.5" y="-198.5" font-family="Helvetica,sans-Serif" font-size="10.00">fire::RunHeader</text>
+<g id="a_node8"><a xlink:href="classfire_1_1h5_1_1Reader.html" target="_top" xlink:title="A HighFive::File specialized to fire&#39;s usecase.">
+<polygon fill="none" stroke="black" points="109.5,-258.5 109.5,-277.5 200.5,-277.5 200.5,-258.5 109.5,-258.5"/>
+<text text-anchor="middle" x="155" y="-265.5" font-family="Helvetica,sans-Serif" font-size="10.00">fire::h5::Reader</text>
 </a>
 </g>
 </g>
-<!-- Node8&#45;&gt;Node3 -->
-<g id="edge7" class="edge">
-<title>Node8&#45;&gt;Node3</title>
-<path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M358.06,-185.02C347.59,-177.17 333.92,-167.97 320.5,-162 297.59,-151.81 270.22,-145.08 248.51,-140.88"/>
-<polygon fill="#9a32cd" stroke="#9a32cd" points="355.98,-187.84 366.03,-191.2 360.27,-182.31 355.98,-187.84"/>
-<text text-anchor="middle" x="372.5" y="-165" font-family="Helvetica,sans-Serif" font-size="10.00"> run_header_</text>
+<!-- Node8&#45;&gt;Node7 -->
+<g id="edge8" class="edge">
+<title>Node8&#45;&gt;Node7</title>
+<path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M153.54,-248.04C152.59,-235.67 151.39,-220.12 150.66,-210.63"/>
+<polygon fill="#9a32cd" stroke="#9a32cd" points="150.07,-248.53 154.33,-258.23 157.05,-247.99 150.07,-248.53"/>
+<text text-anchor="middle" x="180" y="-232" font-family="Helvetica,sans-Serif" font-size="10.00"> input_file_</text>
 </g>
 <!-- Node9 -->
 <g id="node9" class="node">
 <title>Node9</title>
-<g id="a_node9"><a xlink:href="classfire_1_1h5_1_1ParameterStorage.html" target="_top" xlink:title="Provides dynamic parameter storage by interfacing between a map to variants storing parameters and a ...">
-<polygon fill="none" stroke="black" points="304.5,-258.5 304.5,-277.5 448.5,-277.5 448.5,-258.5 304.5,-258.5"/>
-<text text-anchor="middle" x="376.5" y="-265.5" font-family="Helvetica,sans-Serif" font-size="10.00">fire::h5::ParameterStorage</text>
+<g id="a_node9"><a xlink:href="classfire_1_1RunHeader.html" target="_top" xlink:title="Container for run parameters.">
+<polygon fill="none" stroke="black" points="331,-191.5 331,-210.5 423,-210.5 423,-191.5 331,-191.5"/>
+<text text-anchor="middle" x="377" y="-198.5" font-family="Helvetica,sans-Serif" font-size="10.00">fire::RunHeader</text>
 </a>
 </g>
 </g>
-<!-- Node9&#45;&gt;Node8 -->
-<g id="edge8" class="edge">
-<title>Node9&#45;&gt;Node8</title>
-<path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M376.5,-248.04C376.5,-235.67 376.5,-220.12 376.5,-210.63"/>
-<polygon fill="#9a32cd" stroke="#9a32cd" points="373,-248.23 376.5,-258.23 380,-248.23 373,-248.23"/>
-<text text-anchor="middle" x="409" y="-232" font-family="Helvetica,sans-Serif" font-size="10.00"> parameters_</text>
+<!-- Node9&#45;&gt;Node3 -->
+<g id="edge10" class="edge">
+<title>Node9&#45;&gt;Node3</title>
+<path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M362.33,-184.24C354.34,-176.51 343.88,-167.66 333,-162 311.59,-150.86 285.33,-144.14 264.19,-140.2"/>
+<polygon fill="#9a32cd" stroke="#9a32cd" points="359.92,-186.77 369.43,-191.44 364.9,-181.86 359.92,-186.77"/>
+<text text-anchor="middle" x="381" y="-165" font-family="Helvetica,sans-Serif" font-size="10.00"> run_header_</text>
 </g>
-<!-- Node10&#45;&gt;Node3 -->
-<g id="edge9" class="edge">
-<title>Node10&#45;&gt;Node3</title>
-<path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M263.78,-86.77C263.07,-93.33 261.33,-100.43 257.5,-106 251.95,-114.06 243.15,-120.03 234.66,-124.27"/>
-<polygon fill="#9a32cd" stroke="#9a32cd" points="267.28,-86.75 264.17,-76.62 260.29,-86.48 267.28,-86.75"/>
-<text text-anchor="middle" x="292" y="-98" font-family="Helvetica,sans-Serif" font-size="10.00"> conditions_</text>
+<!-- Node10 -->
+<g id="node10" class="node">
+<title>Node10</title>
+<g id="a_node10"><a xlink:href="classfire_1_1h5_1_1ParameterStorage.html" target="_top" xlink:title="Provides dynamic parameter storage by interfacing between a map to variants storing parameters and a ...">
+<polygon fill="none" stroke="black" points="305,-258.5 305,-277.5 449,-277.5 449,-258.5 305,-258.5"/>
+<text text-anchor="middle" x="377" y="-265.5" font-family="Helvetica,sans-Serif" font-size="10.00">fire::h5::ParameterStorage</text>
+</a>
+</g>
+</g>
+<!-- Node10&#45;&gt;Node9 -->
+<g id="edge11" class="edge">
+<title>Node10&#45;&gt;Node9</title>
+<path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M377,-248.04C377,-235.67 377,-220.12 377,-210.63"/>
+<polygon fill="#9a32cd" stroke="#9a32cd" points="373.5,-248.23 377,-258.23 380.5,-248.23 373.5,-248.23"/>
+<text text-anchor="middle" x="409.5" y="-232" font-family="Helvetica,sans-Serif" font-size="10.00"> parameters_</text>
 </g>
 </g>
 </svg>

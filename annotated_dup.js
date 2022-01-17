@@ -1,8 +1,12 @@
 var annotated_dup =
 [
     [ "fire", null, [
-      [ "config", "namespacefire_1_1config.html", "namespacefire_1_1config" ],
-      [ "factory", "namespacefire_1_1factory.html", "namespacefire_1_1factory" ],
+      [ "config", "namespacefire_1_1config.html", [
+        [ "Parameters", "classfire_1_1config_1_1Parameters.html", "classfire_1_1config_1_1Parameters" ]
+      ] ],
+      [ "factory", "namespacefire_1_1factory.html", [
+        [ "Factory", "classfire_1_1factory_1_1Factory.html", "classfire_1_1factory_1_1Factory" ]
+      ] ],
       [ "h5", null, [
         [ "AbstractDataSet", "classfire_1_1h5_1_1AbstractDataSet.html", "classfire_1_1h5_1_1AbstractDataSet" ],
         [ "BaseDataSet", "classfire_1_1h5_1_1BaseDataSet.html", "classfire_1_1h5_1_1BaseDataSet" ],

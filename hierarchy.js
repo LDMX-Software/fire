@@ -4,26 +4,14 @@ var hierarchy =
       [ "fire::h5::AbstractDataSet< AtomicType >", "classfire_1_1h5_1_1AbstractDataSet.html", [
         [ "fire::h5::DataSet< AtomicType, std::enable_if_t< is_atomic_v< AtomicType > > >", "classfire_1_1h5_1_1DataSet_3_01AtomicType_00_01std_1_1enable__if__t_3_01is__atomic__v_3_01AtomicType_01_4_01_4_01_4.html", null ]
       ] ],
-      [ "fire::h5::AbstractDataSet< ContentType >", "classfire_1_1h5_1_1AbstractDataSet.html", [
-        [ "fire::h5::DataSet< ContentType >", "classfire_1_1h5_1_1DataSet.html", null ]
-      ] ],
-      [ "fire::h5::AbstractDataSet< KeyType >", "classfire_1_1h5_1_1AbstractDataSet.html", [
-        [ "fire::h5::DataSet< KeyType >", "classfire_1_1h5_1_1DataSet.html", null ]
-      ] ],
       [ "fire::h5::AbstractDataSet< ParameterStorage >", "classfire_1_1h5_1_1AbstractDataSet.html", [
         [ "fire::h5::DataSet< ParameterStorage >", "classfire_1_1h5_1_1DataSet_3_01ParameterStorage_01_4.html", null ]
       ] ],
       [ "fire::h5::AbstractDataSet< std::map< KeyType, ValType > >", "classfire_1_1h5_1_1AbstractDataSet.html", [
         [ "fire::h5::DataSet< std::map< KeyType, ValType > >", "classfire_1_1h5_1_1DataSet_3_01std_1_1map_3_01KeyType_00_01ValType_01_4_01_4.html", null ]
       ] ],
-      [ "fire::h5::AbstractDataSet< std::size_t >", "classfire_1_1h5_1_1AbstractDataSet.html", [
-        [ "fire::h5::DataSet< std::size_t >", "classfire_1_1h5_1_1DataSet.html", null ]
-      ] ],
       [ "fire::h5::AbstractDataSet< std::vector< ContentType > >", "classfire_1_1h5_1_1AbstractDataSet.html", [
         [ "fire::h5::DataSet< std::vector< ContentType > >", "classfire_1_1h5_1_1DataSet_3_01std_1_1vector_3_01ContentType_01_4_01_4.html", null ]
-      ] ],
-      [ "fire::h5::AbstractDataSet< ValType >", "classfire_1_1h5_1_1AbstractDataSet.html", [
-        [ "fire::h5::DataSet< ValType >", "classfire_1_1h5_1_1DataSet.html", null ]
       ] ],
       [ "fire::h5::AbstractDataSet< DataType >", "classfire_1_1h5_1_1AbstractDataSet.html", [
         [ "fire::h5::DataSet< DataType, Enable >", "classfire_1_1h5_1_1DataSet.html", null ]
@@ -47,7 +35,7 @@ var hierarchy =
     [ "fire::Event", "classfire_1_1Event.html", null ],
     [ "fire::EventHeader", "classfire_1_1EventHeader.html", null ],
     [ "fire::Event::EventObject", "structfire_1_1Event_1_1EventObject.html", null ],
-    [ "exception", null, [
+    [ "std::exception", null, [
       [ "fire::Exception", "classfire_1_1Exception.html", null ],
       [ "fire::Processor::AbortEventException", "classfire_1_1Processor_1_1AbortEventException.html", null ]
     ] ],

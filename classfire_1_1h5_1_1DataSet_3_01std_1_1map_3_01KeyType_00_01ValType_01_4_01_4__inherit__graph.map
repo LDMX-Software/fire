@@ -1,5 +1,5 @@
 <map id="fire::h5::DataSet&lt; std::map&lt; KeyType, ValType &gt; &gt;" name="fire::h5::DataSet&lt; std::map&lt; KeyType, ValType &gt; &gt;">
 <area shape="rect" id="node1" title="Maps." alt="" coords="53,169,209,225"/>
 <area shape="rect" id="node2" href="$classfire_1_1h5_1_1AbstractDataSet.html" title=" " alt="" coords="5,80,256,121"/>
-<area shape="rect" id="node3" href="$classfire_1_1h5_1_1BaseDataSet.html" title=" " alt="" coords="51,5,210,32"/>
+<area shape="rect" id="node3" href="$classfire_1_1h5_1_1BaseDataSet.html" title="Empty dataset base allowing recursion." alt="" coords="51,5,210,32"/>
 </map>
