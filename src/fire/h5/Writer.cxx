@@ -13,7 +13,16 @@ Writer::Writer(const int& event_limit, const config::Parameters& ps)
   entries_ = event_limit;
   rows_per_chunk_ = ps.get<int>("rows_per_chunk");
   // copy creation properties into HighFive structure
-  create_props_.add(HighFive::Chunking({rows_per_chunk_}));
+  /**
+   * When chunking, HDF5 requires all chunks to be the same size in order
+   * to keep the I/O operations efficient. We would like to have our chunks
+   * be O(10KB) => rows_per_chunk = O(10k); however, when the number of events
+   * is small, it is very likely that the datasets will not achieve the size
+   * of even a single chunk. For this reason, we take the minimum of the input
+   * rows_per_chunk_ and the event_limit. We do NOT redefine rows_per_chunk_,
+   * so that this decision does not affect the size of the buffer.
+   */
+  create_props_.add(HighFive::Chunking({std::min(rows_per_chunk_,entries_)}));
   if (ps.get<bool>("shuffle")) create_props_.add(HighFive::Shuffle());
   create_props_.add(HighFive::Deflate(ps.get<int>("compression_level")));
 }
