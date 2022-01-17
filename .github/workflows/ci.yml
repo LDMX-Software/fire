@@ -3,13 +3,14 @@ name: CI
 
 on:
   push:
+    tags:
+      - '**'
     branches:
       - '**'
       - '!gh-pages'
     paths-ignore:
       - '**.md'
       - 'docs/**'
-      - '.github/workflows/publish_docs.yml'
   pull_request:
     branches:
       - trunk
