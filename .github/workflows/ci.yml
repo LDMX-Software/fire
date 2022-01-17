@@ -10,6 +10,12 @@ on:
       - '**.md'
       - 'docs/**'
       - '.github/workflows/publish_docs.yml'
+  pull_request:
+    branches:
+      - trunk
+    types:
+      - opened
+      - ready_for_review
 
 jobs:
   test:
@@ -44,7 +50,96 @@ jobs:
         group Build and Install Test Module
         ldmx cmake --build build/test/module --target install
         group Run Test Production
-        ldmx fire test/module/prod.py 10
+        ldmx fire test/module/produce.py 10
         group Run Test Reconstruction
         ldmx fire test/module/recon.py test/module/output/output_10.h5
+  
+  bench:
+    needs: test
+    if: ${{github.event.name == 'pull_request'}}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    env:
+      GITHUB_DEFAULT_BRANCH: trunk
+      GITHUB_PR_NUMBER: ${{github.event.number}}
+      N_TRIALS: 10
+      NEVENT_SAMPLE_POINTS: "1 5 10"
+    steps:
+    - 
+      name: get fire
+      uses: actions/checkout@v2
+      with:
+        submodules: 'recursive'
+    -
+      name: bench fire
+      run: |
+        source .github/workflows/env.sh
+        group Init Environment
+        export GITHUB_BRANCH=${GITHUB_REF#refs/heads/}
+        ldmx use dev hdf5
+        ldmx base ..
+        group Configure Build
+        ldmx cmake -B build -S . \
+          -DBUILD_TESTING=OFF \
+          -DCMAKE_INSTALL_PREFIX=${LDMX_BASE}/.container-install
+        group Build fire
+        ldmx cmake --build build
+        group Test fire
+        ldmx cmake --build build --target test
+        group Install fire for Test Module
+        ldmx cmake --build build/ --target install
+        group Configure Test Module
+        ldmx cmake -B build/test/module -S test/module \
+          -DCMAKE_INSTALL_PREFIX=${LDMX_BASE}/.container-install
+        group Build and Install Test Module
+        ldmx cmake --build build/test/module --target install
+        group Run Benchmark
+        run_bench ${GITHUB_BRANCH} ${N_TRIALS} ${NEVENT_SAMPLE_POINTS}
 
+        group Switch to ${GITHUB_DEFAULT_BRANCH}
+        git checkout ${GITHUB_DEFAULT_BRANCH}
+
+        group Configure Build
+        ldmx cmake -B build -S . \
+          -DBUILD_TESTING=OFF \
+          -DCMAKE_INSTALL_PREFIX=${LDMX_BASE}/.container-install
+        group Build fire
+        ldmx cmake --build build
+        group Test fire
+        ldmx cmake --build build --target test
+        group Install fire for Test Module
+        ldmx cmake --build build/ --target install
+        group Configure Test Module
+        ldmx cmake -B build/test/module -S test/module \
+          -DCMAKE_INSTALL_PREFIX=${LDMX_BASE}/.container-install
+        group Build and Install Test Module
+        ldmx cmake --build build/test/module --target install
+        group Run Benchmark
+        run_bench ${GITHUB_DEFAULT_BRANCH} ${N_TRIALS} ${NEVENT_SAMPLE_POINTS}
+
+        group Post Outputs
+        set_output dir ${BENCH_OUTPUT_DIR}
+        set_output file ${BENCH_DATA_FILE}
+        echo "::endgroup::"
+    -
+      name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+    -
+      name: Install Plotting Requirements
+      run: python -m pip install --upgrade matplotlib pandas
+    -
+      name: Plot
+      run: python .github/workflows/plot.py ${BENCH_DATA_FILE}
+      env:
+        BENCH_DATA_FILE: ${{steps.bench.outputs.file}}
+    -
+      name: Upload Results
+      uses: actions/upload-artifact@v2
+      with:
+        name: Benchmark-Results-PR-${{github.event.number}}
+        path: ${{steps.bench.outputs.dir}}
+        if-no-files-found: error
