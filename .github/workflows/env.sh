@@ -17,16 +17,13 @@ export BENCH_OUTPUT_DIR=${GITHUB_WORKFLOWS_PATH}/output
 mkdir -p ${BENCH_OUTPUT_DIR} || { rc=$?; echo "Unable to create output dir."; return $rc; }
 export BENCH_DATA_FILE=${BENCH_OUTPUT_DIR}/data.csv
 
-__group__() {
+group() {
+  echo "::engroup::"
   echo "::group::$@"
 }
 
-__endgroup__() {
-  echo "::endgroup::"
-}
-
 # GitHub workflow command to set an output key,val pair
-__set_output__() {
+set_output() {
   local _key="$1"
   local _val="$2"
   echo "${_key} = ${_val}"
@@ -64,7 +61,7 @@ __print_csv_line__() {
 #  e.g. <script> <name> 100 1 10 100 1000 10000 100000
 # we get the size of the output file by assuming it matches the form
 #   output/*_<num-events>.*
-__run_bench__() {
+run_bench() {
   local tag=$1; shift
   local trials=$1; shift
   [ -f ${BENCH_DATA_FILE} ] || __print_csv_line__ runner serializer mode events time size | tee ${BENCH_DATA_FILE}
@@ -82,83 +79,5 @@ __run_bench__() {
     s=$(stat -c "%s" output/recon_output_${n_events}) 
     __print_csv_line__ ${runner} ${tag} recon ${n_events} ${t} ${s} | tee -a ${BENCH_DATA_FILE}
   done
-}
-
-# compile a branch
-#   <branch>
-__compile__() {
-  local _branch=$1
-
-  __group__ Switch to ${_branch}
-  git checkout ${_branch} || return $?
-  __endgroup__
-
-  __group__ Configure Build
-  ldmx cmake -B build/${_branch} -S . || return $?
-  __endgroup__
-
-  __group__ Build and Install
-  ldmx cmake --build build/${_branch} --target install || return $?
-  __endgroup__
-}
-
-# bench a specific branch
-#   <branch> <trials> <event points>
-__bench__() {
-  __compile__ $1
-
-  __group__ Run Benchmark
-  __run_bench__ ${_script_inputs[@]} || return $?
-  __endgroup__
-
-  __group__ Delete Output Files
-  rm -vr output || return $?
-  __endgroup__
-  
-  __group__ Post Outputs
-  __set_output__ dir ${BENCH_OUTPUT_DIR}
-  __set_output__ file ${BENCH_DATA_FILE}
-  __endgroup__
-
-  return 0
-}
-
-__bench_help__() {
-  cat << HELP
-
- USAGE:
-  bench <branch> <trials> <n_events_1> [n_events_2 ...]
-
-  We assume this command is run from the root directory of the repository.
-  This is necessary so we can deduce where the test module is.
-
- ARGUMENTS:
-  branch   : non-trunk branch to benchmark relative to trunk
-  trials   : Number of trials to run for each N_EVENTS
-  n_events : Number of events to benchmark for both ROOT and HDF5
-
-HELP
-}
-
-bench() {
-  if [ -z $1 ]; then
-    __bench_help__
-    return
-  fi
-  if [ "$#" -lt "3" ]; then
-    echo "ERROR: Arguments '$@' do not meet the required pattern."
-    echo "        <branch> <trials> <n1> [n2 ... ]"
-  fi
-
-  local _branch=$1
-
-  __group__ Init Environment
-  ldmx use dev hdf5 || return $?
-  __endgroup__
-
-  __bench__ ${_branch} ${@:2} || return $?
-  __bench__ trunk      ${@:2} || return $?
-
-  return 0
 }
 
