@@ -66,7 +66,7 @@ jobs:
       GITHUB_DEFAULT_BRANCH: trunk
       GITHUB_PR_NUMBER: ${{github.event.number}}
       N_TRIALS: 10
-      NEVENT_SAMPLE_POINTS: "1 5 10"
+      NEVENT_SAMPLE_POINTS: "1 5 10 50"
     steps:
     - 
       name: get fire
