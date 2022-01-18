@@ -322,9 +322,23 @@ class Factory {
 
  private:
   /**
-   * Basically a copy of what std::make_unique or std::make_shared
-   * but with the constructor arguments defined by the Factory and not
-   * here
+   * make a new DerivedType returning a PrototypePtr
+   *
+   * Basically a copy of what 
+   * [`std::make_unique`](https://en.cppreference.com/w/cpp/memory/unique_ptr/make_unique) 
+   * or 
+   * [`std::make_shared`](https://en.cppreference.com/w/cpp/memory/shared_ptr/make_shared)
+   * do but with the following changes:
+   *  1. constructor arguments defined by the Factory and not here
+   *  2. return type is a base pointer and not a derived pointer
+   *
+   * This is where we required that PrototypePtr has the same
+   * behavior as STL smart pointers. The PrototypePtr class must
+   * be able to be constructed from a pointer to a derived class
+   * and must take ownership of the new object.
+   *
+   * @tparam DerivedType type of derived object we should create
+   * @param[in] args constructor arguments for derived type construction
    */
   template <typename DerivedType>
   static PrototypePtr maker(PrototypeConstructorArgs... args) {
