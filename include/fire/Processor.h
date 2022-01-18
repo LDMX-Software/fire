@@ -282,6 +282,18 @@ class Analyzer : public Processor {
  * name during configuration.
  * @attention Every processor class must call this macro in
  * the associated implementation (.cxx) file.
+ *
+ * If you are getting a 'redefinition of v' compilation error from
+ * this macro, then that means you have more than one Processor
+ * defined within a single compilation unit. This is not a problem,
+ * you just need to expand the macro yourself:
+ * ```cpp
+ * // in source file
+ * namespace {
+ * auto v0 = ::fire::Processor::Factory.get().declare<One>("One");
+ * auto v1 = ::fire::Processor::Factory.get().declare<Two>("Two");
+ * }
+ * ```
  */
 #define DECLARE_PROCESSOR(CLASS)                                   \
   namespace {                                                      \
