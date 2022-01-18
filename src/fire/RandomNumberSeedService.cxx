@@ -91,4 +91,4 @@ RandomNumberSeedService::getCondition(const EventHeader& context) {
 }
 
 }  // namespace fire
-DECLARE_CONDITIONS_PROVIDER_NS(fire, RandomNumberSeedService)
+DECLARE_CONDITIONS_PROVIDER(fire::RandomNumberSeedService)

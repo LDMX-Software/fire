@@ -47,9 +47,16 @@ class TestThrow : public fire::Analyzer {
 
 }
 
-DECLARE_PROCESSOR_NS(test,TestProducer);
-DECLARE_PROCESSOR_NS(test,TestAnalyzer);
-DECLARE_PROCESSOR_NS(test,TestThrow);
+/**
+ * We can't use the macro here because then the anonymous
+ * variables would conflict since they are in the same 
+ * compilation unit.
+ */
+namespace {
+  auto v0 = ::fire::Processor::Factory::get().declare<test::TestProducer>("test::TestProducer");
+  auto v1 = ::fire::Processor::Factory::get().declare<test::TestAnalyzer>("test::TestAnalyzer");
+  auto v2 = ::fire::Processor::Factory::get().declare<test::TestThrow>("test::TestThrow");
+}
 
 /**
  * Test basic functionality of processors

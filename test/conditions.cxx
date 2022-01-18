@@ -40,7 +40,7 @@ int TestCP::run = 0;
 
 }  // namespace test
 
-DECLARE_CONDITIONS_PROVIDER_NS(test, TestCP);
+DECLARE_CONDITIONS_PROVIDER(test::TestCP);
 
 /**
  * Test basic functionality of conditions system

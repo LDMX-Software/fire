@@ -61,8 +61,14 @@ class TestGet : public Producer {
 
 }
 
-DECLARE_PROCESSOR_NS(fire::test,TestAdd);
-DECLARE_PROCESSOR_NS(fire::test,TestGet);
+/**
+ * Cannot use macro because two processors are
+ * in the same compilation unit.
+ */
+namespace {
+  auto v0 = ::fire::Processor::Factory::get().declare<fire::test::TestAdd>("fire::test::TestAdd");
+  auto v1 = ::fire::Processor::Factory::get().declare<fire::test::TestGet>("fire::test::TestGet");
+}
 
 /**
  * High level functionality testing

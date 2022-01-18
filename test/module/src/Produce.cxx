@@ -44,4 +44,4 @@ class Produce : public fire::Producer {
 
 }
 
-DECLARE_PROCESSOR_NS(bench,Produce);
+DECLARE_PROCESSOR(bench::Produce);

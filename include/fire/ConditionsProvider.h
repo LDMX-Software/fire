@@ -5,11 +5,11 @@
 
 #include "fire/ConditionsIntervalOfValidity.h"
 #include "fire/ConditionsObject.h"
+#include "fire/RunHeader.h"
 #include "fire/config/Parameters.h"
 #include "fire/exception/Exception.h"
 #include "fire/factory/Factory.h"
 #include "fire/logging/Logger.h"
-#include "fire/RunHeader.h"
 
 namespace fire {
 
@@ -47,8 +47,8 @@ class ConditionsProvider {
    * Pure virtual getCondition function.
    * Must be implemented by any Conditions providers.
    */
-  virtual std::pair<const ConditionsObject*, ConditionsIntervalOfValidity> getCondition(
-      const EventHeader& context) = 0;
+  virtual std::pair<const ConditionsObject*, ConditionsIntervalOfValidity>
+  getCondition(const EventHeader& context) = 0;
 
   /**
    * Called by conditions system when done with a conditions object, appropriate
@@ -94,8 +94,7 @@ class ConditionsProvider {
  protected:
   /** Request another condition needed to construct this condition */
   std::pair<const ConditionsObject*, ConditionsIntervalOfValidity>
-  requestParentCondition(const std::string& name,
-                         const EventHeader& context);
+  requestParentCondition(const std::string& name, const EventHeader& context);
 
   /// The logger for this ConditionsProvider
   mutable logging::logger theLog_;
@@ -115,44 +114,15 @@ class ConditionsProvider {
 
 /**
  * @def DECLARE_CONDITIONS_PROVIDER(CLASS)
- * @param CLASS The name of the class to register, which must not be in a
- * namespace.  If the class is in a namespace, use
- * DECLARE_CONDITIONS_PROVIDER_NS()
- * @brief Macro which allows the fire to construct a COP given its
+ * @param CLASS The name of the class to register including namespaces
+ * @brief Macro which allows fire to construct a provider given its
  * name during configuration.
- * @attention Every COP class must call this macro or
- * DECLARE_CONDITIONS_PROVIDER_NS() in the associated implementation (.cxx)
- * file.
+ * @attention Every ConditionsProvider class must call this macro in
+ * the associated implementation (.cxx) file.
  */
-#define DECLARE_CONDITIONS_PROVIDER(CLASS)                                \
-  std::shared_ptr<fire::ConditionsProvider> CLASS##_fire_make(            \
-      const fire::config::Parameters& params) {                           \
-    return std::make_shared<CLASS>(params);                               \
-  }                                                                       \
-  __attribute__((constructor)) static void CLASS##_fire_declare() {       \
-    fire::ConditionsProvider::Factory::get().declare(#CLASS,              \
-                                                     &CLASS##_fire_make); \
-  }
-
-/**
- * @def DECLARE_CONDITIONS_PROVIDER_NS(NS,CLASS)
- * @param NS The full namespace specification for the Producer
- * @param CLASS The name of the class to register
- * @brief Macro which allows the fire to construct a producer given its
- * name during configuration.
- * @attention Every Producer class must call this macro or
- * DECLARE_CONDITIONS_PROVIDER() in the associated implementation (.cxx) file.
- */
-#define DECLARE_CONDITIONS_PROVIDER_NS(NS, CLASS)                           \
-  namespace NS {                                                            \
-  std::shared_ptr<fire::ConditionsProvider> CLASS##_fire_make(              \
-      const fire::config::Parameters& params) {                             \
-    return std::make_shared<NS::CLASS>(params);                             \
-  }                                                                         \
-  __attribute__((constructor)) static void CLASS##_fire_declare() {         \
-    fire::ConditionsProvider::Factory::get().declare(                       \
-        std::string(#NS) + "::" + std::string(#CLASS), &CLASS##_fire_make); \
-  }                                                                         \
+#define DECLARE_CONDITIONS_PROVIDER(CLASS)                                  \
+  namespace {                                                               \
+  auto v = fire::ConditionsProvider::Factory::get().declare<CLASS>(#CLASS); \
   }
 
 #endif

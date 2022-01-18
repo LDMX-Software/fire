@@ -1,15 +1,14 @@
 #ifndef FIRE_PROCESSOR_H
 #define FIRE_PROCESSOR_H
 
-#include "fire/exception/Exception.h"
 #include "fire/Conditions.h"
 #include "fire/Event.h"
-#include "fire/config/Parameters.h"
-#include "fire/exception/Exception.h"
-#include "fire/logging/Logger.h"
 #include "fire/RunHeader.h"
 #include "fire/StorageControl.h"
+#include "fire/config/Parameters.h"
+#include "fire/exception/Exception.h"
 #include "fire/factory/Factory.h"
+#include "fire/logging/Logger.h"
 
 /*~~~~~~~~~~~~~~~~*/
 /*   C++ StdLib   */
@@ -34,7 +33,7 @@ class Processor {
   /**
    * @class AbortEventException
    * @brief Specific exception used to abort an event.
-   * This inherits directly from std exception to try to 
+   * This inherits directly from std exception to try to
    * keep it light. It should never be seen outside.
    */
   class AbortEventException : public std::exception {
@@ -108,7 +107,7 @@ class Processor {
   /**
    * Get the processor name
    */
-  const std::string& getName() const { return name_; }
+  const std::string &getName() const { return name_; }
 
   /**
    * The type of factory that can be used to create processors
@@ -124,12 +123,10 @@ class Processor {
    * Marked 'final' to prevent derived classes from redefining
    * this function and potentially abusing the handle to the current process.
    */
-  virtual void attach(Process* p) final {
-    process_ = p;
-  }
+  virtual void attach(Process *p) final { process_ = p; }
 
  protected:
-  /** 
+  /**
    * Mark the current event as having the given storage control hint from this
    * processor and the given purpose string
    *
@@ -158,9 +155,7 @@ class Processor {
   /**
    * End processing due to a fatal runtime error.
    */
-  void fatalError(const std::string& msg) {
-    throw Exception(name_, msg);
-  }
+  void fatalError(const std::string &msg) { throw Exception(name_, msg); }
 
   /**
    * The logger for this Processor
@@ -168,6 +163,7 @@ class Processor {
    *  name of the processor as configured.
    */
   mutable logging::logger theLog_;
+
  private:
   /**
    * Internal getter for conditions without exposing all of Process
@@ -178,7 +174,7 @@ class Processor {
   std::string name_;
 
   /// Handle to current process
-  Process* process_{nullptr};
+  Process *process_{nullptr};
 };
 
 /**
@@ -281,41 +277,15 @@ class Analyzer : public Processor {
 
 /**
  * @def DECLARE_PROCESSOR(CLASS)
- * @param CLASS The name of the class to register, which must not be in a
- * namespace.  If the class is in a namespace, use DECLARE_PROCESSOR_NS()
+ * @param CLASS The name of the class to register including namespaces
  * @brief Macro which allows the fire to construct a producer given its
  * name during configuration.
- * @attention Every processor class must call this macro or
- * DECLARE_PROCESSOR_NS() in the associated implementation (.cxx) file.
+ * @attention Every processor class must call this macro in
+ * the associated implementation (.cxx) file.
  */
-#define DECLARE_PROCESSOR(CLASS)                                         \
-  std::unique_ptr<fire::Processor> CLASS##_ldmx_make(                    \
-      const fire::config::Parameters &ps) {                              \
-    return std::make_unique<CLASS>(ps);                                  \
-  }                                                                      \
-  __attribute__((constructor)) static void CLASS##_ldmx_declare() {      \
-    fire::Processor::Factory::get().declare(#CLASS, &CLASS##_ldmx_make); \
-  }
-
-/**
- * @def DECLARE_PROCESSOR_NS(NS,CLASS)
- * @param NS The full namespace specification for the Producer
- * @param CLASS The name of the class to register
- * @brief Macro which allows the fire to construct a producer given its
- * name during configuration.
- * @attention Every Producer class must call this macro or DECLARE_PROCESSOR()
- * in the associated implementation (.cxx) file.
- */
-#define DECLARE_PROCESSOR_NS(NS, CLASS)                                     \
-  namespace NS {                                                            \
-  std::unique_ptr<fire::Processor> CLASS##_ldmx_make(                       \
-      const fire::config::Parameters &ps) {                                 \
-    return std::make_unique<CLASS>(ps);                                     \
-  }                                                                         \
-  __attribute__((constructor)) static void CLASS##_ldmx_declare() {         \
-    fire::Processor::Factory::get().declare(                                \
-        std::string(#NS) + "::" + std::string(#CLASS), &CLASS##_ldmx_make); \
-  }                                                                         \
+#define DECLARE_PROCESSOR(CLASS)                                   \
+  namespace {                                                      \
+  auto v = fire::Processor::Factory::get().declare<CLASS>(#CLASS); \
   }
 
 #endif
