@@ -33,4 +33,4 @@ class Recon : public fire::Producer {
 
 }
 
-DECLARE_PROCESSOR_NS(bench,Recon);
+DECLARE_PROCESSOR(bench::Recon);

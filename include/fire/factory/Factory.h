@@ -50,9 +50,13 @@ void loadLibrary(const std::string& libname);
  * @tparam PrototypePtr the type of pointer to the object
  *    By defeault, we use 
  *    [`std::unique_ptr`](https://en.cppreference.com/w/cpp/memory/unique_ptr)
- *    for good memory management.
- * @tparam PrototypeMakerArgs parameter pack of arguments to pass 
- *    to the object makers and subsequently the constructor.
+ *    for good memory management but `std::shared_ptr` is another
+ *    alternative provided by the standard libraries.
+ *    The only requirement for this type is that it acts as a pointer
+ *    to the Prototype class and can be constructed with a pointer to
+ *    the derived class.
+ * @tparam PrototypeConstructorArgs parameter pack of arguments to pass 
+ *    to the object constructor.
  *
  * ## Terminology
  *
@@ -64,12 +68,34 @@ void loadLibrary(const std::string& libname);
  * ## Design
  *
  * The factory itself works in two steps.
- * 1. All of the different derived classes "register" or "declare" themselves
+ * 1. All of the different derived classes "declare" themselves
  *    so that the factory knowns how to create them.
- *    This registration is done by providing a "maker" function as well as the
+ *    This registration is done by providing their type and the
  *    name they should be referred to by.
  * 2. The factory creates any of the registered classes and returns a pointer
  *    to it in the form of a prototype-class pointer.
+ *
+ * ### Declaration
+ * Using an 
+ * [unnamed namespace](https://en.cppreference.com/w/cpp/language/namespace#Unnamed_namespaces)
+ * defines the variables inside it as having internal linkage and as implicitly 
+ * static. Having internal linkage allows us to have repeat variable names 
+ * across different source files. Being static means that the variable is
+ * guaranteed to be constructed during library load time.
+ *
+ * This if we put the following code in the source file for a class deriving
+ * from our prototype, it will be declared to the factory during library load.
+ * ```cpp
+ * // MyDerived.cpp
+ * // MyDerived inherits from MyPrototype
+ * namespace {
+ *   auto v = ::fire::factory::Factory<MyPrototype>::get()
+ *     .declare<MyDerived>("MyDerived");
+ * }
+ * ```
+ *
+ * The details of how this is handled is documented in
+ * [Storage Class Specifiers](https://en.cppreference.com/w/cpp/language/storage_duration).
  *
  * ## Usage
  *
@@ -100,18 +126,15 @@ void loadLibrary(const std::string& libname);
  *   virtual std::string name() = 0;
  *   // the factory type that we will use here
  *   using Factory = ::factory::Factory<LibraryEntry>;
+ *   // shortening of declare method for better usability
+ *   template<typename DerivedType>
+ *   using declare = Factory::get().declare<DerivedType>;
  * };  // LibraryEntry
  * 
  * // a macro to help with registering our library entries with our factory
- * #define DECLARE_LIBRARYENTRY(NS, CLASS)                                \
- *   namespace NS {                                                       \
- *   std::unique_ptr<::LibraryEntry> CLASS##Maker() {                     \
- *     return std::make_unique<CLASS>();                                  \
- *   }                                                                    \
- *   __attribute__((constructor)) static void CLASS##Declare() {          \
- *     ::LibraryEntry::Factory.get().declare(                             \
- *         std::string(#NS) + "::" + std::string(#CLASS), &CLASS##Maker); \
- *   }                                                                    \
+ * #define DECLARE_LIBRARYENTRY(CLASS)                 \
+ *   namespace {                                       \
+ *     auto v = ::LibraryEntry::declare<CLASS>(#CLASS) \
  *   }
  * #endif // LIBRARYENTRY_HPP
  * ```
@@ -131,7 +154,7 @@ void loadLibrary(const std::string& libname);
  * };
  * }
  * 
- * DECLARE_LIBRARYENTRY(library,Book)
+ * DECLARE_LIBRARYENTRY(library::Book)
  * ```
  * 
  * ```cpp
@@ -148,7 +171,7 @@ void loadLibrary(const std::string& libname);
  * }
  * }
  * 
- * DECLARE_LIBRARYENTRY(library::audio,Podcast)
+ * DECLARE_LIBRARYENTRY(library::audio::Podcast)
  * ```
  * 
  * ```cpp
@@ -165,7 +188,7 @@ void loadLibrary(const std::string& libname);
  * }
  * }
  * 
- * DECLARE_LIBRARYENTRY(library::audio,Album)
+ * DECLARE_LIBRARYENTRY(library::audio::Album)
  * ```
  *
  * ### Executable
@@ -185,7 +208,7 @@ void loadLibrary(const std::string& libname);
  *   try {
  *     auto entry_ptr{LibraryEntry::Factory::get().make(full_cpp_name)};
  *     std::cout << entry_ptr->name() << std::endl;
- *   } catch (const factory::FactoryException& e) {
+ *   } catch (const std::exception& e) {
  *     std::cerr << "ERROR: " <<  e.what() << std::endl;
  *   }
  * }
@@ -207,7 +230,7 @@ void loadLibrary(const std::string& libname);
  */
 template <typename Prototype,
           typename PrototypePtr = std::unique_ptr<Prototype>,
-          typename... PrototypeMakerArgs>
+          typename... PrototypeConstructorArgs>
 class Factory {
  public:
   /**
@@ -216,7 +239,7 @@ class Factory {
    *
    * This is merely here to make the definition of the Factory simpler.
    */
-  using PrototypeMaker = PrototypePtr (*)(PrototypeMakerArgs...);
+  using PrototypeMaker = PrototypePtr (*)(PrototypeConstructorArgs...);
 
  public:
   /**
@@ -247,15 +270,20 @@ class Factory {
    *
    * @param[in] full_name name to use as a reference for the declared object
    * @param[in] maker a pointer to a function that can dynamically create an instance
+   * @return value to define a static variable to force running this function
+   *  at library load time. It relates to variables so that it cannot be
+   *  optimized away.
    */
-  void declare(const std::string& full_name, PrototypeMaker maker) {
-    auto lib_it{library_.find(full_name)};
+  template<typename DerivedType>
+  uint64_t declare(const std::string& full_name) {
+    auto lib_it{get().library_.find(full_name)};
     if (lib_it != library_.end()) {
       throw Exception("Factory",
           "An object named " + full_name +
           " has already been declared.",false);
     }
-    library_[full_name] = maker;
+    library_[full_name] = &maker<DerivedType>;
+    return reinterpret_cast<std::uintptr_t>(&library_);
   }
 
   /**
@@ -276,7 +304,7 @@ class Factory {
    * @returns a pointer to the parent class that the objects derive from.
    */
   PrototypePtr make(const std::string& full_name,
-                    PrototypeMakerArgs... maker_args) {
+                    PrototypeConstructorArgs... maker_args) {
     auto lib_it{library_.find(full_name)};
     if (lib_it == library_.end()) {
       throw Exception("Factory","An object named " + full_name +
@@ -292,6 +320,16 @@ class Factory {
   void operator=(Factory const&) = delete;
 
  private:
+  /**
+   * Basically a copy of what std::make_unique or std::make_shared
+   * but with the constructor arguments defined by the Factory and not
+   * here
+   */
+  template <typename DerivedType>
+  static PrototypePtr maker(PrototypeConstructorArgs... args) {
+    return PrototypePtr(new DerivedType(std::forward<PrototypeConstructorArgs>(args)...));
+  }
+
   /// private constructor to prevent creation
   Factory() = default;
 
