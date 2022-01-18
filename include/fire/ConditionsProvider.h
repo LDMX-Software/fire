@@ -119,6 +119,19 @@ class ConditionsProvider {
  * name during configuration.
  * @attention Every ConditionsProvider class must call this macro in
  * the associated implementation (.cxx) file.
+ *
+ * If you are getting a 'redefinition of v' compilation error from
+ * this macro, then that means you have more than one ConditionsProvider
+ * defined within a single compilation unit. This is not a problem,
+ * you just need to expand the macro yourself:
+ * ```cpp
+ * // in source file
+ * //   the names of the variables don't matter as long as they are different
+ * namespace {
+ * auto v0 = ::fire::ConditionsProvider::Factory.get().declare<One>("One");
+ * auto v1 = ::fire::ConditionsProvider::Factory.get().declare<Two>("Two");
+ * }
+ * ```
  */
 #define DECLARE_CONDITIONS_PROVIDER(CLASS)                                  \
   namespace {                                                               \
