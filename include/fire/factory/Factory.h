@@ -125,16 +125,13 @@ void loadLibrary(const std::string& libname);
  *   // pure virtual function that our derived classes will implement
  *   virtual std::string name() = 0;
  *   // the factory type that we will use here
- *   using Factory = ::factory::Factory<LibraryEntry>;
- *   // shortening of declare method for better usability
- *   template<typename DerivedType>
- *   using declare = Factory::get().declare<DerivedType>;
+ *   using Factory = ::fire::factory::Factory<LibraryEntry>;
  * };  // LibraryEntry
  * 
  * // a macro to help with registering our library entries with our factory
- * #define DECLARE_LIBRARYENTRY(CLASS)                 \
- *   namespace {                                       \
- *     auto v = ::LibraryEntry::declare<CLASS>(#CLASS) \
+ * #define DECLARE_LIBRARYENTRY(CLASS)                                \
+ *   namespace {                                                      \
+ *     auto v = ::LibraryEntry::Factory::get().declare<CLASS>(#CLASS) \
  *   }
  * #endif // LIBRARYENTRY_HPP
  * ```
