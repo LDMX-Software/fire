@@ -261,9 +261,13 @@ class Factory {
    *
    * @throws Exception if the object has been declared before.
    * This exception can easily be avoided by making sure the declaration
-   * macro for a prototype links the name of the PrototypeMaker function to
+   * macro for a prototype links the name input to declare to
    * the name of the derived class. This means the user would have a
    * compile-time error rather than a runtime exception.
+   *
+   * We _could_ code this into the declaration function by
+   * using some form of demangling. I need to do some research into
+   * if we can rely on demangling for such an important procedure.
    *
    * @param[in] full_name name to use as a reference for the declared object
    * @param[in] maker a pointer to a function that can dynamically create an instance
