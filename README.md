@@ -50,3 +50,4 @@ Besides this core functionality of processors looking at data event-by-event, th
 - Boost Core (for various low-level tasks like demangling)
 - Boost Logging (for logging through fire)
 - Boost Unit Testing Framework (optional, for testing during development)
+- [pytest](https://docs.pytest.org/en/6.2.x/) (optional, for testing during development)
