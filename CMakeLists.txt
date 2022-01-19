@@ -176,6 +176,11 @@ install(TARGETS fire DESTINATION bin)
 if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
   include(CTest)
   if (BUILD_TESTING)
+    # compile C++ tests in test/ directory
     add_subdirectory(test)
+    # add Python test executable
+    add_test(NAME "pytest"
+      COMMAND pytest -v
+      WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/python)
   endif()
 endif()
