@@ -49,5 +49,7 @@ Besides this core functionality of processors looking at data event-by-event, th
   - Accessing the HDF5 C API directly is feasible; however, HighFive provides support for Exception translation and `std::string` which I don't want to have to figure out myself.
 - Boost Core (for various low-level tasks like demangling)
 - Boost Logging (for logging through fire)
-- Boost Unit Testing Framework (optional, for testing during development)
-- [pytest](https://docs.pytest.org/en/6.2.x/) (optional, for testing during development)
+
+### Developr Dependencies (for testing)
+- Boost Unit Testing Framework
+- [pytest](https://docs.pytest.org/en/6.2.x/)
