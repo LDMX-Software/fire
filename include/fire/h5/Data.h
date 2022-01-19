@@ -13,24 +13,146 @@
  * serialization to and from HDF5 files
  *
  * Isolation of lower-level interaction with HDF5 files is done here.
- * These classes should never be used directly by the end user.
+ * These classes should never be used directly by the end user except
+ * for the example provided below.
+ *
+ * 
+ * The ability of fire to handle
+ * the saving and loading of data to and from a file comes from this namespace.
+ * fire is able to handle all so-called "atomic" types (types with 
+ * [numeric limits](https://en.cppreference.com/w/cpp/types/numeric_limits)
+ * defined and 
+ * [`std::string`](https://en.cppreference.com/w/cpp/string/basic_string)),
+ * [`std::vector`](https://en.cppreference.com/w/cpp/container/vector) of, 
+ * and [`std::map`](https://en.cppreference.com/w/cpp/container/map) 
+ * of these types.
+ *
+ * This accomodates a lot of workflows, but it doesn't accomodate everything.
+ * In order to make fire even more flexible, there is a method of interfacing
+ * this serialization procedure with a class that you define.
+ *
+ * Below is the `MyData` class declaration showing the minium structure 
+ * necessary to interface with fire's serialization method.
+ *
+ * ```cpp
+ * #include "fire/h5/Data.h"
+ * class MyData {
+ *   friend class fire::h5::Data<MyData>;
+ *   MyData() = default;
+ *   void clear();
+ *   void attach(fire::h5::Data<MyData>& d);
+ * };
+ * ```
+ *
+ * The user class has four necessary components:
+ * 1. Your class declares the the wrapping h5::Data class as a `friend`.
+ *    - This allows the h5::Data class access to the (potentially private)
+ *      methods defined below.
+ * 2. Your class has a (public or private) default constructor.
+ *    - The default constructor may be how we initialize the data,
+ *      so it must be defined and available to fire::h5.
+ *    - If you don't want other parts of the program using the default
+ *      constructor, you can declare it `private`.
+ * 3. Your class has a `void clear()` method defined which resets the object
+ *    to an "empty" or "blank" state.
+ *    - This is used by fire to reset the data at the end of each event.
+ *    - Similar to the default constructor, this method can be public 
+ *      or private.
+ * 4. Your class implements a `void attach(fire::h5::Data<MyData>& d)` method.
+ *    - This method should be private since it should not be called by
+ *      other parts of your code.
+ *    - More detail below.
+ *
+ * ## The attach Method
+ * This method is where you make the decision on which member variables of
+ * your class should be stored to or read from data files and how those
+ * variables are named. You do this using the fire::h5::Data<DataType>::attach
+ * method. This is best illustrated with an example.
+ *
+ * ```cpp
+ * // member_one_ and member_two_ are members of MyData
+ * void MyData::attach(fire::h5::Data<MyData>& d) {
+ *   d.attach("first_member", member_one_);
+ *   d.attach("another_member", member_two_);
+ * }
+ * ```
+ *
+ * ### Important Comments
+ * - The name of a variable on disk (the first argument) and the name
+ *   of the variable in the class do not need to relate to each other;
+ *   however, it is common to name them similarly so users of your data
+ *   files aren't confused.
+ * - The name of variables on disk cannot be the same in one `attach`
+ *   method, but they can repeat across different classes (similar
+ *   to member variables).
+ * - Passing h5::Data as reference (i.e. with the `&`) is necessary;
+ *   otherwise, you would attach to a local copy and the real h5::Data
+ *   wouldn't be attached to anything.
+ * - The members of MyData you pass to h5::Data::attach can be any
+ *   class that fire::h5 can handle. This includes the classes listed
+ *   above or other classes you have defined following these rules.
+ *
+ * ## Full Example
+ * Putting all of these notes together, below is an example class
+ * that will read/write the coordinate positions but won't 
+ * record the variable that is calculated from them.
+ *
+ * This isn't an amazing example since `std::sqrt` is pretty fast,
+ * but you can perhaps imagine a class that has a time-expensive
+ * calculation that should only be done once per event but is also
+ * redundant and so it shouldn't waste disk space.
+ *
+ * ```cpp
+ * #include "fire/h5/Data.h"
+ * class Point {
+ *   double x_,y_,z_,mag_;
+ *   friend class fire::h5::Data<Point>;
+ *   Point() = default;
+ *   void clear() {
+ *     x_ = 0.;
+ *     y_ = 0.;
+ *     z_ = 0.;
+ *     mag_ = -1.;
+ *   }
+ *   void attach(fire::h5::Data<Point>& d) {
+ *     d.attach("x",x_);
+ *     d.attach("y",y_);
+ *     d.attach("z",z_);
+ *   }
+ *  public:
+ *   Point(double x, double y, double z)
+ *     : x_{x}, y_{y}, z_{z}, mag_{-1.} {
+ *       mag();
+ *     }
+ *   double mag() const {
+ *     if (mag_ < 0.) {
+ *       mag_ = std::sqrt(x_*x_+y_*y_+z_*z_);
+ *     }
+ *     return mag_;
+ *   }
+ * };
+ * ```
  */
 namespace fire::h5 {
 
 /**
- * Empty dataset base allowing recursion
+ * Empty data base allowing recursion
  *
  * This does not have the type information of the data
  * stored in any of the derived datasets, it simply instructs
  * the derived data sets to define a load and save mechanism
  * for loading/saving the dataset from/to the file.
+ *
+ * @note Users should never interact with this class.
  */
 class BaseData {
  public:
   /**
-   * Basic constructor
+   * Define the full in-file path to the data set of this data
+   *
+   * @param[in] path full in-file path to the data set
    */
-  explicit BaseData() = default;
+  explicit BaseData(const std::string& path) : path_{path} {}
 
   /**
    * virtual destructor so inherited classes can be properly destructed.
@@ -38,27 +160,31 @@ class BaseData {
   virtual ~BaseData() = default;
 
   /**
-   * pure virtual method for loading the next entry in the data set
+   * pure virtual method for loading data from the input file
    *
-   * @param[in] f h5::Reader to load the next entry from
+   * @param[in] f h5::Reader to load from
    */
   virtual void load(Reader& f) = 0;
 
   /**
-   * pure virtual method for saving the current entry in the data set
+   * pure virtual method for saving the current data
    *
-   * @param[in] f h5::Writer to write the current entry to
+   * @param[in] f h5::Writer to write to
    */
   virtual void save(Writer& f) = 0;
 
   /**
-   * pure virtual method for resetting the current data set handle to a blank state
+   * pure virtual method for resetting the current data to a blank state
    */
   virtual void clear() = 0;
+
+ protected:
+  /// path of data set
+  std::string path_;
 };
 
 /**
- * Type-specific base class to hold common dataset methods.
+ * Type-specific base class to hold common data methods.
  *
  * Most (all I can think of?) have a shared initialization, destruction,
  * getting and setting procedure. We can house these procedures in an
@@ -80,11 +206,14 @@ class AbstractData : public BaseData {
    * data set is holding the full object and we are simply holding a member
    * variable, so we just copy the address into our handle.
    *
-   * @param[in] path full in-file path to the dataset
+   * This is the location in the code where we require user-defined
+   * data classes to be default-constructible.
+   *
+   * @param[in] path full in-file path to the data set
    * @param[in] handle address of object already created (optional)
    */
   explicit AbstractData(const std::string& path, DataType* handle = nullptr)
-      : BaseData(), path_{path}, owner_{handle == nullptr} {
+      : BaseData(path), owner_{handle == nullptr} {
     if (owner_) {
       handle_ = new DataType;
     } else {
@@ -96,23 +225,23 @@ class AbstractData : public BaseData {
    * Delete our object if we own it, otherwise do nothing.
    *
    * @note This is virtual, but I can't think of a good reason to re-implement
-   * this function in downstream Datas!
+   * this function in downstream Data specializations!
    */
   virtual ~AbstractData() {
     if (owner_) delete handle_;
   }
 
   /**
-   * pure virtual method for loading the next entry in the data set
+   * pure virtual method for loading data 
    *
-   * @param[in] f h5::Reader to load the next entry from
+   * @param[in] f h5::Reader to load from
    */
   virtual void load(Reader& f) = 0;
 
   /**
-   * pure virtual method for saving the current entry in the data set
+   * pure virtual method for saving data
    *
-   * @param[in] f h5::Writer to save the current entry to
+   * @param[in] f h5::Writer to save to
    */
   virtual void save(Writer& f) = 0;
 
@@ -123,12 +252,18 @@ class AbstractData : public BaseData {
    * 'clear' means two different things depending on the object.
    * 1. If the object is apart of 'numeric_limits', then we set it to the minimum.
    * 2. Otherwise, we assume the object has the 'clear' method defined.
+   *    - This is where we require the user-defined classes to have a 
+   *      `void clear()` method defined.
    *
    * Case (1) handles the common fundamental types listed in the reference
    * [Numeric Limits](https://en.cppreference.com/w/cpp/types/numeric_limits)
    *
    * Case (2) handles common STL containers as well as std::string and is
    * a simple requirement on user classes.
+   *
+   * The [`if constexpr`](https://en.cppreference.com/w/cpp/language/if)
+   * statement is a C++17 feature that allows this if/else branch to
+   * be decided **at compile time**.
    */
   virtual void clear() {
     if (owner_) {
@@ -141,7 +276,7 @@ class AbstractData : public BaseData {
   }
 
   /**
-   * Get the current in-memory data object
+   * Get the current in-memory data. 
    *
    * @note virtual so that derived data sets
    * could specialize this, but I can't think of a reason to do so.
@@ -156,6 +291,15 @@ class AbstractData : public BaseData {
    * @note virtual so that derived data sets could specialize this, 
    * but I can't think of a reason to do so.
    *
+   * We require that all classes we wish to read/write can
+   * use the assignment operator `void operator=(const DataType&)`.
+   * This requirement is not reported in the documentation of fire::h5
+   * because it is implicitly defined by the compiler unless 
+   * explicitly deleted by the definer.
+   *
+   * We perform a deep copy in our handle to the data
+   * so that the input object can feel free to go out of scope.
+   *
    * @param[in] val new value the in-memory object should be
    */
   virtual void update(const DataType& val) { 
@@ -163,8 +307,6 @@ class AbstractData : public BaseData {
   }
 
  protected:
-  /// path of data set
-  std::string path_;
   /// handle on current object in memory
   DataType* handle_;
   /// we own the object in memory
@@ -176,7 +318,12 @@ class AbstractData : public BaseData {
  *
  * This is the top-level data set that will be used most often.
  * It is meant to be used by a class which registers its member
- * variables to this set via its 'attach' method.
+ * variables to this set via the h5::DataSet<DataType>::attach
+ * method.
+ *
+ * More complete documentation is kept in the documentation
+ * of the fire::h5 namespace; nevertheless, a short example
+ * is kep here.
  *
  * ```cpp
  * class MyData {
@@ -202,12 +349,16 @@ template <typename DataType, typename Enable = void>
 class Data : public AbstractData<DataType> {
  public:
   /**
-   * Default constructor
+   * Attach ourselves to the input type after construction.
    *
    * After the intermediate class AbstractData does the
-   * initialization, we call the 'attach' method of the data
-   * pointed to by our handle. This allows us to register
-   * its member variables with our own 'attach' method.
+   * initialization, we call the `void attach(h5::Data<DataType>& d)`
+   * method of the data pointed to by our handle. 
+   * This allows us to register its member variables with our own 
+   * h5::Data<DataType>::attach method.
+   *
+   * @param[in] path full in-file path to the data set for this data
+   * @param[in] handle address of object already created (optional)
    */
   explicit Data(std::string const& path, DataType* handle = nullptr)
       : AbstractData<DataType>(path, handle) {
@@ -217,6 +368,8 @@ class Data : public AbstractData<DataType> {
   /**
    * Loading this dataset from the file involves simply loading
    * all of the members of the data type.
+   *
+   * @param[in] f file to load from
    */
   void load(Reader& f) final override {
     for (auto& m : members_) m->load(f);
@@ -225,6 +378,8 @@ class Data : public AbstractData<DataType> {
   /*
    * Saving this dataset from the file involves simply saving
    * all of the members of the data type.
+   *
+   * @param[in] f file to save to
    */
   void save(Writer& f) final override {
     for (auto& m : members_) m->save(f);
@@ -236,7 +391,7 @@ class Data : public AbstractData<DataType> {
    * We create a new child Data so that we can recursively
    * handle complex member variable types.
    *
-   * @tparam[in] MemberType type of member variable we are attaching
+   * @tparam MemberType type of member variable we are attaching
    * @param[in] name name of member variable
    * @param[in] m reference of member variable
    */
@@ -252,7 +407,9 @@ class Data : public AbstractData<DataType> {
 };  // Data
 
 /**
- * Atomic types
+ * Data wrapper for atomic types
+ *
+ * @see h5::is_atomic for how we deduce if a type is atomic
  *
  * Once we finally recurse down to actual fundamental ("atomic") types,
  * we can start actually calling the file load and save methods.
@@ -264,17 +421,30 @@ class Data<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
   /**
    * We don't do any more initialization except which is handled by the
    * AbstractData
+   *
+   * @param[in] path full in-file path to set holding this data
+   * @param[in] handle pointer to already constructed data object (optional)
    */
   explicit Data(std::string const& path, AtomicType* handle = nullptr)
       : AbstractData<AtomicType>(path, handle) {}
   /**
-   * Call the H5Easy::load method with our atomic type and our path
+   * Down to a type that h5::Reader can handle.
+   *
+   * @see h5::Reader::load for how we read data from
+   * the file at the input path to our handle.
+   *
+   * @param[in] f h5::Reader to load from
    */
   void load(Reader& f) final override {
     f.load(this->path_, *(this->handle_));
   }
   /**
-   * Call the H5Easy::save method with our atomic type and our path
+   * Down to a type that h5::Writer can handle
+   *
+   * @see h5::Writer::save for how we write data to
+   * the file at the input path from our handle.
+   *
+   * @param[in] f h5::Writer to save to
    */
   void save(Writer& f) final override {
     f.save(this->path_, *(this->handle_));
@@ -282,13 +452,15 @@ class Data<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
 };  // Data<AtomicType>
 
 /**
- * Vectors
+ * Our wrapper around std::vector
  *
  * @note We assume that the load/save is done sequentially.
  * This assumption is made because
- *  (1) it is common and
+ *  (1) it is how fire is designed and
  *  (2) it allows us to not have to store
  *      as much metadata about the vectors.
+ *
+ * @tparam ContentType type of object stored within the std::vector
  */
 template <typename ContentType>
 class Data<std::vector<ContentType>>
@@ -297,6 +469,9 @@ class Data<std::vector<ContentType>>
   /**
    * We create two child data sets, one to hold the successive sizes of the
    * vectors and one to hold all of the data in all of the vectors serially.
+   *
+   * @param[in] path full in-file path to set holding this data
+   * @param[in] handle pointer to object already constructed (optional)
    */
   explicit Data(std::string const& path, std::vector<ContentType>* handle = nullptr)
       : AbstractData<std::vector<ContentType>>(path, handle),
@@ -310,6 +485,8 @@ class Data<std::vector<ContentType>>
    *
    * We read the next size and then read that many items from
    * the content data set into the vector handle.
+   *
+   * @param[in] f h5::Reader to load from
    */
   void load(Reader& f) final override {
     size_.load(f);
@@ -326,6 +503,8 @@ class Data<std::vector<ContentType>>
    * @note We assume that the saves are done sequentially.
    *
    * We write the size and the content onto the end of their data sets.
+   *
+   * @param[in] f h5::Writer to save to
    */
   void save(Writer& f) final override {
     size_.update(this->handle_->size());
@@ -344,13 +523,16 @@ class Data<std::vector<ContentType>>
 };  // Data<std::vector>
 
 /**
- * Maps
+ * Our wrapper around std::map
  *
  * Very similar implementation as vectors, just having
  * two columns rather than only one.
  *
  * @note We assume the load/save is done sequentially.
- * Similar rational as Vectors
+ * Similar rational as h5::Data<std::vector<ContentType>>
+ *
+ * @tparam KeyType type that the keys in the map are
+ * @tparam ValType type that the vals in the map are
  */
 template <typename KeyType, typename ValType>
 class Data<std::map<KeyType,ValType>>
@@ -359,6 +541,9 @@ class Data<std::map<KeyType,ValType>>
   /**
    * We create three child data sets, one for the successive sizes
    * of the maps and two to hold all the keys and values serially.
+   *
+   * @param[in] path full in-file path to set holding this data
+   * @param[in] handle pointer to object already constructed (optional)
    */
   explicit Data(std::string const& path, std::map<KeyType,ValType>* handle = nullptr)
       : AbstractData<std::map<KeyType,ValType>>(path, handle),
@@ -372,7 +557,9 @@ class Data<std::map<KeyType,ValType>>
    * @note We assume that the loads are done sequentially.
    *
    * We read the next size and then read that many items from
-   * the content data set into the vector handle.
+   * the keys/vals data sets into the map handle.
+   *
+   * @param[in] f h5::Reader to load from
    */
   void load(Reader& f) final override {
     size_.load(f);
@@ -388,7 +575,9 @@ class Data<std::map<KeyType,ValType>>
    *
    * @note We assume that the saves are done sequentially.
    *
-   * We write the size and the content onto the end of their data sets.
+   * We write the size and the keys/vals onto the end of their data sets.
+   *
+   * @param[in] f h5::Writer to save to
    */
   void save(Writer& f) final override {
     size_.update(this->handle_->size());
