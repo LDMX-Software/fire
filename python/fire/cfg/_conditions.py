@@ -14,11 +14,11 @@ class ConditionsProvider:
 
     Parameters
     ----------
-    objectName : str
+    obj_name : str
         Name of the object this provider provides
-    className : str
+    class_name : str
         Name (including namespace) of the C++ class of the provider
-    moduleName : str
+    module : str
         Name of module that this COP is compiled into (e.g. Ecal or EventProc)
 
     Attributes
@@ -32,8 +32,8 @@ class ConditionsProvider:
     fire.cfg.Process.declareConditionsProvider : how COPs are registered
     """
 
-    def __init__(self, object_name, class_name, module):
-        self.object_name=object_name
+    def __init__(self, obj_name, class_name, module):
+        self.obj_name=obj_name
         self.class_name=class_name
         self.tag_name=''
 
@@ -68,11 +68,11 @@ class ConditionsProvider:
         if not isinstance(other,ConditionsProvider) :
             return NotImplemented
 
-        return (self.object_name == other.object_name and self.class_name == other.class_name)
+        return (self.obj_name == other.obj_name and self.class_name == other.class_name)
 
     def __repr__(self) :
         """Represent this provider with its Python class name, instance name, and C++ name"""
-        return f'{self.__class__.__name__}({self.class_name} providing {self.object_name})'
+        return f'{self.__class__.__name__}({self.class_name} providing {self.obj_name})'
 
     def __str__(self) :
         """A full str print of the processor includes the repr as well as all of its parameters"""
