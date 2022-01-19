@@ -16,7 +16,7 @@ It's a stretch but it's worth it for the cool name.
   </a>
 </p>
 
-A event-by-event processing framework using [HDF5](https://www.hdfgroup.org/) via [HighFive](https://github.com/BlueBrain/HighFive) for serialization, [Boost](https://www.boost.org/) for logging, and C++17.
+An event-by-event processing framework using [HDF5](https://www.hdfgroup.org/) via [HighFive](https://github.com/BlueBrain/HighFive) for serialization, [Boost](https://www.boost.org/) for logging, and C++17.
 
 The core idea of this framework is the assumption that our data (simulated or real) can be grouped into "events" that we can assume are independent (for the software, not necessarily true in real life).
 Each event is given to a sequence of "processors" that can look at the current data in the event and potentially produce more data to put into the event.
@@ -27,19 +27,20 @@ This configuration style is extermely flexible and allows both C++ and Python to
 Besides this core functionality of processors looking at data event-by-event, there are optional helpers that allow processors to log through boost logging and access "conditions" through a centrally-controlled system.
 
 ## Features
-- Dynamic run-time facotyr: loading of libraries containing processors 
-  and creation of registered processors using their full C++ class name
-- Header for event-wide information
-- Header for run-wide information
-- Simple serialization of user-defined classes allowing for quick h5py-based analyses
-- Run-time configuration via a python script
-- Modern CMake infrasture enabling simple `find_package(fire)` syntax
+- Dynamic run-time loading of libraries containing processors and 
+  creation of registered processors using their full C++ class name: fire::factory::Factory 
+- Header for event-wide information: fire::EventHeader
+- Header for run-wide information: fire::RunHeader
+- Simple serialization of user-defined classes allowing 
+  for quick h5py-based analyses: fire::h5
+- Run-time configuration via a python script: fire::config
 - Drop/Keep Rules: Regex-based rules for copying data from input file to output file
-  or choosing to _not_ save data created during processing
+  or choosing to _not_ save data created during processing: fire::Event
 - Veto: Voting system for processors to decide if an entire event
-  should be saved into the output file
-- Logging through Boost
-- Interface to a conditions system for support data
+  should be saved into the output file : fire::StorageControl
+- Logging through Boost : fire::logging
+- Interface to a conditions system for support data : fire::Conditions
+- Modern CMake infrasture enabling simple `find_package(fire)` syntax
 
 ## Dependencies
 
@@ -50,6 +51,6 @@ Besides this core functionality of processors looking at data event-by-event, th
 - Boost Core (for various low-level tasks like demangling)
 - Boost Logging (for logging through fire)
 
-### Developr Dependencies (for testing)
+### Developer Dependencies (for testing)
 - Boost Unit Testing Framework
 - [pytest](https://docs.pytest.org/en/6.2.x/)
