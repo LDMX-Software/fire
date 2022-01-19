@@ -99,7 +99,7 @@ void Event::setInputFile(h5::Reader& r) {
 
 void Event::next() {
   i_entry_++;
-  for (auto& [_, obj] : objects_) obj.set_->clear();
+  for (auto& [_, obj] : objects_) obj.clear();
 }
 
 void Event::done() {

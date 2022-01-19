@@ -15,16 +15,16 @@ void ParameterStorage::clear() {
   }
 }
 
-DataSet<ParameterStorage>::DataSet(const std::string& name, ParameterStorage* handle)
-    : AbstractDataSet<ParameterStorage>(name, handle) {}
+DataSet<ParameterStorage>::DataSet(const std::string& path, ParameterStorage* handle)
+    : AbstractDataSet<ParameterStorage>(path, handle) {}
 
 void DataSet<ParameterStorage>::load(Reader& r) {
   static bool first_load{true};
   if (first_load) {
     first_load = false;
     // first load - discovery - look through file to find parameters on disk
-    for (auto pname : r.list(this->name_)) {
-      std::string path{this->name_+"/"+pname};
+    for (auto pname : r.list(this->path_)) {
+      std::string path{this->path_+"/"+pname};
       auto type{r.getDataSetType(path)};
       if (type == HighFive::DataTypeClass::Integer) {
         int i{};

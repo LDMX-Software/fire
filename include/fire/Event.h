@@ -82,6 +82,7 @@ class Event {
       obj.set_ = std::make_unique<h5::DataSet<DataType>>(h5::Reader::EVENT_GROUP+"/"+full_name);
       obj.should_save_ = keep(full_name, true);
       obj.should_load_ = false;
+      obj.updated_ = false;
       products_.emplace_back(name, pass_,boost::core::demangle(typeid(DataType).name()));
 
       // if we are saving this object, we should save the default value for all entries
@@ -95,15 +96,17 @@ class Event {
       }
     }
 
+    auto& obj{objects_.at(full_name)};
+    if (obj.updated_) {
+      // this data set has been updated by another processor
+      throw Exception("SetRepeat",
+          "DataSet named " + full_name + " already added to the event.");
+    }
+
     try {
       /// maybe throw bad_cast exception
-      auto& s{objects_.at(full_name).getDataSetRef<DataType>()};
-      if (s.updated()) {
-        // this data set has been updated by another processor
-        throw Exception("SetRepeat",
-            "DataSet named " + full_name + " already added to the event.");
-      }
-      s.update(data);
+      obj.getDataSetRef<DataType>().update(data);
+      obj.updated_ = true;
     } catch (std::bad_cast const&) {
       throw Exception("TypeMismatch",
           "DataSet corresponding to " + full_name + " has different type.");
@@ -165,6 +168,7 @@ class Event {
       obj.set_ = std::make_unique<h5::DataSet<DataType>>(h5::Reader::EVENT_GROUP+"/"+full_name);
       obj.should_save_ = keep(full_name, false);
       obj.should_load_ = true;
+      obj.updated_ = false;
       // get this object up to the current entry
       //    loading may throw an H5 error
       for (std::size_t i{0}; i < i_entry_+1; i++)
@@ -309,6 +313,8 @@ class Event {
     bool should_save_;
     /// should we load the data from the input file?
     bool should_load_;
+    /// have we been updated on the current event?
+    bool updated_;
     /**
      * Helper for getting a reference to the dataset
      *
@@ -317,6 +323,16 @@ class Event {
     template <typename DataType>
     h5::DataSet<DataType>& getDataSetRef() {
       return dynamic_cast<h5::DataSet<DataType>&>(*set_);
+    }
+    /**
+     * Clear the event object at the end of an event
+     *
+     * We reset the flag saying if this object has been
+     * updated by a processor and call the set's clear.
+     */
+    void clear() {
+      updated_ = false;
+      set_->clear();
     }
   };
   /// list of event objects being processed

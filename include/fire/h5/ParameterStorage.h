@@ -72,7 +72,7 @@ class ParameterStorage {
 template <>
 class DataSet<ParameterStorage> : public AbstractDataSet<ParameterStorage> {
  public:
-  DataSet(const std::string& name, ParameterStorage* handle);
+  DataSet(const std::string& path, ParameterStorage* handle);
   /**
    * @note This load mechanic does not support changing pass names.
    * This limits us to only using this type of dataset in the event
@@ -85,7 +85,7 @@ class DataSet<ParameterStorage> : public AbstractDataSet<ParameterStorage> {
   template <typename ParameterType>
   void attach(const std::string& name) {
     parameters_[name] = std::make_unique<DataSet<ParameterType>>(
-        this->name_ + "/" + name, 
+        this->path_ + "/" + name, 
         std::get_if<ParameterType>(&(this->handle_->parameters_[name])));
   }
 
