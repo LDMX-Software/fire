@@ -147,8 +147,13 @@ install(TARGETS framework exception config factory h5 version logging
 # need pattern to exclude version header configured by CMake above
 install(DIRECTORY include/ DESTINATION include/ FILES_MATCHING PATTERN "*.h")
 
-# install python directory excluding tests
-install(DIRECTORY python/ DESTINATION python/ FILES_MATCHING PATTERN "test_*" EXCLUDE)
+# install everything except the pytest modules
+install(DIRECTORY python/ DESTINATION python/ FILES_MATCHING 
+  PATTERN "*.py" # INCLUDE
+  PATTERN "test_*" EXCLUDE
+  PATTERN ".pytest_cache" EXCLUDE
+  PATTERN "__pycache__" EXCLUDE
+  )
 
 # install the export file
 install(EXPORT fireTargets
