@@ -4,7 +4,7 @@
 #include <regex>
 #include <boost/core/demangle.hpp>
 
-#include "fire/h5/DataSet.h"
+#include "fire/h5/Data.h"
 #include "fire/ProductTag.h"
 #include "fire/EventHeader.h"
 
@@ -79,7 +79,7 @@ class Event {
       // - we mark these objects as should_load == false because
       //   they are new and not from an input file
       auto& obj{objects_[full_name]};
-      obj.set_ = std::make_unique<h5::DataSet<DataType>>(h5::Reader::EVENT_GROUP+"/"+full_name);
+      obj.data_ = std::make_unique<h5::Data<DataType>>(h5::Reader::EVENT_GROUP+"/"+full_name);
       obj.should_save_ = keep(full_name, true);
       obj.should_load_ = false;
       obj.updated_ = false;
@@ -90,26 +90,26 @@ class Event {
       // allows users to asyncronously add event objects and the events without an 'add'
       // have a 'default' or 'cleared' object value.
       if (obj.should_save_) {
-        obj.set_->clear();
+        obj.data_->clear();
         for (std::size_t i{0}; i < i_entry_; i++)
-          obj.set_->save(output_file_);
+          obj.data_->save(output_file_);
       }
     }
 
     auto& obj{objects_.at(full_name)};
     if (obj.updated_) {
       // this data set has been updated by another processor
-      throw Exception("SetRepeat",
-          "DataSet named " + full_name + " already added to the event.");
+      throw Exception("Repeat",
+          "Data named " + full_name + " already added to the event.");
     }
 
     try {
       /// maybe throw bad_cast exception
-      obj.getDataSetRef<DataType>().update(data);
+      obj.getDataRef<DataType>().update(data);
       obj.updated_ = true;
     } catch (std::bad_cast const&) {
       throw Exception("TypeMismatch",
-          "DataSet corresponding to " + full_name + " has different type.");
+          "Data corresponding to " + full_name + " has different type.");
     }
   }
 
@@ -138,11 +138,11 @@ class Event {
       auto type = boost::core::demangle(typeid(DataType).name());
       auto options{search("^" + name + "$", "", "^" + type + "$")};
       if (options.size() == 0) {
-        throw Exception("SetMiss",
-            "DataSet " + name + " of type " + type + " not found.");
+        throw Exception("Miss",
+            "Data " + name + " of type " + type + " not found.");
       } else if (options.size() > 1) {
-        throw Exception("SetAmbig",
-            "DataSet " + name + " of type " + type + " is ambiguous. Provide a pass name.");
+        throw Exception("Ambig",
+            "Data " + name + " of type " + type + " is ambiguous. Provide a pass name.");
       }
 
       // exactly one option
@@ -165,22 +165,22 @@ class Event {
       // - we mark these objects as should_load == false because
       //   they are new and not from an input file
       auto& obj{objects_[full_name]};
-      obj.set_ = std::make_unique<h5::DataSet<DataType>>(h5::Reader::EVENT_GROUP+"/"+full_name);
+      obj.data_ = std::make_unique<h5::Data<DataType>>(h5::Reader::EVENT_GROUP+"/"+full_name);
       obj.should_save_ = keep(full_name, false);
       obj.should_load_ = true;
       obj.updated_ = false;
       // get this object up to the current entry
       //    loading may throw an H5 error
       for (std::size_t i{0}; i < i_entry_+1; i++)
-        obj.set_->load(*input_file_);
+        obj.data_->load(*input_file_);
     }
 
     // type casting, 'bad_cast' thrown if unable
     try {
-      return objects_[full_name].getDataSetRef<DataType>().get();
+      return objects_[full_name].getDataRef<DataType>().get();
     } catch (const std::bad_cast&) {
       throw Exception("BadType",
-          "DataSet corresponding to " + full_name + " has different type.");
+          "Data corresponding to " + full_name + " has different type.");
     }
   }
 
@@ -307,8 +307,8 @@ class Event {
    * structure to hold event data in memory
    */
   struct EventObject {
-    /// the dataset for save/load the data
-    std::unique_ptr<h5::BaseDataSet> set_;
+    /// the data for save/load
+    std::unique_ptr<h5::BaseData> data_;
     /// should we save the data into output file?
     bool should_save_;
     /// should we load the data from the input file?
@@ -321,8 +321,8 @@ class Event {
      * @throws bad_cast if DataSet does not hold the same type
      */
     template <typename DataType>
-    h5::DataSet<DataType>& getDataSetRef() {
-      return dynamic_cast<h5::DataSet<DataType>&>(*set_);
+    h5::Data<DataType>& getDataRef() {
+      return dynamic_cast<h5::Data<DataType>&>(*data_);
     }
     /**
      * Clear the event object at the end of an event
@@ -332,7 +332,7 @@ class Event {
      */
     void clear() {
       updated_ = false;
-      set_->clear();
+      data_->clear();
     }
   };
   /// list of event objects being processed

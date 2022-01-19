@@ -5,7 +5,7 @@
 #include <string>
 
 #include "fire/version/Version.h"
-#include "fire/h5/DataSet.h"
+#include "fire/h5/Data.h"
 #include "fire/h5/ParameterStorage.h"
 
 namespace fire {
@@ -20,7 +20,7 @@ namespace fire {
  */
 class RunHeader {
  public:
-  /// the name of the dataset holding the run headers
+  /// the name of the data holding the run headers
   static const std::string NAME;
 
   /** @return The run number. */
@@ -142,24 +142,24 @@ class RunHeader {
   }
 
  private:
-  /// friends with the DataSet that can read/write us
-  friend class h5::DataSet<RunHeader>;
+  /// friends with the h5::Data that can read/write us
+  friend class h5::Data<RunHeader>;
 
   /**
-   * Attach to our DataSet
+   * Attach to our h5::Data
    *
    * We attach all of our parameters.
    *
-   * @param[in] set DataSet to attach to
+   * @param[in] d h5::Data to attach to
    */
-  void attach(h5::DataSet<RunHeader>& set) {
-    set.attach("number",number_);
-    set.attach("start",runStart_);
-    set.attach("end",runEnd_);
-    set.attach("detectorName",detectorName_);
-    set.attach("description",description_);
-    set.attach("softwareTag",softwareTag_);
-    set.attach("parameters",parameters_);
+  void attach(h5::Data<RunHeader>& d) {
+    d.attach("number",number_);
+    d.attach("start",runStart_);
+    d.attach("end",runEnd_);
+    d.attach("detectorName",detectorName_);
+    d.attach("description",description_);
+    d.attach("softwareTag",softwareTag_);
+    d.attach("parameters",parameters_);
   }
 
  private:

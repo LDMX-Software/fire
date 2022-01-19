@@ -79,8 +79,8 @@ void Process::run() {
     runHeader().runEnd();
     fire_log(info) << runHeader();
 
-    h5::DataSet<RunHeader> write_ds{RunHeader::NAME, run_header_};
-    write_ds.save(output_file_);
+    h5::Data<RunHeader> write_d{RunHeader::NAME, run_header_};
+    write_d.save(output_file_);
 
   } else {
     fire_log(info) << input_files_.size()
@@ -99,12 +99,12 @@ void Process::run() {
        * Load runs into in-memory cache
        */
       {
-        h5::DataSet<RunHeader> read_ds{RunHeader::NAME};
+        h5::Data<RunHeader> read_d{RunHeader::NAME};
         std::size_t num_runs = input_file.runs();
         for (std::size_t i_run{0}; i_run < num_runs; i_run++) {
-          read_ds.load(input_file);
+          read_d.load(input_file);
           // deep copy
-          input_runs[read_ds.get().getRunNumber()] = read_ds.get();
+          input_runs[read_d.get().getRunNumber()] = read_d.get();
         }
       }
 
@@ -152,10 +152,10 @@ void Process::run() {
 
     // copy the input run headers to the output file
     {
-      h5::DataSet<RunHeader> write_ds(RunHeader::NAME);
+      h5::Data<RunHeader> write_d(RunHeader::NAME);
       for (const auto& [_, rh] : input_runs) {
-        write_ds.update(rh);
-        write_ds.save(output_file_);
+        write_d.update(rh);
+        write_d.save(output_file_);
       }
     }
   }  // are there input files? if-else tree

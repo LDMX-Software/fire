@@ -1,5 +1,5 @@
-#ifndef FIRE_H5_DATASET_H
-#define FIRE_H5_DATASET_H
+#ifndef FIRE_H5_DATA_H
+#define FIRE_H5_DATA_H
 
 #include <memory>
 #include <type_traits>
@@ -25,17 +25,17 @@ namespace fire::h5 {
  * the derived data sets to define a load and save mechanism
  * for loading/saving the dataset from/to the file.
  */
-class BaseDataSet {
+class BaseData {
  public:
   /**
    * Basic constructor
    */
-  explicit BaseDataSet() = default;
+  explicit BaseData() = default;
 
   /**
    * virtual destructor so inherited classes can be properly destructed.
    */
-  virtual ~BaseDataSet() = default;
+  virtual ~BaseData() = default;
 
   /**
    * pure virtual method for loading the next entry in the data set
@@ -67,7 +67,7 @@ class BaseDataSet {
  * @tparam DataType type of data being held in this set
  */
 template <typename DataType>
-class AbstractDataSet : public BaseDataSet {
+class AbstractData : public BaseData {
  public:
   /**
    * Define the dataset path and provide an optional handle
@@ -83,8 +83,8 @@ class AbstractDataSet : public BaseDataSet {
    * @param[in] path full in-file path to the dataset
    * @param[in] handle address of object already created (optional)
    */
-  explicit AbstractDataSet(const std::string& path, DataType* handle = nullptr)
-      : BaseDataSet(), path_{path}, owner_{handle == nullptr} {
+  explicit AbstractData(const std::string& path, DataType* handle = nullptr)
+      : BaseData(), path_{path}, owner_{handle == nullptr} {
     if (owner_) {
       handle_ = new DataType;
     } else {
@@ -96,9 +96,9 @@ class AbstractDataSet : public BaseDataSet {
    * Delete our object if we own it, otherwise do nothing.
    *
    * @note This is virtual, but I can't think of a good reason to re-implement
-   * this function in downstream DataSets!
+   * this function in downstream Datas!
    */
-  virtual ~AbstractDataSet() {
+  virtual ~AbstractData() {
     if (owner_) delete handle_;
   }
 
@@ -169,7 +169,7 @@ class AbstractDataSet : public BaseDataSet {
   DataType* handle_;
   /// we own the object in memory
   bool owner_;
-};  // AbstractDataSet
+};  // AbstractData
 
 /**
  * General data set
@@ -184,8 +184,8 @@ class AbstractDataSet : public BaseDataSet {
  *   MyData() = default; // required by serialization technique
  *   // other public members
  *  private:
- *   friend class fire::h5::DataSet<MyData>;
- *   void attach(fire::h5::DataSet<MyData>& set) {
+ *   friend class fire::h5::Data<MyData>;
+ *   void attach(fire::h5::Data<MyData>& set) {
  *     set.attach("my_double",my_double_);
  *   }
  *   void clear() {
@@ -199,18 +199,18 @@ class AbstractDataSet : public BaseDataSet {
  * ```
  */
 template <typename DataType, typename Enable = void>
-class DataSet : public AbstractDataSet<DataType> {
+class Data : public AbstractData<DataType> {
  public:
   /**
    * Default constructor
    *
-   * After the intermediate class AbstractDataSet does the
+   * After the intermediate class AbstractData does the
    * initialization, we call the 'attach' method of the data
    * pointed to by our handle. This allows us to register
    * its member variables with our own 'attach' method.
    */
-  explicit DataSet(std::string const& path, DataType* handle = nullptr)
-      : AbstractDataSet<DataType>(path, handle) {
+  explicit Data(std::string const& path, DataType* handle = nullptr)
+      : AbstractData<DataType>(path, handle) {
     this->handle_->attach(*this);
   }
 
@@ -233,7 +233,7 @@ class DataSet : public AbstractDataSet<DataType> {
   /**
    * Attach a member object from the our data handle
    *
-   * We create a new child DataSet so that we can recursively
+   * We create a new child Data so that we can recursively
    * handle complex member variable types.
    *
    * @tparam[in] MemberType type of member variable we are attaching
@@ -243,13 +243,13 @@ class DataSet : public AbstractDataSet<DataType> {
   template <typename MemberType>
   void attach(std::string const& name, MemberType& m) {
     members_.push_back(
-        std::make_unique<DataSet<MemberType>>(this->path_ + "/" + name, &m));
+        std::make_unique<Data<MemberType>>(this->path_ + "/" + name, &m));
   }
 
  private:
   /// list of members in this dataset
-  std::vector<std::unique_ptr<BaseDataSet>> members_;
-};  // DataSet
+  std::vector<std::unique_ptr<BaseData>> members_;
+};  // Data
 
 /**
  * Atomic types
@@ -258,15 +258,15 @@ class DataSet : public AbstractDataSet<DataType> {
  * we can start actually calling the file load and save methods.
  */
 template <typename AtomicType>
-class DataSet<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
-    : public AbstractDataSet<AtomicType> {
+class Data<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
+    : public AbstractData<AtomicType> {
  public:
   /**
    * We don't do any more initialization except which is handled by the
-   * AbstractDataSet
+   * AbstractData
    */
-  explicit DataSet(std::string const& path, AtomicType* handle = nullptr)
-      : AbstractDataSet<AtomicType>(path, handle) {}
+  explicit Data(std::string const& path, AtomicType* handle = nullptr)
+      : AbstractData<AtomicType>(path, handle) {}
   /**
    * Call the H5Easy::load method with our atomic type and our path
    */
@@ -279,7 +279,7 @@ class DataSet<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
   void save(Writer& f) final override {
     f.save(this->path_, *(this->handle_));
   }
-};  // DataSet<AtomicType>
+};  // Data<AtomicType>
 
 /**
  * Vectors
@@ -291,15 +291,15 @@ class DataSet<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
  *      as much metadata about the vectors.
  */
 template <typename ContentType>
-class DataSet<std::vector<ContentType>>
-    : public AbstractDataSet<std::vector<ContentType>> {
+class Data<std::vector<ContentType>>
+    : public AbstractData<std::vector<ContentType>> {
  public:
   /**
    * We create two child data sets, one to hold the successive sizes of the
    * vectors and one to hold all of the data in all of the vectors serially.
    */
-  explicit DataSet(std::string const& path, std::vector<ContentType>* handle = nullptr)
-      : AbstractDataSet<std::vector<ContentType>>(path, handle),
+  explicit Data(std::string const& path, std::vector<ContentType>* handle = nullptr)
+      : AbstractData<std::vector<ContentType>>(path, handle),
         size_{path + "/size"},
         data_{path + "/data"} {}
 
@@ -338,10 +338,10 @@ class DataSet<std::vector<ContentType>>
 
  private:
   /// the data set of sizes of the vectors
-  DataSet<std::size_t> size_;
+  Data<std::size_t> size_;
   /// the data set holding the content of all the vectors
-  DataSet<ContentType> data_;
-};  // DataSet<std::vector>
+  Data<ContentType> data_;
+};  // Data<std::vector>
 
 /**
  * Maps
@@ -353,15 +353,15 @@ class DataSet<std::vector<ContentType>>
  * Similar rational as Vectors
  */
 template <typename KeyType, typename ValType>
-class DataSet<std::map<KeyType,ValType>>
-    : public AbstractDataSet<std::map<KeyType,ValType>> {
+class Data<std::map<KeyType,ValType>>
+    : public AbstractData<std::map<KeyType,ValType>> {
  public:
   /**
    * We create three child data sets, one for the successive sizes
    * of the maps and two to hold all the keys and values serially.
    */
-  explicit DataSet(std::string const& path, std::map<KeyType,ValType>* handle = nullptr)
-      : AbstractDataSet<std::map<KeyType,ValType>>(path, handle),
+  explicit Data(std::string const& path, std::map<KeyType,ValType>* handle = nullptr)
+      : AbstractData<std::map<KeyType,ValType>>(path, handle),
         size_{path + "/size"},
         keys_{path + "/keys"},
         vals_{path + "/vals"} {}
@@ -403,12 +403,12 @@ class DataSet<std::map<KeyType,ValType>>
 
  private:
   /// the data set of sizes of the vectors
-  DataSet<std::size_t> size_;
+  Data<std::size_t> size_;
   /// the data set holding the content of all the keys
-  DataSet<KeyType> keys_;
+  Data<KeyType> keys_;
   /// the data set holding the content of all the vals
-  DataSet<ValType> vals_;
-};  // DataSet<std::map>
+  Data<ValType> vals_;
+};  // Data<std::map>
 
 }  // namespace fire::h5
 

@@ -112,15 +112,15 @@ class EventHeader {
 
  private:
   /// allow data set access for reading/writing
-  friend class h5::DataSet<EventHeader>;
-  void attach(h5::DataSet<EventHeader>& set) {
+  friend class h5::Data<EventHeader>;
+  void attach(h5::Data<EventHeader>& d) {
     // make sure we use the name for this variable that the reader expects
-    set.attach(h5::Reader::EVENT_HEADER_NUMBER,number_);
-    set.attach("run",run_);
-    set.attach("timestamp",timestamp_);
-    set.attach("weight",weight_);
-    set.attach("isRealData",isRealData_);
-    set.attach("parameters",parameters_);
+    d.attach(h5::Reader::EVENT_HEADER_NUMBER,number_);
+    d.attach("run",run_);
+    d.attach("timestamp",timestamp_);
+    d.attach("weight",weight_);
+    d.attach("isRealData",isRealData_);
+    d.attach("parameters",parameters_);
   }
 
   /**

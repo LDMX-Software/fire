@@ -43,10 +43,11 @@ Event::Event(h5::Writer& output_file,
   //    we own the pointer in this special case so we can return both mutable
   //    and const references
   auto& obj{objects_[EventHeader::NAME]};
-  obj.set_ = std::make_unique<h5::DataSet<EventHeader>>(EventHeader::NAME,
+  obj.data_ = std::make_unique<h5::Data<EventHeader>>(EventHeader::NAME,
                                                         header_.get()),
   obj.should_save_ = true;   // always save event header
   obj.should_load_ = false;  // don't load unless input files are passed
+  obj.updated_ = false;      // not used for EventHeader
   // construct rules from rule configuration parameters
   for (const auto& rule : dk_rules) {
     auto regex{rule.get<std::string>("regex")};
@@ -65,13 +66,13 @@ Event::Event(h5::Writer& output_file,
 
 void Event::save() {
   for (auto& [_, obj] : objects_)
-    if (obj.should_save_) obj.set_->save(output_file_);
+    if (obj.should_save_) obj.data_->save(output_file_);
 }
 
 void Event::load() {
   assert(input_file_);
   for (auto& [_, obj] : objects_)
-    if (obj.should_load_) obj.set_->load(*input_file_);
+    if (obj.should_load_) obj.data_->load(*input_file_);
 }
 
 void Event::setInputFile(h5::Reader& r) {

@@ -97,7 +97,6 @@ target_include_directories(config
 add_library(h5 SHARED
   src/fire/h5/Writer.cxx
   src/fire/h5/Reader.cxx
-  src/fire/h5/DataSet.cxx
   src/fire/h5/ParameterStorage.cxx)
 target_link_libraries(h5 PUBLIC HighFive config)
 target_include_directories(h5

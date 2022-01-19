@@ -9,7 +9,7 @@
 #include <string>
 #include <variant>
 
-#include "fire/h5/DataSet.h"
+#include "fire/h5/Data.h"
 #include "fire/h5/Reader.h"
 #include "fire/exception/Exception.h"
 
@@ -18,7 +18,7 @@ namespace fire::h5 {
 /**
  * @class ParameterStorage
  * @brief Provides dynamic parameter storage by interfacing between a map
- * to variants storing parameters and a specialized DataSet
+ * to variants storing parameters and a specialized Data
  */
 class ParameterStorage {
  public:
@@ -57,7 +57,7 @@ class ParameterStorage {
 
  private:
   /// allow data set access for reading/writing
-  friend class DataSet<ParameterStorage>;
+  friend class Data<ParameterStorage>;
 
   /**
    * three types of parameters are allowed: int, float, string
@@ -67,12 +67,12 @@ class ParameterStorage {
 };
 
 /**
- * DataSet specialization for ParameterStorage
+ * Data specialization for ParameterStorage
  */
 template <>
-class DataSet<ParameterStorage> : public AbstractDataSet<ParameterStorage> {
+class Data<ParameterStorage> : public AbstractData<ParameterStorage> {
  public:
-  DataSet(const std::string& path, ParameterStorage* handle);
+  Data(const std::string& path, ParameterStorage* handle);
   /**
    * @note This load mechanic does not support changing pass names.
    * This limits us to only using this type of dataset in the event
@@ -84,14 +84,14 @@ class DataSet<ParameterStorage> : public AbstractDataSet<ParameterStorage> {
  private:
   template <typename ParameterType>
   void attach(const std::string& name) {
-    parameters_[name] = std::make_unique<DataSet<ParameterType>>(
+    parameters_[name] = std::make_unique<Data<ParameterType>>(
         this->path_ + "/" + name, 
         std::get_if<ParameterType>(&(this->handle_->parameters_[name])));
   }
 
  private:
   /// the dynamic parameter listing (parallel to parameters_ member variable)
-  std::unordered_map<std::string, std::unique_ptr<BaseDataSet>> parameters_;
+  std::unordered_map<std::string, std::unique_ptr<BaseData>> parameters_;
 };
 
 }  // namespace fire::h5

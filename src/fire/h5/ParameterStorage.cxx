@@ -15,10 +15,10 @@ void ParameterStorage::clear() {
   }
 }
 
-DataSet<ParameterStorage>::DataSet(const std::string& path, ParameterStorage* handle)
-    : AbstractDataSet<ParameterStorage>(path, handle) {}
+Data<ParameterStorage>::Data(const std::string& path, ParameterStorage* handle)
+    : AbstractData<ParameterStorage>(path, handle) {}
 
-void DataSet<ParameterStorage>::load(Reader& r) {
+void Data<ParameterStorage>::load(Reader& r) {
   static bool first_load{true};
   if (first_load) {
     first_load = false;
@@ -44,7 +44,7 @@ void DataSet<ParameterStorage>::load(Reader& r) {
   for (auto& [name, set] : parameters_) set->load(r);
 }
 
-void DataSet<ParameterStorage>::save(Writer& w) {
+void Data<ParameterStorage>::save(Writer& w) {
   // go through all of the ParameterStorage's parameters and make a new dataset
   // if it hasn't been made yet, and then save the dataset for that parameter
   for (auto& [name, val] : this->handle_->parameters_) {

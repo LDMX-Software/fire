@@ -5,7 +5,7 @@
 #include <iostream>
 
 // H5
-#include "fire/h5/DataSet.h"
+#include "fire/h5/Data.h"
 
 namespace bench {
 
@@ -204,20 +204,20 @@ class Hit {
    */
   int pdgID_{0};
 
-  friend class fire::h5::DataSet<Hit>;
-  void attach(fire::h5::DataSet<Hit>& set) {
-    set.attach("layerID", layerID_);
-    set.attach("moduleID", moduleID_);
-    set.attach("time", time_);
-    set.attach("px", px_);
-    set.attach("py", py_);
-    set.attach("pz", pz_);
-    set.attach("energy",energy_);
-    set.attach("x", x_);
-    set.attach("y", y_);
-    set.attach("z", z_);
-    set.attach("trackID",trackID_);
-    set.attach("pdgID",pdgID_);
+  friend class fire::h5::Data<Hit>;
+  void attach(fire::h5::Data<Hit>& d) {
+    d.attach("layerID", layerID_);
+    d.attach("moduleID", moduleID_);
+    d.attach("time", time_);
+    d.attach("px", px_);
+    d.attach("py", py_);
+    d.attach("pz", pz_);
+    d.attach("energy",energy_);
+    d.attach("x", x_);
+    d.attach("y", y_);
+    d.attach("z", z_);
+    d.attach("trackID",trackID_);
+    d.attach("pdgID",pdgID_);
   }
 
 };  // Hit
