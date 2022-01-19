@@ -7,7 +7,7 @@ var searchData=
   ['dataset_3c_20std_3a_3amap_3c_20keytype_2c_20valtype_20_3e_20_3e_4',['DataSet&lt; std::map&lt; KeyType, ValType &gt; &gt;',['../classfire_1_1h5_1_1DataSet_3_01std_1_1map_3_01KeyType_00_01ValType_01_4_01_4.html',1,'fire::h5']]],
   ['dataset_3c_20std_3a_3avector_3c_20contenttype_20_3e_20_3e_5',['DataSet&lt; std::vector&lt; ContentType &gt; &gt;',['../classfire_1_1h5_1_1DataSet_3_01std_1_1vector_3_01ContentType_01_4_01_4.html',1,'fire::h5']]],
   ['debug_6',['debug',['../namespacefire_1_1logging.html#ac97b2d477a714cca17fa9cc9ac2a1726a1b7f103eaa9c55d3f8fab6eca048b764',1,'fire::logging']]],
-  ['declare_7',['declare',['../classfire_1_1factory_1_1Factory.html#a1f722166d2b4b5d950d7470139615b21',1,'fire::factory::Factory']]],
+  ['declare_7',['declare',['../classfire_1_1factory_1_1Factory.html#a8ce8d2289eaa7f1773c5526c58c42f26',1,'fire::factory::Factory']]],
   ['default_5fkeep_5f_8',['default_keep_',['../classfire_1_1StorageControl.html#a7240ee9ac02506397dff2cdbf8a5715a',1,'fire::StorageControl']]],
   ['description_5f_9',['description_',['../classfire_1_1RunHeader.html#a2ae59052c6ad4fd8d6f95683216a0e95',1,'fire::RunHeader']]],
   ['detectorname_5f_10',['detectorName_',['../classfire_1_1RunHeader.html#a2b6b29ba5445e0649cb95a28de58e50a',1,'fire::RunHeader']]],

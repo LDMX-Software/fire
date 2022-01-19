@@ -39,7 +39,7 @@ var hierarchy =
       [ "fire::Exception", "classfire_1_1Exception.html", null ],
       [ "fire::Processor::AbortEventException", "classfire_1_1Processor_1_1AbortEventException.html", null ]
     ] ],
-    [ "fire::factory::Factory< Prototype, PrototypePtr, PrototypeMakerArgs >", "classfire_1_1factory_1_1Factory.html", null ],
+    [ "fire::factory::Factory< Prototype, PrototypePtr, PrototypeConstructorArgs >", "classfire_1_1factory_1_1Factory.html", null ],
     [ "fire::config::Parameters", "classfire_1_1config_1_1Parameters.html", null ],
     [ "fire::h5::ParameterStorage", "classfire_1_1h5_1_1ParameterStorage.html", null ],
     [ "fire::Process", "classfire_1_1Process.html", null ],

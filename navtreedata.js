@@ -26,8 +26,10 @@ var NAVTREE =
 [
   [ "fire", "index.html", [
     [ "🔥 fire 🔥", "index.html", [
-      [ "Features", "index.html#autotoc_md8", null ],
-      [ "Dependencies", "index.html#autotoc_md9", null ]
+      [ "Features", "index.html#autotoc_md9", null ],
+      [ "Dependencies", "index.html#autotoc_md10", [
+        [ "Developr Dependencies (for testing)", "index.html#autotoc_md11", null ]
+      ] ]
     ] ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
@@ -68,8 +70,8 @@ var NAVTREEINDEX =
 [
 "Atomic_8h_source.html",
 "classfire_1_1Exception.html#a62fd59b3a66c02c55182d03b59ef2794",
-"classfire_1_1factory_1_1Factory.html#a5ceffd49c6d20884d0a5518ddd3c93a0",
-"namespacefire_1_1logging.html#a653442491fcecf0b0af6f7d9a78a0966"
+"classfire_1_1factory_1_1Factory.html#a4be1d96412eb24fd8a99dbbe52ecc674",
+"namespacefire_1_1factory.html#abe2a1758c79496740ccdf6e13f8c2d29"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

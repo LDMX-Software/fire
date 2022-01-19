@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>fire: fire::factory::Factory&lt; Prototype, PrototypePtr, PrototypeMakerArgs &gt; Class Template Reference</title>
+<title>fire: fire::factory::Factory&lt; Prototype, PrototypePtr, PrototypeConstructorArgs &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.9.5</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.10.0</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -89,9 +89,10 @@ $(document).ready(function(){initNavTree('classfire_1_1factory_1_1Factory.html',
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
+<a href="#pri-static-methods">Static Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classfire_1_1factory_1_1Factory-members.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">fire::factory::Factory&lt; Prototype, PrototypePtr, PrototypeMakerArgs &gt; Class Template Reference</div></div>
+  <div class="headertitle"><div class="title">fire::factory::Factory&lt; Prototype, PrototypePtr, PrototypeConstructorArgs &gt; Class Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
@@ -102,56 +103,64 @@ $(document).ready(function(){initNavTree('classfire_1_1factory_1_1Factory.html',
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a7389146aaaee383ec65f3162d40496c9"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1factory_1_1Factory.html#a7389146aaaee383ec65f3162d40496c9">PrototypeMaker</a> = PrototypePtr(*)(PrototypeMakerArgs...)</td></tr>
-<tr class="memdesc:a7389146aaaee383ec65f3162d40496c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">the signature of a function that can be used by this factory to dynamically create a new object.  <a href="classfire_1_1factory_1_1Factory.html#a7389146aaaee383ec65f3162d40496c9">More...</a><br /></td></tr>
-<tr class="separator:a7389146aaaee383ec65f3162d40496c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace8ca28241aaff3856d17abb79e449ca"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1factory_1_1Factory.html#ace8ca28241aaff3856d17abb79e449ca">PrototypeMaker</a> = PrototypePtr(*)(PrototypeConstructorArgs...)</td></tr>
+<tr class="memdesc:ace8ca28241aaff3856d17abb79e449ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">the signature of a function that can be used by this factory to dynamically create a new object.  <a href="classfire_1_1factory_1_1Factory.html#ace8ca28241aaff3856d17abb79e449ca">More...</a><br /></td></tr>
+<tr class="separator:ace8ca28241aaff3856d17abb79e449ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a1f722166d2b4b5d950d7470139615b21"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1factory_1_1Factory.html#a1f722166d2b4b5d950d7470139615b21">declare</a> (const std::string &amp;full_name, <a class="el" href="classfire_1_1factory_1_1Factory.html#a7389146aaaee383ec65f3162d40496c9">PrototypeMaker</a> maker)</td></tr>
-<tr class="memdesc:a1f722166d2b4b5d950d7470139615b21"><td class="mdescLeft">&#160;</td><td class="mdescRight">register a new object to be constructible  <a href="classfire_1_1factory_1_1Factory.html#a1f722166d2b4b5d950d7470139615b21">More...</a><br /></td></tr>
-<tr class="separator:a1f722166d2b4b5d950d7470139615b21"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afcc3419e19651ac4ff287be0c8711dbd"><td class="memItemLeft" align="right" valign="top">PrototypePtr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1factory_1_1Factory.html#afcc3419e19651ac4ff287be0c8711dbd">make</a> (const std::string &amp;full_name, PrototypeMakerArgs... maker_args)</td></tr>
-<tr class="memdesc:afcc3419e19651ac4ff287be0c8711dbd"><td class="mdescLeft">&#160;</td><td class="mdescRight">make a new object by name  <a href="classfire_1_1factory_1_1Factory.html#afcc3419e19651ac4ff287be0c8711dbd">More...</a><br /></td></tr>
-<tr class="separator:afcc3419e19651ac4ff287be0c8711dbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad97735271ef98a31986754e32ab0afff"><td class="memItemLeft" align="right" valign="top"><a id="ad97735271ef98a31986754e32ab0afff" name="ad97735271ef98a31986754e32ab0afff"></a>
+<tr class="memitem:a8ce8d2289eaa7f1773c5526c58c42f26"><td class="memTemplParams" colspan="2">template&lt;typename DerivedType &gt; </td></tr>
+<tr class="memitem:a8ce8d2289eaa7f1773c5526c58c42f26"><td class="memTemplItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classfire_1_1factory_1_1Factory.html#a8ce8d2289eaa7f1773c5526c58c42f26">declare</a> (const std::string &amp;full_name)</td></tr>
+<tr class="memdesc:a8ce8d2289eaa7f1773c5526c58c42f26"><td class="mdescLeft">&#160;</td><td class="mdescRight">register a new object to be constructible  <a href="classfire_1_1factory_1_1Factory.html#a8ce8d2289eaa7f1773c5526c58c42f26">More...</a><br /></td></tr>
+<tr class="separator:a8ce8d2289eaa7f1773c5526c58c42f26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc240f24fc2b1cfe6a0b95f850573fee"><td class="memItemLeft" align="right" valign="top">PrototypePtr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1factory_1_1Factory.html#acc240f24fc2b1cfe6a0b95f850573fee">make</a> (const std::string &amp;full_name, PrototypeConstructorArgs... maker_args)</td></tr>
+<tr class="memdesc:acc240f24fc2b1cfe6a0b95f850573fee"><td class="mdescLeft">&#160;</td><td class="mdescRight">make a new object by name  <a href="classfire_1_1factory_1_1Factory.html#acc240f24fc2b1cfe6a0b95f850573fee">More...</a><br /></td></tr>
+<tr class="separator:acc240f24fc2b1cfe6a0b95f850573fee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4be1d96412eb24fd8a99dbbe52ecc674"><td class="memItemLeft" align="right" valign="top"><a id="a4be1d96412eb24fd8a99dbbe52ecc674" name="a4be1d96412eb24fd8a99dbbe52ecc674"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Factory</b> (<a class="el" href="classfire_1_1factory_1_1Factory.html">Factory</a> const &amp;)=delete</td></tr>
-<tr class="memdesc:ad97735271ef98a31986754e32ab0afff"><td class="mdescLeft">&#160;</td><td class="mdescRight">delete the copy constructor <br /></td></tr>
-<tr class="separator:ad97735271ef98a31986754e32ab0afff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89fce53f96dd36b1a21efaa04dcb384c"><td class="memItemLeft" align="right" valign="top"><a id="a89fce53f96dd36b1a21efaa04dcb384c" name="a89fce53f96dd36b1a21efaa04dcb384c"></a>
+<tr class="memdesc:a4be1d96412eb24fd8a99dbbe52ecc674"><td class="mdescLeft">&#160;</td><td class="mdescRight">delete the copy constructor <br /></td></tr>
+<tr class="separator:a4be1d96412eb24fd8a99dbbe52ecc674"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4d48719eb96888bbbb838edc2c97ff5"><td class="memItemLeft" align="right" valign="top"><a id="ae4d48719eb96888bbbb838edc2c97ff5" name="ae4d48719eb96888bbbb838edc2c97ff5"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classfire_1_1factory_1_1Factory.html">Factory</a> const &amp;)=delete</td></tr>
-<tr class="memdesc:a89fce53f96dd36b1a21efaa04dcb384c"><td class="mdescLeft">&#160;</td><td class="mdescRight">delete the assignment operator <br /></td></tr>
-<tr class="separator:a89fce53f96dd36b1a21efaa04dcb384c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memdesc:ae4d48719eb96888bbbb838edc2c97ff5"><td class="mdescLeft">&#160;</td><td class="mdescRight">delete the assignment operator <br /></td></tr>
+<tr class="separator:ae4d48719eb96888bbbb838edc2c97ff5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a5ceffd49c6d20884d0a5518ddd3c93a0"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classfire_1_1factory_1_1Factory.html">Factory</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1factory_1_1Factory.html#a5ceffd49c6d20884d0a5518ddd3c93a0">get</a> ()</td></tr>
-<tr class="memdesc:a5ceffd49c6d20884d0a5518ddd3c93a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">get the factory instance  <a href="classfire_1_1factory_1_1Factory.html#a5ceffd49c6d20884d0a5518ddd3c93a0">More...</a><br /></td></tr>
-<tr class="separator:a5ceffd49c6d20884d0a5518ddd3c93a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b19b85b8cf8a42269665fa3fae1694d"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classfire_1_1factory_1_1Factory.html">Factory</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1factory_1_1Factory.html#a1b19b85b8cf8a42269665fa3fae1694d">get</a> ()</td></tr>
+<tr class="memdesc:a1b19b85b8cf8a42269665fa3fae1694d"><td class="mdescLeft">&#160;</td><td class="mdescRight">get the factory instance  <a href="classfire_1_1factory_1_1Factory.html#a1b19b85b8cf8a42269665fa3fae1694d">More...</a><br /></td></tr>
+<tr class="separator:a1b19b85b8cf8a42269665fa3fae1694d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:adcfed85479fc2cb4162492e2f7373145"><td class="memItemLeft" align="right" valign="top"><a id="adcfed85479fc2cb4162492e2f7373145" name="adcfed85479fc2cb4162492e2f7373145"></a>
+<tr class="memitem:ae29b1112307e92f1cb7214081c31bd15"><td class="memItemLeft" align="right" valign="top"><a id="ae29b1112307e92f1cb7214081c31bd15" name="ae29b1112307e92f1cb7214081c31bd15"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Factory</b> ()=default</td></tr>
-<tr class="memdesc:adcfed85479fc2cb4162492e2f7373145"><td class="mdescLeft">&#160;</td><td class="mdescRight">private constructor to prevent creation <br /></td></tr>
-<tr class="separator:adcfed85479fc2cb4162492e2f7373145"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memdesc:ae29b1112307e92f1cb7214081c31bd15"><td class="mdescLeft">&#160;</td><td class="mdescRight">private constructor to prevent creation <br /></td></tr>
+<tr class="separator:ae29b1112307e92f1cb7214081c31bd15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-methods" name="pri-static-methods"></a>
+Static Private Member Functions</h2></td></tr>
+<tr class="memitem:ab75a02e134b368560ecc1fed1ac2e637"><td class="memTemplParams" colspan="2">template&lt;typename DerivedType &gt; </td></tr>
+<tr class="memitem:ab75a02e134b368560ecc1fed1ac2e637"><td class="memTemplItemLeft" align="right" valign="top">static PrototypePtr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classfire_1_1factory_1_1Factory.html#ab75a02e134b368560ecc1fed1ac2e637">maker</a> (PrototypeConstructorArgs... args)</td></tr>
+<tr class="memdesc:ab75a02e134b368560ecc1fed1ac2e637"><td class="mdescLeft">&#160;</td><td class="mdescRight">make a new DerivedType returning a PrototypePtr  <a href="classfire_1_1factory_1_1Factory.html#ab75a02e134b368560ecc1fed1ac2e637">More...</a><br /></td></tr>
+<tr class="separator:ab75a02e134b368560ecc1fed1ac2e637"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a9ad93abae2e2a57fc98e307fb10f678b"><td class="memItemLeft" align="right" valign="top"><a id="a9ad93abae2e2a57fc98e307fb10f678b" name="a9ad93abae2e2a57fc98e307fb10f678b"></a>
-std::unordered_map&lt; std::string, <a class="el" href="classfire_1_1factory_1_1Factory.html#a7389146aaaee383ec65f3162d40496c9">PrototypeMaker</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>library_</b></td></tr>
-<tr class="memdesc:a9ad93abae2e2a57fc98e307fb10f678b"><td class="mdescLeft">&#160;</td><td class="mdescRight">library of possible objects to create <br /></td></tr>
-<tr class="separator:a9ad93abae2e2a57fc98e307fb10f678b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98572ffeb465ab54eb77021d77255702"><td class="memItemLeft" align="right" valign="top"><a id="a98572ffeb465ab54eb77021d77255702" name="a98572ffeb465ab54eb77021d77255702"></a>
+std::unordered_map&lt; std::string, <a class="el" href="classfire_1_1factory_1_1Factory.html#ace8ca28241aaff3856d17abb79e449ca">PrototypeMaker</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>library_</b></td></tr>
+<tr class="memdesc:a98572ffeb465ab54eb77021d77255702"><td class="mdescLeft">&#160;</td><td class="mdescRight">library of possible objects to create <br /></td></tr>
+<tr class="separator:a98572ffeb465ab54eb77021d77255702"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><div class="compoundTemplParams">template&lt;typename Prototype, typename PrototypePtr = std::unique_ptr&lt;Prototype&gt;, typename... PrototypeMakerArgs&gt;<br />
-class fire::factory::Factory&lt; Prototype, PrototypePtr, PrototypeMakerArgs &gt;</div><p ><a class="el" href="classfire_1_1factory_1_1Factory.html" title="Factory to dynamically create objects derived from a specific prototype class.">Factory</a> to dynamically create objects derived from a specific prototype class. </p>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename Prototype, typename PrototypePtr = std::unique_ptr&lt;Prototype&gt;, typename... PrototypeConstructorArgs&gt;<br />
+class fire::factory::Factory&lt; Prototype, PrototypePtr, PrototypeConstructorArgs &gt;</div><p ><a class="el" href="classfire_1_1factory_1_1Factory.html" title="Factory to dynamically create objects derived from a specific prototype class.">Factory</a> to dynamically create objects derived from a specific prototype class. </p>
 <p >This factory is a singleton class meaning it cannot be created by the user.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">Prototype</td><td>the type of object that this factory creates. This should be the base class that all types in this factory derive from. </td></tr>
-    <tr><td class="paramname">PrototypePtr</td><td>the type of pointer to the object By defeault, we use <a href="https://en.cppreference.com/w/cpp/memory/unique_ptr"><code>std::unique_ptr</code></a> for good memory management. </td></tr>
-    <tr><td class="paramname">PrototypeMakerArgs</td><td>parameter pack of arguments to pass to the object makers and subsequently the constructor.</td></tr>
+    <tr><td class="paramname">PrototypePtr</td><td>the type of pointer to the object By defeault, we use <a href="https://en.cppreference.com/w/cpp/memory/unique_ptr"><code>std::unique_ptr</code></a> for good memory management but <code>std::shared_ptr</code> is another alternative provided by the standard libraries. The only requirement for this type is that it acts as a pointer to the Prototype class and can be constructed with a pointer to the derived class. </td></tr>
+    <tr><td class="paramname">PrototypeConstructorArgs</td><td>parameter pack of arguments to pass to the object constructor.</td></tr>
   </table>
   </dd>
 </dl>
@@ -165,14 +174,26 @@ Terminology</h2>
 <h2><a class="anchor" id="autotoc_md1"></a>
 Design</h2>
 <p >The factory itself works in two steps.</p><ol type="1">
-<li>All of the different derived classes "register" or "declare" themselves so that the factory knowns how to create them. This registration is done by providing a "maker" function as well as the name they should be referred to by.</li>
+<li>All of the different derived classes "declare" themselves so that the factory knowns how to create them. This registration is done by providing their type and the name they should be referred to by.</li>
 <li>The factory creates any of the registered classes and returns a pointer to it in the form of a prototype-class pointer.</li>
 </ol>
-<h2><a class="anchor" id="autotoc_md2"></a>
+<h3><a class="anchor" id="autotoc_md2"></a>
+Declaration</h3>
+<p >Using an <a href="https://en.cppreference.com/w/cpp/language/namespace#Unnamed_namespaces">unnamed namespace</a> defines the variables inside it as having internal linkage and as implicitly static. Having internal linkage allows us to have repeat variable names across different source files. Being static means that the variable is guaranteed to be constructed during library load time.</p>
+<p >This if we put the following code in the source file for a class deriving from our prototype, it will be declared to the factory during library load. </p><div class="fragment"><div class="line"><span class="comment">// MyDerived.cpp</span></div>
+<div class="line"><span class="comment">// MyDerived inherits from MyPrototype</span></div>
+<div class="line"><span class="keyword">namespace </span>{</div>
+<div class="line">  <span class="keyword">auto</span> v = <a class="code hl_function" href="classfire_1_1factory_1_1Factory.html#a1b19b85b8cf8a42269665fa3fae1694d">::fire::factory::Factory&lt;MyPrototype&gt;::get</a>()</div>
+<div class="line">    .<a class="code hl_function" href="classfire_1_1factory_1_1Factory.html#a8ce8d2289eaa7f1773c5526c58c42f26">declare</a>&lt;MyDerived&gt;(<span class="stringliteral">&quot;MyDerived&quot;</span>);</div>
+<div class="line">}</div>
+<div class="ttc" id="aclassfire_1_1factory_1_1Factory_html_a1b19b85b8cf8a42269665fa3fae1694d"><div class="ttname"><a href="classfire_1_1factory_1_1Factory.html#a1b19b85b8cf8a42269665fa3fae1694d">fire::factory::Factory::get</a></div><div class="ttdeci">static Factory &amp; get()</div><div class="ttdoc">get the factory instance</div><div class="ttdef"><b>Definition:</b> Factory.h:251</div></div>
+<div class="ttc" id="aclassfire_1_1factory_1_1Factory_html_a8ce8d2289eaa7f1773c5526c58c42f26"><div class="ttname"><a href="classfire_1_1factory_1_1Factory.html#a8ce8d2289eaa7f1773c5526c58c42f26">fire::factory::Factory::declare</a></div><div class="ttdeci">uint64_t declare(const std::string &amp;full_name)</div><div class="ttdoc">register a new object to be constructible</div><div class="ttdef"><b>Definition:</b> Factory.h:279</div></div>
+</div><!-- fragment --><p >The details of how this is handled is documented in <a href="https://en.cppreference.com/w/cpp/language/storage_duration">Storage Class Specifiers</a>.</p>
+<h2><a class="anchor" id="autotoc_md3"></a>
 Usage</h2>
 <p >Using the factory effecitvely can be done in situations where many classes all follow the same design structure, but have different implementations for specific steps. In order to reflect this "same design structure", we define an abstract base class for all of our derived classes from which to inherit. This abstract base class is our "prototype".</p>
 <p >Below is a rudimentary example that shows you the basics of this class.</p>
-<h3><a class="anchor" id="autotoc_md3"></a>
+<h3><a class="anchor" id="autotoc_md4"></a>
 A Prototype LibraryEntry</h3>
 <p >This <code>LibraryEntry</code> prototype class satisfies our requirements. It also defines a helpful "delcaration" macro for derived classes to use. </p><div class="fragment"><div class="line"><span class="comment">// LibraryEntry.hpp</span></div>
 <div class="line"><span class="preprocessor">#ifndef LIBRARYENTRY_HPP</span></div>
@@ -188,23 +209,18 @@ A Prototype LibraryEntry</h3>
 <div class="line">  <span class="comment">// pure virtual function that our derived classes will implement</span></div>
 <div class="line">  <span class="keyword">virtual</span> std::string name() = 0;</div>
 <div class="line">  <span class="comment">// the factory type that we will use here</span></div>
-<div class="line">  <span class="keyword">using</span> <a class="code hl_function" href="classfire_1_1factory_1_1Factory.html#adcfed85479fc2cb4162492e2f7373145">Factory</a> = ::factory::Factory&lt;LibraryEntry&gt;;</div>
+<div class="line">  <span class="keyword">using</span> <a class="code hl_function" href="classfire_1_1factory_1_1Factory.html#ae29b1112307e92f1cb7214081c31bd15">Factory</a> = <a class="code hl_class" href="classfire_1_1factory_1_1Factory.html">::fire::factory::Factory&lt;LibraryEntry&gt;</a>;</div>
 <div class="line">};  <span class="comment">// LibraryEntry</span></div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// a macro to help with registering our library entries with our factory</span></div>
-<div class="line"><span class="preprocessor">#define DECLARE_LIBRARYENTRY(NS, CLASS)                                \</span></div>
-<div class="line"><span class="preprocessor">  namespace NS {                                                       \</span></div>
-<div class="line"><span class="preprocessor">  std::unique_ptr&lt;::LibraryEntry&gt; CLASS##Maker() {                     \</span></div>
-<div class="line"><span class="preprocessor">    return std::make_unique&lt;CLASS&gt;();                                  \</span></div>
-<div class="line"><span class="preprocessor">  }                                                                    \</span></div>
-<div class="line"><span class="preprocessor">  __attribute__((constructor)) static void CLASS##Declare() {          \</span></div>
-<div class="line"><span class="preprocessor">    ::LibraryEntry::Factory.get().declare(                             \</span></div>
-<div class="line"><span class="preprocessor">        std::string(#NS) + &quot;::&quot;</span> + std::string(#CLASS), &amp;CLASS##Maker); \</div>
-<div class="line">  }                                                                    \</div>
-<div class="line">  }</div>
-<div class="line">#endif <span class="comment">// LIBRARYENTRY_HPP</span></div>
-<div class="ttc" id="aclassfire_1_1factory_1_1Factory_html_adcfed85479fc2cb4162492e2f7373145"><div class="ttname"><a href="classfire_1_1factory_1_1Factory.html#adcfed85479fc2cb4162492e2f7373145">fire::factory::Factory::Factory</a></div><div class="ttdeci">Factory()=default</div><div class="ttdoc">private constructor to prevent creation</div></div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md4"></a>
+<div class="line"><span class="preprocessor">#define DECLARE_LIBRARYENTRY(CLASS)                                \</span></div>
+<div class="line"><span class="preprocessor">  namespace {                                                      \</span></div>
+<div class="line"><span class="preprocessor">    auto v = ::LibraryEntry::Factory::get().declare&lt;CLASS&gt;(#CLASS) \</span></div>
+<div class="line"><span class="preprocessor">  }</span></div>
+<div class="line"><span class="preprocessor">#endif </span><span class="comment">// LIBRARYENTRY_HPP</span></div>
+<div class="ttc" id="aclassfire_1_1factory_1_1Factory_html"><div class="ttname"><a href="classfire_1_1factory_1_1Factory.html">fire::factory::Factory</a></div><div class="ttdoc">Factory to dynamically create objects derived from a specific prototype class.</div><div class="ttdef"><b>Definition:</b> Factory.h:231</div></div>
+<div class="ttc" id="aclassfire_1_1factory_1_1Factory_html_ae29b1112307e92f1cb7214081c31bd15"><div class="ttname"><a href="classfire_1_1factory_1_1Factory.html#ae29b1112307e92f1cb7214081c31bd15">fire::factory::Factory::Factory</a></div><div class="ttdeci">Factory()=default</div><div class="ttdoc">private constructor to prevent creation</div></div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md5"></a>
 Example Derived Classes</h3>
 <p >Here are a few example derived classes.</p>
 <div class="fragment"><div class="line"><span class="comment">// Book.cpp</span></div>
@@ -218,7 +234,7 @@ Example Derived Classes</h3>
 <div class="line">};</div>
 <div class="line">}</div>
 <div class="line"> </div>
-<div class="line">DECLARE_LIBRARYENTRY(library,Book)</div>
+<div class="line">DECLARE_LIBRARYENTRY(library::Book)</div>
 </div><!-- fragment --><div class="fragment"><div class="line"><span class="comment">// Podcast.cpp</span></div>
 <div class="line"><span class="preprocessor">#include &quot;LibraryEntry.hpp&quot;</span></div>
 <div class="line"><span class="keyword">namespace </span>library {</div>
@@ -232,7 +248,7 @@ Example Derived Classes</h3>
 <div class="line">}</div>
 <div class="line">}</div>
 <div class="line"> </div>
-<div class="line">DECLARE_LIBRARYENTRY(library::audio,Podcast)</div>
+<div class="line">DECLARE_LIBRARYENTRY(library::audio::Podcast)</div>
 </div><!-- fragment --><div class="fragment"><div class="line"><span class="comment">// Album.cpp</span></div>
 <div class="line"><span class="preprocessor">#include &quot;LibraryEntry.hpp&quot;</span></div>
 <div class="line"><span class="keyword">namespace </span>library {</div>
@@ -246,8 +262,8 @@ Example Derived Classes</h3>
 <div class="line">}</div>
 <div class="line">}</div>
 <div class="line"> </div>
-<div class="line">DECLARE_LIBRARYENTRY(library::audio,Album)</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md5"></a>
+<div class="line">DECLARE_LIBRARYENTRY(library::audio::Album)</div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md6"></a>
 Executable</h3>
 <p >Since the <code>DECLARE_LIBRARYENTRY</code> macro defines a function that is decorated with a compiler attribute causing the function to be called at library-load time, the registration of our various library entries is automatically done before the execution of <code>main</code> (or after if the loadLibrary function is used). For simplicity, let's compile these sources files together with a main defined below.</p>
 <div class="fragment"><div class="line"><span class="comment">// main.cxx</span></div>
@@ -258,7 +274,7 @@ Executable</h3>
 <div class="line">  <span class="keywordflow">try</span> {</div>
 <div class="line">    <span class="keyword">auto</span> entry_ptr{LibraryEntry::Factory::get().make(full_cpp_name)};</div>
 <div class="line">    std::cout &lt;&lt; entry_ptr-&gt;name() &lt;&lt; std::endl;</div>
-<div class="line">  } <span class="keywordflow">catch</span> (<span class="keyword">const</span> factory::FactoryException&amp; e) {</div>
+<div class="line">  } <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
 <div class="line">    std::cerr &lt;&lt; <span class="stringliteral">&quot;ERROR: &quot;</span> &lt;&lt;  e.what() &lt;&lt; std::endl;</div>
 <div class="line">  }</div>
 <div class="line">}</div>
@@ -273,16 +289,16 @@ Executable</h3>
 <div class="line">$ fave-things library::DoesNotExist</div>
 <div class="line">ERROR: An <span class="keywordtype">object</span> named library::DoesNotExist has not been declared.</div>
 </div><!-- fragment --> </div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a7389146aaaee383ec65f3162d40496c9" name="a7389146aaaee383ec65f3162d40496c9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7389146aaaee383ec65f3162d40496c9">&#9670;&nbsp;</a></span>PrototypeMaker</h2>
+<a id="ace8ca28241aaff3856d17abb79e449ca" name="ace8ca28241aaff3856d17abb79e449ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace8ca28241aaff3856d17abb79e449ca">&#9670;&nbsp;</a></span>PrototypeMaker</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Prototype , typename PrototypePtr  = std::unique_ptr&lt;Prototype&gt;, typename... PrototypeMakerArgs&gt; </div>
+template&lt;typename Prototype , typename PrototypePtr  = std::unique_ptr&lt;Prototype&gt;, typename... PrototypeConstructorArgs&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classfire_1_1factory_1_1Factory.html">fire::factory::Factory</a>&lt; Prototype, PrototypePtr, PrototypeMakerArgs &gt;::<a class="el" href="classfire_1_1factory_1_1Factory.html#a7389146aaaee383ec65f3162d40496c9">PrototypeMaker</a> =  PrototypePtr (*)(PrototypeMakerArgs...)</td>
+          <td class="memname">using <a class="el" href="classfire_1_1factory_1_1Factory.html">fire::factory::Factory</a>&lt; Prototype, PrototypePtr, PrototypeConstructorArgs &gt;::<a class="el" href="classfire_1_1factory_1_1Factory.html#ace8ca28241aaff3856d17abb79e449ca">PrototypeMaker</a> =  PrototypePtr (*)(PrototypeConstructorArgs...)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -293,33 +309,25 @@ template&lt;typename Prototype , typename PrototypePtr  = std::unique_ptr&lt;Pro
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a1f722166d2b4b5d950d7470139615b21" name="a1f722166d2b4b5d950d7470139615b21"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1f722166d2b4b5d950d7470139615b21">&#9670;&nbsp;</a></span>declare()</h2>
+<a id="a8ce8d2289eaa7f1773c5526c58c42f26" name="a8ce8d2289eaa7f1773c5526c58c42f26"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ce8d2289eaa7f1773c5526c58c42f26">&#9670;&nbsp;</a></span>declare()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Prototype , typename PrototypePtr  = std::unique_ptr&lt;Prototype&gt;, typename... PrototypeMakerArgs&gt; </div>
+template&lt;typename Prototype , typename PrototypePtr  = std::unique_ptr&lt;Prototype&gt;, typename... PrototypeConstructorArgs&gt; </div>
+<div class="memtemplate">
+template&lt;typename DerivedType &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classfire_1_1factory_1_1Factory.html">fire::factory::Factory</a>&lt; Prototype, PrototypePtr, PrototypeMakerArgs &gt;::declare </td>
+          <td class="memname">uint64_t <a class="el" href="classfire_1_1factory_1_1Factory.html">fire::factory::Factory</a>&lt; Prototype, PrototypePtr, PrototypeConstructorArgs &gt;::declare </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>full_name</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><em>full_name</em></td><td>)</td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classfire_1_1factory_1_1Factory.html#a7389146aaaee383ec65f3162d40496c9">PrototypeMaker</a>&#160;</td>
-          <td class="paramname"><em>maker</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -333,10 +341,11 @@ template&lt;typename Prototype , typename PrototypePtr  = std::unique_ptr&lt;Pro
 <p >We insert the new object into the library after checking that it hasn't been defined before.</p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classfire_1_1Exception.html" title="Standard base exception class with some useful output information.">Exception</a></td><td>if the object has been declared before. This exception can easily be avoided by making sure the declaration macro for a prototype links the name of the PrototypeMaker function to the name of the derived class. This means the user would have a compile-time error rather than a runtime exception.</td></tr>
+    <tr><td class="paramname"><a class="el" href="classfire_1_1Exception.html" title="Standard base exception class with some useful output information.">Exception</a></td><td>if the object has been declared before. This exception can easily be avoided by making sure the declaration macro for a prototype links the name input to declare to the name of the derived class. This means the user would have a compile-time error rather than a runtime exception.</td></tr>
   </table>
   </dd>
 </dl>
+<p>We <em>could</em> code this into the declaration function by using some form of demangling. I need to do some research into if we can rely on demangling for such an important procedure.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">full_name</td><td>name to use as a reference for the declared object </td></tr>
@@ -344,22 +353,23 @@ template&lt;typename Prototype , typename PrototypePtr  = std::unique_ptr&lt;Pro
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>value to define a static variable to force running this function at library load time. It relates to variables so that it cannot be optimized away. </dd></dl>
 
 </div>
 </div>
-<a id="a5ceffd49c6d20884d0a5518ddd3c93a0" name="a5ceffd49c6d20884d0a5518ddd3c93a0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5ceffd49c6d20884d0a5518ddd3c93a0">&#9670;&nbsp;</a></span>get()</h2>
+<a id="a1b19b85b8cf8a42269665fa3fae1694d" name="a1b19b85b8cf8a42269665fa3fae1694d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b19b85b8cf8a42269665fa3fae1694d">&#9670;&nbsp;</a></span>get()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Prototype , typename PrototypePtr  = std::unique_ptr&lt;Prototype&gt;, typename... PrototypeMakerArgs&gt; </div>
+template&lt;typename Prototype , typename PrototypePtr  = std::unique_ptr&lt;Prototype&gt;, typename... PrototypeConstructorArgs&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="classfire_1_1factory_1_1Factory.html">Factory</a> &amp; <a class="el" href="classfire_1_1factory_1_1Factory.html">fire::factory::Factory</a>&lt; Prototype, PrototypePtr, PrototypeMakerArgs &gt;::get </td>
+          <td class="memname">static <a class="el" href="classfire_1_1factory_1_1Factory.html">Factory</a> &amp; <a class="el" href="classfire_1_1factory_1_1Factory.html">fire::factory::Factory</a>&lt; Prototype, PrototypePtr, PrototypeConstructorArgs &gt;::get </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -378,19 +388,19 @@ template&lt;typename Prototype , typename PrototypePtr  = std::unique_ptr&lt;Pro
 
 </div>
 </div>
-<a id="afcc3419e19651ac4ff287be0c8711dbd" name="afcc3419e19651ac4ff287be0c8711dbd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afcc3419e19651ac4ff287be0c8711dbd">&#9670;&nbsp;</a></span>make()</h2>
+<a id="acc240f24fc2b1cfe6a0b95f850573fee" name="acc240f24fc2b1cfe6a0b95f850573fee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc240f24fc2b1cfe6a0b95f850573fee">&#9670;&nbsp;</a></span>make()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Prototype , typename PrototypePtr  = std::unique_ptr&lt;Prototype&gt;, typename... PrototypeMakerArgs&gt; </div>
+template&lt;typename Prototype , typename PrototypePtr  = std::unique_ptr&lt;Prototype&gt;, typename... PrototypeConstructorArgs&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">PrototypePtr <a class="el" href="classfire_1_1factory_1_1Factory.html">fire::factory::Factory</a>&lt; Prototype, PrototypePtr, PrototypeMakerArgs &gt;::make </td>
+          <td class="memname">PrototypePtr <a class="el" href="classfire_1_1factory_1_1Factory.html">fire::factory::Factory</a>&lt; Prototype, PrototypePtr, PrototypeConstructorArgs &gt;::make </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>full_name</em>, </td>
@@ -398,7 +408,7 @@ template&lt;typename Prototype , typename PrototypePtr  = std::unique_ptr&lt;Pro
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">PrototypeMakerArgs...&#160;</td>
+          <td class="paramtype">PrototypeConstructorArgs...&#160;</td>
           <td class="paramname"><em>maker_args</em>&#160;</td>
         </tr>
         <tr>
@@ -431,6 +441,55 @@ template&lt;typename Prototype , typename PrototypePtr  = std::unique_ptr&lt;Pro
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>a pointer to the parent class that the objects derive from. </dd></dl>
+
+</div>
+</div>
+<a id="ab75a02e134b368560ecc1fed1ac2e637" name="ab75a02e134b368560ecc1fed1ac2e637"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab75a02e134b368560ecc1fed1ac2e637">&#9670;&nbsp;</a></span>maker()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Prototype , typename PrototypePtr  = std::unique_ptr&lt;Prototype&gt;, typename... PrototypeConstructorArgs&gt; </div>
+<div class="memtemplate">
+template&lt;typename DerivedType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static PrototypePtr <a class="el" href="classfire_1_1factory_1_1Factory.html">fire::factory::Factory</a>&lt; Prototype, PrototypePtr, PrototypeConstructorArgs &gt;::maker </td>
+          <td>(</td>
+          <td class="paramtype">PrototypeConstructorArgs...&#160;</td>
+          <td class="paramname"><em>args</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>make a new DerivedType returning a PrototypePtr </p>
+<p >Basically a copy of what <a href="https://en.cppreference.com/w/cpp/memory/unique_ptr/make_unique"><code>std::make_unique</code></a> or <a href="https://en.cppreference.com/w/cpp/memory/shared_ptr/make_shared"><code>std::make_shared</code></a> do but with the following changes:</p><ol type="1">
+<li>constructor arguments defined by the <a class="el" href="classfire_1_1factory_1_1Factory.html" title="Factory to dynamically create objects derived from a specific prototype class.">Factory</a> and not here</li>
+<li>return type is a base pointer and not a derived pointer</li>
+</ol>
+<p >This is where we required that PrototypePtr has the same behavior as STL smart pointers. The PrototypePtr class must be able to be constructed from a pointer to a derived class and must take ownership of the new object.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">DerivedType</td><td>type of derived object we should create </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">args</td><td>constructor arguments for derived type construction </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
