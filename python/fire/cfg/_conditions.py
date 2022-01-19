@@ -33,7 +33,7 @@ class ConditionsProvider:
     """
 
     def __init__(self, object_name, class_name, module):
-        self.obj_name=object_name
+        self.object_name=object_name
         self.class_name=class_name
         self.tag_name=''
 
@@ -68,11 +68,11 @@ class ConditionsProvider:
         if not isinstance(other,ConditionsProvider) :
             return NotImplemented
 
-        return (self.objectName == other.objectName and self.className == other.className)
+        return (self.object_name == other.object_name and self.class_name == other.class_name)
 
     def __repr__(self) :
         """Represent this provider with its Python class name, instance name, and C++ name"""
-        return f'{self.__class__.__name__}({self.class_name} providing {self.obj_name})'
+        return f'{self.__class__.__name__}({self.class_name} providing {self.object_name})'
 
     def __str__(self) :
         """A full str print of the processor includes the repr as well as all of its parameters"""
