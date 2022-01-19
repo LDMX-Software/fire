@@ -1,5 +1,8 @@
 *~
 *#
 *.pyc
+*__pycache__*
 *build*
-*.root
+*.h5
+*.pytest_cache*
+
