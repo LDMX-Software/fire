@@ -12,6 +12,8 @@ namespace fire::h5 {
 /**
  * Write the fire DataSets into a deterministic structure
  * in the output HDF5 data file.
+ *
+ * @see h5::Reader for where our files are read
  */
 class Writer {
  public:
@@ -46,9 +48,9 @@ class Writer {
    * Set the name of the type stored in this Group (or DataSet if atomic)
    *
    * We look for the HDF5 object (DataSet or Group) at
-   *  Reader::EVENT_GROUP/full_obj_name
+   *  constants::EVENT_GROUP/full_obj_name
    * and then create an attribute for that object named
-   *  Reader::TYPE_ATTR_NAME
+   *  constants::TYPE_ATTR_NAME
    * with the input value for the type.
    *
    * @throws HighFive::FileException if object doesn't exist

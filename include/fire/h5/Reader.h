@@ -20,18 +20,6 @@ namespace fire::h5 {
  */
 class Reader {
  public:
-  /// the name of the event header data set
-  static const std::string EVENT_HEADER_NAME;
-  /// the name of the variable in event and run  header corresponding to event number
-  static const std::string NUMBER_NAME;
-  /// the name of the group holding all of the event data sets
-  static const std::string EVENT_GROUP;
-  /// the name of the run header data set
-  static const std::string RUN_HEADER_NAME;
-  /// the name of the attribute that stores the type of event object
-  static const std::string TYPE_ATTR_NAME;
-
- public:
   /**
    * Open the file in read mode
    *
@@ -39,15 +27,17 @@ class Reader {
    *
    * We also read the number of entries in this file by 
    * retrieving the size of the data set at
-   *  EVENT_GROUP/EVENT_HEADER_NAME/NUMBER_NAME
+   *  constants::EVENT_GROUP
+   *    / constants::EVENT_HEADER_NAME
+   *    / constants::NUMBER_NAME
    * This is reliable as long as 
    * 1. EventHeader attaches the event number (or a similar
-   *    once-per-event atomic type) under the name EVENT_HEADER_NUMBER
+   *    once-per-event atomic type) under the name constants::EVENT_HEADER_NUMBER
    * 2. The EventHeader is created under a h5::Data named
-   *    EVENT_GROUP/EVENT_HEADER_NAME
+   *    constants::EVENT_GROUP/constants::EVENT_HEADER_NAME
    *
    * We inspect the size of the dataset located at
-   *  RUN_HEADER_NAME/NUMBER_NAME
+   *  constants::RUN_HEADER_NAME/constants::NUMBER_NAME
    * in the file to get the number of runs. This will work as long as
    * 1. The RunHeader is written to the file as RUN_HEADER_NAME.
    * 2. The RunHeader attaches an atomic type member under the name `number`

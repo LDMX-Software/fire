@@ -7,6 +7,7 @@
 #include "fire/version/Version.h"
 #include "fire/h5/Data.h"
 #include "fire/h5/ParameterStorage.h"
+#include "fire/h5/Constants.h"
 
 namespace fire {
 
@@ -153,7 +154,7 @@ class RunHeader {
    * @param[in] d h5::Data to attach to
    */
   void attach(h5::Data<RunHeader>& d) {
-    d.attach(h5::Reader::NUMBER_NAME,number_);
+    d.attach(h5::constants::NUMBER_NAME,number_);
     d.attach("start",runStart_);
     d.attach("end",runEnd_);
     d.attach("detectorName",detectorName_);

@@ -79,7 +79,7 @@ class Event {
       // - we mark these objects as should_load == false because
       //   they are new and not from an input file
       auto& obj{objects_[full_name]};
-      obj.data_ = std::make_unique<h5::Data<DataType>>(h5::Reader::EVENT_GROUP+"/"+full_name);
+      obj.data_ = std::make_unique<h5::Data<DataType>>(h5::constants::EVENT_GROUP+"/"+full_name);
       obj.should_save_ = keep(full_name, true);
       obj.should_load_ = false;
       obj.updated_ = false;
@@ -165,7 +165,7 @@ class Event {
       // - we mark these objects as should_load == false because
       //   they are new and not from an input file
       auto& obj{objects_[full_name]};
-      obj.data_ = std::make_unique<h5::Data<DataType>>(h5::Reader::EVENT_GROUP+"/"+full_name);
+      obj.data_ = std::make_unique<h5::Data<DataType>>(h5::constants::EVENT_GROUP+"/"+full_name);
       obj.should_save_ = keep(full_name, false);
       obj.should_load_ = true;
       obj.updated_ = false;

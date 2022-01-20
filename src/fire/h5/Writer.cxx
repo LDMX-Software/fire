@@ -1,5 +1,6 @@
 #include "fire/h5/Writer.h"
-#include "fire/h5/Reader.h"
+
+#include "fire/h5/Constants.h"
 
 namespace fire::h5 {
 
@@ -30,12 +31,12 @@ void Writer::flush() {
 const std::string& Writer::name() const { return file_.getName(); }
 
 void Writer::setTypeName(const std::string& full_obj_name, const std::string& type) { 
-  std::string full_path = Reader::EVENT_GROUP+"/"+full_obj_name;
+  std::string full_path = constants::EVENT_GROUP+"/"+full_obj_name;
   // if full_path goes to a dataset
   if (file_.getObjectType(full_path) == HighFive::ObjectType::Dataset) {
-    file_.getDataSet(full_path).createAttribute(h5::Reader::TYPE_ATTR_NAME, type);
+    file_.getDataSet(full_path).createAttribute(constants::TYPE_ATTR_NAME, type);
   } else {
-    file_.getGroup(full_path).createAttribute(h5::Reader::TYPE_ATTR_NAME, type);
+    file_.getGroup(full_path).createAttribute(constants::TYPE_ATTR_NAME, type);
   }
 }
 

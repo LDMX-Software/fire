@@ -84,13 +84,13 @@ void Event::setInputFile(h5::Reader& r) {
   // search through file and import the products that are there
   products_.clear();
   known_lookups_.clear();
-  std::vector<std::string> passes = r.list(h5::Reader::EVENT_GROUP);
+  std::vector<std::string> passes = r.list(h5::constants::EVENT_GROUP);
   for (const std::string& pass : passes) {
     // skip the event header
-    if (pass == h5::Reader::EVENT_HEADER_NAME) continue;
+    if (pass == h5::constants::EVENT_HEADER_NAME) continue;
     // get a list of objects in this pass group
     std::vector<std::string> object_names =
-        r.list(h5::Reader::EVENT_GROUP + "/" + pass);
+        r.list(h5::constants::EVENT_GROUP + "/" + pass);
     for (const std::string& obj_name : object_names) {
       products_.emplace_back(obj_name, pass,
                              r.getTypeName(fullName(obj_name, pass)));
