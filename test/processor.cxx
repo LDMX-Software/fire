@@ -87,7 +87,7 @@ BOOST_AUTO_TEST_CASE(mimic_process) {
   output_file.add("rows_per_chunk", 1000);
   output_file.add("compression_level", 6);
   output_file.add("shuffle",false);
-  fire::h5::Writer of{10,output_file};
+  fire::io::h5::Writer of{10,output_file};
 
   fire::Event event{fire::Event::test(of)};
 
@@ -112,7 +112,7 @@ BOOST_AUTO_TEST_CASE(throw_exceptions) {
   output_file.add("rows_per_chunk", 1000);
   output_file.add("compression_level", 6);
   output_file.add("shuffle",false);
-  fire::h5::Writer of{10,output_file};
+  fire::io::h5::Writer of{10,output_file};
 
   fire::Event event{fire::Event::test(of)};
   BOOST_REQUIRE_THROW(p->process(event), fire::Exception);

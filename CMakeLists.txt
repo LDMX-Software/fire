@@ -88,23 +88,13 @@ target_include_directories(logging
   )
 
 add_library(config SHARED src/fire/config/Python.cxx)
-target_link_libraries(config PUBLIC Python3::Python Boost::boost)
-target_include_directories(config
-  PUBLIC 
-  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-  "$<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>"
-  )
+target_link_libraries(config PUBLIC exception Python3::Python)
 
 add_library(h5 SHARED
-  src/fire/h5/Writer.cxx
-  src/fire/h5/Reader.cxx
-  src/fire/h5/ParameterStorage.cxx)
+  src/fire/io/h5/Writer.cxx
+  src/fire/io/h5/Reader.cxx
+  src/fire/io/h5/ParameterStorage.cxx)
 target_link_libraries(h5 PUBLIC HighFive config)
-target_include_directories(h5
-  PUBLIC 
-  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-  "$<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>"
-  )
 
 add_library(framework SHARED
   src/fire/StorageControl.cxx
@@ -118,17 +108,24 @@ add_library(framework SHARED
   src/fire/Conditions.cxx
   src/fire/RandomNumberSeedService.cxx
   )
-target_include_directories(framework 
-  PUBLIC 
-  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-  "$<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>"
-  )
 target_link_libraries(framework PUBLIC logging version exception config factory h5)
+
+find_package(ROOT 6.20)
+if (ROOT_FOUND)
+  message(STATUS "Building ROOT reader")
+  add_library(root SHARED src/fire/io/root/Reader.cxx)
+  target_link_libraries(root PRIVATE exception ROOT::Core)
+  target_link_libraries(framework PUBLIC root)
+  target_compile_definitions(framework PUBLIC USE_ROOT=1)
+  set(root_target root)
+else()
+  message(WARNING "ROOT not found. Reading ROOT files will not be supported.")
+endif()
 
 # Compiling the fire library requires features introduced by the cxx 17 standard.
 #   also to avoid conflicts, we expand the library prefix from 'lib' to 'libfire_'
 set_target_properties(
-  framework exception config factory h5 logging
+  framework exception config factory h5 logging ${root_target}
   PROPERTIES CXX_STANDARD 17
              CXX_STANDARD_REQUIRED YES
              CXX_EXTENSIONS NO
@@ -137,7 +134,7 @@ set_target_properties(
 # installing the fire target and generate CMake-compatible package files
 #   is done by following the documentation linked below
 # https://cmake.org/cmake/help/git-stage/guide/importing-exporting/index.html
-install(TARGETS framework exception config factory h5 version logging
+install(TARGETS framework exception config factory h5 version logging ${root_target}
   EXPORT fireTargets 
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib

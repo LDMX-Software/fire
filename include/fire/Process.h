@@ -227,7 +227,7 @@ class Process {
   std::vector<std::string> input_files_;
 
   /// output file we are writing to
-  h5::Writer output_file_;
+  io::h5::Writer output_file_;
 
   /// the sequence of processors to run
   std::vector<std::unique_ptr<Processor>> sequence_;

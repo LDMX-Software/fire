@@ -1,5 +1,7 @@
 #include "Hit.h"
 
+ClassImp(Hit);
+
 namespace bench {
 
 Hit::Hit() {}

@@ -1,8 +1,7 @@
-#include "fire/h5/Reader.h"
+#include "fire/io/h5/Reader.h"
 
-#include "fire/h5/Constants.h"
-
-namespace fire::h5 {
+#include "fire/io/Constants.h"
+namespace fire::io::h5 {
 
 Reader::Reader(const std::string& name) 
   : file_{name},

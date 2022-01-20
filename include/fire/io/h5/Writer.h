@@ -1,13 +1,13 @@
-#ifndef FIRE_H5_WRITER_H
-#define FIRE_H5_WRITER_H
+#ifndef FIRE_IO_H5_WRITER_H
+#define FIRE_IO_H5_WRITER_H
 
 // using HighFive
 #include <highfive/H5File.hpp>
 
 #include "fire/config/Parameters.h"
-#include "fire/h5/Atomic.h"
+#include "fire/io/h5/Atomic.h"
 
-namespace fire::h5 {
+namespace fire::io::h5 {
 
 /**
  * Write the fire DataSets into a deterministic structure
