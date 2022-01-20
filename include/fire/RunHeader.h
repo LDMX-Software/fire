@@ -5,9 +5,9 @@
 #include <string>
 
 #include "fire/version/Version.h"
-#include "fire/h5/Data.h"
-#include "fire/h5/ParameterStorage.h"
 #include "fire/h5/Constants.h"
+#include "fire/io/h5/Data.h"
+#include "fire/io/h5/ParameterStorage.h"
 
 namespace fire {
 
@@ -144,17 +144,17 @@ class RunHeader {
 
  private:
   /// friends with the h5::Data that can read/write us
-  friend class h5::Data<RunHeader>;
+  friend class io::h5::Data<RunHeader>;
 
   /**
-   * Attach to our h5::Data
+   * Attach to our io::h5::Data
    *
    * We attach all of our parameters.
    *
-   * @param[in] d h5::Data to attach to
+   * @param[in] d io::h5::Data to attach to
    */
-  void attach(h5::Data<RunHeader>& d) {
-    d.attach(h5::constants::NUMBER_NAME,number_);
+  void attach(io::h5::Data<RunHeader>& d) {
+    d.attach(io::h5::Reader::NUMBER_NAME,number_);
     d.attach("start",runStart_);
     d.attach("end",runEnd_);
     d.attach("detectorName",detectorName_);
@@ -186,7 +186,7 @@ class RunHeader {
   std::string softwareTag_{version::GIT_SHA1};
 
   /// run parameteres
-  h5::ParameterStorage parameters_;
+  io::h5::ParameterStorage parameters_;
 
 };  // RunHeader
 }  // namespace fire 

@@ -3,12 +3,12 @@
  * Definitions for names of structures required by
  * serialization methods.
  */
-#ifndef FIRE_H5_STRUCTURE_H
-#define FIRE_H5_STRUCTURE_H
+#ifndef FIRE_IO_CONSTANTS_H
+#define FIRE_IO_CONSTANTS_H
 
 #include <string>
 
-namespace fire::h5 {
+namespace fire::io {
 
 /**
  * Structure constants vital to serialization method
@@ -30,4 +30,4 @@ struct constants {
 
 }
 
-#endif  // FIRE_H5_STRUCTURE_H
+#endif

@@ -2,7 +2,7 @@
 
 #include "fire/h5/Constants.h"
 
-namespace fire::h5 {
+namespace fire::io::h5 {
 
 Writer::Writer(const int& event_limit, const config::Parameters& ps)
     : file_(ps.get<std::string>("name"),

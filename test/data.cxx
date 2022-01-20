@@ -5,15 +5,15 @@
 #include "fire/EventHeader.h"
 #include "fire/RunHeader.h"
 #include "fire/config/Parameters.h"
-#include "fire/h5/Data.h"
+#include "fire/io/h5/Data.h"
 
 // plain old data class
 class Hit {
   double energy_;
   int id_;
  private:
-  friend class fire::h5::Data<Hit>;
-  void attach(fire::h5::Data<Hit>& d) {
+  friend class fire::io::h5::Data<Hit>;
+  void attach(fire::io::h5::Data<Hit>& d) {
     d.attach("energy",energy_);
     d.attach("id",id_);
   }
@@ -34,8 +34,8 @@ class SpecialHit {
   int super_id_;
   Hit hit_;
  private:
-  friend class fire::h5::Data<SpecialHit>;
-  void attach(fire::h5::Data<SpecialHit>& d) {
+  friend class fire::io::h5::Data<SpecialHit>;
+  void attach(fire::io::h5::Data<SpecialHit>& d) {
     d.attach("super_id",super_id_);
     d.attach("hit",hit_);
   }
@@ -56,8 +56,8 @@ class Cluster {
   int id_;
   std::vector<Hit> hits_;
  private:
-  friend class fire::h5::Data<Cluster>;
-  void attach(fire::h5::Data<Cluster>& d) {
+  friend class fire::io::h5::Data<Cluster>;
+  void attach(fire::io::h5::Data<Cluster>& d) {
     d.attach("id", id_);
     d.attach("hits",hits_);
   }
@@ -81,7 +81,7 @@ class Cluster {
 };
 
 template <typename ArbitraryData, typename DataType>
-bool save(ArbitraryData& h5d, DataType const& d, fire::h5::Writer& f) {
+bool save(ArbitraryData& h5d, DataType const& d, fire::io::h5::Writer& f) {
   try {
     h5d.update(d);
     h5d.save(f);
@@ -93,7 +93,7 @@ bool save(ArbitraryData& h5d, DataType const& d, fire::h5::Writer& f) {
 }
 
 template <typename ArbitraryData, typename DataType>
-bool load(ArbitraryData& h5d, DataType const& d, fire::h5::Reader& f) {
+bool load(ArbitraryData& h5d, DataType const& d, fire::io::h5::Reader& f) {
   try {
     h5d.load(f);
     return (d == h5d.get());
@@ -124,23 +124,23 @@ BOOST_AUTO_TEST_CASE(datad) {
     output_params.add("compression_level", 6);
     output_params.add("shuffle",false);
     int num_events = doubles.size(); //allow implicit conversion
-    fire::h5::Writer f{num_events,output_params};
+    fire::io::h5::Writer f{num_events,output_params};
 
     fire::EventHeader eh;
-    fire::h5::Data<fire::EventHeader> event_header(fire::EventHeader::NAME,&eh);
-    fire::h5::Data<double> double_ds("double");
-    fire::h5::Data<int>    int_ds("int");
-    fire::h5::Data<bool>   bool_ds("bool");
-    fire::h5::Data<std::vector<double>> vector_double_ds("vector_double");
-    fire::h5::Data<std::vector<int>> vector_int_ds("vector_int");
-    fire::h5::Data<std::map<int,double>> map_int_double_ds("map_int_double");
-    fire::h5::Data<Hit> hit_ds("hit");
-    fire::h5::Data<std::vector<Hit>> vector_hit_ds("vector_hit");
-    fire::h5::Data<SpecialHit> special_hit_ds("special_hit");
-    fire::h5::Data<std::vector<SpecialHit>> vector_special_hit_ds("vector_special_hit");
-    fire::h5::Data<Cluster> cluster_ds("cluster");
-    fire::h5::Data<std::vector<Cluster>> vector_cluster_ds("vector_cluster");
-    fire::h5::Data<std::map<int,Cluster>> map_cluster_ds("map_cluster");
+    fire::io::h5::Data<fire::EventHeader> event_header(fire::EventHeader::NAME,&eh);
+    fire::io::h5::Data<double> double_ds("double");
+    fire::io::h5::Data<int>    int_ds("int");
+    fire::io::h5::Data<bool>   bool_ds("bool");
+    fire::io::h5::Data<std::vector<double>> vector_double_ds("vector_double");
+    fire::io::h5::Data<std::vector<int>> vector_int_ds("vector_int");
+    fire::io::h5::Data<std::map<int,double>> map_int_double_ds("map_int_double");
+    fire::io::h5::Data<Hit> hit_ds("hit");
+    fire::io::h5::Data<std::vector<Hit>> vector_hit_ds("vector_hit");
+    fire::io::h5::Data<SpecialHit> special_hit_ds("special_hit");
+    fire::io::h5::Data<std::vector<SpecialHit>> vector_special_hit_ds("vector_special_hit");
+    fire::io::h5::Data<Cluster> cluster_ds("cluster");
+    fire::io::h5::Data<std::vector<Cluster>> vector_cluster_ds("vector_cluster");
+    fire::io::h5::Data<std::map<int,Cluster>> map_cluster_ds("map_cluster");
 
     for (std::size_t i_entry{0}; i_entry < doubles.size(); i_entry++) {
       eh.setEventNumber(i_entry);
@@ -189,28 +189,28 @@ BOOST_AUTO_TEST_CASE(datad) {
 
     // reader requires at least one run so that it can deduced
     // the number of runs upon construction
-    fire::h5::Data<fire::RunHeader> rh_d(fire::h5::constants::RUN_HEADER_NAME);
+    fire::io::h5::Data<fire::RunHeader> rh_d(fire::io::h5::Reader::RUN_HEADER_NAME);
     rh_d.save(f);
   }
 
   { // Reading
-    fire::h5::Reader f{filename};
+    fire::io::h5::Reader f{filename};
 
     fire::EventHeader eh;
-    fire::h5::Data<fire::EventHeader> event_header(fire::EventHeader::NAME,&eh);
-    fire::h5::Data<double> double_ds("double");
-    fire::h5::Data<int>    int_ds("int");
-    fire::h5::Data<bool>   bool_ds("bool");
-    fire::h5::Data<std::vector<double>> vector_double_ds("vector_double");
-    fire::h5::Data<std::vector<int>> vector_int_ds("vector_int");
-    fire::h5::Data<std::map<int,double>> map_int_double_ds("map_int_double");
-    fire::h5::Data<Hit> hit_ds("hit");
-    fire::h5::Data<std::vector<Hit>> vector_hit_ds("vector_hit");
-    fire::h5::Data<SpecialHit> special_hit_ds("special_hit");
-    fire::h5::Data<std::vector<SpecialHit>> vector_special_hit_ds("vector_special_hit");
-    fire::h5::Data<Cluster> cluster_ds("cluster");
-    fire::h5::Data<std::vector<Cluster>> vector_cluster_ds("vector_cluster");
-    fire::h5::Data<std::map<int,Cluster>> map_cluster_ds("map_cluster");
+    fire::io::h5::Data<fire::EventHeader> event_header(fire::EventHeader::NAME,&eh);
+    fire::io::h5::Data<double> double_ds("double");
+    fire::io::h5::Data<int>    int_ds("int");
+    fire::io::h5::Data<bool>   bool_ds("bool");
+    fire::io::h5::Data<std::vector<double>> vector_double_ds("vector_double");
+    fire::io::h5::Data<std::vector<int>> vector_int_ds("vector_int");
+    fire::io::h5::Data<std::map<int,double>> map_int_double_ds("map_int_double");
+    fire::io::h5::Data<Hit> hit_ds("hit");
+    fire::io::h5::Data<std::vector<Hit>> vector_hit_ds("vector_hit");
+    fire::io::h5::Data<SpecialHit> special_hit_ds("special_hit");
+    fire::io::h5::Data<std::vector<SpecialHit>> vector_special_hit_ds("vector_special_hit");
+    fire::io::h5::Data<Cluster> cluster_ds("cluster");
+    fire::io::h5::Data<std::vector<Cluster>> vector_cluster_ds("vector_cluster");
+    fire::io::h5::Data<std::map<int,Cluster>> map_cluster_ds("map_cluster");
 
     for (std::size_t i_entry{0}; i_entry < doubles.size(); i_entry++) {
       event_header.load(f);

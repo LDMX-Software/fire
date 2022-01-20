@@ -1,5 +1,5 @@
-#ifndef FIRE_PARAMETERSTORAGE_H
-#define FIRE_PARAMETERSTORAGE_H
+#ifndef FIRE_IO_H5_PARAMETERSTORAGE_H
+#define FIRE_IO_H5_PARAMETERSTORAGE_H
 
 // STL
 #include <boost/core/demangle.hpp>
@@ -8,11 +8,11 @@
 #include <string>
 #include <variant>
 
-#include "fire/h5/Data.h"
-#include "fire/h5/Reader.h"
+#include "fire/io/h5/Data.h"
+#include "fire/io/h5/Reader.h"
 #include "fire/exception/Exception.h"
 
-namespace fire::h5 {
+namespace fire::io::h5 {
 
 /**
  * Provides dynamic parameter storage by interfacing between a map

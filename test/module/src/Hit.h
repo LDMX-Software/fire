@@ -5,7 +5,9 @@
 #include <iostream>
 
 // H5
-#include "fire/h5/Data.h"
+#include "fire/io/h5/Data.h"
+
+#include "TObject.h"
 
 namespace bench {
 
@@ -204,8 +206,8 @@ class Hit {
    */
   int pdgID_{0};
 
-  friend class fire::h5::Data<Hit>;
-  void attach(fire::h5::Data<Hit>& d) {
+  friend class fire::io::h5::Data<Hit>;
+  void attach(fire::io::h5::Data<Hit>& d) {
     d.attach("layerID", layerID_);
     d.attach("moduleID", moduleID_);
     d.attach("time", time_);
@@ -220,6 +222,7 @@ class Hit {
     d.attach("pdgID",pdgID_);
   }
 
+  ClassDef(Hit,1);
 };  // Hit
 }  // namespace bench
 

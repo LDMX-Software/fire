@@ -4,7 +4,8 @@
 #include <regex>
 #include <boost/core/demangle.hpp>
 
-#include "fire/h5/Data.h"
+#include "fire/io/h5/Data.h"
+#include "fire/ProductTag.h"
 #include "fire/EventHeader.h"
 
 namespace fire {
@@ -219,7 +220,7 @@ class Event {
       // - we mark these objects as should_load == false because
       //   they are new and not from an input file
       auto& obj{objects_[full_name]};
-      obj.data_ = std::make_unique<h5::Data<DataType>>(h5::constants::EVENT_GROUP+"/"+full_name);
+      obj.data_ = std::make_unique<io::h5::Data<DataType>>(io::h5::Reader::EVENT_GROUP+"/"+full_name);
       obj.should_save_ = keep(full_name, ADD_KEEP_DEFAULT);
       obj.should_load_ = false;
       obj.updated_ = false;
@@ -337,8 +338,13 @@ class Event {
       // - we mark these objects as should_load == false because
       //   they are new and not from an input file
       auto& obj{objects_[full_name]};
+<<<<<<< HEAD
       obj.data_ = std::make_unique<h5::Data<DataType>>(h5::constants::EVENT_GROUP+"/"+full_name);
       obj.should_save_ = keep(full_name, GET_KEEP_DEFAULT);
+=======
+      obj.data_ = std::make_unique<io::h5::Data<DataType>>(io::h5::Reader::EVENT_GROUP+"/"+full_name);
+      obj.should_save_ = keep(full_name, false);
+>>>>>>> a59b45b... add in io namespace
       obj.should_load_ = true;
       obj.updated_ = false;
       // get this object up to the current entry
@@ -372,7 +378,7 @@ class Event {
    *
    * @param[in] test_file Output file to write any testing to.
    */
-  static Event test(h5::Writer& test_file) {
+  static Event test(io::h5::Writer& test_file) {
     return Event(test_file,"test",{});
   }
 
@@ -438,7 +444,7 @@ class Event {
    * @param[in] pass name of current processing pass
    * @param[in] dk_rules configuration for the drop/keep rules
    */
-  Event(h5::Writer& output_file,
+  Event(io::h5::Writer& output_file,
         const std::string& pass,
         const std::vector<config::Parameters>& dk_rules);
 
@@ -462,7 +468,7 @@ class Event {
    *
    * @param[in] r reference to HDF5 input file reader
    */
-  void setInputFile(h5::Reader& r);
+  void setInputFile(io::h5::Reader& r);
 
   /**
    * Move to the next event
@@ -485,9 +491,9 @@ class Event {
   /// header that we control
   std::unique_ptr<EventHeader> header_;
   /// pointer to input file (nullptr if no input files)
-  h5::Reader* input_file_;
+  io::h5::Reader* input_file_;
   /// handle to output file (owned by Process)
-  h5::Writer& output_file_;
+  io::h5::Writer& output_file_;
   /// name of current processing pass
   std::string pass_;
   /**
@@ -495,7 +501,7 @@ class Event {
    */
   struct EventObject {
     /// the data for save/load
-    std::unique_ptr<h5::BaseData> data_;
+    std::unique_ptr<io::BaseData> data_;
     /// should we save the data into output file?
     bool should_save_;
     /// should we load the data from the input file?
@@ -508,8 +514,8 @@ class Event {
      * @throws bad_cast if DataSet does not hold the same type
      */
     template <typename DataType>
-    h5::Data<DataType>& getDataRef() {
-      return dynamic_cast<h5::Data<DataType>&>(*data_);
+    io::h5::Data<DataType>& getDataRef() {
+      return dynamic_cast<io::h5::Data<DataType>&>(*data_);
     }
     /**
      * Clear the event object at the end of an event

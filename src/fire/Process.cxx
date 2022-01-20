@@ -44,6 +44,11 @@ Process::Process(const fire::config::Parameters& configuration)
     auto class_name{proc.get<std::string>("class_name")};
     sequence_.emplace_back(Processor::Factory::get().make(class_name, proc));
     sequence_.back()->attach(this);
+    /*
+    if (dynamic_cast<framework::EventProcessor*>(sequence_.back().get())) {
+      sequence_.back()->configure(proc);
+    }
+    */
   }
 }
 
@@ -80,7 +85,7 @@ void Process::run() {
     runHeader().runEnd();
     fire_log(info) << runHeader();
 
-    h5::Data<RunHeader> write_d{RunHeader::NAME, run_header_};
+    io::h5::Data<RunHeader> write_d{RunHeader::NAME, run_header_};
     write_d.save(output_file_);
 
   } else {
@@ -94,13 +99,13 @@ void Process::run() {
     int ifile = 0;
     int wasRun = -1;
     for (auto fn : input_files_) {
-      h5::Reader input_file{fn};
+      io::h5::Reader input_file{fn};
 
       /**
        * Load runs into in-memory cache
        */
       {
-        h5::Data<RunHeader> read_d{RunHeader::NAME};
+        io::h5::Data<RunHeader> read_d{RunHeader::NAME};
         std::size_t num_runs = input_file.runs();
         for (std::size_t i_run{0}; i_run < num_runs; i_run++) {
           read_d.load(input_file);
@@ -153,7 +158,7 @@ void Process::run() {
 
     // copy the input run headers to the output file
     {
-      h5::Data<RunHeader> write_d(RunHeader::NAME);
+      io::h5::Data<RunHeader> write_d(RunHeader::NAME);
       for (const auto& [_, rh] : input_runs) {
         write_d.update(rh);
         write_d.save(output_file_);

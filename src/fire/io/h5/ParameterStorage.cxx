@@ -1,7 +1,7 @@
 
-#include "fire/h5/ParameterStorage.h"
+#include "fire/io/h5/ParameterStorage.h"
 
-namespace fire::h5 {
+namespace fire::io::h5 {
 
 void ParameterStorage::clear() {
   for (auto& [_, pval] : parameters_) {
