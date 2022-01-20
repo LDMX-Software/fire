@@ -3,6 +3,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include "fire/EventHeader.h"
+#include "fire/RunHeader.h"
 #include "fire/config/Parameters.h"
 #include "fire/h5/Data.h"
 
@@ -186,6 +187,10 @@ BOOST_AUTO_TEST_CASE(datad) {
       BOOST_CHECK(save(map_cluster_ds,map_clusters,f));
     }
 
+    // reader requires at least one run so that it can deduced
+    // the number of runs upon construction
+    fire::h5::Data<fire::RunHeader> rh_d(fire::h5::Reader::RUN_HEADER_NAME);
+    rh_d.save(f);
   }
 
   { // Reading

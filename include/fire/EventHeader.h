@@ -115,7 +115,7 @@ class EventHeader {
   friend class h5::Data<EventHeader>;
   void attach(h5::Data<EventHeader>& d) {
     // make sure we use the name for this variable that the reader expects
-    d.attach(h5::Reader::EVENT_HEADER_NUMBER,number_);
+    d.attach(h5::Reader::NUMBER_NAME,number_);
     d.attach("run",run_);
     d.attach("timestamp",timestamp_);
     d.attach("weight",weight_);

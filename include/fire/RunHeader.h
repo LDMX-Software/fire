@@ -153,7 +153,7 @@ class RunHeader {
    * @param[in] d h5::Data to attach to
    */
   void attach(h5::Data<RunHeader>& d) {
-    d.attach("number",number_);
+    d.attach(h5::Reader::NUMBER_NAME,number_);
     d.attach("start",runStart_);
     d.attach("end",runEnd_);
     d.attach("detectorName",detectorName_);

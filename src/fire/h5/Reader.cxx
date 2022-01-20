@@ -3,24 +3,20 @@
 namespace fire::h5 {
 
 const std::string Reader::EVENT_HEADER_NAME = "EventHeader";
-const std::string Reader::EVENT_HEADER_NUMBER = "number";
+const std::string Reader::NUMBER_NAME = "number";
 const std::string Reader::EVENT_GROUP = "events";
 const std::string Reader::RUN_HEADER_NAME = "runs";
 const std::string Reader::TYPE_ATTR_NAME = "type";
 
-Reader::Reader(const std::string& name) : file_{name} {
-  entries_ = file_.getDataSet(EVENT_GROUP + "/" 
+Reader::Reader(const std::string& name) 
+  : file_{name},
+    entries_{file_.getDataSet(EVENT_GROUP + "/" 
       + EVENT_HEADER_NAME + "/" 
-      + EVENT_HEADER_NUMBER)
-                 .getDimensions()
-                 .at(0);
-}
+      + NUMBER_NAME).getDimensions().at(0)},
+    runs_{file_.getDataSet(RUN_HEADER_NAME+"/"+NUMBER_NAME)
+      .getDimensions().at(0)} {}
 
 const std::string& Reader::name() const { return file_.getName(); }
-
-std::size_t Reader::runs() const {
-  return file_.getDataSet(RUN_HEADER_NAME + "/number").getDimensions().at(0);
-}
 
 std::vector<std::string> Reader::list(const std::string& group_path) const {
   // just return empty list of group does not exist
