@@ -66,8 +66,24 @@ class Event {
    */
   template <typename DataType>
   void add(const std::string& name, const DataType& data) {
+    static const bool ADD_KEEP_DEFAULT = true;
     std::string full_name{fullName(name, pass_)};
     if (objects_.find(full_name) == objects_.end()) {
+      // check products_ listing so we don't in-advertently replace 
+      //   any datasets of the same name read in from the inputfile
+      // we know we are worried about data from the input file
+      //   because data from previous producers in the sequence
+      //   would already exist in the objects_ map
+      // we rely on trusting that setInputFile gets the listing
+      //   of event objects from the input file and puts them
+      //   into the product listing
+      if (search("^"+name+"$","^"+pass_+"$",".*").size() > 0) {
+        throw Exception("Repeat",
+            "Data named "+full_name+" already exists in the input file.");
+      }
+      products_.emplace_back(name, pass_,
+          boost::core::demangle(typeid(DataType).name()));
+
       // a data set hasn't been created for this data yet
       // we good, lets create the new data set
       //
@@ -80,10 +96,9 @@ class Event {
       //   they are new and not from an input file
       auto& obj{objects_[full_name]};
       obj.data_ = std::make_unique<h5::Data<DataType>>(h5::constants::EVENT_GROUP+"/"+full_name);
-      obj.should_save_ = keep(full_name, true);
+      obj.should_save_ = keep(full_name, ADD_KEEP_DEFAULT);
       obj.should_load_ = false;
       obj.updated_ = false;
-      products_.emplace_back(name, pass_,boost::core::demangle(typeid(DataType).name()));
 
       // if we are saving this object, we should save the default value for all entries
       // up to this one. This (along with 'clearing' at the end of each event) 
@@ -98,9 +113,10 @@ class Event {
 
     auto& obj{objects_.at(full_name)};
     if (obj.updated_) {
-      // this data set has been updated by another processor
+      // this data set has been updated by another processor in the sequence
       throw Exception("Repeat",
-          "Data named " + full_name + " already added to the event.");
+          "Data named " + full_name + " already added to the event"
+          " by a previous producer in the sequence.");
     }
 
     try {
@@ -127,6 +143,7 @@ class Event {
   template <typename DataType>
   const DataType& get(const std::string& name,
                       const std::string& pass = "") const {
+    static const bool GET_KEEP_DEFAULT = false;
     std::string full_name;
     if (not pass.empty()) {
       // easy case, pass was specified explicitly
@@ -136,7 +153,7 @@ class Event {
     } else {
       // need to search current (and potential) products using partial name
       auto type = boost::core::demangle(typeid(DataType).name());
-      auto options{search("^" + name + "$", "", "^" + type + "$")};
+      auto options{search("^" + name + "$", ".*", "^" + type + "$")};
       if (options.size() == 0) {
         throw Exception("Miss",
             "Data " + name + " of type " + type + " not found.");
@@ -166,7 +183,7 @@ class Event {
       //   they are new and not from an input file
       auto& obj{objects_[full_name]};
       obj.data_ = std::make_unique<h5::Data<DataType>>(h5::constants::EVENT_GROUP+"/"+full_name);
-      obj.should_save_ = keep(full_name, false);
+      obj.should_save_ = keep(full_name, GET_KEEP_DEFAULT);
       obj.should_load_ = true;
       obj.updated_ = false;
       // get this object up to the current entry
