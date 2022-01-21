@@ -51,6 +51,8 @@ void Data<ParameterStorage>::save(Writer& w) {
     if (parameters_.find(name) == parameters_.end()) {
       // dataset not created yet
       std::visit([&](auto && val) {
+        // decltype - declares the type of the input expression
+        // std::decay_t - removes any 'const' prefixes or references '&' or '*'
         attach<std::decay_t<decltype(val)>>(name);
       }, val);
     } 
