@@ -5,7 +5,6 @@
 #include <boost/core/demangle.hpp>
 
 #include "fire/h5/Data.h"
-#include "fire/ProductTag.h"
 #include "fire/EventHeader.h"
 
 namespace fire {
@@ -27,6 +26,80 @@ class Process;
 class Event {
  public:
   /**
+   * Identification for a specific event object.
+   *
+   * Each event object can be uniquely identified with three pieces of information:
+   * 1. It's name (the string input with the object to Event::add)
+   * 2. The name of the pass it was generated on
+   * 3. The name of its type
+   *
+   * In fact, this information _overcontrains_ the list of objects because
+   * two objects in the same pass are not allowed to have the same name and
+   * two objects of the same name are not allowed to have different types.
+   */
+  class EventObjectTag {
+   public:
+    /**
+     * Wrap the three pieces of information in our class
+     * @param name name of event object
+     * @param pass pass name
+     * @param type name of type
+     */
+    EventObjectTag(const std::string& name, const std::string& pass,
+               const std::string& type)
+        : name_{name}, pass_{pass}, type_{type} {}
+  
+    /**
+     * Get the object name
+     * @return name of event object
+     */
+    const std::string& name() const { return name_; }
+  
+    /**
+     * Get the pass name the object was produced on
+     * @return pass name
+     */
+    const std::string& pass() const { return pass_; }
+  
+    /**
+     * Get the name of the type of the object
+     * @return demangled type name
+     */
+    const std::string& type() const { return type_; }
+  
+    /**
+     * String method for printing this tag in a helpful manner
+     */
+    friend std::ostream& operator<<(std::ostream& os, const EventObjectTag& t) {
+      return os << "Object(pass=" << t.pass() <<", name=" << t.name() << "type=" << t.type() << ")";
+    }
+  
+    /**
+     * Checks if we match the passed regex for name, pass, and type
+     */
+    inline bool match(const std::regex& name, const std::regex& pass, const std::regex& type) const {
+      return std::regex_match(name_, name) and std::regex_match(pass_, pass) and std::regex_match(type_, type);
+    }
+  
+   private:
+    /**
+     * Name given to the object
+     */
+    std::string name_;
+  
+    /**
+     * Pass name given when object was generated
+     */
+    std::string pass_;
+  
+    /**
+     * Type name of the object
+     */
+    std::string type_;
+  };
+
+ public:
+  /**
    * Get the event header
    */
   const EventHeader& header() const { return *header_; }
@@ -38,9 +111,9 @@ class Event {
   EventHeader& header() { return *header_; }
 
   /**
-   * Search through the products listing for a specific match
+   * Search through the available_objects listing for a specific match
    */
-  std::vector<ProductTag> search(const std::string& namematch,
+  std::vector<EventObjectTag> search(const std::string& namematch,
                                  const std::string& passmatch,
                                  const std::string& typematch) const;
 
@@ -69,7 +142,7 @@ class Event {
     static const bool ADD_KEEP_DEFAULT = true;
     std::string full_name{fullName(name, pass_)};
     if (objects_.find(full_name) == objects_.end()) {
-      // check products_ listing so we don't in-advertently replace 
+      // check available_objects_ listing so we don't in-advertently replace 
       //   any datasets of the same name read in from the inputfile
       // we know we are worried about data from the input file
       //   because data from previous producers in the sequence
@@ -81,7 +154,7 @@ class Event {
         throw Exception("Repeat",
             "Data named "+full_name+" already exists in the input file.");
       }
-      products_.emplace_back(name, pass_,
+      available_objects_.emplace_back(name, pass_,
           boost::core::demangle(typeid(DataType).name()));
 
       // a data set hasn't been created for this data yet
@@ -151,7 +224,7 @@ class Event {
     } else if (known_lookups_.find(name) != known_lookups_.end()) {
       full_name = known_lookups_.at(name);
     } else {
-      // need to search current (and potential) products using partial name
+      // need to search current (and potential) available_objects using partial name
       auto type = boost::core::demangle(typeid(DataType).name());
       auto options{search("^" + name + "$", ".*", "^" + type + "$")};
       if (options.size() == 0) {
@@ -359,8 +432,8 @@ class Event {
   /// regular expressions determining if a dataset should be written to output
   /// file
   std::vector<std::pair<std::regex, bool>> drop_keep_rules_;
-  /// list of products available to us either on disk or newly created
-  std::vector<ProductTag> products_;
+  /// list of objects available to us either on disk or newly created
+  std::vector<EventObjectTag> available_objects_;
   /// cache of known lookups when requesting an object without a pass name
   mutable std::unordered_map<std::string, std::string> known_lookups_;
 };  // Event

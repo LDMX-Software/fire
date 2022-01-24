@@ -2,7 +2,7 @@
 
 namespace fire {
 
-std::vector<ProductTag> Event::search(const std::string& namematch,
+std::vector<Event::EventObjectTag> Event::search(const std::string& namematch,
                                       const std::string& passmatch,
                                       const std::string& typematch) const {
   std::regex name_reg{namematch.empty() ? ".*" : namematch,
@@ -11,10 +11,10 @@ std::vector<ProductTag> Event::search(const std::string& namematch,
                       std::regex::extended | std::regex::nosubs};
   std::regex type_reg{typematch.empty() ? ".*" : typematch,
                       std::regex::extended | std::regex::nosubs};
-  std::vector<ProductTag> matches;
-  std::copy_if(products_.begin(), products_.end(), std::back_inserter(matches),
-               [&](const ProductTag& pt) {
-                 return pt.match(name_reg, pass_reg, type_reg);
+  std::vector<EventObjectTag> matches;
+  std::copy_if(available_objects_.begin(), available_objects_.end(), std::back_inserter(matches),
+               [&](const EventObjectTag& tag) {
+                 return tag.match(name_reg, pass_reg, type_reg);
                });
   return matches;
 }
@@ -81,8 +81,8 @@ void Event::setInputFile(h5::Reader& r) {
   // there are input file, so mark the event header as should_load
   objects_[EventHeader::NAME].should_load_ = true;
 
-  // search through file and import the products that are there
-  products_.clear();
+  // search through file and import the available objects that are there
+  available_objects_.clear();
   known_lookups_.clear();
   std::vector<std::string> passes = r.list(h5::constants::EVENT_GROUP);
   for (const std::string& pass : passes) {
@@ -92,7 +92,7 @@ void Event::setInputFile(h5::Reader& r) {
     std::vector<std::string> object_names =
         r.list(h5::constants::EVENT_GROUP + "/" + pass);
     for (const std::string& obj_name : object_names) {
-      products_.emplace_back(obj_name, pass,
+      available_objects_.emplace_back(obj_name, pass,
                              r.getTypeName(fullName(obj_name, pass)));
     }
   }
@@ -108,7 +108,7 @@ void Event::done() {
   output_file_.flush();
   
   // copy type traits into output as attributes
-  for (const ProductTag& p : products_) {
+  for (const EventObjectTag& p : available_objects_) {
     auto fn = fullName(p.name(), p.pass());
     if (objects_.find(fn) != objects_.end() and objects_.at(fn).should_save_) {
       // this product has been written to output file
