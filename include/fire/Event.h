@@ -101,17 +101,38 @@ class Event {
  public:
   /**
    * Get the event header
+   * @return const reference to event header
    */
   const EventHeader& header() const { return *header_; }
 
   /**
    * Get non-const event header
-   * @TODO should we name this differently than the const version?
+   *
+   * @note should we name this differently than the const version?
+   * Having them have the same name means that a (potentially helpful)
+   * compiler error about const-ness would never be thrown and the
+   * compiler will automatically deduce which to use (perferring const).
+   *
+   * @return reference to event header
    */
   EventHeader& header() { return *header_; }
 
   /**
-   * Search through the available_objects listing for a specific match
+   * Search through the available objects for a specific match
+   *
+   * This can be helpful for higher-level processors that require
+   * some amount of introsepction. Additionally, the EventObjectTag
+   * has the demangled type name for a specific event object, so
+   * the processor could use this functionality to more dynamically
+   * handle various types of event objects.
+   *
+   * An empty matching string is interpreted as the "match anything"
+   * regex '.*'.
+   *
+   * @param[in] namematch regex to match name of event object
+   * @param[in] passmatch regex to match pass of event object
+   * @param[in] typematch regex to match demangled type of event object
+   * @return list of event object tags that match all of the regex
    */
   std::vector<EventObjectTag> search(const std::string& namematch,
                                  const std::string& passmatch,
@@ -119,8 +140,15 @@ class Event {
 
   /**
    * Check if the input name and (optional) pass exist in the bus
-   * This checks for **unique** existence, i.e. it can be used to make sure
+   *
+   * @note This checks for **unique** existence, i.e. it can be used to make sure
    * that a following 'get' call will only fail if the wrong type is provided.
+   * In order to check for any existence, use Event::search.
+   *
+   * @param[in] name Name of event object
+   * @param[in] pass (optional) name of pass that created the event object
+   * @return true if there is exactly one available object matching the name
+   * and pass
    */
   bool exists(const std::string& name, const std::string& pass = "") const {
     return search("^" + name + "$", pass, "").size() == 1;
@@ -129,11 +157,34 @@ class Event {
   /**
    * add a piece of data to the event
    *
-   * @throw Exception if two data sets of the same name are added
+   * If the data isn't already in the list of in-memory objects,
+   * we do the initialization procedure defined below. After init,
+   * we check if the object has already been updated by another processor,
+   * and if it hasn't, we give the input data to the event object to update
+   * the in-memory copy.
+   *
+   * ### Initilialization
+   * To initilialize a new in-memory object, we first check that a object
+   * with the same name and pass doesn't exist in the available objects.
+   * This prevents processors from silently overwriting data that could
+   * have been read in from the input file. Then, we create a new event object
+   * to hold the in-memory data, wrapping the event object with h5::Data.
+   * We also set the event object flags.
+   *  should_save : determined by Event::keep with the default set to true
+   *  should_load : false, this is a new object and is not being read in
+   *  updated : false, we haven't updated it yet
+   *
+   * Finally, if we end up needing to save this object, we also making
+   * sure to call h5::Data::save enough times to align the number of 
+   * entries in the serialized data with the current number of entries
+   * we are on (Event::i_entry_).
+   *
+   * @throw Exception if two data sets of the same name and the same pass 
+   * are added
    * @throw Exception if input DataType doesn't match the type stored in the
    * data set
    *
-   * @tparam[in] DataType type of data being added
+   * @tparam DataType type of data being added
    * @param[in] name name of data being added
    * @param[in] data actual value of data being added
    */
@@ -149,7 +200,7 @@ class Event {
       //   would already exist in the objects_ map
       // we rely on trusting that setInputFile gets the listing
       //   of event objects from the input file and puts them
-      //   into the product listing
+      //   into availble_objects_
       if (search("^"+name+"$","^"+pass_+"$",".*").size() > 0) {
         throw Exception("Repeat",
             "Data named "+full_name+" already exists in the input file.");
@@ -205,10 +256,37 @@ class Event {
   /**
    * get a piece of data from the event
    *
+   * ### Object Deduction
+   * Optionally providing a pass name means we need some automatic
+   * deduction of what the pass name should be. If the pass name is
+   * provided, all of the deduction procedure is skippped. A cache
+   * of known name -> name+pass deductions is kept in Event::known_lookups_
+   * to save time. The deduction is pretty simple, we use
+   * Event::search with the input name and the demangled input type
+   * in order to retrieve a list of options. If the list of options
+   * is empty or has more than one element, we throw an exception, 
+   * otherwise, we have successfully deduced the pass name.
+   *
+   * If the requested object is not in the list of in-memory objects,
+   * then we **must** have an input file. This assumption is enforced
+   * with an exception the pointer to the input file is `nullptr`.
+   * If we do have an input file, then we create a new in-memory object
+   * to read this data set. After wrapping the input data type with
+   * h5::Data, we deduce the other tags:
+   *  should_save: use Event::keep with the default of `false`
+   *  should_load: true since this is a reading 
+   *  updated: false
+   * We also use h5::Data::load to get the reading pointer to the entry
+   * in the data set corresponding to the current entry we are on
+   * (Event::i_entry_).
+   *
+   * After all of this setup, we attempt to retrieve the a constant
+   * reference to the data stored in the in-memory object.
+   *
    * @throw Exception if requested data doesn't exist
    * @throw Exception if requested DataType doesn't match type in data set
    *
-   * @tparam[in] DataType type of requested data
+   * @tparam DataType type of requested data
    * @param[in] name Name of requested data
    * @param[in] pass optional pass name to use for getting the data
    * @return const reference to data in event
@@ -243,7 +321,11 @@ class Event {
 
     if (objects_.find(full_name) == objects_.end()) {
       // final check for input file, never should enter here without one
-      assert(input_file_);
+      if (not input_file_) {
+        throw Exception("Miss",
+            "Data " + full_name + " was not created by an earlier processor "
+            "and there is not input file to attempt to read it from.");
+      }
       // a data set hasn't been created for this data yet
       // we good, lets create the new data set
       //
@@ -260,7 +342,8 @@ class Event {
       obj.should_load_ = true;
       obj.updated_ = false;
       // get this object up to the current entry
-      //    loading may throw an H5 error
+      //    loading may throw an H5 error if DataType doesn't match the type
+      //    being read from the input file
       for (std::size_t i{0}; i < i_entry_+1; i++)
         obj.data_->load(*input_file_);
     }
@@ -298,6 +381,9 @@ class Event {
    * 'inline' because we call this at least once per event for each dataset,
    * having it 'inline' means that it will be in the same compilation unit
    * as where it is used and therefore will hopefully improve performance.
+   *
+   * @param[in] name object name
+   * @param[in] pass pass name, if empty use current pass
    */
   inline std::string fullName(const std::string& name, const std::string& pass) const {
     return (pass.empty() ? pass_ : pass) + "/" + name;
@@ -310,6 +396,10 @@ class Event {
    * regex rule is the one that makes the actual decision for a data set.
    * This behavior is helpful for our use case because we can have general
    * rules and then various exceptions.
+   *
+   * @param[in] full_name object name including the pass prefix
+   * @param[in] def default drop/keep decision value
+   * @return true if object should be saved into the output file
    */
   bool keep(const std::string& full_name, bool def) const;
 
@@ -325,7 +415,6 @@ class Event {
   friend class Process;
 
   /**
-   * Default constructor
    * Only our good friend Process can construct us.
    *
    * Besides the name of the pass, the input_file handle is
