@@ -1,6 +1,6 @@
 var classfire_1_1RunHeader =
 [
-    [ "attach", "classfire_1_1RunHeader.html#a5671567a5d20ce3ae933ce179bf4e1d4", null ],
+    [ "attach", "classfire_1_1RunHeader.html#ac962bde1915ba8facf49a3768d6a5242", null ],
     [ "clear", "classfire_1_1RunHeader.html#a3b2bdd9bb1445a1377f4dec77f43194b", null ],
     [ "get", "classfire_1_1RunHeader.html#ac9a349e790f5f7bc8cd70957611ab0cf", null ],
     [ "getDescription", "classfire_1_1RunHeader.html#a2f4c3d85621e4bbe5595597b3bde074a", null ],
@@ -16,7 +16,7 @@ var classfire_1_1RunHeader =
     [ "setDescription", "classfire_1_1RunHeader.html#a685594d2124f838807723b1765865ce3", null ],
     [ "setDetectorName", "classfire_1_1RunHeader.html#a453dd2fe71a5e1e65aed8777af2a952d", null ],
     [ "stream", "classfire_1_1RunHeader.html#a27f97e2847286af83bda00c36b22abf0", null ],
-    [ "h5::DataSet< RunHeader >", "classfire_1_1RunHeader.html#a87ec217c95c1a1bbd4295a1ea2d08972", null ],
+    [ "h5::Data< RunHeader >", "classfire_1_1RunHeader.html#ae8321b634f91609d451d1c937f8b88d5", null ],
     [ "operator<<", "classfire_1_1RunHeader.html#aa5404f59434ac6422d11711c72bc2028", null ],
     [ "description_", "classfire_1_1RunHeader.html#a2ae59052c6ad4fd8d6f95683216a0e95", null ],
     [ "detectorName_", "classfire_1_1RunHeader.html#a2b6b29ba5445e0649cb95a28de58e50a", null ],

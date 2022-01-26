@@ -1,6 +1,8 @@
 var searchData=
 [
   ['backtrace_0',['Backtrace',['../Exception_8cxx.html#a0f052e253ff4264dd936222124c938c6',1,'Exception.cxx']]],
-  ['basedataset_1',['BaseDataSet',['../classfire_1_1h5_1_1BaseDataSet.html#ac373ab2b965ccc1cc6861b6f57e6f6ab',1,'fire::h5::BaseDataSet']]],
-  ['beforenewrun_2',['beforeNewRun',['../classfire_1_1Processor.html#a552db42ad098a542bbcf5883e29637bc',1,'fire::Processor::beforeNewRun()'],['../classfire_1_1Producer.html#a91ce3092f319b64d76396f2277395e6b',1,'fire::Producer::beforeNewRun()'],['../classfire_1_1Analyzer.html#a125a4771c0445c2994acaa03eafcae4a',1,'fire::Analyzer::beforeNewRun()']]]
+  ['basedata_1',['BaseData',['../classfire_1_1h5_1_1BaseData.html#ae512db68dcada3d11d2b82a5bb22ac7b',1,'fire::h5::BaseData']]],
+  ['beforenewrun_2',['beforeNewRun',['../classfire_1_1Processor.html#a552db42ad098a542bbcf5883e29637bc',1,'fire::Processor::beforeNewRun()'],['../classfire_1_1Producer.html#a91ce3092f319b64d76396f2277395e6b',1,'fire::Producer::beforeNewRun()'],['../classfire_1_1Analyzer.html#a125a4771c0445c2994acaa03eafcae4a',1,'fire::Analyzer::beforeNewRun()']]],
+  ['buffer_3',['Buffer',['../classfire_1_1h5_1_1Reader_1_1Buffer.html#ac52e73b516698aa905932e660fef5609',1,'fire::h5::Reader::Buffer::Buffer()'],['../classfire_1_1h5_1_1Writer_1_1Buffer.html#ae021432e43290317e96ad184bbf76962',1,'fire::h5::Writer::Buffer::Buffer()']]],
+  ['bufferhandle_4',['BufferHandle',['../classfire_1_1h5_1_1Reader_1_1BufferHandle.html#ab882f83a3dd14705edc4f5bab04247c8',1,'fire::h5::Reader::BufferHandle::BufferHandle()'],['../classfire_1_1h5_1_1Writer_1_1BufferHandle.html#ab1998152151f3d1f39a045f48a6294ed',1,'fire::h5::Writer::BufferHandle::BufferHandle()']]]
 ];

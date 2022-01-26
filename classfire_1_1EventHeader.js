@@ -11,7 +11,7 @@ var classfire_1_1EventHeader =
     [ "setRun", "classfire_1_1EventHeader.html#a924f76826e9070e6a760122bbcc49941", null ],
     [ "setTimestamp", "classfire_1_1EventHeader.html#ae08360fe396e3846db1f34ba36a600f2", null ],
     [ "setWeight", "classfire_1_1EventHeader.html#a48f1383993d6ac407aafc0b295b9caa5", null ],
-    [ "h5::DataSet< EventHeader >", "classfire_1_1EventHeader.html#ae4a4f2cbe2a4adc9e2c8e48b5b13ad78", null ],
+    [ "h5::Data< EventHeader >", "classfire_1_1EventHeader.html#a9eb275c9f0b15696d5b1c41241f4da53", null ],
     [ "isRealData_", "classfire_1_1EventHeader.html#a869cc6f07246b3d089b7c3ced1ca066e", null ],
     [ "NAME", "classfire_1_1EventHeader.html#a4f43cf948ecab2b7cfb2c24fb8149ad8", null ],
     [ "number_", "classfire_1_1EventHeader.html#a38d9a094411ec235c7da2da6d5102cd6", null ],

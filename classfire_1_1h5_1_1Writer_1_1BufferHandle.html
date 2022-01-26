@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.10.0</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.10.1</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -91,6 +91,9 @@ $(document).ready(function(){initNavTree('classfire_1_1h5_1_1Writer_1_1BufferHan
   <div class="headertitle"><div class="title">fire::h5::Writer::BufferHandle Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Type-less handle to buffers.  
+ <a href="classfire_1_1h5_1_1Writer_1_1BufferHandle.html#details">More...</a></p>
 <div class="dynheader">
 Inheritance diagram for fire::h5::Writer::BufferHandle:</div>
 <div class="dyncontent">
@@ -100,22 +103,108 @@ Inheritance diagram for fire::h5::Writer::BufferHandle:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab1998152151f3d1f39a045f48a6294ed"><td class="memItemLeft" align="right" valign="top"><a id="ab1998152151f3d1f39a045f48a6294ed" name="ab1998152151f3d1f39a045f48a6294ed"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>BufferHandle</b> (std::size_t max, HighFive::DataSet s)</td></tr>
+<tr class="memitem:ab1998152151f3d1f39a045f48a6294ed"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1h5_1_1Writer_1_1BufferHandle.html#ab1998152151f3d1f39a045f48a6294ed">BufferHandle</a> (std::size_t max, HighFive::DataSet s)</td></tr>
+<tr class="memdesc:ab1998152151f3d1f39a045f48a6294ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define the maximum size of the buffer and the dataset we are writing to.  <a href="classfire_1_1h5_1_1Writer_1_1BufferHandle.html#ab1998152151f3d1f39a045f48a6294ed">More...</a><br /></td></tr>
 <tr class="separator:ab1998152151f3d1f39a045f48a6294ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a774449b9df1743dace48706adde97308"><td class="memItemLeft" align="right" valign="top"><a id="a774449b9df1743dace48706adde97308" name="a774449b9df1743dace48706adde97308"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>flush</b> ()=0</td></tr>
+<tr class="memitem:acb553ae2dc8785b0ec0b64cd317becff"><td class="memItemLeft" align="right" valign="top"><a id="acb553ae2dc8785b0ec0b64cd317becff" name="acb553ae2dc8785b0ec0b64cd317becff"></a>
+virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~BufferHandle</b> ()=default</td></tr>
+<tr class="memdesc:acb553ae2dc8785b0ec0b64cd317becff"><td class="mdescLeft">&#160;</td><td class="mdescRight">virtual destructor so derived <a class="el" href="classfire_1_1h5_1_1Writer_1_1Buffer.html" title="Buffer atomic data types in-memory for efficient disk operations.">Buffer</a> can be destructed properly <br /></td></tr>
+<tr class="separator:acb553ae2dc8785b0ec0b64cd317becff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a774449b9df1743dace48706adde97308"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1h5_1_1Writer_1_1BufferHandle.html#a774449b9df1743dace48706adde97308">flush</a> ()=0</td></tr>
+<tr class="memdesc:a774449b9df1743dace48706adde97308"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pure virtual flush mechanism.  <a href="classfire_1_1h5_1_1Writer_1_1BufferHandle.html#a774449b9df1743dace48706adde97308">More...</a><br /></td></tr>
 <tr class="separator:a774449b9df1743dace48706adde97308"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
 <tr class="memitem:a56ed74ad49aad2934d369a58cbef8ad7"><td class="memItemLeft" align="right" valign="top"><a id="a56ed74ad49aad2934d369a58cbef8ad7" name="a56ed74ad49aad2934d369a58cbef8ad7"></a>
 std::size_t&#160;</td><td class="memItemRight" valign="bottom"><b>max_len_</b></td></tr>
+<tr class="memdesc:a56ed74ad49aad2934d369a58cbef8ad7"><td class="mdescLeft">&#160;</td><td class="mdescRight">the maximum size of the buffer <br /></td></tr>
 <tr class="separator:a56ed74ad49aad2934d369a58cbef8ad7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a250a283caf0caac8c73964080621f754"><td class="memItemLeft" align="right" valign="top"><a id="a250a283caf0caac8c73964080621f754" name="a250a283caf0caac8c73964080621f754"></a>
 HighFive::DataSet&#160;</td><td class="memItemRight" valign="bottom"><b>set_</b></td></tr>
+<tr class="memdesc:a250a283caf0caac8c73964080621f754"><td class="mdescLeft">&#160;</td><td class="mdescRight">the H5 dataset we are writing to <br /></td></tr>
 <tr class="separator:a250a283caf0caac8c73964080621f754"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >Type-less handle to buffers. </p>
+<p >This type-less handle allows us to flush the buffers at the end of processing safely as well as maintain a single map of all buffers we are managing. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="ab1998152151f3d1f39a045f48a6294ed" name="ab1998152151f3d1f39a045f48a6294ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1998152151f3d1f39a045f48a6294ed">&#9670;&nbsp;</a></span>BufferHandle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">fire::h5::Writer::BufferHandle::BufferHandle </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t&#160;</td>
+          <td class="paramname"><em>max</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">HighFive::DataSet&#160;</td>
+          <td class="paramname"><em>s</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Define the maximum size of the buffer and the dataset we are writing to. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">max</td><td>size of buffer </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">s</td><td>dataset to write to </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a774449b9df1743dace48706adde97308" name="a774449b9df1743dace48706adde97308"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a774449b9df1743dace48706adde97308">&#9670;&nbsp;</a></span>flush()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void fire::h5::Writer::BufferHandle::flush </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Pure virtual flush mechanism. </p>
+<p >This is designed in the derived <a class="el" href="classfire_1_1h5_1_1Writer_1_1Buffer.html" title="Buffer atomic data types in-memory for efficient disk operations.">Buffer</a> where we know the type of data we are flushing to disk. This is also a helpful virtual method so that we can flush the buffers in <a class="el" href="classfire_1_1h5_1_1Writer.html#ad468b7d811dd727fd90c03e137de420e" title="Flush the data to disk.">Writer::flush</a> without know the types stored within them. </p>
+
+<p>Implemented in <a class="el" href="classfire_1_1h5_1_1Writer_1_1Buffer.html#aa6518993ecb4886e3b866409d76189ae">fire::h5::Writer::Buffer&lt; AtomicType &gt;</a>.</p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>include/fire/h5/<a class="el" href="Writer_8h_source.html">Writer.h</a></li>
 </ul>
@@ -124,7 +213,7 @@ HighFive::DataSet&#160;</td><td class="memItemRight" valign="bottom"><b>set_</b>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>fire</b></li><li class="navelem"><b>h5</b></li><li class="navelem"><a class="el" href="classfire_1_1h5_1_1Writer.html">Writer</a></li><li class="navelem"><a class="el" href="classfire_1_1h5_1_1Writer_1_1BufferHandle.html">BufferHandle</a></li>
+    <li class="navelem"><b>fire</b></li><li class="navelem"><a class="el" href="namespacefire_1_1h5.html">h5</a></li><li class="navelem"><a class="el" href="classfire_1_1h5_1_1Writer.html">Writer</a></li><li class="navelem"><a class="el" href="classfire_1_1h5_1_1Writer_1_1BufferHandle.html">BufferHandle</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
   </ul>
 </div>

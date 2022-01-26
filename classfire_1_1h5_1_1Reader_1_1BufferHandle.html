@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.10.0</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.10.1</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -91,6 +91,9 @@ $(document).ready(function(){initNavTree('classfire_1_1h5_1_1Reader_1_1BufferHan
   <div class="headertitle"><div class="title">fire::h5::Reader::BufferHandle Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Type-less handle to the <a class="el" href="classfire_1_1h5_1_1Reader_1_1Buffer.html" title="Read buffer allowing individual element access from a dataset.">Buffer</a>.  
+ <a href="classfire_1_1h5_1_1Reader_1_1BufferHandle.html#details">More...</a></p>
 <div class="dynheader">
 Inheritance diagram for fire::h5::Reader::BufferHandle:</div>
 <div class="dyncontent">
@@ -100,22 +103,108 @@ Inheritance diagram for fire::h5::Reader::BufferHandle:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab882f83a3dd14705edc4f5bab04247c8"><td class="memItemLeft" align="right" valign="top"><a id="ab882f83a3dd14705edc4f5bab04247c8" name="ab882f83a3dd14705edc4f5bab04247c8"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>BufferHandle</b> (std::size_t max, HighFive::DataSet s)</td></tr>
+<tr class="memitem:ab882f83a3dd14705edc4f5bab04247c8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1h5_1_1Reader_1_1BufferHandle.html#ab882f83a3dd14705edc4f5bab04247c8">BufferHandle</a> (std::size_t max, HighFive::DataSet s)</td></tr>
+<tr class="memdesc:ab882f83a3dd14705edc4f5bab04247c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define the size of the in-memory buffer and the set we are reading from.  <a href="classfire_1_1h5_1_1Reader_1_1BufferHandle.html#ab882f83a3dd14705edc4f5bab04247c8">More...</a><br /></td></tr>
 <tr class="separator:ab882f83a3dd14705edc4f5bab04247c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ba22f4894b5cb867232342966b12c2a"><td class="memItemLeft" align="right" valign="top"><a id="a4ba22f4894b5cb867232342966b12c2a" name="a4ba22f4894b5cb867232342966b12c2a"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>load</b> ()=0</td></tr>
+<tr class="memitem:ab5de87891e76aad40ce7ebd781f2dbd4"><td class="memItemLeft" align="right" valign="top"><a id="ab5de87891e76aad40ce7ebd781f2dbd4" name="ab5de87891e76aad40ce7ebd781f2dbd4"></a>
+virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~BufferHandle</b> ()=default</td></tr>
+<tr class="memdesc:ab5de87891e76aad40ce7ebd781f2dbd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">virtual destructor to pass on to derived types <br /></td></tr>
+<tr class="separator:ab5de87891e76aad40ce7ebd781f2dbd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ba22f4894b5cb867232342966b12c2a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1h5_1_1Reader_1_1BufferHandle.html#a4ba22f4894b5cb867232342966b12c2a">load</a> ()=0</td></tr>
+<tr class="memdesc:a4ba22f4894b5cb867232342966b12c2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">pure virtual load function to be defined when we know the type  <a href="classfire_1_1h5_1_1Reader_1_1BufferHandle.html#a4ba22f4894b5cb867232342966b12c2a">More...</a><br /></td></tr>
 <tr class="separator:a4ba22f4894b5cb867232342966b12c2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
 <tr class="memitem:af0683d92e55cef68fec16ab4761a336c"><td class="memItemLeft" align="right" valign="top"><a id="af0683d92e55cef68fec16ab4761a336c" name="af0683d92e55cef68fec16ab4761a336c"></a>
 std::size_t&#160;</td><td class="memItemRight" valign="bottom"><b>max_len_</b></td></tr>
+<tr class="memdesc:af0683d92e55cef68fec16ab4761a336c"><td class="mdescLeft">&#160;</td><td class="mdescRight">the maximum length of the buffer <br /></td></tr>
 <tr class="separator:af0683d92e55cef68fec16ab4761a336c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a82c208753fae66f991dfe1f7f5daaec6"><td class="memItemLeft" align="right" valign="top"><a id="a82c208753fae66f991dfe1f7f5daaec6" name="a82c208753fae66f991dfe1f7f5daaec6"></a>
 HighFive::DataSet&#160;</td><td class="memItemRight" valign="bottom"><b>set_</b></td></tr>
+<tr class="memdesc:a82c208753fae66f991dfe1f7f5daaec6"><td class="mdescLeft">&#160;</td><td class="mdescRight">the HDF5 dataset we are reading from <br /></td></tr>
 <tr class="separator:a82c208753fae66f991dfe1f7f5daaec6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >Type-less handle to the <a class="el" href="classfire_1_1h5_1_1Reader_1_1Buffer.html" title="Read buffer allowing individual element access from a dataset.">Buffer</a>. </p>
+<p >This base class allows us to hold the DataSet being read from and hold all of the Buffers of atomic types in a single map. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="ab882f83a3dd14705edc4f5bab04247c8" name="ab882f83a3dd14705edc4f5bab04247c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab882f83a3dd14705edc4f5bab04247c8">&#9670;&nbsp;</a></span>BufferHandle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">fire::h5::Reader::BufferHandle::BufferHandle </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t&#160;</td>
+          <td class="paramname"><em>max</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">HighFive::DataSet&#160;</td>
+          <td class="paramname"><em>s</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Define the size of the in-memory buffer and the set we are reading from. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">max</td><td>maximum number of elements allowed in-memory </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">s</td><td>DataSet we are reading from </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a4ba22f4894b5cb867232342966b12c2a" name="a4ba22f4894b5cb867232342966b12c2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ba22f4894b5cb867232342966b12c2a">&#9670;&nbsp;</a></span>load()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void fire::h5::Reader::BufferHandle::load </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>pure virtual load function to be defined when we know the type </p>
+<p >This isn't used outside of the <a class="el" href="classfire_1_1h5_1_1Reader_1_1Buffer.html" title="Read buffer allowing individual element access from a dataset.">Buffer</a> class but it is helpful in making sure future developments don't inadvertently abuse the <a class="el" href="classfire_1_1h5_1_1Reader_1_1BufferHandle.html" title="Type-less handle to the Buffer.">BufferHandle</a> class which is meant to be abstract. </p>
+
+<p>Implemented in <a class="el" href="classfire_1_1h5_1_1Reader_1_1Buffer.html#a35d8b25b332ae16bbb21c47e1c76c31f">fire::h5::Reader::Buffer&lt; AtomicType &gt;</a>.</p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>include/fire/h5/<a class="el" href="Reader_8h_source.html">Reader.h</a></li>
 </ul>
@@ -124,7 +213,7 @@ HighFive::DataSet&#160;</td><td class="memItemRight" valign="bottom"><b>set_</b>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>fire</b></li><li class="navelem"><b>h5</b></li><li class="navelem"><a class="el" href="classfire_1_1h5_1_1Reader.html">Reader</a></li><li class="navelem"><a class="el" href="classfire_1_1h5_1_1Reader_1_1BufferHandle.html">BufferHandle</a></li>
+    <li class="navelem"><b>fire</b></li><li class="navelem"><a class="el" href="namespacefire_1_1h5.html">h5</a></li><li class="navelem"><a class="el" href="classfire_1_1h5_1_1Reader.html">Reader</a></li><li class="navelem"><a class="el" href="classfire_1_1h5_1_1Reader_1_1BufferHandle.html">BufferHandle</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
   </ul>
 </div>

@@ -1,4 +1,4 @@
 <map id="fire::h5::Reader::Buffer&lt; AtomicType &gt;" name="fire::h5::Reader::Buffer&lt; AtomicType &gt;">
-<area shape="rect" id="node1" title=" " alt="" coords="5,95,173,136"/>
-<area shape="rect" id="node2" href="$classfire_1_1h5_1_1Reader_1_1BufferHandle.html" title=" " alt="" coords="5,5,173,47"/>
+<area shape="rect" id="node1" title="Read buffer allowing individual element access from a dataset." alt="" coords="5,95,173,136"/>
+<area shape="rect" id="node2" href="$classfire_1_1h5_1_1Reader_1_1BufferHandle.html" title="Type&#45;less handle to the Buffer." alt="" coords="5,5,173,47"/>
 </map>

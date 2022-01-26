@@ -1,0 +1,13 @@
+<map id="fire::h5::BaseData" name="fire::h5::BaseData">
+<area shape="rect" id="node1" title="Empty data base allowing recursion." alt="" coords="5,159,144,185"/>
+<area shape="rect" id="node2" href="$classfire_1_1h5_1_1AbstractData.html" title=" " alt="" coords="237,17,397,58"/>
+<area shape="rect" id="node4" href="$classfire_1_1h5_1_1AbstractData.html" title=" " alt="" coords="233,86,402,127"/>
+<area shape="rect" id="node6" href="$classfire_1_1h5_1_1AbstractData.html" title=" " alt="" coords="192,151,443,193"/>
+<area shape="rect" id="node8" href="$classfire_1_1h5_1_1AbstractData.html" title=" " alt="" coords="201,217,433,258"/>
+<area shape="rect" id="node10" href="$classfire_1_1h5_1_1AbstractData.html" title="Type&#45;specific base class to hold common data methods." alt="" coords="237,282,397,323"/>
+<area shape="rect" id="node3" href="$classfire_1_1h5_1_1Data_3_01AtomicType_00_01std_1_1enable__if__t_3_01is__atomic__v_3_01AtomicType_01_4_01_4_01_4.html" title="Data wrapper for atomic types." alt="" coords="497,5,701,61"/>
+<area shape="rect" id="node5" href="$classfire_1_1h5_1_1Data_3_01ParameterStorage_01_4.html" title="h5::Data specialization for ParameterStorage" alt="" coords="505,86,693,127"/>
+<area shape="rect" id="node7" href="$classfire_1_1h5_1_1Data_3_01std_1_1map_3_01KeyType_00_01ValType_01_4_01_4.html" title="Our wrapper around std::map." alt="" coords="491,151,707,193"/>
+<area shape="rect" id="node9" href="$classfire_1_1h5_1_1Data_3_01std_1_1vector_3_01ContentType_01_4_01_4.html" title="Our wrapper around std::vector." alt="" coords="500,217,697,258"/>
+<area shape="rect" id="node11" href="$classfire_1_1h5_1_1Data.html" title="General data set." alt="" coords="505,282,692,323"/>
+</map>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['prototypemaker_0',['PrototypeMaker',['../classfire_1_1factory_1_1Factory.html#ace8ca28241aaff3856d17abb79e449ca',1,'fire::factory::Factory']]]
+  ['logger_0',['logger',['../namespacefire_1_1logging.html#af31a24e73f3968047026401b1204867f',1,'fire::logging']]]
 ];

@@ -1,6 +1,7 @@
 var classfire_1_1Event =
 [
     [ "EventObject", "structfire_1_1Event_1_1EventObject.html", "structfire_1_1Event_1_1EventObject" ],
+    [ "EventObjectTag", "classfire_1_1Event_1_1EventObjectTag.html", "classfire_1_1Event_1_1EventObjectTag" ],
     [ "Event", "classfire_1_1Event.html#a338f91291ec7e9e1c641ee1a5e3b9cf7", null ],
     [ "Event", "classfire_1_1Event.html#a51c5380ff4e2b6937540d748ae4e82ff", null ],
     [ "add", "classfire_1_1Event.html#a7ce4cacd24702133f5dabdc1af41ac53", null ],
@@ -15,10 +16,11 @@ var classfire_1_1Event =
     [ "next", "classfire_1_1Event.html#a4cd029a56263a5bd89fe0dda1853362b", null ],
     [ "operator=", "classfire_1_1Event.html#a4b7e15630172316345741cfcc1250c89", null ],
     [ "save", "classfire_1_1Event.html#a9c1b3123d4e4b5c049f0b163a9dec735", null ],
-    [ "search", "classfire_1_1Event.html#a60c0a790ed3c2ac5179947426d53c2af", null ],
+    [ "search", "classfire_1_1Event.html#a50bb1b72cbee56c37ae1a00e35bf43f2", null ],
     [ "setInputFile", "classfire_1_1Event.html#af1c3b043afaa5ac3d6d15660273d8b52", null ],
     [ "test", "classfire_1_1Event.html#ae6bf3787866bbcc24de7e70932c5fbaf", null ],
     [ "Process", "classfire_1_1Event.html#a7a4d413df5afafea63a3532759beeaa7", null ],
+    [ "available_objects_", "classfire_1_1Event.html#ac6ce2bb20afc020fbc7b51ca9b64b0a6", null ],
     [ "drop_keep_rules_", "classfire_1_1Event.html#a380ad962c68c9294fc494fb7db8bbe41", null ],
     [ "header_", "classfire_1_1Event.html#a5887853b24d9d1133e7a588909bb5fdb", null ],
     [ "i_entry_", "classfire_1_1Event.html#a1362decf43c0b0c775698c3f1b225cba", null ],
@@ -26,6 +28,5 @@ var classfire_1_1Event =
     [ "known_lookups_", "classfire_1_1Event.html#ae1709341df04936b5a1d1aaa8205af79", null ],
     [ "objects_", "classfire_1_1Event.html#a7cbf25a45bd36abb941b3eb22611ad10", null ],
     [ "output_file_", "classfire_1_1Event.html#ab99de47b3f1620774ef843c0130341c6", null ],
-    [ "pass_", "classfire_1_1Event.html#a2c1a7f908ebf8af914bc3f7af2c3a2cc", null ],
-    [ "products_", "classfire_1_1Event.html#a272e10f8456fd50e9d09638384db6d21", null ]
+    [ "pass_", "classfire_1_1Event.html#a2c1a7f908ebf8af914bc3f7af2c3a2cc", null ]
 ];

@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.10.0</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.10.1</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -97,17 +97,20 @@ $(document).ready(function(){initNavTree('structfire_1_1Event_1_1EventObject.htm
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a6198e024515454a8102f130c21fcb46f"><td class="memTemplParams" colspan="2">template&lt;typename DataType &gt; </td></tr>
-<tr class="memitem:a6198e024515454a8102f130c21fcb46f"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classfire_1_1h5_1_1DataSet.html">h5::DataSet</a>&lt; DataType &gt; &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structfire_1_1Event_1_1EventObject.html#a6198e024515454a8102f130c21fcb46f">getDataSetRef</a> ()</td></tr>
-<tr class="memdesc:a6198e024515454a8102f130c21fcb46f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper for getting a reference to the dataset.  <a href="structfire_1_1Event_1_1EventObject.html#a6198e024515454a8102f130c21fcb46f">More...</a><br /></td></tr>
-<tr class="separator:a6198e024515454a8102f130c21fcb46f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76f6dc5c9379f187d5272d0ee28ac003"><td class="memTemplParams" colspan="2">template&lt;typename DataType &gt; </td></tr>
+<tr class="memitem:a76f6dc5c9379f187d5272d0ee28ac003"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classfire_1_1h5_1_1Data.html">h5::Data</a>&lt; DataType &gt; &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structfire_1_1Event_1_1EventObject.html#a76f6dc5c9379f187d5272d0ee28ac003">getDataRef</a> ()</td></tr>
+<tr class="memdesc:a76f6dc5c9379f187d5272d0ee28ac003"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper for getting a reference to the dataset.  <a href="structfire_1_1Event_1_1EventObject.html#a76f6dc5c9379f187d5272d0ee28ac003">More...</a><br /></td></tr>
+<tr class="separator:a76f6dc5c9379f187d5272d0ee28ac003"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d9542a9b234a3aebc7ea19208f16f15"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structfire_1_1Event_1_1EventObject.html#a2d9542a9b234a3aebc7ea19208f16f15">clear</a> ()</td></tr>
+<tr class="memdesc:a2d9542a9b234a3aebc7ea19208f16f15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear the event object at the end of an event.  <a href="structfire_1_1Event_1_1EventObject.html#a2d9542a9b234a3aebc7ea19208f16f15">More...</a><br /></td></tr>
+<tr class="separator:a2d9542a9b234a3aebc7ea19208f16f15"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:afee8044a019c08a7984f104a52373e0f"><td class="memItemLeft" align="right" valign="top"><a id="afee8044a019c08a7984f104a52373e0f" name="afee8044a019c08a7984f104a52373e0f"></a>
-std::unique_ptr&lt; <a class="el" href="classfire_1_1h5_1_1BaseDataSet.html">h5::BaseDataSet</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>set_</b></td></tr>
-<tr class="memdesc:afee8044a019c08a7984f104a52373e0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">the dataset for save/load the data <br /></td></tr>
-<tr class="separator:afee8044a019c08a7984f104a52373e0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d94248da2f739186e26d719da29e375"><td class="memItemLeft" align="right" valign="top"><a id="a9d94248da2f739186e26d719da29e375" name="a9d94248da2f739186e26d719da29e375"></a>
+std::unique_ptr&lt; <a class="el" href="classfire_1_1h5_1_1BaseData.html">h5::BaseData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>data_</b></td></tr>
+<tr class="memdesc:a9d94248da2f739186e26d719da29e375"><td class="mdescLeft">&#160;</td><td class="mdescRight">the data for save/load <br /></td></tr>
+<tr class="separator:a9d94248da2f739186e26d719da29e375"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af39b84a9cac4cf469690844c9376be54"><td class="memItemLeft" align="right" valign="top"><a id="af39b84a9cac4cf469690844c9376be54" name="af39b84a9cac4cf469690844c9376be54"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>should_save_</b></td></tr>
 <tr class="memdesc:af39b84a9cac4cf469690844c9376be54"><td class="mdescLeft">&#160;</td><td class="mdescRight">should we save the data into output file? <br /></td></tr>
@@ -116,12 +119,44 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>should_save_</b></td>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>should_load_</b></td></tr>
 <tr class="memdesc:a15c150d14a02edd8a3bbf82fd39e45c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">should we load the data from the input file? <br /></td></tr>
 <tr class="separator:a15c150d14a02edd8a3bbf82fd39e45c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af630f3da35b0a4f916eb06ed09d0de16"><td class="memItemLeft" align="right" valign="top"><a id="af630f3da35b0a4f916eb06ed09d0de16" name="af630f3da35b0a4f916eb06ed09d0de16"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>updated_</b></td></tr>
+<tr class="memdesc:af630f3da35b0a4f916eb06ed09d0de16"><td class="mdescLeft">&#160;</td><td class="mdescRight">have we been updated on the current event? <br /></td></tr>
+<tr class="separator:af630f3da35b0a4f916eb06ed09d0de16"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >structure to hold event data in memory </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a6198e024515454a8102f130c21fcb46f" name="a6198e024515454a8102f130c21fcb46f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6198e024515454a8102f130c21fcb46f">&#9670;&nbsp;</a></span>getDataSetRef()</h2>
+<a id="a2d9542a9b234a3aebc7ea19208f16f15" name="a2d9542a9b234a3aebc7ea19208f16f15"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d9542a9b234a3aebc7ea19208f16f15">&#9670;&nbsp;</a></span>clear()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void fire::Event::EventObject::clear </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Clear the event object at the end of an event. </p>
+<p >We reset the flag saying if this object has been updated by a processor and call the set's clear. </p>
+
+</div>
+</div>
+<a id="a76f6dc5c9379f187d5272d0ee28ac003" name="a76f6dc5c9379f187d5272d0ee28ac003"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76f6dc5c9379f187d5272d0ee28ac003">&#9670;&nbsp;</a></span>getDataRef()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -132,7 +167,7 @@ template&lt;typename DataType &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classfire_1_1h5_1_1DataSet.html">h5::DataSet</a>&lt; DataType &gt; &amp; fire::Event::EventObject::getDataSetRef </td>
+          <td class="memname"><a class="el" href="classfire_1_1h5_1_1Data.html">h5::Data</a>&lt; DataType &gt; &amp; fire::Event::EventObject::getDataRef </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>

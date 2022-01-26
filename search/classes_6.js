@@ -4,6 +4,5 @@ var searchData=
   ['parameterstorage_1',['ParameterStorage',['../classfire_1_1h5_1_1ParameterStorage.html',1,'fire::h5']]],
   ['process_2',['Process',['../classfire_1_1Process.html',1,'fire']]],
   ['processor_3',['Processor',['../classfire_1_1Processor.html',1,'fire']]],
-  ['producer_4',['Producer',['../classfire_1_1Producer.html',1,'fire']]],
-  ['producttag_5',['ProductTag',['../classfire_1_1ProductTag.html',1,'fire']]]
+  ['producer_4',['Producer',['../classfire_1_1Producer.html',1,'fire']]]
 ];

@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.10.0</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.10.1</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -93,22 +93,20 @@ $(document).ready(function(){initNavTree('classfire_1_1h5_1_1ParameterStorage.ht
 </div><!--header-->
 <div class="contents">
 
-<p>Provides dynamic parameter storage by interfacing between a map to variants storing parameters and a specialized <a class="el" href="classfire_1_1h5_1_1DataSet.html" title="General data set.">DataSet</a>.  
+<p>Provides dynamic parameter storage by interfacing between a map to variants storing parameters and a <a class="el" href="classfire_1_1h5_1_1Data.html" title="General data set.">h5::Data</a> secialization.  
  <a href="classfire_1_1h5_1_1ParameterStorage.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="ParameterStorage_8h_source.html">ParameterStorage.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a4ac79dbb8228fc19a8f61184df40afaa"><td class="memTemplParams" colspan="2"><a id="a4ac79dbb8228fc19a8f61184df40afaa" name="a4ac79dbb8228fc19a8f61184df40afaa"></a>
-template&lt;typename ParameterType &gt; </td></tr>
-<tr class="memitem:a4ac79dbb8228fc19a8f61184df40afaa"><td class="memTemplItemLeft" align="right" valign="top">const ParameterType &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>get</b> (const std::string &amp;name) const</td></tr>
-<tr class="memdesc:a4ac79dbb8228fc19a8f61184df40afaa"><td class="mdescLeft">&#160;</td><td class="mdescRight">get a parameter <br /></td></tr>
+<tr class="memitem:a4ac79dbb8228fc19a8f61184df40afaa"><td class="memTemplParams" colspan="2">template&lt;typename ParameterType &gt; </td></tr>
+<tr class="memitem:a4ac79dbb8228fc19a8f61184df40afaa"><td class="memTemplItemLeft" align="right" valign="top">const ParameterType &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classfire_1_1h5_1_1ParameterStorage.html#a4ac79dbb8228fc19a8f61184df40afaa">get</a> (const std::string &amp;name) const</td></tr>
+<tr class="memdesc:a4ac79dbb8228fc19a8f61184df40afaa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a parameter corresponding to the input name.  <a href="classfire_1_1h5_1_1ParameterStorage.html#a4ac79dbb8228fc19a8f61184df40afaa">More...</a><br /></td></tr>
 <tr class="separator:a4ac79dbb8228fc19a8f61184df40afaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a127be822c9453261bf9488415c41853c"><td class="memTemplParams" colspan="2"><a id="a127be822c9453261bf9488415c41853c" name="a127be822c9453261bf9488415c41853c"></a>
-template&lt;typename ParameterType &gt; </td></tr>
-<tr class="memitem:a127be822c9453261bf9488415c41853c"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><b>set</b> (const std::string &amp;name, const ParameterType &amp;val)</td></tr>
-<tr class="memdesc:a127be822c9453261bf9488415c41853c"><td class="mdescLeft">&#160;</td><td class="mdescRight">set a parameter <br /></td></tr>
+<tr class="memitem:a127be822c9453261bf9488415c41853c"><td class="memTemplParams" colspan="2">template&lt;typename ParameterType &gt; </td></tr>
+<tr class="memitem:a127be822c9453261bf9488415c41853c"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classfire_1_1h5_1_1ParameterStorage.html#a127be822c9453261bf9488415c41853c">set</a> (const std::string &amp;name, const ParameterType &amp;val)</td></tr>
+<tr class="memdesc:a127be822c9453261bf9488415c41853c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a parameter to be a specific value.  <a href="classfire_1_1h5_1_1ParameterStorage.html#a127be822c9453261bf9488415c41853c">More...</a><br /></td></tr>
 <tr class="separator:a127be822c9453261bf9488415c41853c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa11fc30f332d08e3f5d1d5818e43f63d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1h5_1_1ParameterStorage.html#aa11fc30f332d08e3f5d1d5818e43f63d">clear</a> ()</td></tr>
 <tr class="memdesc:aa11fc30f332d08e3f5d1d5818e43f63d"><td class="mdescLeft">&#160;</td><td class="mdescRight">clear the parameters  <a href="classfire_1_1h5_1_1ParameterStorage.html#aa11fc30f332d08e3f5d1d5818e43f63d">More...</a><br /></td></tr>
@@ -123,13 +121,16 @@ std::unordered_map&lt; std::string, std::variant&lt; int, float, std::string &gt
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
 Friends</h2></td></tr>
-<tr class="memitem:ad6c54706c9b1d703dd716a5411c4bc76"><td class="memItemLeft" align="right" valign="top"><a id="ad6c54706c9b1d703dd716a5411c4bc76" name="ad6c54706c9b1d703dd716a5411c4bc76"></a>
-class&#160;</td><td class="memItemRight" valign="bottom"><b>DataSet&lt; ParameterStorage &gt;</b></td></tr>
-<tr class="memdesc:ad6c54706c9b1d703dd716a5411c4bc76"><td class="mdescLeft">&#160;</td><td class="mdescRight">allow data set access for reading/writing <br /></td></tr>
-<tr class="separator:ad6c54706c9b1d703dd716a5411c4bc76"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a334ed86b311ee57005d7359381d47bc6"><td class="memItemLeft" align="right" valign="top"><a id="a334ed86b311ee57005d7359381d47bc6" name="a334ed86b311ee57005d7359381d47bc6"></a>
+class&#160;</td><td class="memItemRight" valign="bottom"><b>Data&lt; ParameterStorage &gt;</b></td></tr>
+<tr class="memdesc:a334ed86b311ee57005d7359381d47bc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">allow data set access for reading/writing <br /></td></tr>
+<tr class="separator:a334ed86b311ee57005d7359381d47bc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p >Provides dynamic parameter storage by interfacing between a map to variants storing parameters and a specialized <a class="el" href="classfire_1_1h5_1_1DataSet.html" title="General data set.">DataSet</a>. </p>
+<div class="textblock"><p >Provides dynamic parameter storage by interfacing between a map to variants storing parameters and a <a class="el" href="classfire_1_1h5_1_1Data.html" title="General data set.">h5::Data</a> secialization. </p>
+<p >This class does some pretty absurd nonsense in order to be able to store a dynamic set of parameters of various types. The type casting necessary to load and save the data stored within this object does negatively impact performance, so this class should be used sparingly. Moreover, the <a class="el" href="classfire_1_1h5_1_1Data_3_01ParameterStorage_01_4.html#ac2acbb895ab0b0eb3d74c11953122cfc" title="load the next entry of ParameterStorage from disk into memory">h5::Data&lt;ParameterStorage&gt;::load</a> mechanic only reads in new parameters into the map from disk on the first load call (it continues to load values). This prevents <a class="el" href="classfire_1_1h5_1_1ParameterStorage.html" title="Provides dynamic parameter storage by interfacing between a map to variants storing parameters and a ...">ParameterStorage</a> from being usable by normal event objects whose data set names may change between input files due to changing pass names.</p>
+<p >Currently, it is only used within the <a class="el" href="classfire_1_1EventHeader.html" title="Provides header information an event such as event number and timestamp.">fire::EventHeader</a> and the <a class="el" href="classfire_1_1RunHeader.html" title="Container for run parameters.">fire::RunHeader</a> and users of fire are discouraged from using it within their own classes.</p>
+<p ><a class="el" href="classfire_1_1h5_1_1ParameterStorage.html" title="Provides dynamic parameter storage by interfacing between a map to variants storing parameters and a ...">ParameterStorage</a> only supports three atomic types (int, float, and std::string). This is just to keep the code relatively simple. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="aa11fc30f332d08e3f5d1d5818e43f63d" name="aa11fc30f332d08e3f5d1d5818e43f63d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa11fc30f332d08e3f5d1d5818e43f63d">&#9670;&nbsp;</a></span>clear()</h2>
@@ -147,7 +148,124 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>DataSet&lt; Paramete
 </div><div class="memdoc">
 
 <p>clear the parameters </p>
-<p >We don't clear the container of parameters, we clear them individually by setting them to the numeric_limits minimum or clearing the std::string. </p>
+<p >We don't clear the container of parameters, we clear them individually by setting them to the numeric_limits minimum or clearing the std::string.</p>
+<p >This is to help minimize the save/load type deduction processes that are necessary within <a class="el" href="classfire_1_1h5_1_1Data_3_01ParameterStorage_01_4.html" title="h5::Data specialization for ParameterStorage">h5::Data&lt;ParameterStorage&gt;</a>. </p>
+
+</div>
+</div>
+<a id="a4ac79dbb8228fc19a8f61184df40afaa" name="a4ac79dbb8228fc19a8f61184df40afaa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ac79dbb8228fc19a8f61184df40afaa">&#9670;&nbsp;</a></span>get()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ParameterType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const ParameterType &amp; fire::h5::ParameterStorage::get </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a parameter corresponding to the input name. </p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="classfire_1_1Exception.html" title="Standard base exception class with some useful output information.">Exception</a></td><td>if requested type differs from the type stored </td></tr>
+    <tr><td class="paramname"><a class="el" href="classfire_1_1Exception.html" title="Standard base exception class with some useful output information.">Exception</a></td><td>if parameter is not found</td></tr>
+  </table>
+  </dd>
+</dl>
+<h3><a class="anchor" id="autotoc_md12"></a>
+usage</h3>
+<p >It is recomended to use auto to avoid code repitition. </p><div class="fragment"><div class="line"><span class="comment">// ps is a ParameterStorage instance that already has &quot;one&quot; in it.</span></div>
+<div class="line"><span class="keyword">auto</span> one = ps.get&lt;<span class="keywordtype">float</span>&gt;(<span class="stringliteral">&quot;one&quot;</span>);</div>
+</div><!-- fragment --><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">ParameterType</td><td>type of parameter that is being requested </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">name</td><td>name of parameter to get </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>const reference to parameter named name </dd></dl>
+
+</div>
+</div>
+<a id="a127be822c9453261bf9488415c41853c" name="a127be822c9453261bf9488415c41853c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a127be822c9453261bf9488415c41853c">&#9670;&nbsp;</a></span>set()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ParameterType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void fire::h5::ParameterStorage::set </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const ParameterType &amp;&#160;</td>
+          <td class="paramname"><em>val</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set a parameter to be a specific value. </p>
+<dl class="section note"><dt>Note</dt><dd>We do not check if another parameter is being overwritten.</dd></dl>
+<h3><a class="anchor" id="autotoc_md13"></a>
+usage</h3>
+<p >With C++17's argument type deduction feature, the template parameter can be left out. </p><div class="fragment"><div class="line">ParameterStorage ps;</div>
+<div class="line"><span class="comment">// these two are the same</span></div>
+<div class="line">ps.set(<span class="stringliteral">&quot;one&quot;</span>,1.0);</div>
+<div class="line">ps.set&lt;<span class="keywordtype">float</span>&gt;(<span class="stringliteral">&quot;one&quot;</span>,1.0);</div>
+<div class="line"><span class="comment">// this will not compile because double&#39;s aren&#39;t supported</span></div>
+<div class="line">ps.set&lt;<span class="keywordtype">double</span>&gt;(<span class="stringliteral">&quot;one&quot;</span>,1.0);</div>
+</div><!-- fragment --><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">The</td><td>type of the parameter that is being set. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">name</td><td>Name of the parameter to set </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">val</td><td>value of the parameter to keep in storage </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -160,7 +278,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>DataSet&lt; Paramete
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>fire</b></li><li class="navelem"><b>h5</b></li><li class="navelem"><a class="el" href="classfire_1_1h5_1_1ParameterStorage.html">ParameterStorage</a></li>
+    <li class="navelem"><b>fire</b></li><li class="navelem"><a class="el" href="namespacefire_1_1h5.html">h5</a></li><li class="navelem"><a class="el" href="classfire_1_1h5_1_1ParameterStorage.html">ParameterStorage</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2 </li>
   </ul>
 </div>

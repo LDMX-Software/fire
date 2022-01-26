@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['producttag_2eh_0',['ProductTag.h',['../ProductTag_8h.html',1,'']]]
+  ['logger_2eh_0',['Logger.h',['../Logger_8h.html',1,'']]]
 ];

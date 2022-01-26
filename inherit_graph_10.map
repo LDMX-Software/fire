@@ -1,13 +1,3 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classfire_1_1h5_1_1BaseDataSet.html" title="Empty dataset base allowing recursion." alt="" coords="5,167,164,193"/>
-<area shape="rect" id="node2" href="$classfire_1_1h5_1_1AbstractDataSet.html" title=" " alt="" coords="247,19,428,61"/>
-<area shape="rect" id="node4" href="$classfire_1_1h5_1_1AbstractDataSet.html" title=" " alt="" coords="247,90,428,131"/>
-<area shape="rect" id="node6" href="$classfire_1_1h5_1_1AbstractDataSet.html" title=" " alt="" coords="212,159,463,201"/>
-<area shape="rect" id="node8" href="$classfire_1_1h5_1_1AbstractDataSet.html" title=" " alt="" coords="221,229,453,270"/>
-<area shape="rect" id="node10" href="$classfire_1_1h5_1_1AbstractDataSet.html" title="Type&#45;specific base class to hold common dataset methods." alt="" coords="247,294,428,335"/>
-<area shape="rect" id="node3" href="$classfire_1_1h5_1_1DataSet_3_01AtomicType_00_01std_1_1enable__if__t_3_01is__atomic__v_3_01AtomicType_01_4_01_4_01_4.html" title="Atomic types." alt="" coords="511,5,789,61"/>
-<area shape="rect" id="node5" href="$classfire_1_1h5_1_1DataSet_3_01ParameterStorage_01_4.html" title="DataSet specialization for ParameterStorage." alt="" coords="571,86,729,127"/>
-<area shape="rect" id="node7" href="$classfire_1_1h5_1_1DataSet_3_01std_1_1map_3_01KeyType_00_01ValType_01_4_01_4.html" title="Maps." alt="" coords="572,152,728,208"/>
-<area shape="rect" id="node9" href="$classfire_1_1h5_1_1DataSet_3_01std_1_1vector_3_01ContentType_01_4_01_4.html" title="Vectors." alt="" coords="539,233,761,274"/>
-<area shape="rect" id="node11" href="$classfire_1_1h5_1_1DataSet.html" title="General data set." alt="" coords="573,298,727,339"/>
+<area shape="rect" id="node1" href="$classfire_1_1factory_1_1Factory.html" title="Factory to dynamically create objects derived from a specific prototype class." alt="" coords="5,5,213,61"/>
 </map>

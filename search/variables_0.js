@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['buffers_5f_0',['buffers_',['../classfire_1_1h5_1_1Reader.html#ac540466efb3185beefb121400425728d',1,'fire::h5::Reader::buffers_()'],['../classfire_1_1h5_1_1Writer.html#a46652074c5ef9ede2c8bce92ab30ee96',1,'fire::h5::Writer::buffers_()']]]
+  ['available_5fobjects_5f_0',['available_objects_',['../classfire_1_1Event.html#ac6ce2bb20afc020fbc7b51ca9b64b0a6',1,'fire::Event']]]
 ];

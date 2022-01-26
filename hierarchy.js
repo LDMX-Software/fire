@@ -1,20 +1,20 @@
 var hierarchy =
 [
-    [ "fire::h5::BaseDataSet", "classfire_1_1h5_1_1BaseDataSet.html", [
-      [ "fire::h5::AbstractDataSet< AtomicType >", "classfire_1_1h5_1_1AbstractDataSet.html", [
-        [ "fire::h5::DataSet< AtomicType, std::enable_if_t< is_atomic_v< AtomicType > > >", "classfire_1_1h5_1_1DataSet_3_01AtomicType_00_01std_1_1enable__if__t_3_01is__atomic__v_3_01AtomicType_01_4_01_4_01_4.html", null ]
+    [ "fire::h5::BaseData", "classfire_1_1h5_1_1BaseData.html", [
+      [ "fire::h5::AbstractData< AtomicType >", "classfire_1_1h5_1_1AbstractData.html", [
+        [ "fire::h5::Data< AtomicType, std::enable_if_t< is_atomic_v< AtomicType > > >", "classfire_1_1h5_1_1Data_3_01AtomicType_00_01std_1_1enable__if__t_3_01is__atomic__v_3_01AtomicType_01_4_01_4_01_4.html", null ]
       ] ],
-      [ "fire::h5::AbstractDataSet< ParameterStorage >", "classfire_1_1h5_1_1AbstractDataSet.html", [
-        [ "fire::h5::DataSet< ParameterStorage >", "classfire_1_1h5_1_1DataSet_3_01ParameterStorage_01_4.html", null ]
+      [ "fire::h5::AbstractData< ParameterStorage >", "classfire_1_1h5_1_1AbstractData.html", [
+        [ "fire::h5::Data< ParameterStorage >", "classfire_1_1h5_1_1Data_3_01ParameterStorage_01_4.html", null ]
       ] ],
-      [ "fire::h5::AbstractDataSet< std::map< KeyType, ValType > >", "classfire_1_1h5_1_1AbstractDataSet.html", [
-        [ "fire::h5::DataSet< std::map< KeyType, ValType > >", "classfire_1_1h5_1_1DataSet_3_01std_1_1map_3_01KeyType_00_01ValType_01_4_01_4.html", null ]
+      [ "fire::h5::AbstractData< std::map< KeyType, ValType > >", "classfire_1_1h5_1_1AbstractData.html", [
+        [ "fire::h5::Data< std::map< KeyType, ValType > >", "classfire_1_1h5_1_1Data_3_01std_1_1map_3_01KeyType_00_01ValType_01_4_01_4.html", null ]
       ] ],
-      [ "fire::h5::AbstractDataSet< std::vector< ContentType > >", "classfire_1_1h5_1_1AbstractDataSet.html", [
-        [ "fire::h5::DataSet< std::vector< ContentType > >", "classfire_1_1h5_1_1DataSet_3_01std_1_1vector_3_01ContentType_01_4_01_4.html", null ]
+      [ "fire::h5::AbstractData< std::vector< ContentType > >", "classfire_1_1h5_1_1AbstractData.html", [
+        [ "fire::h5::Data< std::vector< ContentType > >", "classfire_1_1h5_1_1Data_3_01std_1_1vector_3_01ContentType_01_4_01_4.html", null ]
       ] ],
-      [ "fire::h5::AbstractDataSet< DataType >", "classfire_1_1h5_1_1AbstractDataSet.html", [
-        [ "fire::h5::DataSet< DataType, Enable >", "classfire_1_1h5_1_1DataSet.html", null ]
+      [ "fire::h5::AbstractData< DataType >", "classfire_1_1h5_1_1AbstractData.html", [
+        [ "fire::h5::Data< DataType, Enable >", "classfire_1_1h5_1_1Data.html", null ]
       ] ]
     ] ],
     [ "fire::h5::Reader::BufferHandle", "classfire_1_1h5_1_1Reader_1_1BufferHandle.html", [
@@ -32,9 +32,11 @@ var hierarchy =
     [ "fire::ConditionsProvider", "classfire_1_1ConditionsProvider.html", [
       [ "fire::RandomNumberSeedService", "classfire_1_1RandomNumberSeedService.html", null ]
     ] ],
+    [ "fire::h5::constants", "structfire_1_1h5_1_1constants.html", null ],
     [ "fire::Event", "classfire_1_1Event.html", null ],
     [ "fire::EventHeader", "classfire_1_1EventHeader.html", null ],
     [ "fire::Event::EventObject", "structfire_1_1Event_1_1EventObject.html", null ],
+    [ "fire::Event::EventObjectTag", "classfire_1_1Event_1_1EventObjectTag.html", null ],
     [ "std::exception", null, [
       [ "fire::Exception", "classfire_1_1Exception.html", null ],
       [ "fire::Processor::AbortEventException", "classfire_1_1Processor_1_1AbortEventException.html", null ]
@@ -47,7 +49,6 @@ var hierarchy =
       [ "fire::Analyzer", "classfire_1_1Analyzer.html", null ],
       [ "fire::Producer", "classfire_1_1Producer.html", null ]
     ] ],
-    [ "fire::ProductTag", "classfire_1_1ProductTag.html", null ],
     [ "fire::h5::Reader", "classfire_1_1h5_1_1Reader.html", null ],
     [ "fire::RunHeader", "classfire_1_1RunHeader.html", null ],
     [ "fire::StorageControl", "classfire_1_1StorageControl.html", null ],
