@@ -5,13 +5,6 @@
 export GITHUB_WORKFLOWS_PATH="$(dirname ${BASH_SOURCE[0]})"
 export FIRE_TEST_MODULE_PATH="$(realpath ${GITHUB_WORKFLOWS_PATH}/../../test/module)"
 
-source ${GITHUB_WORKFLOWS_PATH}/container-env.sh
-
-if ! hash ldmx &> /dev/null; then
-  echo "Not inside ldmx environmnet!"
-  return 1
-fi
-
 if [ ! -z $BENCH_OUTPUT_DIR ]; then
   mkdir -p ${BENCH_OUTPUT_DIR} || { rc=$?; echo "Unable to create output dir."; return $rc; }
 fi
