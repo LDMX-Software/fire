@@ -69,8 +69,8 @@ jobs:
         cmake --build build
     -
       name: test fire
-      run: |
-        cmake --build build --target test
+      working-directory: build
+      run: ctest -VV
     -
       name: test fire module
       run: |
