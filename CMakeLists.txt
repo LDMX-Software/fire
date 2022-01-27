@@ -72,6 +72,7 @@ target_include_directories(exception
   )
 
 add_library(factory SHARED src/fire/factory/Factory.cxx)
+target_link_libraries(factory PUBLIC exception)
 target_include_directories(factory
   PUBLIC 
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
