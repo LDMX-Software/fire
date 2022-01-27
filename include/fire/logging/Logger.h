@@ -29,6 +29,8 @@
 #include <boost/log/sources/record_ostream.hpp>
 #include <boost/log/utility/setup/file.hpp>
 
+#include <unordered_map>
+
 /**
  * Housing for logging infrastructure
  *
