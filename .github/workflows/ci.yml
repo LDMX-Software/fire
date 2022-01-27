@@ -45,7 +45,7 @@ jobs:
           tar -xz --strip-components=1 --directory src
         mkdir src/build
         cd src/build
-        cmake -DHIGHFIVE_EXAMPLES=OFF ..
+        cmake -DHIGHFIVE_EXAMPLES=OFF -DHIGHFIVE_UNIT_TESTS=OFF ..
         sudo make install
         cd -
         rm -rf src
