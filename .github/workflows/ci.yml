@@ -34,7 +34,7 @@ jobs:
       run: sudo apt-get update && sudo apt-get install libboost-all-dev
     -
       name: install dependencies macos
-      if: contains(matrix.os,'maxOS')
+      if: contains(matrix.os,'macOS')
       run: brew install boost hdf5
     -
       name: install HighFive
