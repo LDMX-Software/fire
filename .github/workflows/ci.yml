@@ -57,29 +57,26 @@ jobs:
       with:
         submodules: 'recursive'
     -
+      name: build fire
+      run: |
+        cmake -B build -S . 
+        cmake --build build
+    -
       name: test fire
       run: |
-        group Configure Build
-        cmake -B build -S . 
-        group Build fire
-        cmake --build build
-        group Test fire
         cmake --build build --target test
-        group Install fire for Test Module
+    -
+      name: test fire module
+      run: |
         cd build
         sudo make install
         cd -
-        group Configure Test Module
         cmake -B build/test/module -S test/module
-        group Build and Install Test Module
         cmake --build build/test/module
-        cd build/test/module
         sudo make install
         cd -
-        group Run Test Production
-        ldmx fire test/module/produce.py 10
-        group Run Test Reconstruction
-        ldmx fire test/module/recon.py test/module/output_10.h5
+        fire test/module/produce.py 10
+        fire test/module/recon.py test/module/output_10.h5
   
   bench:
     needs: test
