@@ -91,12 +91,16 @@ class Writer {
       //    for flushing purposes
       // - the length of the buffer is the same size as the chunks in
       //    HDF5, this is done on purpose
+      HighFive::DataType t;
+      if constexpr (std::is_same_v<AtomicType,bool>) {
+        t = create_enum_bool();
+      } else {
+        t = HighFive::AtomicType<AtomicType>();
+      }
       buffers_.emplace(
           path, std::make_unique<Buffer<AtomicType>>(
                     rows_per_chunk_,
-                    file_.createDataSet(path, space_,
-                                        HighFive::AtomicType<AtomicType>(),
-                                        create_props_)));
+                    file_.createDataSet(path, space_,t,create_props_)));
     }
     dynamic_cast<Buffer<AtomicType>&>(*buffers_.at(path)).save(val);
   }
@@ -236,11 +240,10 @@ class Writer {
       }
       if constexpr (std::is_same_v<AtomicType, bool>) {
         // handle bool specialization
-        auto buff = std::make_unique<bool[]>(buffer_.size());
-        for (std::size_t i{0}; i < buffer_.size(); i++)
-          buff[i] = buffer_.at(i);
-        this->set_.select({i_file_}, {buffer_.size()})
-          .write_raw(buff.get(), HighFive::AtomicType<bool>());
+        std::vector<Bool> buff;
+        buff.reserve(buffer_.size());
+        for (const auto& v : buffer_) buff.push_back(v ? Bool::TRUE : Bool::FALSE);
+        this->set_.select({i_file_}, {buffer_.size()}).write(buff);
       } else {
         this->set_.select({i_file_}, {buffer_.size()}).write(buffer_);
       }

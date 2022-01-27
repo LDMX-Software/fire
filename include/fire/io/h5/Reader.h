@@ -288,12 +288,12 @@ class Reader : public ::fire::io::Reader {
       // load the next chunk into memory
       if constexpr (std::is_same_v<AtomicType,bool>) {
         // get around std::vector<bool> specialization
-        auto buff = std::make_unique<bool[]>(request_len);
+        std::vector<Bool> buff;
+        buff.resize(request_len);
         this->set_.select({i_file_}, {request_len})
-          .read(buff.get(), HighFive::AtomicType<bool>());
-        buffer_.reserve(request_len);
-        for (std::size_t i{0}; i < request_len; i++)
-          buffer_.push_back(buff[i]);
+          .read(buff.data(),create_enum_bool());
+        buffer_.reserve(buff.size());
+        for (const auto& v : buff) buffer_.push_back(v == Bool::TRUE);
       } else {
         this->set_.select({i_file_}, {request_len}).read(buffer_);
       }
