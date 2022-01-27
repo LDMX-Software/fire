@@ -102,6 +102,7 @@ if (fire_USE_ROOT)
   # include ROOT reader in io submodule
   add_library(io SHARED 
     src/fire/io/Writer.cxx
+    src/fire/io/Atomic.cxx
     src/fire/io/ParameterStorage.cxx
     src/fire/io/h5/Reader.cxx
     src/fire/io/root/Reader.cxx)
@@ -110,10 +111,12 @@ else()
   message(WARNING "Reading ROOT files will not be supported.")
   add_library(io SHARED 
     src/fire/io/Writer.cxx
+    src/fire/io/Atomic.cxx
     src/fire/io/ParameterStorage.cxx
     src/fire/io/h5/Reader.cxx)
   target_link_libraries(io PUBLIC version config HighFive)
 endif()
+
 add_library(framework SHARED
   src/fire/StorageControl.cxx
   src/fire/Event.cxx

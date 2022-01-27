@@ -20,6 +20,22 @@ using is_atomic =
 template <typename AtomicType>
 inline constexpr bool is_atomic_v = is_atomic<AtomicType>::value;
 
+/**
+ * Boolean enum aligned with h5py
+ *
+ * We serialize bools in the same method as h5py so that
+ * Python-based analyses are easier.
+ */
+enum class Bool : bool {
+  TRUE  = true,
+  FALSE = false
+};
+
+/**
+ * HighFive method for creating the enum data type
+ */
+HighFive::EnumType<Bool> create_enum_bool();
+
 }  // namespace fire::h5
 
 #endif
