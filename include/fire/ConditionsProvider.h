@@ -13,11 +13,18 @@
 
 namespace fire {
 
+/// forward declaration for attachment
 class Conditions;
 
 /**
- * @class ConditionsProvider
- * @brief Base class for all providers of conditions objects
+ * Base class for all providers of conditions objects
+ *
+ * Besides defining the necessary virtual callbacks,
+ * we also provide the factory infrastructure for dynamically
+ * creating providers from loaded libraries and we define
+ * a requestParentCondition function that can be used by
+ * other providers to obtain conditions other conditions
+ * depend on.
  */
 class ConditionsProvider {
  public:
@@ -31,29 +38,34 @@ class ConditionsProvider {
       factory::Factory<ConditionsProvider, std::shared_ptr<ConditionsProvider>,
                        config::Parameters const&>;
   /**
-   * Class constructor.
-   * @param ps Parameters to configure the provider
-   * @param conditions The central Conditions management system, provided by the
-   * fire.
+   * Configure the registered provider
+   * @param[in] ps Parameters to configure the provider
    */
   ConditionsProvider(const fire::config::Parameters& ps);
 
   /**
-   * Class destructor.
+   * default destructor, virtual so derived types can be destructed
    */
   virtual ~ConditionsProvider() = default;
 
   /**
    * Pure virtual getCondition function.
+   *
    * Must be implemented by any Conditions providers.
+   *
+   * @param[in] context EventHeader for the condition
+   * @return pair of condition and its interval of validity
    */
   virtual std::pair<const ConditionsObject*, ConditionsIntervalOfValidity>
   getCondition(const EventHeader& context) = 0;
 
   /**
-   * Called by conditions system when done with a conditions object, appropriate
-   * point for cleanup.
+   * Called by conditions system when done with a conditions object, 
+   * appropriate point for cleanup.
+   *
    * @note Default behavior is to delete the object!
+   *
+   * @param[in] co condition to cleanup
    */
   virtual void release(const ConditionsObject* co) { delete co; }
 
@@ -65,8 +77,8 @@ class ConditionsProvider {
 
   /**
    * Callback for the ConditionsProvider to take any necessary
-   * action when the processing of events finishes, such as closing
-   * database connections.
+   * action when the processing of events finishes, 
+   * such as closing database connections.
    */
   virtual void onProcessEnd() {}
 
@@ -77,7 +89,7 @@ class ConditionsProvider {
   virtual void onNewRun(RunHeader&) {}
 
   /**
-   * Get the list of conditions objects available from this provider.
+   * Get the condition object available from this provider.
    */
   const std::string& getConditionObjectName() const { return objectName_; }
 
@@ -92,7 +104,17 @@ class ConditionsProvider {
   virtual void attach(Conditions* c) final { conditions_ = c; }
 
  protected:
-  /** Request another condition needed to construct this condition */
+  /** 
+   * Request another condition needed to construct this condition
+   *
+   * This is where we use the handle to the central conditions system
+   * and this allows us to recursively depend on other instances 
+   * ConditionsProvider.
+   *
+   * @param[in] name condition name that is needed
+   * @param[in] context EventHeader for which to get condition
+   * @return pair of parent condition and its interval of validity
+   */
   std::pair<const ConditionsObject*, ConditionsIntervalOfValidity>
   requestParentCondition(const std::string& name, const EventHeader& context);
 

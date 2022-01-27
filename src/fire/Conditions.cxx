@@ -14,7 +14,7 @@ Conditions::Conditions(const config::Parameters& ps, Process& p) : process_{p} {
     std::string provides{cp->getConditionObjectName()};
     if (providers_.find(provides) != providers_.end()) {
       throw Exception("Config",
-          "Multiple ConditonsObjectProviders configured to provide " +
+          "Multiple ConditonsProviders configured to provide " +
           provides,false);
     }
     cp->attach(this);

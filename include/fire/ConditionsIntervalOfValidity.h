@@ -1,47 +1,65 @@
 #ifndef FIRE_CONDITIONSINTERVALOFVALIDITY_H
 #define FIRE_CONDITIONSINTERVALOFVALIDITY_H
 
-/*~~~~~~~~~~~*/
-/*   Event   */
-/*~~~~~~~~~~~*/
 #include <iostream>
 #include "fire/EventHeader.h"
 
 namespace fire {
 
 /**
- * @class ConditionsIntervalOfValidity
- *
- * @brief Class which defines the run/event/type range for which a given
+ * Defines the run/event/type range for which a given
  * condition is valid, including for all time
  */
 class ConditionsIntervalOfValidity {
  public:
   /**
-   * Constructor for null validity
+   * Null IOV
    */
   ConditionsIntervalOfValidity() noexcept;
 
   /**
-   * Constructor for a unlimited validity
+   * Unlimited IOV for data, MC, or both.
+   * @param[in] validForData true if condition is valid for real data
+   * @param[in] validForMC true if condition is valid for MC data
    */
   ConditionsIntervalOfValidity(bool validForData, bool validForMC) noexcept;
 
   /**
-   * Constructor for a run-limited validity
-   * @arg firstRun should be -1 if valid from beginning of time
-   * @arg lastRun should be -1 if valid to end of time
+   * Run-limited IOV
+   * @param[in] firstRun should be -1 if valid from beginning of time
+   * @param[in] lastRun should be -1 if valid to end of time
+   * @param[in] validForData true if condition is valid for real data
+   * @param[in] validForMC true if condition is valid for MC data
    */
   ConditionsIntervalOfValidity(int firstRun, int lastRun, bool validForData = true,
                 bool validForMC = true) noexcept;
 
-  /** Checks to see if this condition is valid for the given event using
-   * information from the header */
+  /** 
+   * Checks to see if this condition is valid for the given event using
+   * information from the header 
+   *
+   * @param[in] eh EventHeader to check
+   * @return true if our IOV includes the event described by the input header
+   */
   bool validForEvent(const EventHeader& eh) const;
 
   /** Checks to see if this IOV overlaps with the given IOV */
   bool overlaps(const ConditionsIntervalOfValidity& iov) const;
 
+  /**
+   * Stream the IOV to an ostream in a pretty way
+   *
+   * The output looks like
+   * ```
+   * "IOV(firstRun->lastRun, type)"
+   * ```
+   * where `lastRun` is replaced by `infty` if it is negative
+   * and `type` is `DATA` or `MC` or both.
+   *
+   * @param[in] s ostream to stream to
+   * @param[in] iov IOV to stream out
+   * @return modified ostream
+   */
   friend std::ostream& operator<<(std::ostream& s, const ConditionsIntervalOfValidity& iov) {
     s << "IOV(" << iov.firstRun_ << "->";
     if (iov.lastRun_ < 0)

@@ -6,23 +6,25 @@
 namespace fire {
 
 /**
- * @class ConditionsObject
- * @brief Base class for all conditions objects, very simple
+ * Base class for all conditions objects, very simple
  */
 class ConditionsObject {
  public:
   /**
-   * Class constructor
+   * Define the name of the condition
    */
   ConditionsObject(const std::string& name) noexcept : name_(name) {}
 
   /**
-   * Destructor
+   * Default destructor
+   *
+   * Virtual so that derived conditions can be destructed
    */
   virtual ~ConditionsObject() = default;
 
   /**
    * Get the name of this object
+   * @return name of this condition
    */
   inline std::string getName() const { return name_; }
 
