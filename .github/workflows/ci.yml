@@ -43,8 +43,10 @@ jobs:
         wget -q -O - \
           https://github.com/BlueBrain/HighFive/archive/refs/tags/v2.3.1.tar.gz |\
           tar -xz --strip-components=1 --directory src
-        cmake -B src/build -S src
-        cmake --build src/build
+        cmake \
+          -B src/build \
+          -S src \
+          -DHIGHFIVE_EXAMPLES=OFF \
         cd src/build
         sudo make install
         cd -
