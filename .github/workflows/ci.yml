@@ -30,7 +30,7 @@ jobs:
     steps:
     -
       name: install dependencies ubuntu
-      if: contains(matrix.os,"ubuntu")
+      if: contains(matrix.os,'ubuntu')
       run: sudo apt-get update && sudo apt-get install libboost-all-dev
     -
       name: install dependencies macos
