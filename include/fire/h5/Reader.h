@@ -278,10 +278,12 @@ class Reader {
       // load the next chunk into memory
       if constexpr (std::is_same_v<AtomicType,bool>) {
         // get around std::vector<bool> specialization
-        std::vector<short> buff;
-        this->set_.select({i_file_}, {request_len}).read(buff);
-        buffer_.reserve(buff.size());
-        for (const auto& v : buff) buffer_.push_back(v);
+        auto buff = std::make_unique<bool[]>(request_len);
+        this->set_.select({i_file_}, {request_len})
+          .read(buff.get(), HighFive::AtomicType<bool>());
+        buffer_.reserve(request_len);
+        for (std::size_t i{0}; i < request_len; i++)
+          buffer_.push_back(buff[i]);
       } else {
         this->set_.select({i_file_}, {request_len}).read(buffer_);
       }

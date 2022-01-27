@@ -236,10 +236,11 @@ class Writer {
       }
       if constexpr (std::is_same_v<AtomicType, bool>) {
         // handle bool specialization
-        std::vector<short> buff;
-        buff.reserve(buffer_.size());
-        for (const auto& v : buffer_) buff.push_back(v);
-        this->set_.select({i_file_}, {buff.size()}).write(buff);
+        auto buff = std::make_unique<bool[]>(buffer_.size());
+        for (std::size_t i{0}; i < buffer_.size(); i++)
+          buff[i] = buffer_.at(i);
+        this->set_.select({i_file_}, {buffer_.size()})
+          .write_raw(buff.get(), HighFive::AtomicType<bool>());
       } else {
         this->set_.select({i_file_}, {buffer_.size()}).write(buffer_);
       }
