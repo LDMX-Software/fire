@@ -20,11 +20,35 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ${{matrix.os}}
     defaults:
       run:
         shell: bash
+    strategy:
+      matrix:
+        os: [ubuntu-18.04, ubuntu-20.04, macOS-10.15]
     steps:
+    -
+      name: install dependencies ubuntu
+      if: contains(matrix.os,"ubuntu")
+      run: sudo apt-get update && sudo apt-get install libboost-all-dev
+    -
+      name: install dependencies macos
+      if: contains(matrix.os,'maxOS')
+      run: brew install boost hdf5
+    -
+      name: install HighFive
+      run: |
+        mkdir src
+        wget -q -O - \
+          https://github.com/BlueBrain/HighFive/archive/refs/tags/v2.3.1.tar.gz |\
+          tar -xz --strip-components=1 --directory src
+        cmake -B src/build -S src
+        cmake --build src/build
+        cd src/build
+        sudo make install
+        cd -
+        rm -rf src
     - 
       name: get fire
       uses: actions/checkout@v2
@@ -33,23 +57,23 @@ jobs:
     -
       name: test fire
       run: |
-        source .github/workflows/env.sh
-        group Init Environment
-        ldmx use dev hdf5
-        ldmx base ..
         group Configure Build
-        ldmx cmake -B build -S . -DCMAKE_INSTALL_PREFIX=${LDMX_BASE}/.container-install
+        cmake -B build -S . 
         group Build fire
-        ldmx cmake --build build
+        cmake --build build
         group Test fire
-        ldmx cmake --build build --target test
+        cmake --build build --target test
         group Install fire for Test Module
-        ldmx cmake --build build/ --target install
+        cd build
+        sudo make install
+        cd -
         group Configure Test Module
-        ldmx cmake -B build/test/module -S test/module \
-          -DCMAKE_INSTALL_PREFIX=${LDMX_BASE}/.container-install
+        cmake -B build/test/module -S test/module
         group Build and Install Test Module
-        ldmx cmake --build build/test/module --target install
+        cmake --build build/test/module
+        cd build/test/module
+        sudo make install
+        cd -
         group Run Test Production
         ldmx fire test/module/produce.py 10
         group Run Test Reconstruction
