@@ -14,18 +14,29 @@
 namespace fire {
 
 /**
- * @class EventHeader
- * @brief Provides header information an event such as event number and
- * timestamp
+ * Header information of an event such as event number and timestamp
  */
 class EventHeader {
  public:
   /**
    * Name of EventHeader branch
-   *  Defined in Reader so that it knows where to look for the number of events in a file.
+   *
+   * Defined in fire::h5 so that the serialization method
+   * knows where to look for the number of events in a file.
    */
   static const std::string NAME;
 
+  /**
+   * Stream an event header
+   *
+   * Streaming the header only involves printing the information
+   * we know exists for all event headers (i.e. everything not
+   * in ParameterStorage).
+   *
+   * @param[in] s ostream to write to
+   * @param[in] eh header to stream out
+   * @return modified ostream
+   */
   friend std::ostream& operator<<(std::ostream& s, const EventHeader& eh) {
     std::string_view label{eh.isRealData_ ? "DATA" : "MC"};
     std::time_t t = eh.timestamp_;
@@ -43,6 +54,11 @@ class EventHeader {
    * @return The event number.
    */
   int getEventNumber() const { return number_; }
+
+  /**
+   * Return the event number.
+   * @return The event number.
+   */
   int number() const { return number_; }
 
   /**
@@ -52,10 +68,22 @@ class EventHeader {
   int getRun() const { return run_; }
 
   /**
+   * Return the run number.
+   * @return The run number.
+   */
+  int run() const { return run_; }
+
+  /**
    * Get the event weight (default of 1.0).
    * @return The event weight.
    */
   double getWeight() const { return weight_; }
+
+  /**
+   * Get the event weight (default of 1.0).
+   * @return The event weight.
+   */
+  double weight() const { return weight_; }
 
   /**
    * Is this a real data event?
@@ -99,13 +127,25 @@ class EventHeader {
     parameters_.clear();
   }
 
-  /// get a parameter
+  /**
+   * get a parameter from storage
+   * @see h5::ParameterStorage::get
+   * @tparam ParameterType type of parameter
+   * @param[in] name parameter name
+   * @return parameter value
+   */
   template<typename ParameterType>
   const ParameterType& get(const std::string& name) const {
     return parameters_.get<ParameterType>(name);
   }
 
-  /// set a parameter
+  /**
+   * set a parameter in storage
+   * @see h5::ParameterStorage::set
+   * @tparam ParameterType type of parameter
+   * @param[in] name parameter name
+   * @param[in] val parameter value
+   */
   template<typename ParameterType>
   void set(const std::string& name, const ParameterType& val) {
     parameters_.set(name,val);
@@ -114,6 +154,15 @@ class EventHeader {
  private:
   /// allow data set access for reading/writing
   friend class h5::Data<EventHeader>;
+  /**
+   * attach to the serializing h5::Data wrapper
+   *
+   * We use h5::constants::NUMBER_NAME so that the serialization
+   * method can deduce the number of events in a file using the
+   * size of our number_ dataset.
+   *
+   * @param[in] d h5::Data to attach to
+   */
   void attach(h5::Data<EventHeader>& d) {
     // make sure we use the name for this variable that the reader expects
     d.attach(h5::constants::NUMBER_NAME,number_);
