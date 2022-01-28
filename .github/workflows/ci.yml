@@ -24,6 +24,8 @@ jobs:
     defaults:
       run:
         shell: bash
+    env:
+      INSTALL: ${{github.workspace}}/install
     strategy:
       matrix:
         os: [ubuntu-18.04, ubuntu-20.04] #, macOS-10.15]
@@ -65,7 +67,7 @@ jobs:
     -
       name: build fire
       run: |
-        cmake -B build -S . 
+        cmake -B build -S . -DCMAKE_INSTALL_PREFIX=${INSTALL}
         cmake --build build
     -
       name: test fire
@@ -74,19 +76,18 @@ jobs:
     -
       name: install fire
       working-directory: build
-      run: |
-        sudo make install
-        sudo ldconfig /usr/local/lib
+      run: make install
     -
       name: test fire module
       run: |
-        cmake -B build/test/module -S test/module
-        cd build/test/module
-        sudo make install
-        sudo ldconfig /usr/local/lib
-        cd -
+        cmake -B build/test/module -S test/module -DCMAKE_INSTALL_PREFIX=${INSTALL}
+        cmake --build build/test/module --target install
         fire test/module/produce.py 10
         fire test/module/recon.py test/module/output_10.h5
+      env:
+        LD_LIBRARY_PATH: ${{env.INSTALL}}/lib
+        PATH: ${{env.INSTALL}}/bin
+        PYTHONPATH: ${{env.INSTALL}}/python
   
   bench:
     needs: test
