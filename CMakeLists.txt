@@ -187,7 +187,7 @@ if (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     add_subdirectory(test)
     # add Python test executable
     add_test(NAME "pytest"
-      COMMAND pytest -v
+      COMMAND python -m pytest -v
       WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/python)
   endif()
 endif()
