@@ -87,12 +87,11 @@ jobs:
     -
       name: run test module
       run: |
+        export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${INSTALL}/lib
+        export PATH=${PATH}:${INSTALL}/bin
+        export PYTHONPATH=${PYTHONPATH}:${INSTALL}/python
         fire test/module/produce.py 10
         fire test/module/recon.py test/module/output_10.h5
-      env:
-        LD_LIBRARY_PATH: ${{env.INSTALL}}/lib
-        PATH: ${{env.INSTALL}}/bin
-        PYTHONPATH: ${{env.INSTALL}}/python
   
   bench:
     needs: test
