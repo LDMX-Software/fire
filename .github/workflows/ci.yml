@@ -86,6 +86,7 @@ jobs:
         CMAKE_PREFIX_PATH: ${{env.INSTALL}}
     -
       name: run test module
+      run: |
         fire test/module/produce.py 10
         fire test/module/recon.py test/module/output_10.h5
       env:
