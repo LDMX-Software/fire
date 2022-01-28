@@ -72,14 +72,19 @@ jobs:
       working-directory: build
       run: ctest -VV
     -
+      name: install fire
+      working-directory: build
+      run: |
+        sudo make install
+        sudo ldconfig /usr/local/lib
+    -
       name: test fire module
       run: |
-        cd build
+        cmake -B build/test/module -S test/module
+        cd build/test/module
         sudo make install
-        cmake -B test/module -S ../test/module
-        cd test/module
-        sudo make install
-        cd ../../../
+        sudo ldconfig /usr/local/lib
+        cd -
         fire test/module/produce.py 10
         fire test/module/recon.py test/module/output_10.h5
   
