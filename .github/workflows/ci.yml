@@ -76,11 +76,10 @@ jobs:
       run: |
         cd build
         sudo make install
-        cd -
-        cmake -B build/test/module -S test/module
-        cmake --build build/test/module
+        cmake -B test/module -S ../test/module
+        cd test/module
         sudo make install
-        cd -
+        cd ../../../
         fire test/module/produce.py 10
         fire test/module/recon.py test/module/output_10.h5
   
