@@ -78,10 +78,14 @@ jobs:
       working-directory: build
       run: make install
     -
-      name: test fire module
+      name: build test module
       run: |
         cmake -B build/test/module -S test/module -DCMAKE_INSTALL_PREFIX=${INSTALL}
         cmake --build build/test/module --target install
+      env:
+        CMAKE_PREFIX_PATH: ${{env.INSTALL}}
+    -
+      name: run test module
         fire test/module/produce.py 10
         fire test/module/recon.py test/module/output_10.h5
       env:
