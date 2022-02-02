@@ -32,13 +32,18 @@ class ConditionsProvider:
     fire.cfg.Process.declareConditionsProvider : how COPs are registered
     """
 
-    def __init__(self, obj_name, class_name, module):
+    def __init__(self, obj_name, class_name, module = None, library = None, **kwargs):
+        self.__dict__ = kwargs
         self.obj_name=obj_name
         self.class_name=class_name
         self.tag_name=''
 
         # make sure process loads this library if it hasn't yet
-        Process.addModule(module)
+        if module is not None :
+            Process.addModule(module)
+
+        if library is not None :
+            Process.addLibrary(library)
         
         #register this conditions object provider with the process
         Process.declareConditionsProvider(self)

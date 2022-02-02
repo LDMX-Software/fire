@@ -121,6 +121,12 @@ class Process:
 
         A process object must already have been created.
 
+        Warnings
+        --------
+            We assume that the libraries are prefixed with 'lib' and
+            have the '.so' extension. This limits the usefulness of this
+            function to Linux systems.
+
         Parameters
         ----------
         module : str

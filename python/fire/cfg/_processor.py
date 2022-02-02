@@ -21,14 +21,19 @@ class Processor:
     See Also
     --------
     fire.cfg.Process.addModule : how module names are interpreted as libraries to be loaded
+    fire.cfg.Process.addLibrary : how libraries are loaded
     """
 
-    def __init__(self, name, class_name, module, **kwargs):
+    def __init__(self, name, class_name, module = None, library = None, **kwargs):
         self.__dict__ = kwargs
         self.name = name
         self.class_name = class_name
 
-        Process.addModule(module)
+        if module is not None :
+            Process.addModule(module)
+
+        if library is not None :
+            Process.addLibrary(library)
 
     def __repr__(self) :
         """Represent this processor with its Python class name, instance name, and C++ name"""

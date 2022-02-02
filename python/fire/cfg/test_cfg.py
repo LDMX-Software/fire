@@ -38,6 +38,10 @@ def test_cfg() :
     proc = fire.cfg.Processor('test','TestPythonConf','TestModule')
     # check auto registration
     assert p.libraries[-1] == 'libTestModule.so'
+
+    proc2 = fire.cfg.Processor('test2','Testing',library='/full/path/to/lib.so')
+    assert p.libraries[-1] == '/full/path/to/lib.so'
+
     # add proc to sequence to test printing later
     p.sequence = [ proc ]
 
