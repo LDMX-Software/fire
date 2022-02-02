@@ -54,7 +54,7 @@ void Process::run() {
   std::size_t n_events_processed{0};
 
   // Start by notifying everyone that modules processing is beginning
-  conditions_.onProcessStart();
+  conditions_->onProcessStart();
   for (auto& proc : sequence_) proc->onProcessStart();
 
   // If we have no input files, but do have an event number, run for
@@ -165,6 +165,7 @@ void Process::run() {
   event_.done();
   // finally, notify everyone that we are stopping
   for (auto& proc : sequence_) proc->onProcessEnd();
+  conditions_->onProcessEnd();
 }
 
 void Process::newRun(RunHeader& rh) {
@@ -176,7 +177,7 @@ void Process::newRun(RunHeader& rh) {
   for (auto& proc : sequence_) proc->beforeNewRun(rh);
   // now run header has been modified by Processors,
   // it is valid to read from for everyone else in 'onNewRun'
-  conditions_.onNewRun(rh);
+  conditions_->onNewRun(rh);
   for (auto& proc : sequence_) proc->onNewRun(rh);
 }
 
