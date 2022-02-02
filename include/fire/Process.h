@@ -64,6 +64,35 @@ class Process {
   
   /**
    * Do the processing run
+   *
+   * ## Production Mode
+   * This is when no input files are provided.
+   *
+   * We simply do max_tries_ number of attempts for
+   * event_limit_ number of events looping through
+   * the processor sequence. This is helpful for simulations
+   * where aborted events are a common method to generate
+   * samples focused on specific interactions.
+   *
+   * The run header and event headers are updated with their
+   * time stamps and using run_ to define the run number.
+   *
+   * ## Reconstruction Mode
+   * This is when there are input files provided.
+   *
+   * The number of events processed is the number of events
+   * in the input file(s) or the event_limit_ if it is provided
+   * and lower than the number in the input files.
+   *
+   * All of the run headers from the input files are loaded into
+   * an in-memory cache which is then dumped to the output file
+   * at the end of processing all input files.
+   *
+   * The event headers are loaded from the input files in
+   * the same manner as other event objects.
+   *
+   * @see newRun for how new runs are handled
+   * @see process for how individual events are processed
    */
   void run(); 
 
