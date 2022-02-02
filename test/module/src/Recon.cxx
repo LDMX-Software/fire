@@ -7,14 +7,14 @@
 
 namespace bench {
 
-class Recon : public fire::Producer {
+class Recon : public fire::Processor {
   /// the random number generator, unseeded so it produces the same results each time
   std::mt19937 rng;
   /// the distribution of sizes
   std::uniform_int_distribution<std::size_t> rand_index;
  public:
   Recon(const fire::config::Parameters& ps)
-    : fire::Producer(ps),
+    : fire::Processor(ps),
     rng{}, // this is where a seed for the RNG would be put
     rand_index{0, 99}
   {}

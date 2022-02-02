@@ -7,7 +7,7 @@
 
 namespace bench {
 
-class Produce : public fire::Producer {
+class Produce : public fire::Processor {
   /// the random number generator, unseeded so it produces the same results each time
   std::mt19937 rng;
   /// the distribution of sizes
@@ -18,7 +18,7 @@ class Produce : public fire::Producer {
   std::uniform_int_distribution<long int> rand_int;
  public:
   Produce(const fire::config::Parameters& ps)
-    : fire::Producer(ps),
+    : fire::Processor(ps),
     rng{}, // this is where a seed for the RNG would be put
     rand_size{1, 100},
     rand_float{0.,100.},

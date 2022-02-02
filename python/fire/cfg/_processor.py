@@ -24,7 +24,7 @@ class Processor:
     """
 
     def __init__(self, name, class_name, module, **kwargs):
-        self.___dict__ = kwargs
+        self.__dict__ = kwargs
         self.name = name
         self.class_name = class_name
 
@@ -43,29 +43,3 @@ class Processor:
                 if k not in ['name','class_name'] :
                     msg += f'\n   {str(k)} : {str(v)}'
         return msg
-
-class Producer(Processor):
-    """A producer object.
-
-    This object contains the parameters that are necessary for a framework::Producer to be configured.
-
-    See Also
-    --------
-    fire.cfg.Processor : base class
-    """
-
-    def __init__(self, name, class_name, module, **kwargs) :
-        super().__init__(name, class_name, module, **kwargs)
-
-class Analyzer(Processor):
-    """A analyzer object.
-
-    This object contains the parameters that are necessary for a framework::Analyzer to be configured.
-
-    See Also
-    --------
-    fire.cfg.Processor : base class
-    """
-
-    def __init__(self, name, class_name, module, **kwargs) :
-        super().__init__(name, class_name, module, **kwargs)

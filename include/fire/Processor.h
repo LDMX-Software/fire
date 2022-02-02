@@ -18,6 +18,7 @@ namespace fire {
 
 /**
  * Forward declaration of Process class.
+ *
  * Each processor holds a reference to the current process class
  * so that they can access central systems like storage control
  * and conditions.
@@ -60,12 +61,10 @@ class Processor {
   virtual ~Processor() = default;
 
   /**
-   * Callback for the processor to take any necessary
-   * actions before the run will be changed.
-   * @note Only available to producers.
-   * @param run header
+   * Handle allowing processors to modify run headers before the run begins
+   * @param header RunHeader for Producer to add parameters to
    */
-  virtual void beforeNewRun(RunHeader &runHeader) = 0;
+  virtual void beforeNewRun(RunHeader &header) {}
 
   /**
    * Callback for the Processor to take any necessary
@@ -120,6 +119,7 @@ class Processor {
 
   /**
    * Attach the current process to this processor.
+   *
    * Marked 'final' to prevent derived classes from redefining
    * this function and potentially abusing the handle to the current process.
    */
@@ -175,102 +175,6 @@ class Processor {
 
   /// Handle to current process
   Process *process_{nullptr};
-};
-
-/**
- * @class Producer
- * @brief Base class for a module which produces a data product.
- *
- * @note This class processes a mutable copy of the event so that it can add
- * data to it.
- */
-class Producer : public Processor {
- public:
-  /**
-   * Class constructor.
-   * @param name Name for this instance of the class.
-   * @param process The Process class associated with Processor, provided
-   * by the fire
-   *
-   * @note Derived classes must have a constructor of the same interface, which
-   * is the only constructor which will be called by the fire
-   *
-   * @note The provided name should not be the class name, but rather a logical
-   * label for this instance of the class, as more than one copy of a given
-   * class can be loaded into a Process with different parameters.  Names should
-   * not include whitespace or special characters.
-   */
-  Producer(const config::Parameters &ps);
-
-  /**
-   * Process the event and put new data products into it.
-   * @param event The Event to process.
-   */
-  virtual void produce(Event &event) = 0;
-
-  /**
-   * Handle allowing producers to modify run headers before the run begins
-   * @param header RunHeader for Producer to add parameters to
-   */
-  virtual void beforeNewRun(RunHeader &header) {}
-
-  /**
-   * A producer produces when it is told to process
-   *
-   * @note Internal Function.
-   * 'final override' so that downstream processors
-   * can't modify how this processor processes
-   */
-  virtual void process(Event &event) final override { produce(event); }
-};
-
-/**
- * @class Analyzer
- * @brief Base class for a module which does not produce a data product.
- *
- * @note This class processes a constant copy of the event which cannot be
- * updated.
- */
-class Analyzer : public Processor {
- public:
-  /**
-   * Class constructor.
-   *
-   * @param name Name for this instance of the class.
-   * @param process The Process class associated with Processor, provided
-   * by the fire
-   *
-   * @note Derived classes must have a constructor of the same interface, which
-   * is the only constructor which will be called by the fire
-   *
-   * @note The provided name should not be the class name, but rather a logical
-   * label for this instance of the class, as more than one copy of a given
-   * class can be loaded into a Process with different parameters.  Names should
-   * not include whitespace or special characters.
-   */
-  Analyzer(const config::Parameters &ps);
-
-  /**
-   * Make sure analyzers don't modify the run header
-   * by doing a final override to prevent analyzers
-   * from implementing this function.
-   */
-  virtual void beforeNewRun(RunHeader &) final override {}
-
-  /**
-   * Process the event through a const reference
-   * @param event The Event to analyze
-   */
-  virtual void analyze(const Event &event) = 0;
-
-  /**
-   * An analyzer analyzes when it is told to process
-   *
-   * @note Internal Function.
-   * 'final override' so that downstream processors
-   * can't modify how this processor processes
-   */
-  virtual void process(Event &event) final override { analyze(event); }
 };
 
 }  // namespace fire

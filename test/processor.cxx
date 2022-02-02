@@ -7,40 +7,40 @@
 
 namespace test {
 
-class TestProducer : public fire::Producer {
+class TestProcessor : public fire::Processor {
  public:
-  TestProducer(const fire::config::Parameters& ps)
-    : fire::Producer(ps) {
+  TestProcessor(const fire::config::Parameters& ps)
+    : fire::Processor(ps) {
       run_header_ = ps.get<int>("run");
     }
-  void produce(fire::Event& event) {
+  void process(fire::Event& event) final override {
     auto ievent{event.header().getEventNumber()};
-    event.add("TestProducer", ievent);
+    event.add("TestProcessor", ievent);
   }
  private:
   int run_header_;
 };
 
-class TestAnalyzer : public fire::Analyzer {
+class TestProcessor2 : public fire::Processor {
  public:
-  TestAnalyzer(const fire::config::Parameters& ps)
-    : fire::Analyzer(ps) {}
-  void analyze(const fire::Event& event) {
-    BOOST_TEST(event.header().getEventNumber() == event.get<int>("TestProducer"));
+  TestProcessor2(const fire::config::Parameters& ps)
+    : fire::Processor(ps) {}
+  void process(fire::Event& event) final override {
+    BOOST_TEST(event.header().getEventNumber() == event.get<int>("TestProcessor"));
   }
 };
 
-class TestThrow : public fire::Analyzer {
+class TestThrow : public fire::Processor {
  public:
   TestThrow(const fire::config::Parameters& ps)
-    : fire::Analyzer(ps) {}
+    : fire::Processor(ps) {}
   void onProcessStart() final override {
     fatalError("test throw");
   }
   void onProcessEnd() final override {
     fatalError("test throw");
   }
-  void analyze(const fire::Event& event) final override {
+  void process(fire::Event& event) final override {
     fatalError("test throw");
   }
 };
@@ -53,8 +53,8 @@ class TestThrow : public fire::Analyzer {
  * compilation unit.
  */
 namespace {
-  auto v0 = ::fire::Processor::Factory::get().declare<test::TestProducer>("test::TestProducer");
-  auto v1 = ::fire::Processor::Factory::get().declare<test::TestAnalyzer>("test::TestAnalyzer");
+  auto v0 = ::fire::Processor::Factory::get().declare<test::TestProcessor>("test::TestProcessor");
+  auto v1 = ::fire::Processor::Factory::get().declare<test::TestProcessor2>("test::TestProcessor2");
   auto v2 = ::fire::Processor::Factory::get().declare<test::TestThrow>("test::TestThrow");
 }
 
@@ -71,7 +71,7 @@ BOOST_AUTO_TEST_CASE(misspell) {
 
   // misspell a different parameter
   ps.add("run_number", 420);
-  BOOST_CHECK_THROW(fire::Processor::Factory::get().make("test::TestProducer",ps), fire::Exception);
+  BOOST_CHECK_THROW(fire::Processor::Factory::get().make("test::TestProcessor",ps), fire::Exception);
 }
 
 BOOST_AUTO_TEST_CASE(mimic_process) {
@@ -92,8 +92,8 @@ BOOST_AUTO_TEST_CASE(mimic_process) {
   fire::Event event{fire::Event::test(of)};
 
   std::vector<std::unique_ptr<fire::Processor>> sequence;
-  sequence.emplace_back(fire::Processor::Factory::get().make("test::TestProducer",producer));
-  sequence.emplace_back(fire::Processor::Factory::get().make("test::TestAnalyzer",analyzer));
+  sequence.emplace_back(fire::Processor::Factory::get().make("test::TestProcessor",producer));
+  sequence.emplace_back(fire::Processor::Factory::get().make("test::TestProcessor2",analyzer));
 
   for (auto& proc : sequence) proc->process(event);
 }

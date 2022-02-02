@@ -11,12 +11,12 @@
  */
 namespace fire::test {
 
-class TestAdd : public Producer {
+class TestAdd : public Processor {
  public:
   TestAdd(const config::Parameters& ps)
-    : Producer(ps) {}
+    : Processor(ps) {}
   ~TestAdd() = default;
-  void produce(fire::Event& event) final override {
+  void process(fire::Event& event) final override {
     int dropme = event.header().number() * 10;
     int keepme = event.header().number() * 100;
     int async  = event.header().number() * 1000;
@@ -30,14 +30,14 @@ class TestAdd : public Producer {
   }
 };
 
-class TestGet : public Producer {
+class TestGet : public Processor {
   bool same_sequence_;
  public:
   TestGet(const config::Parameters& ps)
-    : Producer(ps),
+    : Processor(ps),
       same_sequence_{ps.get<bool>("same_sequence")} {}
   ~TestGet() = default;
-  void produce(fire::Event& event) final override {
+  void process(fire::Event& event) final override {
     if (same_sequence_) {
       // should still get dropme in same sequence
       BOOST_TEST(event.get<int>("dropme") == event.header().number() * 10);

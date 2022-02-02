@@ -19,7 +19,4 @@ Conditions &Processor::getConditions() const {
   return process_->conditions();
 }
 
-Producer::Producer(const config::Parameters& ps) : Processor(ps) {}
-
-Analyzer::Analyzer(const config::Parameters& ps) : Processor(ps) {}
 }  // namespace fire
