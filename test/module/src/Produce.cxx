@@ -25,7 +25,7 @@ class Produce : public fire::Processor {
     rand_int{-100,100}
   {}
   ~Produce() = default;
-  void produce(fire::Event& event) final override {
+  void process(fire::Event& event) final override {
     std::vector<Hit> rand_data;
     rand_data.resize(rand_size(rng));
     for (Hit& val : rand_data) {

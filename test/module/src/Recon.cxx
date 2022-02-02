@@ -19,7 +19,7 @@ class Recon : public fire::Processor {
     rand_index{0, 99}
   {}
   ~Recon() = default;
-  void produce(fire::Event& event) final override {
+  void process(fire::Event& event) final override {
     const auto& rand_data = event.get<std::vector<Hit>>("randdata");
     std::size_t i;
     do {
