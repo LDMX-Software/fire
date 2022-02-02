@@ -7,8 +7,7 @@
 namespace fire {
 
 Process::Process(const fire::config::Parameters& configuration)
-    : conditions_{configuration.get<config::Parameters>("conditions"), *this},
-      output_file_{configuration.get<int>("event_limit"),
+    : output_file_{configuration.get<int>("event_limit"),
                    configuration.get<config::Parameters>("output_file")},
       input_files_{
           configuration.get<std::vector<std::string>>("input_files", {})},
@@ -25,13 +24,18 @@ Process::Process(const fire::config::Parameters& configuration)
                 logging::convertLevel(configuration.get<int>("file_level", 4)),
                 configuration.get<std::string>("log_file", ""));
 
+  // load the libraries of ConditionsProviders and Processors
   for (const auto& lib :
        configuration.get<std::vector<std::string>>("libraries", {}))
     factory::loadLibrary(lib);
 
+  // construct conditions system and the registered providers
+  conditions_ = std::make_unique<Conditions>(
+      configuration.get<config::Parameters>("conditions"), *this);
+
   auto sequence{
       configuration.get<std::vector<config::Parameters>>("sequence", {})};
-  if (sequence.empty() and not configuration.get<bool>("testing")) {
+  if (sequence.empty() and not configuration.get<bool>("testing",false)) {
     throw Exception("Config",
         "No sequence has been defined. What should I be doing?\nUse "
         "p.sequence to tell me what processors to run.",false);
@@ -167,10 +171,10 @@ void Process::newRun(RunHeader& rh) {
   // update pointer so asynchronous callers
   // can access the run header via the Process
   run_header_ = &rh;
-  // Producers are allowed to put parameters into
+  // Processors are allowed to put parameters into
   // the run header through 'beforeNewRun' method
   for (auto& proc : sequence_) proc->beforeNewRun(rh);
-  // now run header has been modified by Producers,
+  // now run header has been modified by Processors,
   // it is valid to read from for everyone else in 'onNewRun'
   conditions_.onNewRun(rh);
   for (auto& proc : sequence_) proc->onNewRun(rh);

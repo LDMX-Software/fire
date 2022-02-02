@@ -257,7 +257,8 @@ class Processor {
    *
    * This is called _after_ any conditions providers are configured
    * with the run header, so it can be used for internal book-keeping
-   * within the processor.
+   * within the processor and it can be used to acquire conditions
+   * that do not change with respect to changing event contexts.
    *
    * @param runHeader The RunHeader containing run information.
    */
