@@ -25,6 +25,60 @@ class Conditions;
  * a requestParentCondition function that can be used by
  * other providers to obtain conditions other conditions
  * depend on.
+ *
+ * ## Usage
+ * Defining a conditions provider is done similarly to a Processor.
+ * Since ConditionsProviders are generally only used after some
+ * experience with Processors is obtained, I will not go into as much
+ * detail. Perhaps the best way is to provide an example from which
+ * you can learn.
+ * ```cpp
+ * // MyConditionsProvider.cpp
+ * #include <fire/ConditionsProvider.h>
+ * class MyConditionsProvider : public fire::ConditionsProvider {
+ *  public:
+ *   MyConditionsProvider(const fire::config::Parameters& p)
+ *     : fire::ConditionsProvider(p) {
+ *     // deduce configuration of provider from parameter set p
+ *   }
+ *   ~MyConditionsProvider() = default;
+ *   virtual std::pair<const ConditionsObject*, ConditionsIntervalOfValidity>
+ *   getCondition(const EventHeader& context) final override {
+ *     // use context to determine correct configuration of conditions object
+ *     // as well as the range of run numbers and type of data that the
+ *     // condition is valid for
+ *   }
+ * };
+ * DECLARE_CONDITIONS_PROVIDER(MyConditionsProvider);
+ * ```
+ *
+ * One special (but somewhat common) use case is a global condition
+ * that is light in memory. These criteria are satisifed by the
+ * RandomNumberSeedService and allow the conditions provider and
+ * the conditions object to be the same object.
+ * ```cpp
+ * // LightAndGlobalCondition.cpp
+ * #include <fire/ConditionsProvider.h>
+ * class LightAndGlobalCondition : public fire::ConditionsProvider, 
+ *                                        fire::ConditionsObject {
+ *  public:
+ *   LightAndGlobalCondition(const fire::config::Parameters& p)
+ *     : fire::ConditionsProvider(p) {
+ *     // deduce configuration of both provider and object from parameter set p
+ *   }
+ *   ~LightAndGlobalCondition() = default;
+ *   // return ourselves and infinite validity
+ *   virtual std::pair<const ConditionsObject*, ConditionsIntervalOfValidity>
+ *   getCondition(const EventHeader& context) final override {
+ *     return std::make_pair(this, ConditionsIntervalOfValidity(true,true)); 
+ *   }
+ *   // don't allow conditions system to delete us
+ *   virtual void release(const ConditionsObject* co) final override {}
+ * };
+ * DECLARE_CONDITIONS_PROVIDER(LightAndGlobalCondition);
+ * ```
+ * One could also image a light condition which may still change with
+ * the context, but that can be implemented from this example.
  */
 class ConditionsProvider {
  public:
@@ -36,7 +90,7 @@ class ConditionsProvider {
    */
   using Factory =
       factory::Factory<ConditionsProvider, std::shared_ptr<ConditionsProvider>,
-                       config::Parameters const&>;
+                       const config::Parameters&>;
   /**
    * Configure the registered provider
    * @param[in] ps Parameters to configure the provider

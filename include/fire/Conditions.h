@@ -59,6 +59,9 @@ class Process;
  * ConditionsObject so that the system can cache them. Providers are defined
  * similarly as how a Processor is defined: deriving from the parent class
  * ConditionsProvider and declaring it using a macro in the source file.
+ *
+ * A more thorough example of definine your own conditions provider is
+ * given in the documentation of ConditionsProvider.
  */
 class Conditions {
  public:

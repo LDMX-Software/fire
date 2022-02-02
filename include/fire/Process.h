@@ -62,11 +62,13 @@ class Process {
    */
   ~Process();
   
+  /**
+   * Do the processing run
+   */
   void run(); 
 
   /**
    * Get a constant reference to the event header
-   *
    * @return const reference to event header
    */
   const EventHeader& eventHeader() const {
