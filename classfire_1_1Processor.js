@@ -6,7 +6,7 @@ var classfire_1_1Processor =
     [ "~Processor", "classfire_1_1Processor.html#acc037f739ba8b8c2e6784440a4a2a78e", null ],
     [ "abortEvent", "classfire_1_1Processor.html#a471b2c3c6c323d016557d13b1f0e1e18", null ],
     [ "attach", "classfire_1_1Processor.html#a0ac742109e7305bf3bf3c3041c7c2714", null ],
-    [ "beforeNewRun", "classfire_1_1Processor.html#a552db42ad098a542bbcf5883e29637bc", null ],
+    [ "beforeNewRun", "classfire_1_1Processor.html#af54c6cd9046277e680fdae6848198a71", null ],
     [ "fatalError", "classfire_1_1Processor.html#a4f7e35496ca7277dd4ac06669ea12e01", null ],
     [ "getCondition", "classfire_1_1Processor.html#ad92639b07e18eb6885773d61f37f903d", null ],
     [ "getConditions", "classfire_1_1Processor.html#a15647ef973981cb631c1fda127872d0a", null ],

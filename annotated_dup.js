@@ -20,7 +20,6 @@ var annotated_dup =
         [ "Reader", "classfire_1_1h5_1_1Reader.html", "classfire_1_1h5_1_1Reader" ],
         [ "Writer", "classfire_1_1h5_1_1Writer.html", "classfire_1_1h5_1_1Writer" ]
       ] ],
-      [ "Analyzer", "classfire_1_1Analyzer.html", "classfire_1_1Analyzer" ],
       [ "Conditions", "classfire_1_1Conditions.html", "classfire_1_1Conditions" ],
       [ "ConditionsIntervalOfValidity", "classfire_1_1ConditionsIntervalOfValidity.html", "classfire_1_1ConditionsIntervalOfValidity" ],
       [ "ConditionsObject", "classfire_1_1ConditionsObject.html", "classfire_1_1ConditionsObject" ],
@@ -30,7 +29,6 @@ var annotated_dup =
       [ "Exception", "classfire_1_1Exception.html", "classfire_1_1Exception" ],
       [ "Process", "classfire_1_1Process.html", "classfire_1_1Process" ],
       [ "Processor", "classfire_1_1Processor.html", "classfire_1_1Processor" ],
-      [ "Producer", "classfire_1_1Producer.html", "classfire_1_1Producer" ],
       [ "RandomNumberSeedService", "classfire_1_1RandomNumberSeedService.html", "classfire_1_1RandomNumberSeedService" ],
       [ "RunHeader", "classfire_1_1RunHeader.html", "classfire_1_1RunHeader" ],
       [ "StorageControl", "classfire_1_1StorageControl.html", "classfire_1_1StorageControl" ]

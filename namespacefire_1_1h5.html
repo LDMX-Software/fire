@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.10.1</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.11.0</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -183,7 +183,7 @@ template&lt;typename AtomicType &gt; </td></tr>
 </ul>
 </li>
 </ol>
-<h2><a class="anchor" id="autotoc_md9"></a>
+<h2><a class="anchor" id="autotoc_md12"></a>
 The attach Method</h2>
 <p >This method is where you make the decision on which member variables of your class should be stored to or read from data files and how those variables are named. You do this using the <a class="el" href="classfire_1_1h5_1_1Data.html#a8a80d168d9355a199bbd8eafa95e6f51" title="Attach a member object from the our data handle.">fire::h5::Data&lt;DataType&gt;::attach</a> method. This is best illustrated with an example.</p>
 <div class="fragment"><div class="line"><span class="comment">// member_one_ and member_two_ are members of MyData</span></div>
@@ -191,7 +191,7 @@ The attach Method</h2>
 <div class="line">  d.<a class="code hl_function" href="classfire_1_1h5_1_1Data.html#a8a80d168d9355a199bbd8eafa95e6f51">attach</a>(<span class="stringliteral">&quot;first_member&quot;</span>, member_one_);</div>
 <div class="line">  d.<a class="code hl_function" href="classfire_1_1h5_1_1Data.html#a8a80d168d9355a199bbd8eafa95e6f51">attach</a>(<span class="stringliteral">&quot;another_member&quot;</span>, member_two_);</div>
 <div class="line">}</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md10"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md13"></a>
 Important Comments</h3>
 <ul>
 <li>The name of a variable on disk (the first argument) and the name of the variable in the class do not need to relate to each other; however, it is common to name them similarly so users of your data files aren't confused.</li>
@@ -199,7 +199,7 @@ Important Comments</h3>
 <li>Passing <a class="el" href="classfire_1_1h5_1_1Data.html" title="General data set.">h5::Data</a> as reference (i.e. with the <code>&amp;</code>) is necessary; otherwise, you would attach to a local copy and the real <a class="el" href="classfire_1_1h5_1_1Data.html" title="General data set.">h5::Data</a> wouldn't be attached to anything.</li>
 <li>The members of MyData you pass to <a class="el" href="classfire_1_1h5_1_1Data.html#a8a80d168d9355a199bbd8eafa95e6f51" title="Attach a member object from the our data handle.">h5::Data::attach</a> can be any class that <a class="el" href="namespacefire_1_1h5.html" title="serialization to and from HDF5 files">fire::h5</a> can handle. This includes the classes listed above or other classes you have defined following these rules.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md11"></a>
+<h2><a class="anchor" id="autotoc_md14"></a>
 Full Example</h2>
 <p >Putting all of these notes together, below is an example class that will read/write the coordinate positions but won't record the variable that is calculated from them.</p>
 <p >This isn't an amazing example since <code>std::sqrt</code> is pretty fast, but you can perhaps imagine a class that has a time-expensive calculation that should only be done once per event but is also redundant and so it shouldn't waste disk space.</p>

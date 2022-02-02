@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.10.1</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.11.0</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -113,15 +113,13 @@ Collaboration diagram for fire::ConditionsObject:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a06351b50465c695d0fe883da583ad985"><td class="memItemLeft" align="right" valign="top"><a id="a06351b50465c695d0fe883da583ad985" name="a06351b50465c695d0fe883da583ad985"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>ConditionsObject</b> (const std::string &amp;name) noexcept</td></tr>
-<tr class="memdesc:a06351b50465c695d0fe883da583ad985"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class constructor. <br /></td></tr>
+<tr class="memdesc:a06351b50465c695d0fe883da583ad985"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define the name of the condition. <br /></td></tr>
 <tr class="separator:a06351b50465c695d0fe883da583ad985"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa5076d1719aeb09cda6eddc919490517"><td class="memItemLeft" align="right" valign="top"><a id="aa5076d1719aeb09cda6eddc919490517" name="aa5076d1719aeb09cda6eddc919490517"></a>
-virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~ConditionsObject</b> ()=default</td></tr>
-<tr class="memdesc:aa5076d1719aeb09cda6eddc919490517"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor. <br /></td></tr>
+<tr class="memitem:aa5076d1719aeb09cda6eddc919490517"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1ConditionsObject.html#aa5076d1719aeb09cda6eddc919490517">~ConditionsObject</a> ()=default</td></tr>
+<tr class="memdesc:aa5076d1719aeb09cda6eddc919490517"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default destructor.  <a href="classfire_1_1ConditionsObject.html#aa5076d1719aeb09cda6eddc919490517">More...</a><br /></td></tr>
 <tr class="separator:aa5076d1719aeb09cda6eddc919490517"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aefc4aaed9bd56d0a1f2732a3c5cc8108"><td class="memItemLeft" align="right" valign="top"><a id="aefc4aaed9bd56d0a1f2732a3c5cc8108" name="aefc4aaed9bd56d0a1f2732a3c5cc8108"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>getName</b> () const</td></tr>
-<tr class="memdesc:aefc4aaed9bd56d0a1f2732a3c5cc8108"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of this object. <br /></td></tr>
+<tr class="memitem:aefc4aaed9bd56d0a1f2732a3c5cc8108"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1ConditionsObject.html#aefc4aaed9bd56d0a1f2732a3c5cc8108">getName</a> () const</td></tr>
+<tr class="memdesc:aefc4aaed9bd56d0a1f2732a3c5cc8108"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of this object.  <a href="classfire_1_1ConditionsObject.html#aefc4aaed9bd56d0a1f2732a3c5cc8108">More...</a><br /></td></tr>
 <tr class="separator:aefc4aaed9bd56d0a1f2732a3c5cc8108"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
@@ -133,7 +131,65 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>name_</b></td>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Base class for all conditions objects, very simple. </p>
-</div><hr/>The documentation for this class was generated from the following file:<ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="aa5076d1719aeb09cda6eddc919490517" name="aa5076d1719aeb09cda6eddc919490517"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5076d1719aeb09cda6eddc919490517">&#9670;&nbsp;</a></span>~ConditionsObject()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual fire::ConditionsObject::~ConditionsObject </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Default destructor. </p>
+<p >Virtual so that derived conditions can be destructed </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="aefc4aaed9bd56d0a1f2732a3c5cc8108" name="aefc4aaed9bd56d0a1f2732a3c5cc8108"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aefc4aaed9bd56d0a1f2732a3c5cc8108">&#9670;&nbsp;</a></span>getName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string fire::ConditionsObject::getName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the name of this object. </p>
+<dl class="section return"><dt>Returns</dt><dd>name of this condition </dd></dl>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
 <li>include/fire/<a class="el" href="ConditionsObject_8h_source.html">ConditionsObject.h</a></li>
 </ul>
 </div><!-- contents -->

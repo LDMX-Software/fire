@@ -1,6 +1,6 @@
 <map id="fire::Conditions::CacheEntry" name="fire::Conditions::CacheEntry">
 <area shape="rect" id="node1" title="An entry to store an already loaded conditions object." alt="" coords="51,289,253,316"/>
-<area shape="rect" id="node2" href="$classfire_1_1ConditionsIntervalOfValidity.html" title="Class which defines the run/event/type range for which a given condition is valid,..." alt="" coords="5,185,176,227"/>
+<area shape="rect" id="node2" href="$classfire_1_1ConditionsIntervalOfValidity.html" title="Defines the run/event/type range for which a given condition is valid, including for all time." alt="" coords="5,185,176,227"/>
 <area shape="rect" id="node3" href="$classfire_1_1ConditionsObject.html" title="Base class for all conditions objects, very simple." alt="" coords="200,193,363,219"/>
 <area shape="rect" id="node4" title=" " alt="" coords="238,96,325,123"/>
 <area shape="rect" id="node5" title=" " alt="" coords="212,5,351,47"/>

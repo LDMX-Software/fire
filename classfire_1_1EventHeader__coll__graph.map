@@ -1,5 +1,5 @@
 <map id="fire::EventHeader" name="fire::EventHeader">
-<area shape="rect" id="node1" title="Provides header information an event such as event number and timestamp." alt="" coords="90,185,225,212"/>
+<area shape="rect" id="node1" title="Header information of an event such as event number and timestamp." alt="" coords="90,185,225,212"/>
 <area shape="rect" id="node2" title=" " alt="" coords="31,96,118,123"/>
 <area shape="rect" id="node3" title=" " alt="" coords="5,5,144,47"/>
 <area shape="rect" id="node4" href="$classfire_1_1h5_1_1ParameterStorage.html" title="Provides dynamic parameter storage by interfacing between a map to variants storing parameters and a ..." alt="" coords="143,96,335,123"/>

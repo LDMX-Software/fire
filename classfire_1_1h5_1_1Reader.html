@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.10.1</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.11.0</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -197,8 +197,8 @@ Friends</h2></td></tr>
 <p>Open the file in read mode. </p>
 <p >Our read mode is the same as HDF5 Read Only mode</p>
 <p >We also read the number of entries in this file by retrieving the size of the data set at <a class="el" href="structfire_1_1h5_1_1constants.html#a687b72f85b98104bd56cf1d62b8293ca" title="the name of the group in the file holding all event objects">constants::EVENT_GROUP</a> / <a class="el" href="structfire_1_1h5_1_1constants.html#ad3e4b9a20f05cf13651d2009f02ca41e" title="the name of the event header data set">constants::EVENT_HEADER_NAME</a> / <a class="el" href="structfire_1_1h5_1_1constants.html#a45123b61914b4827f6843188e4d5169f" title="the name of the variable in event and run headers corresponding to their ID">constants::NUMBER_NAME</a> This is reliable as long as</p><ol type="1">
-<li><a class="el" href="classfire_1_1EventHeader.html" title="Provides header information an event such as event number and timestamp.">EventHeader</a> attaches the event number (or a similar once-per-event atomic type) under the name constants::EVENT_HEADER_NUMBER</li>
-<li>The <a class="el" href="classfire_1_1EventHeader.html" title="Provides header information an event such as event number and timestamp.">EventHeader</a> is created under a <a class="el" href="classfire_1_1h5_1_1Data.html" title="General data set.">h5::Data</a> named <a class="el" href="structfire_1_1h5_1_1constants.html#a687b72f85b98104bd56cf1d62b8293ca" title="the name of the group in the file holding all event objects">constants::EVENT_GROUP</a>/constants::EVENT_HEADER_NAME</li>
+<li><a class="el" href="classfire_1_1EventHeader.html" title="Header information of an event such as event number and timestamp.">EventHeader</a> attaches the event number (or a similar once-per-event atomic type) under the name constants::EVENT_HEADER_NUMBER</li>
+<li>The <a class="el" href="classfire_1_1EventHeader.html" title="Header information of an event such as event number and timestamp.">EventHeader</a> is created under a <a class="el" href="classfire_1_1h5_1_1Data.html" title="General data set.">h5::Data</a> named <a class="el" href="structfire_1_1h5_1_1constants.html#a687b72f85b98104bd56cf1d62b8293ca" title="the name of the group in the file holding all event objects">constants::EVENT_GROUP</a>/constants::EVENT_HEADER_NAME</li>
 </ol>
 <p >We inspect the size of the dataset located at <a class="el" href="structfire_1_1h5_1_1constants.html#a33df8e05297b5230733e70e691033918" title="the name of the group holding the run headers">constants::RUN_HEADER_NAME</a>/constants::NUMBER_NAME in the file to get the number of runs. This will work as long as</p><ol type="1">
 <li>The <a class="el" href="classfire_1_1RunHeader.html" title="Container for run parameters.">RunHeader</a> is written to the file as RUN_HEADER_NAME.</li>

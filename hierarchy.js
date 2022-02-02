@@ -45,10 +45,7 @@ var hierarchy =
     [ "fire::config::Parameters", "classfire_1_1config_1_1Parameters.html", null ],
     [ "fire::h5::ParameterStorage", "classfire_1_1h5_1_1ParameterStorage.html", null ],
     [ "fire::Process", "classfire_1_1Process.html", null ],
-    [ "fire::Processor", "classfire_1_1Processor.html", [
-      [ "fire::Analyzer", "classfire_1_1Analyzer.html", null ],
-      [ "fire::Producer", "classfire_1_1Producer.html", null ]
-    ] ],
+    [ "fire::Processor", "classfire_1_1Processor.html", null ],
     [ "fire::h5::Reader", "classfire_1_1h5_1_1Reader.html", null ],
     [ "fire::RunHeader", "classfire_1_1RunHeader.html", null ],
     [ "fire::StorageControl", "classfire_1_1StorageControl.html", null ],

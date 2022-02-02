@@ -11,7 +11,7 @@
 <!-- Node0 -->
 <g id="node1" class="node">
 <title>Node0</title>
-<g id="a_node1"><a xlink:href="classfire_1_1EventHeader.html" target="_top" xlink:title="Provides header information an event such as event number and timestamp.">
+<g id="a_node1"><a xlink:href="classfire_1_1EventHeader.html" target="_top" xlink:title="Header information of an event such as event number and timestamp.">
 <polygon fill="none" stroke="black" points="0,-0.5 0,-19.5 101,-19.5 101,-0.5 0,-0.5"/>
 <text text-anchor="middle" x="50.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">fire::EventHeader</text>
 </a>

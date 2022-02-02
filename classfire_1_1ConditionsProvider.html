@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.10.1</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.11.0</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -121,11 +121,11 @@ Public Types</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ac27343901e2ba16201290af560b09f2f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1ConditionsProvider.html#ac27343901e2ba16201290af560b09f2f">ConditionsProvider</a> (const <a class="el" href="classfire_1_1config_1_1Parameters.html">fire::config::Parameters</a> &amp;ps)</td></tr>
-<tr class="memdesc:ac27343901e2ba16201290af560b09f2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class constructor.  <a href="classfire_1_1ConditionsProvider.html#ac27343901e2ba16201290af560b09f2f">More...</a><br /></td></tr>
+<tr class="memdesc:ac27343901e2ba16201290af560b09f2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure the registered provider.  <a href="classfire_1_1ConditionsProvider.html#ac27343901e2ba16201290af560b09f2f">More...</a><br /></td></tr>
 <tr class="separator:ac27343901e2ba16201290af560b09f2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7f1bd06b8c9e48810d53ae654db0232d"><td class="memItemLeft" align="right" valign="top"><a id="a7f1bd06b8c9e48810d53ae654db0232d" name="a7f1bd06b8c9e48810d53ae654db0232d"></a>
 virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~ConditionsProvider</b> ()=default</td></tr>
-<tr class="memdesc:a7f1bd06b8c9e48810d53ae654db0232d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class destructor. <br /></td></tr>
+<tr class="memdesc:a7f1bd06b8c9e48810d53ae654db0232d"><td class="mdescLeft">&#160;</td><td class="mdescRight">default destructor, virtual so derived types can be destructed <br /></td></tr>
 <tr class="separator:a7f1bd06b8c9e48810d53ae654db0232d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1294738522534896a54b03b78097cff1"><td class="memItemLeft" align="right" valign="top">virtual std::pair&lt; const <a class="el" href="classfire_1_1ConditionsObject.html">ConditionsObject</a> *, <a class="el" href="classfire_1_1ConditionsIntervalOfValidity.html">ConditionsIntervalOfValidity</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1ConditionsProvider.html#a1294738522534896a54b03b78097cff1">getCondition</a> (const <a class="el" href="classfire_1_1EventHeader.html">EventHeader</a> &amp;context)=0</td></tr>
 <tr class="memdesc:a1294738522534896a54b03b78097cff1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pure virtual getCondition function.  <a href="classfire_1_1ConditionsProvider.html#a1294738522534896a54b03b78097cff1">More...</a><br /></td></tr>
@@ -146,7 +146,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>onProcessEnd<
 <tr class="separator:a90b493fb7a3a5db0b22fcb77fe138a94"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3bae55332e0bf2c5070ce275dff70f4e"><td class="memItemLeft" align="right" valign="top"><a id="a3bae55332e0bf2c5070ce275dff70f4e" name="a3bae55332e0bf2c5070ce275dff70f4e"></a>
 const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getConditionObjectName</b> () const</td></tr>
-<tr class="memdesc:a3bae55332e0bf2c5070ce275dff70f4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the list of conditions objects available from this provider. <br /></td></tr>
+<tr class="memdesc:a3bae55332e0bf2c5070ce275dff70f4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the condition object available from this provider. <br /></td></tr>
 <tr class="separator:a3bae55332e0bf2c5070ce275dff70f4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a353a1d10919641cc6640b2ab4b6af93b"><td class="memItemLeft" align="right" valign="top"><a id="a353a1d10919641cc6640b2ab4b6af93b" name="a353a1d10919641cc6640b2ab4b6af93b"></a>
 const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getTagName</b> () const</td></tr>
@@ -159,9 +159,8 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>attach</b> (<
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a5f6873b0b413dfa23a7f0e3feed62e77"><td class="memItemLeft" align="right" valign="top"><a id="a5f6873b0b413dfa23a7f0e3feed62e77" name="a5f6873b0b413dfa23a7f0e3feed62e77"></a>
-std::pair&lt; const <a class="el" href="classfire_1_1ConditionsObject.html">ConditionsObject</a> *, <a class="el" href="classfire_1_1ConditionsIntervalOfValidity.html">ConditionsIntervalOfValidity</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>requestParentCondition</b> (const std::string &amp;name, const <a class="el" href="classfire_1_1EventHeader.html">EventHeader</a> &amp;context)</td></tr>
-<tr class="memdesc:a5f6873b0b413dfa23a7f0e3feed62e77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Request another condition needed to construct this condition. <br /></td></tr>
+<tr class="memitem:a5f6873b0b413dfa23a7f0e3feed62e77"><td class="memItemLeft" align="right" valign="top">std::pair&lt; const <a class="el" href="classfire_1_1ConditionsObject.html">ConditionsObject</a> *, <a class="el" href="classfire_1_1ConditionsIntervalOfValidity.html">ConditionsIntervalOfValidity</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1ConditionsProvider.html#a5f6873b0b413dfa23a7f0e3feed62e77">requestParentCondition</a> (const std::string &amp;name, const <a class="el" href="classfire_1_1EventHeader.html">EventHeader</a> &amp;context)</td></tr>
+<tr class="memdesc:a5f6873b0b413dfa23a7f0e3feed62e77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Request another condition needed to construct this condition.  <a href="classfire_1_1ConditionsProvider.html#a5f6873b0b413dfa23a7f0e3feed62e77">More...</a><br /></td></tr>
 <tr class="separator:a5f6873b0b413dfa23a7f0e3feed62e77"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
@@ -188,6 +187,7 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>tagname_</b></
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Base class for all providers of conditions objects. </p>
+<p >Besides defining the necessary virtual callbacks, we also provide the factory infrastructure for dynamically creating providers from loaded libraries and we define a requestParentCondition function that can be used by other providers to obtain conditions other conditions depend on. </p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="ab4e0aab7603640dfc141d358241bad2f" name="ab4e0aab7603640dfc141d358241bad2f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab4e0aab7603640dfc141d358241bad2f">&#9670;&nbsp;</a></span>Factory</h2>
@@ -223,11 +223,10 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>tagname_</b></
       </table>
 </div><div class="memdoc">
 
-<p>Class constructor. </p>
+<p>Configure the registered provider. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ps</td><td>Parameters to configure the provider </td></tr>
-    <tr><td class="paramname">conditions</td><td>The central <a class="el" href="classfire_1_1Conditions.html" title="Container and cache for conditions and conditions providers.">Conditions</a> management system, provided by the fire. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">ps</td><td>Parameters to configure the provider </td></tr>
   </table>
   </dd>
 </dl>
@@ -260,7 +259,14 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>tagname_</b></
 </div><div class="memdoc">
 
 <p>Pure virtual getCondition function. </p>
-<p >Must be implemented by any <a class="el" href="classfire_1_1Conditions.html" title="Container and cache for conditions and conditions providers.">Conditions</a> providers. </p>
+<p >Must be implemented by any <a class="el" href="classfire_1_1Conditions.html" title="Container and cache for conditions and conditions providers.">Conditions</a> providers.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">context</td><td><a class="el" href="classfire_1_1EventHeader.html" title="Header information of an event such as event number and timestamp.">EventHeader</a> for the condition </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>pair of condition and its interval of validity </dd></dl>
 
 <p>Implemented in <a class="el" href="classfire_1_1RandomNumberSeedService.html#a7feef9cdbe092d57ab77f2fa8afde0d4">fire::RandomNumberSeedService</a>.</p>
 
@@ -321,9 +327,62 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>tagname_</b></
 </div><div class="memdoc">
 
 <p>Called by conditions system when done with a conditions object, appropriate point for cleanup. </p>
-<dl class="section note"><dt>Note</dt><dd>Default behavior is to delete the object! </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Default behavior is to delete the object!</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">co</td><td>condition to cleanup </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Reimplemented in <a class="el" href="classfire_1_1RandomNumberSeedService.html#a6d2a9008fc9bdf43acb751495e408ba9">fire::RandomNumberSeedService</a>.</p>
+
+</div>
+</div>
+<a id="a5f6873b0b413dfa23a7f0e3feed62e77" name="a5f6873b0b413dfa23a7f0e3feed62e77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f6873b0b413dfa23a7f0e3feed62e77">&#9670;&nbsp;</a></span>requestParentCondition()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::pair&lt; const <a class="el" href="classfire_1_1ConditionsObject.html">ConditionsObject</a> *, <a class="el" href="classfire_1_1ConditionsIntervalOfValidity.html">ConditionsIntervalOfValidity</a> &gt; fire::ConditionsProvider::requestParentCondition </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classfire_1_1EventHeader.html">EventHeader</a> &amp;&#160;</td>
+          <td class="paramname"><em>context</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Request another condition needed to construct this condition. </p>
+<p >This is where we use the handle to the central conditions system and this allows us to recursively depend on other instances <a class="el" href="classfire_1_1ConditionsProvider.html" title="Base class for all providers of conditions objects.">ConditionsProvider</a>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">name</td><td>condition name that is needed </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">context</td><td><a class="el" href="classfire_1_1EventHeader.html" title="Header information of an event such as event number and timestamp.">EventHeader</a> for which to get condition </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>pair of parent condition and its interval of validity </dd></dl>
 
 </div>
 </div>
