@@ -30,6 +30,181 @@ class Process;
  * then add new data onto the event bus. This format is applicable all
  * along the data processing chain from generation (simulation or raw
  * decoding) to reconstruction to analysis.
+ *
+ * ## Usage
+ * Defining a new processor can be done to varying levels of complexity;
+ * however, they fall into two distinct groups: configurable and 
+ * non-configurable. 
+ *
+ * ### Non-configurable Processors
+ * Non-configurable processors cannot be configured
+ * at run time from the python configuration.
+ * This makes starting them simpler even if they are slightly
+ * less powerful.
+ *
+ * ```cpp
+ * // MyProcessor.cpp
+ * #include <fire/Processor.h>
+ * class MyProcessor : public fire::Processor {
+ *  public:
+ *   MyProcessor(const fire::config::Parameters& ps)
+ *    : fire::Processor(ps) {}
+ *   ~MyProcessor() = default;
+ *   void process(fire::Event& event) final override {
+ *     // process event here!
+ *   }
+ * };
+ * DECLARE_PROCESSOR(MyProcessor);
+ * ```
+ *
+ * This example shows the necessary parts of a new Processor.
+ * 1. Inherits from `fire::Processor`
+ * 2. Constructor accepts configuration parameters and passes them to
+ *    the base class
+ * 3. Destructor is defined (even if it is default)
+ * 4. Definition of the function to do the processing
+ * 5. Calling the declaration macro after class is declared.
+ *
+ * This processor is already ready to be compiled and added
+ * into a Python configuration. Any of the other call backs 
+ * in this class can then be defined by your derived processor
+ * if you see it as useful.
+ *
+ * Let's suppose that this processor is compiled into a library
+ * called `libMyModule.so` (perhaps with other processors or tools).
+ * Then, we can use this processor with fire from a python configuration
+ * file as shown below.
+ * ```py
+ * import fire.cfg
+ * p = fire.cfg.Process('example')
+ * p.sequence = [
+ *   fire.cfg.Processor('eg','MyProcessor',library='/full/path/to/libMyModule.so')
+ *   ]
+ * ```
+ * The full path to `libMyModule.so` only needs to be provided if it is
+ * not accessible by `ld` (i.e. it is not in a directory listed in LD_LIBRARY_PATH
+ * or a system directory). Moreover, if the library is accessible by `ld`
+ * and you are on a Linux system (so that the libraries follow the naming
+ * format of the example), you could replace the `library` argument with
+ * `module='MyModule'` to make it easier to read. This second option is more
+ * common for larger software sets with many modules.
+ *
+ * You can determine if your library is accessible by the linker using
+ * some [fancy command line nonsense](https://unix.stackexchange.com/a/282207).
+ *
+ * ### Configurable Processor
+ * Making a processor configurable from Python is not very complicated on the
+ * C++ side, but it introduces many complexities and nuances on the Python side. 
+ *
+ * On the C++ side, it simply involves expanding the constructor in
+ * order to use the passed set of parameters to define member variables.
+ * Expanding on the example from above:
+ *
+ * ```cpp
+ * // MyProcessor.cpp
+ * #include <fire/Processor.h>
+ * class MyProcessor : public fire::Processor {
+ *   int my_parameter_;
+ *   double my_required_parameter_;
+ *  public:
+ *   MyProcessor(const fire::config::Parameters& ps)
+ *    : fire::Processor(ps) {
+ *      my_parameter_ = ps.get<int>("my_parameter",1);
+ *      my_required_parameter_ = ps.get<double>("my_required_parameter");
+ *    }
+ *   ~MyProcessor() = default;
+ *   void process(fire::Event& event) final override {
+ *     // process event here!
+ *
+ *   }
+ * };
+ * DECLARE_PROCESSOR(MyProcessor);
+ * ```
+ * This constructor will recieves two parameters that are configurable.
+ * Exceptions are thrown if the parameter in Python cannot be converted 
+ * to the passed type. For example, if `my_parameter` in Python is set 
+ * to `2.0` instead of `2`.
+ * 1. `my_parameter_` is optional with a default value of `1`.
+ * 2. `my_required_parameter` is required - i.e. an exception will be
+ *    thrown if a parameter with that name is not found
+ *
+ * Now, onto the more complicated Python side.
+ * There are three main methods for defining parameters on the Python
+ * side of configuration. In everything below, `my_proc` is the Python
+ * object that would be added to `p.sequence` inside of the configuration
+ * script so that the Processor will be used during the run.
+ *
+ * First, the base configuration class `fire.cfg.Processor` allows
+ * the user to define parameters directly. This is helpful for small
+ * processors that don't have an entire Python module supporting them.
+ * ```py
+ * my_proc = fire.cfg.Processor('my_proc','MyProcessor',
+ *                              library='/full/path/to/libMyModule.so',
+ *                              my_parameter = 2, 
+ *                              my_required_parameter = 3.0)
+ * ```
+ *
+ * Next, we could wrap the code above into a function. This is helpful
+ * for portability because now we can put this function into a Python
+ * module that could be imported in the configuration script. Moreover,
+ * this isolates the parameter spelling to one location so that the
+ * the user does not have to worry about mis-spelling parameters.
+ * ```py
+ * def MyProcessor(name, req, opt = 2) :
+ *     return fire.cfg.Processor(name,'MyProcessor',
+ *                               library='/full/path/to/libMyModule.so',
+ *                               my_parameter = opt, 
+ *                               my_required_parameter = req)
+ * 
+ * # later inside the python config
+ * my_proc = MyProcessor('my_proc',5.0)
+ * ```
+ *
+ * Finally, we can create a child class of the parent configuration class.
+ * This is the most complicated method and should only be used if the
+ * determination of parameters requires some extra Python functions.
+ * ```py
+ * class MyProcessor(fire.cfg.Processor) :
+ *     def __init__(name, req) :
+ *         super().__init__(name,'MyProcessor',
+ *                          library='/full/path/to/libMyModule.so')
+ *         self.my_parameter = 2
+ *         self.my_required_parameter = req
+ * 
+ * # later inside the python config
+ * my_proc = MyProcessor('my_proc',5.0)
+ * ```
+ *  
+ * @note Python's variable handling is very dynamic.
+ *  For us, this means that we need to be very careful that
+ *  the parameters in Python are spelled the same as the parameters
+ *  in C++. In Python, the variables provided to `fire.cfg.Processor`
+ *  (or defined in `__init__` for the last option) need to have 
+ *  **exactly** the same name as the parameter names requested
+ *  in the constructor of the C++ processor.
+ *
+ * ## Callback Ordering
+ * The ordering of the callback functions is decided by the Process::run
+ * and is helpful to document here for users creating new Processors.
+ *
+ * 1. Constructor - before any processing begins, all of the processors
+ *    are constructed and passed their configuration parameters.
+ * 2. onProcessStart - before any processing begins but after the conditions
+ *    providers are told the process is starting
+ * 3. onFileOpen - **only if there are input files**, this is called before any
+ *    events in the input file are processed
+ * 4. beforeNewRun - called before conditions providers are given the 
+ *    run header when a new run is encountered (i.e. before processing begins
+ *    when there are not input files or when the event header has a new
+ *    run number when there are run numbers)
+ * 5. onNewRun - called after conditions providers are given the run header
+ * 6. process - called on each event
+ * 7. onFileClose - **only if there are input files**, this is called after all 
+ *    events in the input file are processed
+ * 8. onProcessEnd - all processing is done and the Processors are about
+ *    to be destructed.
+ * 9. Destructor - the processors are destructed automatically in
+ *    the destruction of the core Process object
  */
 class Processor {
  public:
@@ -52,8 +227,11 @@ class Processor {
    * of the python class in the sequence that has class_name equal to
    * the Processor class name.
    *
+   * This base class assumes the existence of an additional parameter
+   * 'name' for which a logger can be constructed and an error message
+   * can be labeled.
+   *
    * @param[in] ps Parameter set to be used to configure this processor
-   * @param[in] p handle to process
    */
   Processor(const config::Parameters &ps);
 

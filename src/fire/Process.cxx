@@ -57,7 +57,6 @@ void Process::run() {
   // that number of events and generate an output file.
   if (input_files_.empty()) {
     fire_log(info) << "No input files, starting production mode run.";
-    for (auto& proc : sequence_) proc->onFileOpen(output_file_.name());
 
     RunHeader run_header;
     run_header.runStart(run_);
@@ -73,8 +72,6 @@ void Process::run() {
       for (int num_tries{0}; num_tries < max_tries_; num_tries++)
         if (process(n_events_processed)) break;
     }
-
-    for (auto& proc : sequence_) proc->onFileClose(output_file_.name());
 
     runHeader().runEnd();
     fire_log(info) << runHeader();
