@@ -16,7 +16,7 @@ It's a stretch but it's worth it for the cool name.
   </a>
 </p>
 
-An event-by-event processing framework using [HDF5](https://www.hdfgroup.org/) via [HighFive](https://github.com/BlueBrain/HighFive) for serialization, [Boost](https://www.boost.org/) for logging, and C++17.
+An event-by-event processing framework using [HDF5](https://www.hdfgroup.org/) via [HighFive](https://github.com/BlueBrain/HighFive) for serialization, [Boost](https://www.boost.org/) for logging, Python3 for configuration, and C++17.
 
 The core idea of this framework is the assumption that our data (simulated or real) can be grouped into "events" that we can assume are independent (for the software, not necessarily true in real life).
 Each event is given to a sequence of "processors" that can look at the current data in the event and potentially produce more data to put into the event.
@@ -27,6 +27,7 @@ This configuration style is extermely flexible and allows both C++ and Python to
 Besides this core functionality of processors looking at data event-by-event, there are optional helpers that allow processors to log through boost logging and access "conditions" through a centrally-controlled system.
 
 ## Features
+- User defined custom processors to handle data generation and manipulation: fire::Processor
 - Dynamic run-time loading of libraries containing processors and 
   creation of registered processors using their full C++ class name: fire::factory::Factory 
 - Header for event-wide information: fire::EventHeader
@@ -50,7 +51,9 @@ Besides this core functionality of processors looking at data event-by-event, th
   - Accessing the HDF5 C API directly is feasible; however, HighFive provides support for Exception translation and `std::string` which I don't want to have to figure out myself.
 - Boost Core (for various low-level tasks like demangling)
 - Boost Logging (for logging through fire)
+- Python3
 
-### Developer Dependencies (for testing)
+### Developer Dependencies
 - Boost Unit Testing Framework
 - [pytest](https://docs.pytest.org/en/6.2.x/)
+- doxygen
