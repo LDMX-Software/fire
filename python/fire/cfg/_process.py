@@ -21,7 +21,7 @@ class Process:
     event_limit : int
         Maximum number events to process
     max_tries : int
-        Maximum number of attempts to make in a row before giving up on an event
+        Maximum number of attempts to make in a row before giving up on an event. 
         Only used in Production Mode (no input files)
     run : int
         Run number for this process
@@ -139,11 +139,13 @@ class Process:
         Examples
         --------
         You can use this function to load a general module
+
             addModule('MyModule')
 
         With the string substitutions that are made, you can
         refer to submodules with cmake, C++, or the library
         syntax. The following calls are all equivalent.
+
             addModule('MyModule/Event')
             addModule('MyModule::Event')
             addModule('MyModule_Event')
