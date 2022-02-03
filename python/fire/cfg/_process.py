@@ -4,7 +4,7 @@ class Process:
     """Process configuration object
 
     The python object that stores the necessary parameters for configuring
-    a Process for ldmx-app to execute.
+    a Process for fire to execute.
 
     Upon construction, the class-wide reference lastProcess is set
     and the rest of the attributes are set to sensible defaults.
@@ -31,7 +31,7 @@ class Process:
         Output file to write out event data to after processing
     storage : StorageControl
         Configuration of veto-ing decision maker
-    sequence : list of Producers and Analyzers
+    sequence : list of Processor
         List of event processors to pass the event bus objects to
     drop_keep_rules : list of DropKeepRule
         List of rules to keep or drop objects from the event bus

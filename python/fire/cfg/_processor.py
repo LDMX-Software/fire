@@ -7,8 +7,6 @@ class Processor:
 
     This object contains the parameters that are necessary for a fire::Processor to be configured.
 
-    You should NOT use this class directly. Use one of the derived classes Producer or Analyzer for clarity.
-
     Parameters
     ----------
     name : str
@@ -17,6 +15,8 @@ class Processor:
         Name (including namespace) of the C++ class that this processor should be
     module : str
         Name of module the C++ class is in (i.e. the library that should be loaded)
+    kwargs : dict
+        key word arguments to pass along to the derived processor
 
     See Also
     --------
