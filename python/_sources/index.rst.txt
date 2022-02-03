@@ -1,10 +1,15 @@
-.. fire documentation master file, created by
+.. fire documentation root source file, created by
    sphinx-quickstart on Thu Feb  3 12:15:33 2022.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to fire's documentation!
-================================
+fire Python Interaction Package
+===============================
+
+This is the documentation of the python package meant to
+interact with fire.
+
+`Go Back to C++ Docs </index.html>`_
 
 .. toctree::
    :maxdepth: 4
