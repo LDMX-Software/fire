@@ -34,7 +34,7 @@ Besides this core functionality of processors looking at data event-by-event, th
 - Header for run-wide information: fire::RunHeader
 - Simple serialization of user-defined classes allowing 
   for quick h5py-based analyses: fire::h5
-- Run-time configuration via a python script: fire::config
+- Run-time configuration via a python script: fire::config and <a href="python/index.html">Python Package</a>
 - Drop/Keep Rules: Regex-based rules for copying data from input file to output file
   or choosing to _not_ save data created during processing: fire::Event
 - Veto: Voting system for processors to decide if an entire event

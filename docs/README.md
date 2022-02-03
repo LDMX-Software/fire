@@ -1,11 +1,17 @@
 # fire docs
 The fire documentation is generated with [Doxygen](https://www.doxygen.nl/index.html)
-using the fancy [doxygen-awesome](https://github.com/jothepro/doxygen-awesome-css) theme.
+using the fancy [doxygen-awesome](https://github.com/jothepro/doxygen-awesome-css) theme
+for the C++ code and using [sphinx](https://www.sphinx-doc.org/en/master/index.html)
+for the python package.
 
-You can generate a local copy of the documentation after installing doxygen.
+You can generate a local copy of the documentation after installing doxygen and sphinx.
 We assume that doxygen is run from the root directory of the fire repository.
 ```
 doxygen docs/doxyfile
 ```
 The output of the documentation then is put into the `docs/html` folder.
+Then you can use sphinx to generate to Python documentation using
+```
+sphinx-build docs/python docs/html/python
+```
 You can then look at them locally using your favorite browser.
