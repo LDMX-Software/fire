@@ -2197,7 +2197,9 @@ SKIP_FUNCTION_MACROS   = YES
 # the path). If a tag file is not located in the directory in which doxygen is
 # run, you must also specify the path to the tagfile here.
 
-TAGFILES               = "docs/cppreference-doxygen-web.tag.xml=http://en.cppreference.com/w/"
+# this tag file allows STL classes to be automatically linked to the online reference
+#   https://stackoverflow.com/a/44743279/17617632
+TAGFILES = "docs/cppreference-doxygen-web.tag.xml=http://en.cppreference.com/w/"
 
 # When a file name is specified after GENERATE_TAGFILE, doxygen will create a
 # tag file that is based on the input files it reads. See section "Linking to
