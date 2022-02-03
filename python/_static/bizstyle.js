@@ -36,6 +36,6 @@ $(window).resize(function(){
         $("li.nav-item-0 a").text("Top");
     }
     else {
-        $("li.nav-item-0 a").text("fire v0.11.1-8-gb144efd documentation");
+        $("li.nav-item-0 a").text("fire v0.11.2 documentation");
     }
 });
