@@ -1,6 +1,6 @@
 <map id="fire::Exception" name="fire::Exception">
 <area shape="rect" id="node1" title="Standard base exception class with some useful output information." alt="" coords="27,215,141,241"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,96,120,123"/>
-<area shape="rect" id="node3" title=" " alt="" coords="145,96,231,123"/>
-<area shape="rect" id="node4" title=" " alt="" coords="119,5,257,47"/>
+<area shape="rect" id="node2" href="/home/runner/work/fire/fire/docs/cppreference-doxygen-web.tag.xml$cpp/error/exception.html" title=" " alt="" coords="5,96,120,123"/>
+<area shape="rect" id="node3" href="/home/runner/work/fire/fire/docs/cppreference-doxygen-web.tag.xml$cpp/string/basic_string.html" title=" " alt="" coords="145,96,231,123"/>
+<area shape="rect" id="node4" href="/home/runner/work/fire/fire/docs/cppreference-doxygen-web.tag.xml$cpp/string/basic_string.html" title=" " alt="" coords="119,5,257,47"/>
 </map>

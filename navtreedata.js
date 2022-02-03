@@ -26,9 +26,9 @@ var NAVTREE =
 [
   [ "fire", "index.html", [
     [ "🔥 fire 🔥", "index.html", [
-      [ "Features", "index.html#autotoc_md20", null ],
-      [ "Dependencies", "index.html#autotoc_md21", [
-        [ "Developer Dependencies (for testing)", "index.html#autotoc_md22", null ]
+      [ "Features", "index.html#autotoc_md27", null ],
+      [ "Dependencies", "index.html#autotoc_md28", [
+        [ "Developer Dependencies (for testing)", "index.html#autotoc_md29", null ]
       ] ]
     ] ],
     [ "Namespaces", "namespaces.html", [
@@ -48,7 +48,7 @@ var NAVTREE =
       [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
       [ "Class Members", "functions.html", [
         [ "All", "functions.html", "functions_dup" ],
-        [ "Functions", "functions_func.html", null ],
+        [ "Functions", "functions_func.html", "functions_func" ],
         [ "Variables", "functions_vars.html", null ],
         [ "Typedefs", "functions_type.html", null ],
         [ "Enumerations", "functions_enum.html", null ],
@@ -70,8 +70,10 @@ var NAVTREEINDEX =
 [
 "Atomic_8h_source.html",
 "classfire_1_1Event_1_1EventObjectTag.html#a45b2579d819d4413b750b8108ee6c8ea",
-"classfire_1_1factory_1_1Factory.html#acc240f24fc2b1cfe6a0b95f850573fee",
-"fire_8cxx.html#a64a6014565bb3e03294ec4a952d5add0"
+"classfire_1_1config_1_1Parameters.html#ab8c99a73cc43039d4d900f10ed7f15fa",
+"classfire_1_1h5_1_1Writer_1_1BufferHandle.html#acb553ae2dc8785b0ec0b64cd317becff",
+"cpp/iterator/end.html",
+"cpp/thread/notify_all_at_thread_exit.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

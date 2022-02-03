@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.11.0</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.11.1</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -114,22 +114,23 @@ $(document).ready(function(){initNavTree('StorageControl_8h_source.html',''); in
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classfire_1_1StorageControl.html#afd603cc45ab1ee6ba6269564545158f2">resetEventState</a>();</div>
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classfire_1_1StorageControl.html#a8c5bcf0c709d9f31f21977949c3bbf2f">addHint</a>(<a class="code hl_enumeration" href="classfire_1_1StorageControl.html#a402b80c778174eb94974d044aa59fbc2">Hint</a> hint, <span class="keyword">const</span> std::string&amp; purpose,</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>               <span class="keyword">const</span> std::string&amp; processor_name);</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="classfire_1_1StorageControl.html#a8c5bcf0c709d9f31f21977949c3bbf2f">addHint</a>(<a class="code hl_enumeration" href="classfire_1_1StorageControl.html#a402b80c778174eb94974d044aa59fbc2">Hint</a> hint, <span class="keyword">const</span> <a class="code hl_classRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>&amp; purpose,</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>               <span class="keyword">const</span> <a class="code hl_classRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>&amp; processor_name);</div>
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
 <div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>  <span class="keywordtype">bool</span> <a class="code hl_function" href="classfire_1_1StorageControl.html#a1986fccc88aff30c884c2ad9ee4cae01">keepEvent</a>() <span class="keyword">const</span>;</div>
 <div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
 <div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> <span class="keyword">private</span>:</div>
 <div class="line"><a id="l00094" name="l00094"></a><span class="lineno"><a class="line" href="classfire_1_1StorageControl.html#a7240ee9ac02506397dff2cdbf8a5715a">   94</a></span>  <span class="keywordtype">bool</span> <a class="code hl_variable" href="classfire_1_1StorageControl.html#a7240ee9ac02506397dff2cdbf8a5715a">default_keep_</a>{<span class="keyword">true</span>};</div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno"><a class="line" href="classfire_1_1StorageControl.html#a37628f6e28a8932e6e44007ba0929f01">  107</a></span>  std::vector&lt;std::pair&lt;std::regex, std::regex&gt;&gt; <a class="code hl_variable" href="classfire_1_1StorageControl.html#a37628f6e28a8932e6e44007ba0929f01">rules_</a>;</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno"><a class="line" href="classfire_1_1StorageControl.html#a37628f6e28a8932e6e44007ba0929f01">  107</a></span>  <a class="code hl_classRef" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector&lt;std::pair&lt;std::regex, std::regex&gt;</a>&gt; <a class="code hl_variable" href="classfire_1_1StorageControl.html#a37628f6e28a8932e6e44007ba0929f01">rules_</a>;</div>
 <div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
 <div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno"><a class="line" href="classfire_1_1StorageControl.html#a29080aeb8279e9eff838d326db99eb31">  113</a></span>  std::vector&lt;Hint&gt; <a class="code hl_variable" href="classfire_1_1StorageControl.html#a29080aeb8279e9eff838d326db99eb31">hints_</a>;</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno"><a class="line" href="classfire_1_1StorageControl.html#a29080aeb8279e9eff838d326db99eb31">  113</a></span>  <a class="code hl_classRef" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector&lt;Hint&gt;</a> <a class="code hl_variable" href="classfire_1_1StorageControl.html#a29080aeb8279e9eff838d326db99eb31">hints_</a>;</div>
 <div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>};</div>
 <div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>}  <span class="comment">// namespace fire</span></div>
 <div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span> </div>
 <div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="abasic_string_html"><div class="ttname"><a href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a></div></div>
 <div class="ttc" id="aclassfire_1_1StorageControl_html"><div class="ttname"><a href="classfire_1_1StorageControl.html">fire::StorageControl</a></div><div class="ttdoc">Isolation of voting system deciding if events should be kept.</div><div class="ttdef"><b>Definition:</b> StorageControl.h:21</div></div>
 <div class="ttc" id="aclassfire_1_1StorageControl_html_a1986fccc88aff30c884c2ad9ee4cae01"><div class="ttname"><a href="classfire_1_1StorageControl.html#a1986fccc88aff30c884c2ad9ee4cae01">fire::StorageControl::keepEvent</a></div><div class="ttdeci">bool keepEvent() const</div><div class="ttdoc">Determine if the current event should be kept, based on the defined rules.</div><div class="ttdef"><b>Definition:</b> StorageControl.cxx:51</div></div>
 <div class="ttc" id="aclassfire_1_1StorageControl_html_a29080aeb8279e9eff838d326db99eb31"><div class="ttname"><a href="classfire_1_1StorageControl.html#a29080aeb8279e9eff838d326db99eb31">fire::StorageControl::hints_</a></div><div class="ttdeci">std::vector&lt; Hint &gt; hints_</div><div class="ttdoc">Collection of hints from the event processors.</div><div class="ttdef"><b>Definition:</b> StorageControl.h:113</div></div>
@@ -140,6 +141,7 @@ $(document).ready(function(){initNavTree('StorageControl_8h_source.html',''); in
 <div class="ttc" id="aclassfire_1_1StorageControl_html_acbcc833ceff464bf94ec8b8bed0e35f7"><div class="ttname"><a href="classfire_1_1StorageControl.html#acbcc833ceff464bf94ec8b8bed0e35f7">fire::StorageControl::StorageControl</a></div><div class="ttdeci">StorageControl(const config::Parameters &amp;ps)</div><div class="ttdoc">Configure the various options for how the storage contol behaves.</div><div class="ttdef"><b>Definition:</b> StorageControl.cxx:5</div></div>
 <div class="ttc" id="aclassfire_1_1StorageControl_html_afd603cc45ab1ee6ba6269564545158f2"><div class="ttname"><a href="classfire_1_1StorageControl.html#afd603cc45ab1ee6ba6269564545158f2">fire::StorageControl::resetEventState</a></div><div class="ttdeci">void resetEventState()</div><div class="ttdoc">Reset the event-by-event state by removing any hints provided by processors during the previous event...</div><div class="ttdef"><b>Definition:</b> StorageControl.cxx:34</div></div>
 <div class="ttc" id="aclassfire_1_1config_1_1Parameters_html"><div class="ttname"><a href="classfire_1_1config_1_1Parameters.html">fire::config::Parameters</a></div><div class="ttdoc">Class encapsulating parameters for configuring a processor.</div><div class="ttdef"><b>Definition:</b> Parameters.h:29</div></div>
+<div class="ttc" id="avector_html"><div class="ttname"><a href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

@@ -52,8 +52,8 @@
 <!-- Node4 -->
 <g id="node4" class="node">
 <title>Node4</title>
-<g id="a_node4"><a xlink:title=" ">
-<polygon fill="none" stroke="#bfbfbf" points="37.5,-203.5 37.5,-222.5 102.5,-222.5 102.5,-203.5 37.5,-203.5"/>
+<g id="a_node4"><a target="_parent" xlink:href="http://en.cppreference.com/w/cpp/string/basic_string.html" xlink:title=" ">
+<polygon fill="none" stroke="black" points="37.5,-203.5 37.5,-222.5 102.5,-222.5 102.5,-203.5 37.5,-203.5"/>
 <text text-anchor="middle" x="70" y="-210.5" font-family="Helvetica,sans-Serif" font-size="10.00">std::string</text>
 </a>
 </g>
@@ -68,10 +68,10 @@
 <!-- Node5 -->
 <g id="node5" class="node">
 <title>Node5</title>
-<g id="a_node5"><a xlink:title=" ">
-<polygon fill="none" stroke="#bfbfbf" points="18,-260.5 18,-290.5 122,-290.5 122,-260.5 18,-260.5"/>
+<g id="a_node5"><a target="_parent" xlink:href="http://en.cppreference.com/w/cpp/string/basic_string.html" xlink:title=" ">
+<polygon fill="none" stroke="black" points="18,-260.5 18,-290.5 122,-290.5 122,-260.5 18,-260.5"/>
 <text text-anchor="start" x="26" y="-278.5" font-family="Helvetica,sans-Serif" font-size="10.00">std::basic_string&lt;</text>
-<text text-anchor="middle" x="70" y="-267.5" font-family="Helvetica,sans-Serif" font-size="10.00"> Char &gt;</text>
+<text text-anchor="middle" x="70" y="-267.5" font-family="Helvetica,sans-Serif" font-size="10.00"> char &gt;</text>
 </a>
 </g>
 </g>

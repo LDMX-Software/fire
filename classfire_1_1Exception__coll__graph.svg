@@ -20,8 +20,8 @@
 <!-- Node2 -->
 <g id="node2" class="node">
 <title>Node2</title>
-<g id="a_node2"><a xlink:title=" ">
-<polygon fill="none" stroke="#bfbfbf" points="0,-89.5 0,-108.5 86,-108.5 86,-89.5 0,-89.5"/>
+<g id="a_node2"><a target="_parent" xlink:href="http://en.cppreference.com/w/cpp/error/exception.html" xlink:title=" ">
+<polygon fill="none" stroke="black" points="0,-89.5 0,-108.5 86,-108.5 86,-89.5 0,-89.5"/>
 <text text-anchor="middle" x="43" y="-96.5" font-family="Helvetica,sans-Serif" font-size="10.00">std::exception</text>
 </a>
 </g>
@@ -35,8 +35,8 @@
 <!-- Node3 -->
 <g id="node3" class="node">
 <title>Node3</title>
-<g id="a_node3"><a xlink:title=" ">
-<polygon fill="none" stroke="#bfbfbf" points="104.5,-89.5 104.5,-108.5 169.5,-108.5 169.5,-89.5 104.5,-89.5"/>
+<g id="a_node3"><a target="_parent" xlink:href="http://en.cppreference.com/w/cpp/string/basic_string.html" xlink:title=" ">
+<polygon fill="none" stroke="black" points="104.5,-89.5 104.5,-108.5 169.5,-108.5 169.5,-89.5 104.5,-89.5"/>
 <text text-anchor="middle" x="137" y="-96.5" font-family="Helvetica,sans-Serif" font-size="10.00">std::string</text>
 </a>
 </g>
@@ -53,10 +53,10 @@
 <!-- Node4 -->
 <g id="node4" class="node">
 <title>Node4</title>
-<g id="a_node4"><a xlink:title=" ">
-<polygon fill="none" stroke="#bfbfbf" points="85,-146.5 85,-176.5 189,-176.5 189,-146.5 85,-146.5"/>
+<g id="a_node4"><a target="_parent" xlink:href="http://en.cppreference.com/w/cpp/string/basic_string.html" xlink:title=" ">
+<polygon fill="none" stroke="black" points="85,-146.5 85,-176.5 189,-176.5 189,-146.5 85,-146.5"/>
 <text text-anchor="start" x="93" y="-164.5" font-family="Helvetica,sans-Serif" font-size="10.00">std::basic_string&lt;</text>
-<text text-anchor="middle" x="137" y="-153.5" font-family="Helvetica,sans-Serif" font-size="10.00"> Char &gt;</text>
+<text text-anchor="middle" x="137" y="-153.5" font-family="Helvetica,sans-Serif" font-size="10.00"> char &gt;</text>
 </a>
 </g>
 </g>

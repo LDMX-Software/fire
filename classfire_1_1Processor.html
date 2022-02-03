@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.11.0</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.11.1</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -104,7 +104,7 @@ $(document).ready(function(){initNavTree('classfire_1_1Processor.html',''); init
 <div class="dynheader">
 Collaboration diagram for fire::Processor:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classfire_1_1Processor__coll__graph.svg" width="1198" height="383"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classfire_1_1Processor__coll__graph.svg" width="1287" height="322"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -117,7 +117,7 @@ Classes</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
 <tr class="memitem:a864c31a590d8380804af3b1da5d77cf7"><td class="memItemLeft" align="right" valign="top"><a id="a864c31a590d8380804af3b1da5d77cf7" name="a864c31a590d8380804af3b1da5d77cf7"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>Factory</b> = <a class="el" href="classfire_1_1factory_1_1Factory.html">factory::Factory</a>&lt; <a class="el" href="classfire_1_1Processor.html">Processor</a>, std::unique_ptr&lt; <a class="el" href="classfire_1_1Processor.html">Processor</a> &gt;, const <a class="el" href="classfire_1_1config_1_1Parameters.html">config::Parameters</a> &amp; &gt;</td></tr>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>Factory</b> = <a class="el" href="classfire_1_1factory_1_1Factory.html">factory::Factory</a>&lt; <a class="el" href="classfire_1_1Processor.html">Processor</a>, <a class="elRef" href="http://en.cppreference.com/w/cpp/memory/unique_ptr.html">std::unique_ptr</a>&lt; <a class="el" href="classfire_1_1Processor.html">Processor</a> &gt;, const <a class="el" href="classfire_1_1config_1_1Parameters.html">config::Parameters</a> &amp; &gt;</td></tr>
 <tr class="memdesc:a864c31a590d8380804af3b1da5d77cf7"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of factory that can be used to create processors. <br /></td></tr>
 <tr class="separator:a864c31a590d8380804af3b1da5d77cf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -136,10 +136,10 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Processor</b> ()=
 <tr class="memitem:acd33332767c94960ca8b546639d7d703"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1Processor.html#acd33332767c94960ca8b546639d7d703">onNewRun</a> (const <a class="el" href="classfire_1_1RunHeader.html">RunHeader</a> &amp;runHeader)</td></tr>
 <tr class="memdesc:acd33332767c94960ca8b546639d7d703"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the <a class="el" href="classfire_1_1Processor.html" title="Base class for all event processing components.">Processor</a> to take any necessary action when the run being processed changes.  <a href="classfire_1_1Processor.html#acd33332767c94960ca8b546639d7d703">More...</a><br /></td></tr>
 <tr class="separator:acd33332767c94960ca8b546639d7d703"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0b7a04e72ef7fa3ca8578233f7986435"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1Processor.html#a0b7a04e72ef7fa3ca8578233f7986435">onFileOpen</a> (const std::string &amp;file_name)</td></tr>
+<tr class="memitem:a0b7a04e72ef7fa3ca8578233f7986435"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1Processor.html#a0b7a04e72ef7fa3ca8578233f7986435">onFileOpen</a> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;file_name)</td></tr>
 <tr class="memdesc:a0b7a04e72ef7fa3ca8578233f7986435"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the <a class="el" href="classfire_1_1Processor.html" title="Base class for all event processing components.">Processor</a> to take any necessary action when a new <em>input</em> event file is opened.  <a href="classfire_1_1Processor.html#a0b7a04e72ef7fa3ca8578233f7986435">More...</a><br /></td></tr>
 <tr class="separator:a0b7a04e72ef7fa3ca8578233f7986435"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3eb5ec944fbcfa805d4ee7f15e9b12cf"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1Processor.html#a3eb5ec944fbcfa805d4ee7f15e9b12cf">onFileClose</a> (const std::string &amp;file_name)</td></tr>
+<tr class="memitem:a3eb5ec944fbcfa805d4ee7f15e9b12cf"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1Processor.html#a3eb5ec944fbcfa805d4ee7f15e9b12cf">onFileClose</a> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;file_name)</td></tr>
 <tr class="memdesc:a3eb5ec944fbcfa805d4ee7f15e9b12cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the <a class="el" href="classfire_1_1Processor.html" title="Base class for all event processing components.">Processor</a> to take any necessary action when a event <em>input</em> file is closed.  <a href="classfire_1_1Processor.html#a3eb5ec944fbcfa805d4ee7f15e9b12cf">More...</a><br /></td></tr>
 <tr class="separator:a3eb5ec944fbcfa805d4ee7f15e9b12cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a391569781fafb61918bb1866c0c91bf2"><td class="memItemLeft" align="right" valign="top"><a id="a391569781fafb61918bb1866c0c91bf2" name="a391569781fafb61918bb1866c0c91bf2"></a>
@@ -151,7 +151,7 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>onProcessEnd<
 <tr class="memdesc:a8a88412c72a21561768f39856b2a4325"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for the <a class="el" href="classfire_1_1Processor.html" title="Base class for all event processing components.">Processor</a> to take any necessary action when the processing of events finishes, such as calculating job-summary quantities. <br /></td></tr>
 <tr class="separator:a8a88412c72a21561768f39856b2a4325"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac67cbbabdfd282842d3b70459f900c20"><td class="memItemLeft" align="right" valign="top"><a id="ac67cbbabdfd282842d3b70459f900c20" name="ac67cbbabdfd282842d3b70459f900c20"></a>
-const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getName</b> () const</td></tr>
+const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getName</b> () const</td></tr>
 <tr class="memdesc:ac67cbbabdfd282842d3b70459f900c20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the processor name. <br /></td></tr>
 <tr class="separator:ac67cbbabdfd282842d3b70459f900c20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f1bc98203030e0757a004f3f275cd62"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1Processor.html#a6f1bc98203030e0757a004f3f275cd62">process</a> (<a class="el" href="classfire_1_1Event.html">Event</a> &amp;event)=0</td></tr>
@@ -163,17 +163,17 @@ const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>ge
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a40849759f8d55ecd21b2763be6801109"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1Processor.html#a40849759f8d55ecd21b2763be6801109">setStorageHint</a> (<a class="el" href="classfire_1_1StorageControl.html#a402b80c778174eb94974d044aa59fbc2">StorageControl::Hint</a> hint, const std::string &amp;purpose=&quot;&quot;) const</td></tr>
+<tr class="memitem:a40849759f8d55ecd21b2763be6801109"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1Processor.html#a40849759f8d55ecd21b2763be6801109">setStorageHint</a> (<a class="el" href="classfire_1_1StorageControl.html#a402b80c778174eb94974d044aa59fbc2">StorageControl::Hint</a> hint, const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;purpose=&quot;&quot;) const</td></tr>
 <tr class="memdesc:a40849759f8d55ecd21b2763be6801109"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mark the current event as having the given storage control hint from this processor and the given purpose string.  <a href="classfire_1_1Processor.html#a40849759f8d55ecd21b2763be6801109">More...</a><br /></td></tr>
 <tr class="separator:a40849759f8d55ecd21b2763be6801109"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad92639b07e18eb6885773d61f37f903d"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
-<tr class="memitem:ad92639b07e18eb6885773d61f37f903d"><td class="memTemplItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classfire_1_1Processor.html#ad92639b07e18eb6885773d61f37f903d">getCondition</a> (const std::string &amp;condition_name)</td></tr>
+<tr class="memitem:ad92639b07e18eb6885773d61f37f903d"><td class="memTemplItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classfire_1_1Processor.html#ad92639b07e18eb6885773d61f37f903d">getCondition</a> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;condition_name)</td></tr>
 <tr class="memdesc:ad92639b07e18eb6885773d61f37f903d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Access a conditions object for the current event.  <a href="classfire_1_1Processor.html#ad92639b07e18eb6885773d61f37f903d">More...</a><br /></td></tr>
 <tr class="separator:ad92639b07e18eb6885773d61f37f903d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a471b2c3c6c323d016557d13b1f0e1e18"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1Processor.html#a471b2c3c6c323d016557d13b1f0e1e18">abortEvent</a> ()</td></tr>
 <tr class="memdesc:a471b2c3c6c323d016557d13b1f0e1e18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abort the event immediately.  <a href="classfire_1_1Processor.html#a471b2c3c6c323d016557d13b1f0e1e18">More...</a><br /></td></tr>
 <tr class="separator:a471b2c3c6c323d016557d13b1f0e1e18"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4f7e35496ca7277dd4ac06669ea12e01"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1Processor.html#a4f7e35496ca7277dd4ac06669ea12e01">fatalError</a> (const std::string &amp;msg)</td></tr>
+<tr class="memitem:a4f7e35496ca7277dd4ac06669ea12e01"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1Processor.html#a4f7e35496ca7277dd4ac06669ea12e01">fatalError</a> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;msg)</td></tr>
 <tr class="memdesc:a4f7e35496ca7277dd4ac06669ea12e01"><td class="mdescLeft">&#160;</td><td class="mdescRight">End processing due to a fatal runtime error.  <a href="classfire_1_1Processor.html#a4f7e35496ca7277dd4ac06669ea12e01">More...</a><br /></td></tr>
 <tr class="separator:a4f7e35496ca7277dd4ac06669ea12e01"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -187,13 +187,13 @@ Protected Attributes</h2></td></tr>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:a15647ef973981cb631c1fda127872d0a"><td class="memItemLeft" align="right" valign="top"><a id="a15647ef973981cb631c1fda127872d0a" name="a15647ef973981cb631c1fda127872d0a"></a>
 <a class="el" href="classfire_1_1Conditions.html">Conditions</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getConditions</b> () const</td></tr>
-<tr class="memdesc:a15647ef973981cb631c1fda127872d0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal getter for conditions without exposing all of <a class="el" href="classfire_1_1Process.html">Process</a>. <br /></td></tr>
+<tr class="memdesc:a15647ef973981cb631c1fda127872d0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal getter for conditions without exposing all of <a class="el" href="classfire_1_1Process.html" title="The central object managing the data processing.">Process</a>. <br /></td></tr>
 <tr class="separator:a15647ef973981cb631c1fda127872d0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:ae7ee5d3486bacf36575d54fa63004e8b"><td class="memItemLeft" align="right" valign="top"><a id="ae7ee5d3486bacf36575d54fa63004e8b" name="ae7ee5d3486bacf36575d54fa63004e8b"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>name_</b></td></tr>
+<a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>&#160;</td><td class="memItemRight" valign="bottom"><b>name_</b></td></tr>
 <tr class="memdesc:ae7ee5d3486bacf36575d54fa63004e8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The name of the <a class="el" href="classfire_1_1Processor.html" title="Base class for all event processing components.">Processor</a>. <br /></td></tr>
 <tr class="separator:ae7ee5d3486bacf36575d54fa63004e8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7fb4c0e5c07ea5a8b0cdc9dc77a05ad0"><td class="memItemLeft" align="right" valign="top"><a id="a7fb4c0e5c07ea5a8b0cdc9dc77a05ad0" name="a7fb4c0e5c07ea5a8b0cdc9dc77a05ad0"></a>
@@ -203,7 +203,109 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>name_</b></td>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Base class for all event processing components. </p>
-<p >This is the main interface that users of fire will interact with. In order to perform a new task, a user would define a new <a class="el" href="classfire_1_1Processor.html" title="Base class for all event processing components.">Processor</a> which can take data from the event bus, process it in some way, and then add new data onto the event bus. This format is applicable all along the data processing chain from generation (simulation or raw decoding) to reconstruction to analysis. </p>
+<p >This is the main interface that users of fire will interact with. In order to perform a new task, a user would define a new <a class="el" href="classfire_1_1Processor.html" title="Base class for all event processing components.">Processor</a> which can take data from the event bus, process it in some way, and then add new data onto the event bus. This format is applicable all along the data processing chain from generation (simulation or raw decoding) to reconstruction to analysis.</p>
+<h2><a class="anchor" id="autotoc_md21"></a>
+Usage</h2>
+<p >Defining a new processor can be done to varying levels of complexity; however, they fall into two distinct groups: configurable and non-configurable.</p>
+<h3><a class="anchor" id="autotoc_md22"></a>
+Non-configurable Processors</h3>
+<p >Non-configurable processors cannot be configured at run time from the python configuration. This makes starting them simpler even if they are slightly less powerful.</p>
+<div class="fragment"><div class="line"><span class="comment">// MyProcessor.cpp</span></div>
+<div class="line"><span class="preprocessor">#include &lt;fire/Processor.h&gt;</span></div>
+<div class="line"><span class="keyword">class </span>MyProcessor : <span class="keyword">public</span> <a class="code hl_class" href="classfire_1_1Processor.html">fire::Processor</a> {</div>
+<div class="line"> <span class="keyword">public</span>:</div>
+<div class="line">  MyProcessor(<span class="keyword">const</span> <a class="code hl_class" href="classfire_1_1config_1_1Parameters.html">fire::config::Parameters</a>&amp; ps)</div>
+<div class="line">   : fire::<a class="code hl_function" href="classfire_1_1Processor.html#ab2fc871f893086500941b33a47bacead">Processor</a>(ps) {}</div>
+<div class="line">  ~MyProcessor() = <span class="keywordflow">default</span>;</div>
+<div class="line">  <span class="keywordtype">void</span> <a class="code hl_function" href="classfire_1_1Processor.html#a6f1bc98203030e0757a004f3f275cd62">process</a>(<a class="code hl_class" href="classfire_1_1Event.html">fire::Event</a>&amp; event) <span class="keyword">final</span> <span class="keyword">override</span> {</div>
+<div class="line">    <span class="comment">// process event here!</span></div>
+<div class="line">  }</div>
+<div class="line">};</div>
+<div class="line">DECLARE_PROCESSOR(MyProcessor);</div>
+<div class="ttc" id="aclassfire_1_1Event_html"><div class="ttname"><a href="classfire_1_1Event.html">fire::Event</a></div><div class="ttdoc">Event class for interfacing with processors.</div><div class="ttdef"><b>Definition:</b> Event.h:26</div></div>
+<div class="ttc" id="aclassfire_1_1Processor_html"><div class="ttname"><a href="classfire_1_1Processor.html">fire::Processor</a></div><div class="ttdoc">Base class for all event processing components.</div><div class="ttdef"><b>Definition:</b> Processor.h:209</div></div>
+<div class="ttc" id="aclassfire_1_1Processor_html_a6f1bc98203030e0757a004f3f275cd62"><div class="ttname"><a href="classfire_1_1Processor.html#a6f1bc98203030e0757a004f3f275cd62">fire::Processor::process</a></div><div class="ttdeci">virtual void process(Event &amp;event)=0</div><div class="ttdoc">have the derived processors do what they need to do</div></div>
+<div class="ttc" id="aclassfire_1_1Processor_html_ab2fc871f893086500941b33a47bacead"><div class="ttname"><a href="classfire_1_1Processor.html#ab2fc871f893086500941b33a47bacead">fire::Processor::Processor</a></div><div class="ttdeci">Processor(const config::Parameters &amp;ps)</div><div class="ttdoc">Configure the processor upon construction.</div><div class="ttdef"><b>Definition:</b> Processor.cxx:7</div></div>
+<div class="ttc" id="aclassfire_1_1config_1_1Parameters_html"><div class="ttname"><a href="classfire_1_1config_1_1Parameters.html">fire::config::Parameters</a></div><div class="ttdoc">Class encapsulating parameters for configuring a processor.</div><div class="ttdef"><b>Definition:</b> Parameters.h:29</div></div>
+</div><!-- fragment --><p >This example shows the necessary parts of a new <a class="el" href="classfire_1_1Processor.html" title="Base class for all event processing components.">Processor</a>.</p><ol type="1">
+<li>Inherits from <code><a class="el" href="classfire_1_1Processor.html" title="Base class for all event processing components.">fire::Processor</a></code></li>
+<li>Constructor accepts configuration parameters and passes them to the base class</li>
+<li>Destructor is defined (even if it is default)</li>
+<li>Definition of the function to do the processing</li>
+<li>Calling the declaration macro after class is declared.</li>
+</ol>
+<p >This processor is already ready to be compiled and added into a Python configuration. Any of the other call backs in this class can then be defined by your derived processor if you see it as useful.</p>
+<p >Let's suppose that this processor is compiled into a library called <code>libMyModule.so</code> (perhaps with other processors or tools). Then, we can use this processor with fire from a python configuration file as shown below. </p><div class="fragment"><div class="line"><span class="keyword">import</span> fire.cfg</div>
+<div class="line">p = fire.cfg.Process(<span class="stringliteral">&#39;example&#39;</span>)</div>
+<div class="line">p.sequence = [</div>
+<div class="line">  fire.cfg.Processor(<span class="stringliteral">&#39;eg&#39;</span>,<span class="stringliteral">&#39;MyProcessor&#39;</span>,library=<span class="stringliteral">&#39;/full/path/to/libMyModule.so&#39;</span>)</div>
+<div class="line">  ]</div>
+</div><!-- fragment --><p> The full path to <code>libMyModule.so</code> only needs to be provided if it is not accessible by <code>ld</code> (i.e. it is not in a directory listed in LD_LIBRARY_PATH or a system directory). Moreover, if the library is accessible by <code>ld</code> and you are on a Linux system (so that the libraries follow the naming format of the example), you could replace the <code>library</code> argument with &lsquo;module='MyModule&rsquo;` to make it easier to read. This second option is more common for larger software sets with many modules.</p>
+<p >You can determine if your library is accessible by the linker using some <a href="https://unix.stackexchange.com/a/282207">fancy command line nonsense</a>.</p>
+<h3><a class="anchor" id="autotoc_md23"></a>
+Configurable Processor</h3>
+<p >Making a processor configurable from Python is not very complicated on the C++ side, but it introduces many complexities and nuances on the Python side.</p>
+<p >On the C++ side, it simply involves expanding the constructor in order to use the passed set of parameters to define member variables. Expanding on the example from above:</p>
+<div class="fragment"><div class="line"><span class="comment">// MyProcessor.cpp</span></div>
+<div class="line"><span class="preprocessor">#include &lt;fire/Processor.h&gt;</span></div>
+<div class="line"><span class="keyword">class </span>MyProcessor : <span class="keyword">public</span> <a class="code hl_class" href="classfire_1_1Processor.html">fire::Processor</a> {</div>
+<div class="line">  <span class="keywordtype">int</span> my_parameter_;</div>
+<div class="line">  <span class="keywordtype">double</span> my_required_parameter_;</div>
+<div class="line"> <span class="keyword">public</span>:</div>
+<div class="line">  MyProcessor(<span class="keyword">const</span> <a class="code hl_class" href="classfire_1_1config_1_1Parameters.html">fire::config::Parameters</a>&amp; ps)</div>
+<div class="line">   : fire::<a class="code hl_function" href="classfire_1_1Processor.html#ab2fc871f893086500941b33a47bacead">Processor</a>(ps) {</div>
+<div class="line">     my_parameter_ = ps.<a class="code hl_function" href="classfire_1_1config_1_1Parameters.html#ab8c99a73cc43039d4d900f10ed7f15fa">get</a>&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;my_parameter&quot;</span>,1);</div>
+<div class="line">     my_required_parameter_ = ps.<a class="code hl_function" href="classfire_1_1config_1_1Parameters.html#ab8c99a73cc43039d4d900f10ed7f15fa">get</a>&lt;<span class="keywordtype">double</span>&gt;(<span class="stringliteral">&quot;my_required_parameter&quot;</span>);</div>
+<div class="line">   }</div>
+<div class="line">  ~MyProcessor() = <span class="keywordflow">default</span>;</div>
+<div class="line">  <span class="keywordtype">void</span> <a class="code hl_function" href="classfire_1_1Processor.html#a6f1bc98203030e0757a004f3f275cd62">process</a>(<a class="code hl_class" href="classfire_1_1Event.html">fire::Event</a>&amp; event) <span class="keyword">final</span> <span class="keyword">override</span> {</div>
+<div class="line">    <span class="comment">// process event here!</span></div>
+<div class="line"> </div>
+<div class="line">  }</div>
+<div class="line">};</div>
+<div class="line">DECLARE_PROCESSOR(MyProcessor);</div>
+<div class="ttc" id="aclassfire_1_1config_1_1Parameters_html_ab8c99a73cc43039d4d900f10ed7f15fa"><div class="ttname"><a href="classfire_1_1config_1_1Parameters.html#ab8c99a73cc43039d4d900f10ed7f15fa">fire::config::Parameters::get</a></div><div class="ttdeci">const T &amp; get(const std::string &amp;name) const</div><div class="ttdoc">Retrieve the parameter of the given name.</div><div class="ttdef"><b>Definition:</b> Parameters.h:72</div></div>
+</div><!-- fragment --><p> This constructor will recieves two parameters that are configurable. Exceptions are thrown if the parameter in Python cannot be converted to the passed type. For example, if <code>my_parameter</code> in Python is set to <code>2.0</code> instead of <code>2</code>.</p><ol type="1">
+<li><code>my_parameter_</code> is optional with a default value of <code>1</code>.</li>
+<li><code>my_required_parameter</code> is required - i.e. an exception will be thrown if a parameter with that name is not found</li>
+</ol>
+<p >Now, onto the more complicated Python side. There are three main methods for defining parameters on the Python side of configuration. In everything below, <code>my_proc</code> is the Python object that would be added to <code>p.sequence</code> inside of the configuration script so that the <a class="el" href="classfire_1_1Processor.html" title="Base class for all event processing components.">Processor</a> will be used during the run.</p>
+<p >First, the base configuration class <code>fire.cfg.Processor</code> allows the user to define parameters directly. This is helpful for small processors that don't have an entire Python module supporting them. </p><div class="fragment"><div class="line">my_proc = fire.cfg.Processor(<span class="stringliteral">&#39;my_proc&#39;</span>,<span class="stringliteral">&#39;MyProcessor&#39;</span>,</div>
+<div class="line">                             library=<span class="stringliteral">&#39;/full/path/to/libMyModule.so&#39;</span>,</div>
+<div class="line">                             my_parameter = 2, </div>
+<div class="line">                             my_required_parameter = 3.0)</div>
+</div><!-- fragment --><p >Next, we could wrap the code above into a function. This is helpful for portability because now we can put this function into a Python module that could be imported in the configuration script. Moreover, this isolates the parameter spelling to one location so that the the user does not have to worry about mis-spelling parameters. </p><div class="fragment"><div class="line"><span class="keyword">def </span>MyProcessor(name, req, opt = 2) :</div>
+<div class="line">    <span class="keywordflow">return</span> fire.cfg.Processor(name,<span class="stringliteral">&#39;MyProcessor&#39;</span>,</div>
+<div class="line">                              library=<span class="stringliteral">&#39;/full/path/to/libMyModule.so&#39;</span>,</div>
+<div class="line">                              my_parameter = opt, </div>
+<div class="line">                              my_required_parameter = req)</div>
+<div class="line"> </div>
+<div class="line"><span class="comment"># later inside the python config</span></div>
+<div class="line">my_proc = MyProcessor(<span class="stringliteral">&#39;my_proc&#39;</span>,5.0)</div>
+</div><!-- fragment --><p >Finally, we can create a child class of the parent configuration class. This is the most complicated method and should only be used if the determination of parameters requires some extra Python functions. </p><div class="fragment"><div class="line"><span class="keyword">class </span>MyProcessor(fire.cfg.Processor) :</div>
+<div class="line">    <span class="keyword">def </span>__init__(name, req) :</div>
+<div class="line">        super().__init__(name,<span class="stringliteral">&#39;MyProcessor&#39;</span>,</div>
+<div class="line">                         library=<span class="stringliteral">&#39;/full/path/to/libMyModule.so&#39;</span>)</div>
+<div class="line">        self.my_parameter = 2</div>
+<div class="line">        self.my_required_parameter = req</div>
+<div class="line"> </div>
+<div class="line"><span class="comment"># later inside the python config</span></div>
+<div class="line">my_proc = MyProcessor(<span class="stringliteral">&#39;my_proc&#39;</span>,5.0)</div>
+</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>Python's variable handling is very dynamic. For us, this means that we need to be very careful that the parameters in Python are spelled the same as the parameters in C++. In Python, the variables provided to <code>fire.cfg.Processor</code> (or defined in <code>__init__</code> for the last option) need to have <b>exactly</b> the same name as the parameter names requested in the constructor of the C++ processor.</dd></dl>
+<h2><a class="anchor" id="autotoc_md24"></a>
+Callback Ordering</h2>
+<p >The ordering of the callback functions is decided by the <a class="el" href="classfire_1_1Process.html#a9de0ff0b04bda2481ef194127ef3fbb1" title="Do the processing run.">Process::run</a> and is helpful to document here for users creating new Processors.</p>
+<ol type="1">
+<li>Constructor - before any processing begins, all of the processors are constructed and passed their configuration parameters.</li>
+<li>onProcessStart - before any processing begins but after the conditions providers are told the process is starting</li>
+<li>onFileOpen - <b>only if there are input files</b>, this is called before any events in the input file are processed</li>
+<li>beforeNewRun - called before conditions providers are given the run header when a new run is encountered (i.e. before processing begins when there are not input files or when the event header has a new run number when there are run numbers)</li>
+<li>onNewRun - called after conditions providers are given the run header</li>
+<li>process - called on each event</li>
+<li>onFileClose - <b>only if there are input files</b>, this is called after all events in the input file are processed</li>
+<li>onProcessEnd - all processing is done and the Processors are about to be destructed.</li>
+<li>Destructor - the processors are destructed automatically in the destruction of the core <a class="el" href="classfire_1_1Process.html" title="The central object managing the data processing.">Process</a> object </li>
+</ol>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ab2fc871f893086500941b33a47bacead" name="ab2fc871f893086500941b33a47bacead"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab2fc871f893086500941b33a47bacead">&#9670;&nbsp;</a></span>Processor()</h2>
@@ -223,10 +325,10 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>name_</b></td>
 
 <p>Configure the processor upon construction. </p>
 <p >The parameters a processor has access to are the member variables of the python class in the sequence that has class_name equal to the <a class="el" href="classfire_1_1Processor.html" title="Base class for all event processing components.">Processor</a> class name.</p>
+<p >This base class assumes the existence of an additional parameter 'name' for which a logger can be constructed and an error message can be labeled.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">ps</td><td>Parameter set to be used to configure this processor </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">p</td><td>handle to process </td></tr>
   </table>
   </dd>
 </dl>
@@ -290,7 +392,7 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>name_</b></td>
 <p >Marked 'final' to prevent derived classes from redefining this function and potentially abusing the handle to the current process.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">p</td><td>pointer to current <a class="el" href="classfire_1_1Process.html">Process</a> </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">p</td><td>pointer to current <a class="el" href="classfire_1_1Process.html" title="The central object managing the data processing.">Process</a> </td></tr>
   </table>
   </dd>
 </dl>
@@ -344,7 +446,7 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>name_</b></td>
         <tr>
           <td class="memname">void fire::Processor::fatalError </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramtype">const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;&#160;</td>
           <td class="paramname"><em>msg</em></td><td>)</td>
           <td></td>
         </tr>
@@ -380,7 +482,7 @@ template&lt;class T &gt; </div>
         <tr>
           <td class="memname">const T &amp; fire::Processor::getCondition </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramtype">const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;&#160;</td>
           <td class="paramname"><em>condition_name</em></td><td>)</td>
           <td></td>
         </tr>
@@ -394,7 +496,7 @@ template&lt;class T &gt; </div>
 
 <p>Access a conditions object for the current event. </p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classfire_1_1Conditions.html#a434cbb039762a354800995cb5a378d98" title="Primary request action for a conditions object.">Conditions::get</a> and <a class="el" href="classfire_1_1Conditions.html#a6398dc18c77debde4daa75a717884a96" title="Core request action for a conditions object.">Conditions::getConditionPtr</a> for how conditions objects are retrieved.</dd></dl>
-<h2><a class="anchor" id="autotoc_md18"></a>
+<h2><a class="anchor" id="autotoc_md25"></a>
 Usage</h2>
 <p >Inside of the process function, this function can be used following the example below. </p><div class="fragment"><div class="line"><span class="comment">// inside void process(Event&amp; event) for your Processor</span></div>
 <div class="line"><span class="keyword">const</span> <span class="keyword">auto</span>&amp; co = getCondition&lt;MyObjectType&gt;(<span class="stringliteral">&quot;ConditionName&quot;</span>);</div>
@@ -427,7 +529,7 @@ Usage</h2>
         <tr>
           <td class="memname">virtual void fire::Processor::onFileClose </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramtype">const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;&#160;</td>
           <td class="paramname"><em>file_name</em></td><td>)</td>
           <td></td>
         </tr>
@@ -462,7 +564,7 @@ Usage</h2>
         <tr>
           <td class="memname">virtual void fire::Processor::onFileOpen </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramtype">const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;&#160;</td>
           <td class="paramname"><em>file_name</em></td><td>)</td>
           <td></td>
         </tr>
@@ -510,7 +612,7 @@ Usage</h2>
 </div><div class="memdoc">
 
 <p>Callback for the <a class="el" href="classfire_1_1Processor.html" title="Base class for all event processing components.">Processor</a> to take any necessary action when the run being processed changes. </p>
-<p >This is called <em>after</em> any conditions providers are configured with the run header, so it can be used for internal book-keeping within the processor.</p>
+<p >This is called <em>after</em> any conditions providers are configured with the run header, so it can be used for internal book-keeping within the processor and it can be used to acquire conditions that do not change with respect to changing event contexts.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">runHeader</td><td>The <a class="el" href="classfire_1_1RunHeader.html" title="Container for run parameters.">RunHeader</a> containing run information. </td></tr>
@@ -575,7 +677,7 @@ Usage</h2>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramtype">const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;&#160;</td>
           <td class="paramname"><em>purpose</em> = <code>&quot;&quot;</code>&#160;</td>
         </tr>
         <tr>

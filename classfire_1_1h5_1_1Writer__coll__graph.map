@@ -1,0 +1,4 @@
+<map id="fire::h5::Writer" name="fire::h5::Writer">
+<area shape="rect" id="node1" title="Write the fire DataSets into a deterministic structure in the output HDF5 data file." alt="" coords="5,109,120,136"/>
+<area shape="rect" id="node2" href="/home/runner/work/fire/fire/docs/cppreference-doxygen-web.tag.xml$cpp/types/size_t.html" title=" " alt="" coords="19,5,107,32"/>
+</map>

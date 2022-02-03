@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.11.0</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.11.1</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -116,10 +116,10 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classfire_1_1h5_1_1Data.html" title="General data set.">h5::Data</a> specialization for <a class="el" href="classfire_1_1h5_1_1ParameterStorage.html" title="Provides dynamic parameter storage by interfacing between a map to variants storing parameters and a ...">ParameterStorage</a>  <a href="classfire_1_1h5_1_1Data_3_01ParameterStorage_01_4.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1h5_1_1Data_3_01std_1_1map_3_01KeyType_00_01ValType_01_4_01_4.html">Data&lt; std::map&lt; KeyType, ValType &gt; &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Our wrapper around std::map.  <a href="classfire_1_1h5_1_1Data_3_01std_1_1map_3_01KeyType_00_01ValType_01_4_01_4.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Our wrapper around <a class="elRef" href="http://en.cppreference.com/w/cpp/container/map.html">std::map</a>.  <a href="classfire_1_1h5_1_1Data_3_01std_1_1map_3_01KeyType_00_01ValType_01_4_01_4.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1h5_1_1Data_3_01std_1_1vector_3_01ContentType_01_4_01_4.html">Data&lt; std::vector&lt; ContentType &gt; &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Our wrapper around std::vector.  <a href="classfire_1_1h5_1_1Data_3_01std_1_1vector_3_01ContentType_01_4_01_4.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Our wrapper around <a class="elRef" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector</a>.  <a href="classfire_1_1h5_1_1Data_3_01std_1_1vector_3_01ContentType_01_4_01_4.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1h5_1_1ParameterStorage.html">ParameterStorage</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides dynamic parameter storage by interfacing between a map to variants storing parameters and a <a class="el" href="classfire_1_1h5_1_1Data.html" title="General data set.">h5::Data</a> secialization.  <a href="classfire_1_1h5_1_1ParameterStorage.html#details">More...</a><br /></td></tr>
@@ -134,7 +134,7 @@ Classes</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
 <tr class="memitem:abedc4863d160fcf7bbc75d683fd0c5ed"><td class="memTemplParams" colspan="2">template&lt;typename AtomicType &gt; </td></tr>
-<tr class="memitem:abedc4863d160fcf7bbc75d683fd0c5ed"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacefire_1_1h5.html#abedc4863d160fcf7bbc75d683fd0c5ed">is_atomic</a> = std::integral_constant&lt; bool, std::is_arithmetic&lt; AtomicType &gt;::value||std::is_same&lt; AtomicType, std::string &gt;::value &gt;</td></tr>
+<tr class="memitem:abedc4863d160fcf7bbc75d683fd0c5ed"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacefire_1_1h5.html#abedc4863d160fcf7bbc75d683fd0c5ed">is_atomic</a> = <a class="elRef" href="http://en.cppreference.com/w/cpp/types/integral_constant.html">std::integral_constant</a>&lt; bool, <a class="elRef" href="http://en.cppreference.com/w/cpp/types/is_arithmetic.html">std::is_arithmetic</a>&lt; AtomicType &gt;::value||<a class="elRef" href="http://en.cppreference.com/w/cpp/types/is_same.html">std::is_same</a>&lt; AtomicType, <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &gt;::value &gt;</td></tr>
 <tr class="memdesc:abedc4863d160fcf7bbc75d683fd0c5ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">HighFive supports many C++ "atomic" types that are used regularly.  <a href="namespacefire_1_1h5.html#abedc4863d160fcf7bbc75d683fd0c5ed">More...</a><br /></td></tr>
 <tr class="separator:abedc4863d160fcf7bbc75d683fd0c5ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -183,7 +183,7 @@ template&lt;typename AtomicType &gt; </td></tr>
 </ul>
 </li>
 </ol>
-<h2><a class="anchor" id="autotoc_md12"></a>
+<h2><a class="anchor" id="autotoc_md13"></a>
 The attach Method</h2>
 <p >This method is where you make the decision on which member variables of your class should be stored to or read from data files and how those variables are named. You do this using the <a class="el" href="classfire_1_1h5_1_1Data.html#a8a80d168d9355a199bbd8eafa95e6f51" title="Attach a member object from the our data handle.">fire::h5::Data&lt;DataType&gt;::attach</a> method. This is best illustrated with an example.</p>
 <div class="fragment"><div class="line"><span class="comment">// member_one_ and member_two_ are members of MyData</span></div>
@@ -191,7 +191,7 @@ The attach Method</h2>
 <div class="line">  d.<a class="code hl_function" href="classfire_1_1h5_1_1Data.html#a8a80d168d9355a199bbd8eafa95e6f51">attach</a>(<span class="stringliteral">&quot;first_member&quot;</span>, member_one_);</div>
 <div class="line">  d.<a class="code hl_function" href="classfire_1_1h5_1_1Data.html#a8a80d168d9355a199bbd8eafa95e6f51">attach</a>(<span class="stringliteral">&quot;another_member&quot;</span>, member_two_);</div>
 <div class="line">}</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md13"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md14"></a>
 Important Comments</h3>
 <ul>
 <li>The name of a variable on disk (the first argument) and the name of the variable in the class do not need to relate to each other; however, it is common to name them similarly so users of your data files aren't confused.</li>
@@ -199,10 +199,10 @@ Important Comments</h3>
 <li>Passing <a class="el" href="classfire_1_1h5_1_1Data.html" title="General data set.">h5::Data</a> as reference (i.e. with the <code>&amp;</code>) is necessary; otherwise, you would attach to a local copy and the real <a class="el" href="classfire_1_1h5_1_1Data.html" title="General data set.">h5::Data</a> wouldn't be attached to anything.</li>
 <li>The members of MyData you pass to <a class="el" href="classfire_1_1h5_1_1Data.html#a8a80d168d9355a199bbd8eafa95e6f51" title="Attach a member object from the our data handle.">h5::Data::attach</a> can be any class that <a class="el" href="namespacefire_1_1h5.html" title="serialization to and from HDF5 files">fire::h5</a> can handle. This includes the classes listed above or other classes you have defined following these rules.</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md14"></a>
+<h2><a class="anchor" id="autotoc_md15"></a>
 Full Example</h2>
 <p >Putting all of these notes together, below is an example class that will read/write the coordinate positions but won't record the variable that is calculated from them.</p>
-<p >This isn't an amazing example since <code>std::sqrt</code> is pretty fast, but you can perhaps imagine a class that has a time-expensive calculation that should only be done once per event but is also redundant and so it shouldn't waste disk space.</p>
+<p >This isn't an amazing example since <code><a class="elRef" href="http://en.cppreference.com/w/cpp/numeric/math/sqrt.html">std::sqrt</a></code> is pretty fast, but you can perhaps imagine a class that has a time-expensive calculation that should only be done once per event but is also redundant and so it shouldn't waste disk space.</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;fire/h5/Data.h&quot;</span></div>
 <div class="line"><span class="keyword">class </span>Point {</div>
 <div class="line">  <span class="keywordtype">double</span> x_,y_,z_,mag_;</div>
@@ -226,11 +226,12 @@ Full Example</h2>
 <div class="line">    }</div>
 <div class="line">  <span class="keywordtype">double</span> mag()<span class="keyword"> const </span>{</div>
 <div class="line">    <span class="keywordflow">if</span> (mag_ &lt; 0.) {</div>
-<div class="line">      mag_ = std::sqrt(x_*x_+y_*y_+z_*z_);</div>
+<div class="line">      mag_ = <a class="code hl_functionRef" href="http://en.cppreference.com/w/cpp/numeric/math/sqrt.html">std::sqrt</a>(x_*x_+y_*y_+z_*z_);</div>
 <div class="line">    }</div>
 <div class="line">    <span class="keywordflow">return</span> mag_;</div>
 <div class="line">  }</div>
 <div class="line">};</div>
+<div class="ttc" id="asqrt_html"><div class="ttname"><a href="http://en.cppreference.com/w/cpp/numeric/math/sqrt.html">std::sqrt</a></div><div class="ttdeci">T sqrt(T... args)</div></div>
 </div><!-- fragment --> </div><h2 class="groupheader">Typedef Documentation</h2>
 <a id="abedc4863d160fcf7bbc75d683fd0c5ed" name="abedc4863d160fcf7bbc75d683fd0c5ed"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abedc4863d160fcf7bbc75d683fd0c5ed">&#9670;&nbsp;</a></span>is_atomic</h2>
@@ -241,7 +242,7 @@ Full Example</h2>
 template&lt;typename AtomicType &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="namespacefire_1_1h5.html#abedc4863d160fcf7bbc75d683fd0c5ed">fire::h5::is_atomic</a> = typedef std::integral_constant&lt;bool, std::is_arithmetic&lt;AtomicType&gt;::value || std::is_same&lt;AtomicType, std::string&gt;::value&gt;</td>
+          <td class="memname">using <a class="el" href="namespacefire_1_1h5.html#abedc4863d160fcf7bbc75d683fd0c5ed">fire::h5::is_atomic</a> = typedef <a class="elRef" href="http://en.cppreference.com/w/cpp/types/integral_constant.html">std::integral_constant</a>&lt;bool, <a class="elRef" href="http://en.cppreference.com/w/cpp/types/is_arithmetic.html">std::is_arithmetic</a>&lt;AtomicType&gt;::value || <a class="elRef" href="http://en.cppreference.com/w/cpp/types/is_same.html">std::is_same</a>&lt;AtomicType, <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>&gt;::value&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">

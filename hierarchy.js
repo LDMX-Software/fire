@@ -37,7 +37,7 @@ var hierarchy =
     [ "fire::EventHeader", "classfire_1_1EventHeader.html", null ],
     [ "fire::Event::EventObject", "structfire_1_1Event_1_1EventObject.html", null ],
     [ "fire::Event::EventObjectTag", "classfire_1_1Event_1_1EventObjectTag.html", null ],
-    [ "std::exception", null, [
+    [ "std::exception", "http://en.cppreference.com/w/cpp/error/exception.html", [
       [ "fire::Exception", "classfire_1_1Exception.html", null ],
       [ "fire::Processor::AbortEventException", "classfire_1_1Processor_1_1AbortEventException.html", null ]
     ] ],

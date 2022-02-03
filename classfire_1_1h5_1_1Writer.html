@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.11.0</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.11.1</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -98,6 +98,12 @@ $(document).ready(function(){initNavTree('classfire_1_1h5_1_1Writer.html',''); i
  <a href="classfire_1_1h5_1_1Writer.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="Writer_8h_source.html">Writer.h</a>&gt;</code></p>
+<div class="dynheader">
+Collaboration diagram for fire::h5::Writer:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classfire_1_1h5_1_1Writer__coll__graph.svg" width="182" height="142"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
@@ -121,18 +127,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ad468b7d811dd727fd90c03e137de420e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flush the data to disk.  <a href="classfire_1_1h5_1_1Writer.html#ad468b7d811dd727fd90c03e137de420e">More...</a><br /></td></tr>
 <tr class="separator:ad468b7d811dd727fd90c03e137de420e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2d6d5a5665e9bdb08c3d6f89f551e572"><td class="memItemLeft" align="right" valign="top"><a id="a2d6d5a5665e9bdb08c3d6f89f551e572" name="a2d6d5a5665e9bdb08c3d6f89f551e572"></a>
-const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>name</b> () const</td></tr>
+const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>name</b> () const</td></tr>
 <tr class="memdesc:a2d6d5a5665e9bdb08c3d6f89f551e572"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of this file. <br /></td></tr>
 <tr class="separator:a2d6d5a5665e9bdb08c3d6f89f551e572"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab952374c3a0d0e0bec3b32278a69e5a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1h5_1_1Writer.html#ab952374c3a0d0e0bec3b32278a69e5a5">setTypeName</a> (const std::string &amp;full_obj_name, const std::string &amp;type)</td></tr>
+<tr class="memitem:ab952374c3a0d0e0bec3b32278a69e5a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1h5_1_1Writer.html#ab952374c3a0d0e0bec3b32278a69e5a5">setTypeName</a> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;full_obj_name, const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;type)</td></tr>
 <tr class="memdesc:ab952374c3a0d0e0bec3b32278a69e5a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the name of the type stored in this Group (or DataSet if atomic)  <a href="classfire_1_1h5_1_1Writer.html#ab952374c3a0d0e0bec3b32278a69e5a5">More...</a><br /></td></tr>
 <tr class="separator:ab952374c3a0d0e0bec3b32278a69e5a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a90b5720d915db80c6ce9c51b2ee602b4"><td class="memItemLeft" align="right" valign="top"><a id="a90b5720d915db80c6ce9c51b2ee602b4" name="a90b5720d915db80c6ce9c51b2ee602b4"></a>
-std::size_t&#160;</td><td class="memItemRight" valign="bottom"><b>entries</b> () const</td></tr>
+<a class="elRef" href="http://en.cppreference.com/w/cpp/types/size_t.html">std::size_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>entries</b> () const</td></tr>
 <tr class="memdesc:a90b5720d915db80c6ce9c51b2ee602b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of entries in the file. <br /></td></tr>
 <tr class="separator:a90b5720d915db80c6ce9c51b2ee602b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e2b05f893a2c17016d483d33a1b94c7"><td class="memTemplParams" colspan="2">template&lt;typename AtomicType &gt; </td></tr>
-<tr class="memitem:a7e2b05f893a2c17016d483d33a1b94c7"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classfire_1_1h5_1_1Writer.html#a7e2b05f893a2c17016d483d33a1b94c7">save</a> (const std::string &amp;path, const AtomicType &amp;val)</td></tr>
+<tr class="memitem:a7e2b05f893a2c17016d483d33a1b94c7"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classfire_1_1h5_1_1Writer.html#a7e2b05f893a2c17016d483d33a1b94c7">save</a> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;path, const AtomicType &amp;val)</td></tr>
 <tr class="memdesc:a7e2b05f893a2c17016d483d33a1b94c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save an atomic type into the dataset at the passed path.  <a href="classfire_1_1h5_1_1Writer.html#a7e2b05f893a2c17016d483d33a1b94c7">More...</a><br /></td></tr>
 <tr class="separator:a7e2b05f893a2c17016d483d33a1b94c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae00a611d0899552626478b00e1acbf60"><td class="memItemLeft" align="right" valign="top"><a id="ae00a611d0899552626478b00e1acbf60" name="ae00a611d0899552626478b00e1acbf60"></a>
@@ -159,21 +165,21 @@ HighFive::DataSpace&#160;</td><td class="memItemRight" valign="bottom"><b>space_
 <tr class="memdesc:a79fed74dd3ac5e52a12480eff9d9990b"><td class="mdescLeft">&#160;</td><td class="mdescRight">the dataspace shared amongst all of our datasets <br /></td></tr>
 <tr class="separator:a79fed74dd3ac5e52a12480eff9d9990b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a66b2cbf3cd5593fd4ca9006551f2f4a6"><td class="memItemLeft" align="right" valign="top"><a id="a66b2cbf3cd5593fd4ca9006551f2f4a6" name="a66b2cbf3cd5593fd4ca9006551f2f4a6"></a>
-std::size_t&#160;</td><td class="memItemRight" valign="bottom"><b>entries_</b></td></tr>
+<a class="elRef" href="http://en.cppreference.com/w/cpp/types/size_t.html">std::size_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>entries_</b></td></tr>
 <tr class="memdesc:a66b2cbf3cd5593fd4ca9006551f2f4a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">the expected number of entries in this file <br /></td></tr>
 <tr class="separator:a66b2cbf3cd5593fd4ca9006551f2f4a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d0024d0a08a584f2fd5579cc72582c8"><td class="memItemLeft" align="right" valign="top"><a id="a7d0024d0a08a584f2fd5579cc72582c8" name="a7d0024d0a08a584f2fd5579cc72582c8"></a>
-std::size_t&#160;</td><td class="memItemRight" valign="bottom"><b>rows_per_chunk_</b></td></tr>
+<a class="elRef" href="http://en.cppreference.com/w/cpp/types/size_t.html">std::size_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>rows_per_chunk_</b></td></tr>
 <tr class="memdesc:a7d0024d0a08a584f2fd5579cc72582c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">number of rows to keep in each chunk <br /></td></tr>
 <tr class="separator:a7d0024d0a08a584f2fd5579cc72582c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a46652074c5ef9ede2c8bce92ab30ee96"><td class="memItemLeft" align="right" valign="top"><a id="a46652074c5ef9ede2c8bce92ab30ee96" name="a46652074c5ef9ede2c8bce92ab30ee96"></a>
-std::unordered_map&lt; std::string, std::unique_ptr&lt; <a class="el" href="classfire_1_1h5_1_1Writer_1_1BufferHandle.html">BufferHandle</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>buffers_</b></td></tr>
+<a class="elRef" href="http://en.cppreference.com/w/cpp/container/unordered_map.html">std::unordered_map</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>, <a class="elRef" href="http://en.cppreference.com/w/cpp/memory/unique_ptr.html">std::unique_ptr</a>&lt; <a class="el" href="classfire_1_1h5_1_1Writer_1_1BufferHandle.html">BufferHandle</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>buffers_</b></td></tr>
 <tr class="memdesc:a46652074c5ef9ede2c8bce92ab30ee96"><td class="mdescLeft">&#160;</td><td class="mdescRight">our in-memory buffers for data to be written to disk <br /></td></tr>
 <tr class="separator:a46652074c5ef9ede2c8bce92ab30ee96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
 Friends</h2></td></tr>
-<tr class="memitem:a7cc2c48795e8903108d1835ba6d4054e"><td class="memItemLeft" align="right" valign="top">std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1h5_1_1Writer.html#a7cc2c48795e8903108d1835ba6d4054e">operator&lt;&lt;</a> (std::ostream &amp;s, const <a class="el" href="classfire_1_1h5_1_1Writer.html">Writer</a> &amp;w)</td></tr>
+<tr class="memitem:a7cc2c48795e8903108d1835ba6d4054e"><td class="memItemLeft" align="right" valign="top"><a class="elRef" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html">std::ostream</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1h5_1_1Writer.html#a7cc2c48795e8903108d1835ba6d4054e">operator&lt;&lt;</a> (<a class="elRef" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html">std::ostream</a> &amp;s, const <a class="el" href="classfire_1_1h5_1_1Writer.html">Writer</a> &amp;w)</td></tr>
 <tr class="memdesc:a7cc2c48795e8903108d1835ba6d4054e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stream this writer.  <a href="classfire_1_1h5_1_1Writer.html#a7cc2c48795e8903108d1835ba6d4054e">More...</a><br /></td></tr>
 <tr class="separator:a7cc2c48795e8903108d1835ba6d4054e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -254,7 +260,7 @@ template&lt;typename AtomicType &gt; </div>
         <tr>
           <td class="memname">void fire::h5::Writer::save </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramtype">const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;&#160;</td>
           <td class="paramname"><em>path</em>, </td>
         </tr>
         <tr>
@@ -281,7 +287,7 @@ template&lt;typename AtomicType &gt; </div>
 <p >If the path already has a <a class="el" href="classfire_1_1h5_1_1Writer_1_1Buffer.html" title="Buffer atomic data types in-memory for efficient disk operations.">Buffer</a>, we simply pass the new value to be saved into the <a class="el" href="classfire_1_1h5_1_1Writer_1_1Buffer.html" title="Buffer atomic data types in-memory for efficient disk operations.">Buffer</a>.</p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname">std::bad_cast</td><td>if mismatched type is passed to buffer </td></tr>
+    <tr><td class="paramname"><a class="elRef" href="http://en.cppreference.com/w/cpp/types/bad_cast.html">std::bad_cast</a></td><td>if mismatched type is passed to buffer </td></tr>
     <tr><td class="paramname">HighFive::DataSetException</td><td>if unable to create data set </td></tr>
   </table>
   </dd>
@@ -298,13 +304,13 @@ template&lt;typename AtomicType &gt; </div>
         <tr>
           <td class="memname">void fire::h5::Writer::setTypeName </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramtype">const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;&#160;</td>
           <td class="paramname"><em>full_obj_name</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramtype">const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;&#160;</td>
           <td class="paramname"><em>type</em>&#160;</td>
         </tr>
         <tr>
@@ -344,9 +350,9 @@ template&lt;typename AtomicType &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::ostream &amp; operator&lt;&lt; </td>
+          <td class="memname"><a class="elRef" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html">std::ostream</a> &amp; operator&lt;&lt; </td>
           <td>(</td>
-          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramtype"><a class="elRef" href="http://en.cppreference.com/w/cpp/io/basic_ostream.html">std::ostream</a> &amp;&#160;</td>
           <td class="paramname"><em>s</em>, </td>
         </tr>
         <tr>

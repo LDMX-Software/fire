@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.11.0</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.11.1</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -124,10 +124,10 @@ $(document).ready(function(){initNavTree('Logger_8h_source.html',''); initResiza
 <div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
 <div class="line"><a id="l00082" name="l00082"></a><span class="lineno"><a class="line" href="namespacefire_1_1logging.html#af31a24e73f3968047026401b1204867f">   82</a></span><span class="keyword">using</span> <a class="code hl_typedef" href="namespacefire_1_1logging.html#af31a24e73f3968047026401b1204867f">logger</a> = log::sources::severity_channel_logger_mt&lt;level, std::string&gt;;</div>
 <div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span><a class="code hl_typedef" href="namespacefire_1_1logging.html#af31a24e73f3968047026401b1204867f">logger</a> <a class="code hl_function" href="namespacefire_1_1logging.html#ad5b594fa0f717f0360eb1eaa54d570f1">makeLogger</a>(<span class="keyword">const</span> std::string&amp; name);</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span><a class="code hl_typedef" href="namespacefire_1_1logging.html#af31a24e73f3968047026401b1204867f">logger</a> <a class="code hl_function" href="namespacefire_1_1logging.html#ad5b594fa0f717f0360eb1eaa54d570f1">makeLogger</a>(<span class="keyword">const</span> <a class="code hl_classRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>&amp; name);</div>
 <div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
 <div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span><span class="keywordtype">void</span> <a class="code hl_function" href="namespacefire_1_1logging.html#a653442491fcecf0b0af6f7d9a78a0966">open</a>(<span class="keyword">const</span> <a class="code hl_enumeration" href="namespacefire_1_1logging.html#ac97b2d477a714cca17fa9cc9ac2a1726">level</a> termLevel, <span class="keyword">const</span> <a class="code hl_enumeration" href="namespacefire_1_1logging.html#ac97b2d477a714cca17fa9cc9ac2a1726">level</a> fileLevel,</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>          <span class="keyword">const</span> std::string&amp; fileName);</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>          <span class="keyword">const</span> <a class="code hl_classRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>&amp; fileName);</div>
 <div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
 <div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span><span class="keywordtype">void</span> <a class="code hl_function" href="namespacefire_1_1logging.html#abd6a4324a9eafe3c0354fd3db96a591d">close</a>();</div>
 <div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
@@ -139,6 +139,7 @@ $(document).ready(function(){initNavTree('Logger_8h_source.html',''); initResiza
 <div class="line"><a id="l00148" name="l00148"></a><span class="lineno"><a class="line" href="Logger_8h.html#ac15c907988e765526030c19d1f0b1113">  148</a></span><span class="preprocessor">#define fire_log(lvl) BOOST_LOG_SEV(theLog_, fire::logging::level::lvl)</span></div>
 <div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span> </div>
 <div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="preprocessor">#endif  </span><span class="comment">// FRAMEWORK_LOGGER_H</span></div>
+<div class="ttc" id="abasic_string_html"><div class="ttname"><a href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a></div></div>
 <div class="ttc" id="anamespacefire_1_1logging_html"><div class="ttname"><a href="namespacefire_1_1logging.html">fire::logging</a></div><div class="ttdoc">Housing for logging infrastructure.</div><div class="ttdef"><b>Definition:</b> Logger.h:38</div></div>
 <div class="ttc" id="anamespacefire_1_1logging_html_a653442491fcecf0b0af6f7d9a78a0966"><div class="ttname"><a href="namespacefire_1_1logging.html#a653442491fcecf0b0af6f7d9a78a0966">fire::logging::open</a></div><div class="ttdeci">void open(const level termLevel, const level fileLevel, const std::string &amp;fileName)</div><div class="ttdoc">Initialize the logging backend.</div><div class="ttdef"><b>Definition:</b> Logger.cxx:56</div></div>
 <div class="ttc" id="anamespacefire_1_1logging_html_abd6a4324a9eafe3c0354fd3db96a591d"><div class="ttname"><a href="namespacefire_1_1logging.html#abd6a4324a9eafe3c0354fd3db96a591d">fire::logging::close</a></div><div class="ttdeci">void close()</div><div class="ttdoc">Close up the logging.</div><div class="ttdef"><b>Definition:</b> Logger.cxx:131</div></div>

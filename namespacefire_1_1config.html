@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.11.0</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.11.1</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -103,10 +103,10 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aac38aec227842f4827629ee9f4402fda"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classfire_1_1config_1_1Parameters.html">Parameters</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefire_1_1config.html#aac38aec227842f4827629ee9f4402fda">run</a> (const std::string &amp;pythonScript, char *args[], int nargs)</td></tr>
+<tr class="memitem:aac38aec227842f4827629ee9f4402fda"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classfire_1_1config_1_1Parameters.html">Parameters</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefire_1_1config.html#aac38aec227842f4827629ee9f4402fda">run</a> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;pythonScript, char *args[], int nargs)</td></tr>
 <tr class="memdesc:aac38aec227842f4827629ee9f4402fda"><td class="mdescLeft">&#160;</td><td class="mdescRight">run the python script and extract the parameters  <a href="namespacefire_1_1config.html#aac38aec227842f4827629ee9f4402fda">More...</a><br /></td></tr>
 <tr class="separator:aac38aec227842f4827629ee9f4402fda"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a357687b65425121bac85fc24ae14d05a"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefire_1_1config.html#a357687b65425121bac85fc24ae14d05a">getPyString</a> (PyObject *pyObj)</td></tr>
+<tr class="memitem:a357687b65425121bac85fc24ae14d05a"><td class="memItemLeft" align="right" valign="top">static <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefire_1_1config.html#a357687b65425121bac85fc24ae14d05a">getPyString</a> (PyObject *pyObj)</td></tr>
 <tr class="memdesc:a357687b65425121bac85fc24ae14d05a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn the input python string object into a C++ string.  <a href="namespacefire_1_1config.html#a357687b65425121bac85fc24ae14d05a">More...</a><br /></td></tr>
 <tr class="separator:a357687b65425121bac85fc24ae14d05a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7fb7cb99bead596a8ea4c7dec63b2dba"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classfire_1_1config_1_1Parameters.html">Parameters</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefire_1_1config.html#a7fb7cb99bead596a8ea4c7dec63b2dba">getMembers</a> (PyObject *object)</td></tr>
@@ -115,7 +115,7 @@ Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:ab4e14850e6a5f848d54f0a5875df6952"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefire_1_1config.html#ab4e14850e6a5f848d54f0a5875df6952">root_object</a> = &quot;fire.cfg.Process.lastProcess&quot;</td></tr>
+<tr class="memitem:ab4e14850e6a5f848d54f0a5875df6952"><td class="memItemLeft" align="right" valign="top"><a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefire_1_1config.html#ab4e14850e6a5f848d54f0a5875df6952">root_object</a> = &quot;fire.cfg.Process.lastProcess&quot;</td></tr>
 <tr class="memdesc:ab4e14850e6a5f848d54f0a5875df6952"><td class="mdescLeft">&#160;</td><td class="mdescRight">namespace variable defining where to look for "root" object to kickoff the parameter extraction from python.  <a href="namespacefire_1_1config.html#ab4e14850e6a5f848d54f0a5875df6952">More...</a><br /></td></tr>
 <tr class="separator:ab4e14850e6a5f848d54f0a5875df6952"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -157,9 +157,9 @@ Variables</h2></td></tr>
 Empty lists are NOT read in because there is no way for us to know what type should be inside the list. This means list parameters that can be empty need to put in a default empty list value: <code>{}</code>.</dd></dl>
 <p>This recursive extraction method is able to handle the following cases.</p><ul>
 <li>User-defined classes (via the <code>__dict__</code> member) are extracted to <a class="el" href="classfire_1_1config_1_1Parameters.html" title="Class encapsulating parameters for configuring a processor.">Parameters</a></li>
-<li>one-dimensional lists whose entries all have the same type are extracted to <code>std::vector</code> of the type of the first entry in the list</li>
+<li>one-dimensional lists whose entries all have the same type are extracted to <code><a class="elRef" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector</a></code> of the type of the first entry in the list</li>
 <li><code>dict</code> objects are extracted to <a class="el" href="classfire_1_1config_1_1Parameters.html" title="Class encapsulating parameters for configuring a processor.">Parameters</a></li>
-<li>Python <code>str</code> are extracted to <code>std::string</code></li>
+<li>Python <code>str</code> are extracted to <code><a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a></code></li>
 <li>Python <code>int</code> are extracted to C++ <code>int</code></li>
 <li>Python <code>bool</code> are extracted to C++ <code>bool</code></li>
 <li>Python <code>float</code> are extracted to C++ <code>double</code></li>
@@ -188,7 +188,7 @@ Empty lists are NOT read in because there is no way for us to know what type sho
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static std::string fire::config::getPyString </td>
+          <td class="memname">static <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> fire::config::getPyString </td>
           <td>(</td>
           <td class="paramtype">PyObject *&#160;</td>
           <td class="paramname"><em>pyObj</em></td><td>)</td>
@@ -223,7 +223,7 @@ Empty lists are NOT read in because there is no way for us to know what type sho
         <tr>
           <td class="memname"><a class="el" href="classfire_1_1config_1_1Parameters.html">Parameters</a> fire::config::run </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramtype">const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;&#160;</td>
           <td class="paramname"><em>pythonScript</em>, </td>
         </tr>
         <tr>
@@ -251,11 +251,11 @@ Empty lists are NOT read in because there is no way for us to know what type sho
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
     <tr><td class="paramname"><a class="el" href="classfire_1_1Exception.html" title="Standard base exception class with some useful output information.">Exception</a></td><td>if the python script does not exit properly </td></tr>
-    <tr><td class="paramname"><a class="el" href="classfire_1_1Exception.html" title="Standard base exception class with some useful output information.">Exception</a></td><td>if any necessary components of the python configuration are missing. e.g. The <a class="el" href="classfire_1_1Process.html">Process</a> class or the different members of the lastProcess object.</td></tr>
+    <tr><td class="paramname"><a class="el" href="classfire_1_1Exception.html" title="Standard base exception class with some useful output information.">Exception</a></td><td>if any necessary components of the python configuration are missing. e.g. The <a class="el" href="classfire_1_1Process.html" title="The central object managing the data processing.">Process</a> class or the different members of the lastProcess object.</td></tr>
   </table>
   </dd>
 </dl>
-<p>The basic premise of this function is to execute the python configuration script. Then, <b>after the script has been executed</b>, all of the parameters for the <a class="el" href="classfire_1_1Process.html">Process</a> are gathered from python. The fact that the script has been executed means that the user can get up to a whole lot of shenanigans that can help them make their work more efficient.</p>
+<p>The basic premise of this function is to execute the python configuration script. Then, <b>after the script has been executed</b>, all of the parameters for the <a class="el" href="classfire_1_1Process.html" title="The central object managing the data processing.">Process</a> are gathered from python. The fact that the script has been executed means that the user can get up to a whole lot of shenanigans that can help them make their work more efficient.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">pythonScript</td><td>Filename location of the python script. </td></tr>
@@ -278,7 +278,7 @@ Empty lists are NOT read in because there is no way for us to know what type sho
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::string fire::config::root_object = &quot;fire.cfg.Process.lastProcess&quot;</td>
+          <td class="memname"><a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> fire::config::root_object = &quot;fire.cfg.Process.lastProcess&quot;</td>
         </tr>
       </table>
   </td>

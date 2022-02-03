@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.11.0</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.11.1</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -141,7 +141,7 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:af31a24e73f3968047026401b1204867f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefire_1_1logging.html#af31a24e73f3968047026401b1204867f">fire::logging::logger</a> = log::sources::severity_channel_logger_mt&lt; level, std::string &gt;</td></tr>
+<tr class="memitem:af31a24e73f3968047026401b1204867f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefire_1_1logging.html#af31a24e73f3968047026401b1204867f">fire::logging::logger</a> = log::sources::severity_channel_logger_mt&lt; level, <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &gt;</td></tr>
 <tr class="memdesc:af31a24e73f3968047026401b1204867f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Short names for boost::log.  <a href="namespacefire_1_1logging.html#af31a24e73f3968047026401b1204867f">More...</a><br /></td></tr>
 <tr class="separator:af31a24e73f3968047026401b1204867f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -164,10 +164,10 @@ Functions</h2></td></tr>
 <tr class="memitem:ae00d68d29d0e541a44ed4d4c8f94c13d"><td class="memItemLeft" align="right" valign="top">level&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefire_1_1logging.html#ae00d68d29d0e541a44ed4d4c8f94c13d">fire::logging::convertLevel</a> (int iLvl)</td></tr>
 <tr class="memdesc:ae00d68d29d0e541a44ed4d4c8f94c13d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert an integer to the severity level enum.  <a href="namespacefire_1_1logging.html#ae00d68d29d0e541a44ed4d4c8f94c13d">More...</a><br /></td></tr>
 <tr class="separator:ae00d68d29d0e541a44ed4d4c8f94c13d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad5b594fa0f717f0360eb1eaa54d570f1"><td class="memItemLeft" align="right" valign="top">logger&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefire_1_1logging.html#ad5b594fa0f717f0360eb1eaa54d570f1">fire::logging::makeLogger</a> (const std::string &amp;name)</td></tr>
+<tr class="memitem:ad5b594fa0f717f0360eb1eaa54d570f1"><td class="memItemLeft" align="right" valign="top">logger&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefire_1_1logging.html#ad5b594fa0f717f0360eb1eaa54d570f1">fire::logging::makeLogger</a> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;name)</td></tr>
 <tr class="memdesc:ad5b594fa0f717f0360eb1eaa54d570f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a logger for the user.  <a href="namespacefire_1_1logging.html#ad5b594fa0f717f0360eb1eaa54d570f1">More...</a><br /></td></tr>
 <tr class="separator:ad5b594fa0f717f0360eb1eaa54d570f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a653442491fcecf0b0af6f7d9a78a0966"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefire_1_1logging.html#a653442491fcecf0b0af6f7d9a78a0966">fire::logging::open</a> (const level termLevel, const level fileLevel, const std::string &amp;fileName)</td></tr>
+<tr class="memitem:a653442491fcecf0b0af6f7d9a78a0966"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefire_1_1logging.html#a653442491fcecf0b0af6f7d9a78a0966">fire::logging::open</a> (const level termLevel, const level fileLevel, const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;fileName)</td></tr>
 <tr class="memdesc:a653442491fcecf0b0af6f7d9a78a0966"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the logging backend.  <a href="namespacefire_1_1logging.html#a653442491fcecf0b0af6f7d9a78a0966">More...</a><br /></td></tr>
 <tr class="separator:a653442491fcecf0b0af6f7d9a78a0966"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abd6a4324a9eafe3c0354fd3db96a591d"><td class="memItemLeft" align="right" valign="top"><a id="abd6a4324a9eafe3c0354fd3db96a591d" name="abd6a4324a9eafe3c0354fd3db96a591d"></a>
@@ -191,7 +191,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>fire::logging::close<
 </div><div class="memdoc">
 
 <p>Necessary to get linking to work? </p>
-<h2><a class="anchor" id="autotoc_md17"></a>
+<h2><a class="anchor" id="autotoc_md18"></a>
 References</h2>
 <ul>
 <li><a href="https://stackoverflow.com/questions/23137637/linker-error-while-linking-boost-log-tutorial-undefined-references">Stackoverflow Question</a></li>

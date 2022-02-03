@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.11.0</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.11.1</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -95,19 +95,21 @@ $(document).ready(function(){initNavTree('Atomic_8h_source.html',''); initResiza
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno"><a class="line" href="namespacefire_1_1h5.html">    6</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacefire_1_1h5.html">fire::h5</a> {</div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> AtomicType&gt;</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="namespacefire_1_1h5.html#abedc4863d160fcf7bbc75d683fd0c5ed">   16</a></span><span class="keyword">using</span> <a class="code hl_typedef" href="namespacefire_1_1h5.html#abedc4863d160fcf7bbc75d683fd0c5ed">is_atomic</a> =</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    std::integral_constant&lt;bool,</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>                           std::is_arithmetic&lt;AtomicType&gt;::value ||</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>                               std::is_same&lt;AtomicType, std::string&gt;::value&gt;;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="namespacefire_1_1h5.html#abedc4863d160fcf7bbc75d683fd0c5ed">   16</a></span><span class="keyword">using</span> <a class="code hl_classRef" href="http://en.cppreference.com/w/cpp/types/integral_constant.html">is_atomic</a> =</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    <a class="code hl_classRef" href="http://en.cppreference.com/w/cpp/types/integral_constant.html">std::integral_constant</a>&lt;bool,</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>                           <a class="code hl_classRef" href="http://en.cppreference.com/w/cpp/types/is_arithmetic.html">std::is_arithmetic&lt;AtomicType&gt;::value</a> ||</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>                               <a class="code hl_classRef" href="http://en.cppreference.com/w/cpp/types/is_same.html">std::is_same&lt;AtomicType, std::string&gt;::value</a>&gt;;</div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> AtomicType&gt;</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="namespacefire_1_1h5.html#ac4aea77406ed2b47cdec0d7bdb08275e">   23</a></span><span class="keyword">inline</span> <span class="keyword">constexpr</span> <span class="keywordtype">bool</span> <a class="code hl_variable" href="namespacefire_1_1h5.html#ac4aea77406ed2b47cdec0d7bdb08275e">is_atomic_v</a> = <a class="code hl_typedef" href="namespacefire_1_1h5.html#abedc4863d160fcf7bbc75d683fd0c5ed">is_atomic&lt;AtomicType&gt;::value</a>;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="namespacefire_1_1h5.html#ac4aea77406ed2b47cdec0d7bdb08275e">   23</a></span><span class="keyword">inline</span> <span class="keyword">constexpr</span> <span class="keywordtype">bool</span> <a class="code hl_variable" href="namespacefire_1_1h5.html#ac4aea77406ed2b47cdec0d7bdb08275e">is_atomic_v</a> = <a class="code hl_classRef" href="http://en.cppreference.com/w/cpp/types/integral_constant.html">is_atomic&lt;AtomicType&gt;::value</a>;</div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>}  <span class="comment">// namespace fire::h5</span></div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="aintegral_constant_html"><div class="ttname"><a href="http://en.cppreference.com/w/cpp/types/integral_constant.html">std::integral_constant</a></div></div>
+<div class="ttc" id="ais_arithmetic_html"><div class="ttname"><a href="http://en.cppreference.com/w/cpp/types/is_arithmetic.html">std::is_arithmetic</a></div></div>
+<div class="ttc" id="ais_same_html"><div class="ttname"><a href="http://en.cppreference.com/w/cpp/types/is_same.html">std::is_same</a></div></div>
 <div class="ttc" id="anamespacefire_1_1h5_html"><div class="ttname"><a href="namespacefire_1_1h5.html">fire::h5</a></div><div class="ttdoc">serialization to and from HDF5 files</div><div class="ttdef"><b>Definition:</b> Atomic.h:6</div></div>
-<div class="ttc" id="anamespacefire_1_1h5_html_abedc4863d160fcf7bbc75d683fd0c5ed"><div class="ttname"><a href="namespacefire_1_1h5.html#abedc4863d160fcf7bbc75d683fd0c5ed">fire::h5::is_atomic</a></div><div class="ttdeci">std::integral_constant&lt; bool, std::is_arithmetic&lt; AtomicType &gt;::value||std::is_same&lt; AtomicType, std::string &gt;::value &gt; is_atomic</div><div class="ttdoc">HighFive supports many C++ &quot;atomic&quot; types that are used regularly.</div><div class="ttdef"><b>Definition:</b> Atomic.h:19</div></div>
 <div class="ttc" id="anamespacefire_1_1h5_html_ac4aea77406ed2b47cdec0d7bdb08275e"><div class="ttname"><a href="namespacefire_1_1h5.html#ac4aea77406ed2b47cdec0d7bdb08275e">fire::h5::is_atomic_v</a></div><div class="ttdeci">constexpr bool is_atomic_v</div><div class="ttdoc">shorthand for easier use</div><div class="ttdef"><b>Definition:</b> Atomic.h:23</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

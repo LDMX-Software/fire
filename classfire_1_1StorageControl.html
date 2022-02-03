@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.11.0</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.11.1</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -122,7 +122,7 @@ Public Member Functions</h2></td></tr>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>resetEventState</b> ()</td></tr>
 <tr class="memdesc:afd603cc45ab1ee6ba6269564545158f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the event-by-event state by removing any hints provided by processors during the previous event. <br /></td></tr>
 <tr class="separator:afd603cc45ab1ee6ba6269564545158f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8c5bcf0c709d9f31f21977949c3bbf2f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1StorageControl.html#a8c5bcf0c709d9f31f21977949c3bbf2f">addHint</a> (<a class="el" href="classfire_1_1StorageControl.html#a402b80c778174eb94974d044aa59fbc2">Hint</a> hint, const std::string &amp;purpose, const std::string &amp;processor_name)</td></tr>
+<tr class="memitem:a8c5bcf0c709d9f31f21977949c3bbf2f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1StorageControl.html#a8c5bcf0c709d9f31f21977949c3bbf2f">addHint</a> (<a class="el" href="classfire_1_1StorageControl.html#a402b80c778174eb94974d044aa59fbc2">Hint</a> hint, const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;purpose, const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;processor_name)</td></tr>
 <tr class="memdesc:a8c5bcf0c709d9f31f21977949c3bbf2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a storage hint for a given processor.  <a href="classfire_1_1StorageControl.html#a8c5bcf0c709d9f31f21977949c3bbf2f">More...</a><br /></td></tr>
 <tr class="separator:a8c5bcf0c709d9f31f21977949c3bbf2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1986fccc88aff30c884c2ad9ee4cae01"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1StorageControl.html#a1986fccc88aff30c884c2ad9ee4cae01">keepEvent</a> () const</td></tr>
@@ -135,11 +135,11 @@ Private Attributes</h2></td></tr>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>default_keep_</b> {true}</td></tr>
 <tr class="memdesc:a7240ee9ac02506397dff2cdbf8a5715a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default state for storage control. <br /></td></tr>
 <tr class="separator:a7240ee9ac02506397dff2cdbf8a5715a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a37628f6e28a8932e6e44007ba0929f01"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::pair&lt; std::regex, std::regex &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1StorageControl.html#a37628f6e28a8932e6e44007ba0929f01">rules_</a></td></tr>
+<tr class="memitem:a37628f6e28a8932e6e44007ba0929f01"><td class="memItemLeft" align="right" valign="top"><a class="elRef" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/utility/pair.html">std::pair</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/regex/basic_regex.html">std::regex</a>, <a class="elRef" href="http://en.cppreference.com/w/cpp/regex/basic_regex.html">std::regex</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1StorageControl.html#a37628f6e28a8932e6e44007ba0929f01">rules_</a></td></tr>
 <tr class="memdesc:a37628f6e28a8932e6e44007ba0929f01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Collection of rules allowing certain processors or purposes to be considered ("listened to") during the storage decision.  <a href="classfire_1_1StorageControl.html#a37628f6e28a8932e6e44007ba0929f01">More...</a><br /></td></tr>
 <tr class="separator:a37628f6e28a8932e6e44007ba0929f01"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a29080aeb8279e9eff838d326db99eb31"><td class="memItemLeft" align="right" valign="top"><a id="a29080aeb8279e9eff838d326db99eb31" name="a29080aeb8279e9eff838d326db99eb31"></a>
-std::vector&lt; <a class="el" href="classfire_1_1StorageControl.html#a402b80c778174eb94974d044aa59fbc2">Hint</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>hints_</b></td></tr>
+<a class="elRef" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector</a>&lt; <a class="el" href="classfire_1_1StorageControl.html#a402b80c778174eb94974d044aa59fbc2">Hint</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>hints_</b></td></tr>
 <tr class="memdesc:a29080aeb8279e9eff838d326db99eb31"><td class="mdescLeft">&#160;</td><td class="mdescRight">Collection of hints from the event processors. <br /></td></tr>
 <tr class="separator:a29080aeb8279e9eff838d326db99eb31"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -222,13 +222,13 @@ std::vector&lt; <a class="el" href="classfire_1_1StorageControl.html#a402b80c778
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramtype">const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;&#160;</td>
           <td class="paramname"><em>purpose</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramtype">const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;&#160;</td>
           <td class="paramname"><em>processor_name</em>&#160;</td>
         </tr>
         <tr>
@@ -291,7 +291,7 @@ std::vector&lt; <a class="el" href="classfire_1_1StorageControl.html#a402b80c778
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;std::pair&lt;std::regex, std::regex&gt; &gt; fire::StorageControl::rules_</td>
+          <td class="memname"><a class="elRef" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector</a>&lt;<a class="elRef" href="http://en.cppreference.com/w/cpp/utility/pair.html">std::pair</a>&lt;<a class="elRef" href="http://en.cppreference.com/w/cpp/regex/basic_regex.html">std::regex</a>, <a class="elRef" href="http://en.cppreference.com/w/cpp/regex/basic_regex.html">std::regex</a>&gt; &gt; fire::StorageControl::rules_</td>
         </tr>
       </table>
   </td>

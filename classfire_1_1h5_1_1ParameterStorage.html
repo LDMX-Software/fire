@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.11.0</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.11.1</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -101,11 +101,11 @@ $(document).ready(function(){initNavTree('classfire_1_1h5_1_1ParameterStorage.ht
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a4ac79dbb8228fc19a8f61184df40afaa"><td class="memTemplParams" colspan="2">template&lt;typename ParameterType &gt; </td></tr>
-<tr class="memitem:a4ac79dbb8228fc19a8f61184df40afaa"><td class="memTemplItemLeft" align="right" valign="top">const ParameterType &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classfire_1_1h5_1_1ParameterStorage.html#a4ac79dbb8228fc19a8f61184df40afaa">get</a> (const std::string &amp;name) const</td></tr>
+<tr class="memitem:a4ac79dbb8228fc19a8f61184df40afaa"><td class="memTemplItemLeft" align="right" valign="top">const ParameterType &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classfire_1_1h5_1_1ParameterStorage.html#a4ac79dbb8228fc19a8f61184df40afaa">get</a> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;name) const</td></tr>
 <tr class="memdesc:a4ac79dbb8228fc19a8f61184df40afaa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a parameter corresponding to the input name.  <a href="classfire_1_1h5_1_1ParameterStorage.html#a4ac79dbb8228fc19a8f61184df40afaa">More...</a><br /></td></tr>
 <tr class="separator:a4ac79dbb8228fc19a8f61184df40afaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a127be822c9453261bf9488415c41853c"><td class="memTemplParams" colspan="2">template&lt;typename ParameterType &gt; </td></tr>
-<tr class="memitem:a127be822c9453261bf9488415c41853c"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classfire_1_1h5_1_1ParameterStorage.html#a127be822c9453261bf9488415c41853c">set</a> (const std::string &amp;name, const ParameterType &amp;val)</td></tr>
+<tr class="memitem:a127be822c9453261bf9488415c41853c"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classfire_1_1h5_1_1ParameterStorage.html#a127be822c9453261bf9488415c41853c">set</a> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;name, const ParameterType &amp;val)</td></tr>
 <tr class="memdesc:a127be822c9453261bf9488415c41853c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a parameter to be a specific value.  <a href="classfire_1_1h5_1_1ParameterStorage.html#a127be822c9453261bf9488415c41853c">More...</a><br /></td></tr>
 <tr class="separator:a127be822c9453261bf9488415c41853c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa11fc30f332d08e3f5d1d5818e43f63d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1h5_1_1ParameterStorage.html#aa11fc30f332d08e3f5d1d5818e43f63d">clear</a> ()</td></tr>
@@ -115,7 +115,7 @@ Public Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:a8e5ab3bf4be39d5461d71b4bf63802f9"><td class="memItemLeft" align="right" valign="top"><a id="a8e5ab3bf4be39d5461d71b4bf63802f9" name="a8e5ab3bf4be39d5461d71b4bf63802f9"></a>
-std::unordered_map&lt; std::string, std::variant&lt; int, float, std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>parameters_</b></td></tr>
+<a class="elRef" href="http://en.cppreference.com/w/cpp/container/unordered_map.html">std::unordered_map</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>, std::variant&lt; int, float, <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>parameters_</b></td></tr>
 <tr class="memdesc:a8e5ab3bf4be39d5461d71b4bf63802f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">three types of parameters are allowed: int, float, string <br /></td></tr>
 <tr class="separator:a8e5ab3bf4be39d5461d71b4bf63802f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -130,7 +130,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>Data&lt; ParameterSt
 <div class="textblock"><p >Provides dynamic parameter storage by interfacing between a map to variants storing parameters and a <a class="el" href="classfire_1_1h5_1_1Data.html" title="General data set.">h5::Data</a> secialization. </p>
 <p >This class does some pretty absurd nonsense in order to be able to store a dynamic set of parameters of various types. The type casting necessary to load and save the data stored within this object does negatively impact performance, so this class should be used sparingly. Moreover, the <a class="el" href="classfire_1_1h5_1_1Data_3_01ParameterStorage_01_4.html#ac2acbb895ab0b0eb3d74c11953122cfc" title="load the next entry of ParameterStorage from disk into memory">h5::Data&lt;ParameterStorage&gt;::load</a> mechanic only reads in new parameters into the map from disk on the first load call (it continues to load values). This prevents <a class="el" href="classfire_1_1h5_1_1ParameterStorage.html" title="Provides dynamic parameter storage by interfacing between a map to variants storing parameters and a ...">ParameterStorage</a> from being usable by normal event objects whose data set names may change between input files due to changing pass names.</p>
 <p >Currently, it is only used within the <a class="el" href="classfire_1_1EventHeader.html" title="Header information of an event such as event number and timestamp.">fire::EventHeader</a> and the <a class="el" href="classfire_1_1RunHeader.html" title="Container for run parameters.">fire::RunHeader</a> and users of fire are discouraged from using it within their own classes.</p>
-<p ><a class="el" href="classfire_1_1h5_1_1ParameterStorage.html" title="Provides dynamic parameter storage by interfacing between a map to variants storing parameters and a ...">ParameterStorage</a> only supports three atomic types (int, float, and std::string). This is just to keep the code relatively simple. </p>
+<p ><a class="el" href="classfire_1_1h5_1_1ParameterStorage.html" title="Provides dynamic parameter storage by interfacing between a map to variants storing parameters and a ...">ParameterStorage</a> only supports three atomic types (int, float, and <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>). This is just to keep the code relatively simple. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="aa11fc30f332d08e3f5d1d5818e43f63d" name="aa11fc30f332d08e3f5d1d5818e43f63d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa11fc30f332d08e3f5d1d5818e43f63d">&#9670;&nbsp;</a></span>clear()</h2>
@@ -148,7 +148,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>Data&lt; ParameterSt
 </div><div class="memdoc">
 
 <p>clear the parameters </p>
-<p >We don't clear the container of parameters, we clear them individually by setting them to the numeric_limits minimum or clearing the std::string.</p>
+<p >We don't clear the container of parameters, we clear them individually by setting them to the numeric_limits minimum or clearing the <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>.</p>
 <p >This is to help minimize the save/load type deduction processes that are necessary within <a class="el" href="classfire_1_1h5_1_1Data_3_01ParameterStorage_01_4.html" title="h5::Data specialization for ParameterStorage">h5::Data&lt;ParameterStorage&gt;</a>. </p>
 
 </div>
@@ -167,7 +167,7 @@ template&lt;typename ParameterType &gt; </div>
         <tr>
           <td class="memname">const ParameterType &amp; fire::h5::ParameterStorage::get </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramtype">const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;&#160;</td>
           <td class="paramname"><em>name</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -187,7 +187,7 @@ template&lt;typename ParameterType &gt; </div>
   </table>
   </dd>
 </dl>
-<h3><a class="anchor" id="autotoc_md15"></a>
+<h3><a class="anchor" id="autotoc_md16"></a>
 usage</h3>
 <p >It is recomended to use auto to avoid code repitition. </p><div class="fragment"><div class="line"><span class="comment">// ps is a ParameterStorage instance that already has &quot;one&quot; in it.</span></div>
 <div class="line"><span class="keyword">auto</span> one = ps.get&lt;<span class="keywordtype">float</span>&gt;(<span class="stringliteral">&quot;one&quot;</span>);</div>
@@ -221,7 +221,7 @@ template&lt;typename ParameterType &gt; </div>
         <tr>
           <td class="memname">void fire::h5::ParameterStorage::set </td>
           <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramtype">const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;&#160;</td>
           <td class="paramname"><em>name</em>, </td>
         </tr>
         <tr>
@@ -245,7 +245,7 @@ template&lt;typename ParameterType &gt; </div>
 
 <p>Set a parameter to be a specific value. </p>
 <dl class="section note"><dt>Note</dt><dd>We do not check if another parameter is being overwritten.</dd></dl>
-<h3><a class="anchor" id="autotoc_md16"></a>
+<h3><a class="anchor" id="autotoc_md17"></a>
 usage</h3>
 <p >With C++17's argument type deduction feature, the template parameter can be left out. </p><div class="fragment"><div class="line">ParameterStorage ps;</div>
 <div class="line"><span class="comment">// these two are the same</span></div>
