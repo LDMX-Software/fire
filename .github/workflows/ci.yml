@@ -141,8 +141,8 @@ jobs:
         if-no-files-found: error
 
   update-docs:
-    needs: test
-    if: startsWith(github.ref, 'refs/tags/v')
+    #needs: test
+    #if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-20.04
     steps:
       -
@@ -161,10 +161,25 @@ jobs:
           ln -s doxygen-1.9.2/bin/doxygen doxygen
       - 
         name: set version
-        run: echo "PROJECT_NUMBER = `git describe --tags`" | tee -a docs/doxyfile
+        run: |
+          _version_tag=$(git describe --tags)
+          echo ${_version_tag}
+          echo "PROJECT_NUMBER = ${_version_tag}" >> docs/doxyfile
+          echo "release = '${_version_tag}'" | tee -a docs/python/conf.py
       - 
         name: run doxygen
         run: ./doxygen docs/doxyfile
+      -
+        name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      -
+        name: Install Doc Generation Requirements
+        run: python -m pip install --upgrade Sphinx
+      -
+        name: Build Python Package Docs
+        run: sphinx-build docs/python docs/html/python
       - 
         name: publish generated content
         uses: tsunematsu21/actions-publish-gh-pages@v1.0.1
