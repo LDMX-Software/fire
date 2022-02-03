@@ -48,10 +48,8 @@ void loadLibrary(const std::string& libname);
  * @tparam Prototype the type of object that this factory creates.
  *    This should be the base class that all types in this factory derive from.
  * @tparam PrototypePtr the type of pointer to the object
- *    By defeault, we use 
- *    [`std::unique_ptr`](https://en.cppreference.com/w/cpp/memory/unique_ptr)
- *    for good memory management but `std::shared_ptr` is another
- *    alternative provided by the standard libraries.
+ *    By defeault, we use std::unique_ptr for good memory management but 
+ *    std::shared_ptr is another alternative provided by the standard libraries.
  *    The only requirement for this type is that it acts as a pointer
  *    to the Prototype class and can be constructed with a pointer to
  *    the derived class.
@@ -109,7 +107,7 @@ void loadLibrary(const std::string& libname);
  *
  * ### A Prototype LibraryEntry
  * This `LibraryEntry` prototype class satisfies our requirements.
- * It also defines a helpful "delcaration" macro for derived classes to use.
+ * It also defines a helpful "declaration" macro for derived classes to use.
  * ```cpp
  * // LibraryEntry.hpp
  * #ifndef LIBRARYENTRY_HPP
