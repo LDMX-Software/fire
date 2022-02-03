@@ -1,10 +1,19 @@
 fire.cfg package
 ================
 
-fire.cfg.ConditionsProvider class
----------------------------------
+fire.cfg.Process class
+----------------------
 
-.. autoclass:: fire.cfg.ConditionsProvider
+.. autoclass:: fire.cfg.Process
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :private-members:
+
+fire.cfg.Processor class
+------------------------
+
+.. autoclass:: fire.cfg.Processor
    :members:
    :undoc-members:
    :show-inheritance:
@@ -19,19 +28,10 @@ fire.cfg.OutputFile class
    :show-inheritance:
    :private-members:
 
-fire.cfg.Process class
-----------------------
+fire.cfg.ConditionsProvider class
+---------------------------------
 
-.. autoclass:: fire.cfg.Process
-   :members:
-   :undoc-members:
-   :show-inheritance:
-   :private-members:
-
-fire.cfg.Processor class
-------------------------
-
-.. autoclass:: fire.cfg.Processor
+.. autoclass:: fire.cfg.ConditionsProvider
    :members:
    :undoc-members:
    :show-inheritance:
@@ -57,6 +57,15 @@ fire.cfg.\_storage module
 -------------------------
 
 .. automodule:: fire.cfg._storage
+   :members:
+   :undoc-members:
+   :show-inheritance:
+   :private-members:
+
+fire.cfg.\_conditions module
+----------------------------
+
+.. autoclass:: fire.cfg._conditions.Conditions
    :members:
    :undoc-members:
    :show-inheritance:
