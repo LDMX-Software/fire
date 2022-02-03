@@ -21,9 +21,8 @@ namespace fire::config {
  * Class encapsulating parameters for configuring a processor.
  *
  * The storage of arbitrary parameters recursively is done using a map
- * from parameter names (`std::string`) to parameter values. The values
- * are stored in [`std::any`](https://en.cppreference.com/w/cpp/utility/any) 
- * which allows the user to store any object they wish 
+ * from parameter names (std::string) to parameter values. The values
+ * are stored in std::any which allows the user to store any object they wish 
  * in a memory-safe environment.
  */
 class Parameters {

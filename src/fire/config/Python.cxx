@@ -22,7 +22,7 @@ namespace fire {
 namespace config {
 
 /**
- * Turn the input python string object into a C++ string.
+ * Turn the input python string object into a std::string.
  *
  * Helpful to condense down the multi-line nature of
  * the python3 code.
@@ -43,7 +43,7 @@ static std::string getPyString(PyObject* pyObj) {
  *
  * Iterates through the object's dictionary and translates the objects inside
  * of it into the type-specified C++ equivalents, then puts these
- * objects into a STL map that can be passed to the Parameters class.
+ * objects into an instance of the Parameters class.
  *
  * This function is recursive. If a non-base type is encountered,
  * we pass it back along to this function to translate it's own dictionary.
@@ -68,9 +68,9 @@ static std::string getPyString(PyObject* pyObj) {
  * This recursive extraction method is able to handle the following cases.
  * - User-defined classes (via the `__dict__` member) are extracted to Parameters
  * - one-dimensional lists whose entries all have the same type are extracted
- *   to `std::vector` of the type of the first entry in the list
+ *   to std::vector of the type of the first entry in the list
  * - `dict` objects are extracted to Parameters
- * - Python `str` are extracted to `std::string`
+ * - Python `str` are extracted to std::string
  * - Python `int` are extracted to C++ `int`
  * - Python `bool` are extracted to C++ `bool`
  * - Python `float` are extracted to C++ `double`

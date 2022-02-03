@@ -8,7 +8,11 @@
  *
  * this namespace is focused on holding the necessary
  * functions to run and extract the configuration parameters
- * from a python script.
+ * from a python script. The documentation here is focused
+ * on the C++-side of the configuration - i.e. the translation
+ * of Python objects into their C++ counterparts. For documentation
+ * on the Python package used to configure fire, refer
+ * to fire's \pythonpackage.
  */
 namespace fire::config {
 
