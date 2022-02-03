@@ -1,0 +1,723 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>fire.cfg package &#8212; fire v0.11.1-8-gb144efd documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/bizstyle.css" />
+    
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="fire package" href="fire.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="fire.html" title="fire package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">fire v0.11.1-8-gb144efd documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="fire.html" accesskey="U">fire package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">fire.cfg package</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="fire-cfg-package">
+<h1>fire.cfg package<a class="headerlink" href="#fire-cfg-package" title="Permalink to this headline">¶</a></h1>
+<section id="fire-cfg-conditionsprovider-class">
+<h2>fire.cfg.ConditionsProvider class<a class="headerlink" href="#fire-cfg-conditionsprovider-class" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="fire.cfg.ConditionsProvider">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fire.cfg.</span></span><span class="sig-name descname"><span class="pre">ConditionsProvider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">library</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fire.cfg.ConditionsProvider" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A ConditionsProvider</p>
+<p>This object contains the parameters that are necessary for
+a fire::ConditionsProvider to be configured.</p>
+<p>In this constructor we also do two helpful processes.
+1. We append the module that this provider is in to the list of libraries to load
+2. We declare this provider so that the Process “knows” it exists and will load it into the run</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obj_name</strong> (<em>str</em>) – Name of the object this provider provides</p></li>
+<li><p><strong>class_name</strong> (<em>str</em>) – Name (including namespace) of the C++ class of the provider</p></li>
+<li><p><strong>module</strong> (<em>str</em>) – Name of module that this COP is compiled into (e.g. Ecal or EventProc)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.cfg.ConditionsProvider.tag_name">
+<span class="sig-name descname"><span class="pre">tag_name</span></span><a class="headerlink" href="#fire.cfg.ConditionsProvider.tag_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tag which identifies the generation of information</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#fire.cfg.Process.addModule" title="fire.cfg.Process.addModule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fire.cfg.Process.addModule</span></code></a></dt><dd><p>how modules are interpreted as libraries to load</p>
+</dd>
+<dt><a class="reference internal" href="#fire.cfg.Process.declareConditionsProvider" title="fire.cfg.Process.declareConditionsProvider"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fire.cfg.Process.declareConditionsProvider</span></code></a></dt><dd><p>how COPs are registered</p>
+</dd>
+</dl>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="fire.cfg.ConditionsProvider.setTag">
+<span class="sig-name descname"><span class="pre">setTag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">newtag</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fire.cfg.ConditionsProvider.setTag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the tag generation of the Conditions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>newtag</strong> (<em>str</em>) – Tag for generation of conditions</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="fire-cfg-outputfile-class">
+<h2>fire.cfg.OutputFile class<a class="headerlink" href="#fire-cfg-outputfile-class" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="fire.cfg.OutputFile">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fire.cfg.</span></span><span class="sig-name descname"><span class="pre">OutputFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rows_per_chunk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compression_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fire.cfg.OutputFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Configuration for writing an output file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – Name of file to write</p></li>
+<li><p><strong>rows_per_chunk</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of “rows” in the output file to “chunk” together</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="fire-cfg-process-class">
+<h2>fire.cfg.Process class<a class="headerlink" href="#fire-cfg-process-class" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="fire.cfg.Process">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fire.cfg.</span></span><span class="sig-name descname"><span class="pre">Process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pass_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fire.cfg.Process" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Process configuration object</p>
+<p>The python object that stores the necessary parameters for configuring
+a Process for ldmx-app to execute.</p>
+<p>Upon construction, the class-wide reference lastProcess is set
+and the rest of the attributes are set to sensible defaults.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pass_name</strong> (<em>str</em>) – Short reference name for this run of the process</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.cfg.Process.lastProcess">
+<span class="sig-name descname"><span class="pre">lastProcess</span></span><a class="headerlink" href="#fire.cfg.Process.lastProcess" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class-wide reference to the last Process object to be constructed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#fire.cfg.Process" title="fire.cfg.Process">Process</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.cfg.Process.event_limit">
+<span class="sig-name descname"><span class="pre">event_limit</span></span><a class="headerlink" href="#fire.cfg.Process.event_limit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum number events to process</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.cfg.Process.max_tries">
+<span class="sig-name descname"><span class="pre">max_tries</span></span><a class="headerlink" href="#fire.cfg.Process.max_tries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum number of attempts to make in a row before giving up on an event.
+Only used in Production Mode (no input files)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.cfg.Process.run">
+<span class="sig-name descname"><span class="pre">run</span></span><a class="headerlink" href="#fire.cfg.Process.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run number for this process</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.cfg.Process.input_files">
+<span class="sig-name descname"><span class="pre">input_files</span></span><a class="headerlink" href="#fire.cfg.Process.input_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>Input files to read in event data from and process</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list of strings</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.cfg.Process.output_file">
+<span class="sig-name descname"><span class="pre">output_file</span></span><a class="headerlink" href="#fire.cfg.Process.output_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Output file to write out event data to after processing</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#fire.cfg.OutputFile" title="fire.cfg.OutputFile">OutputFile</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.cfg.Process.storage">
+<span class="sig-name descname"><span class="pre">storage</span></span><a class="headerlink" href="#fire.cfg.Process.storage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configuration of veto-ing decision maker</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#fire.cfg._storage.StorageControl" title="fire.cfg._storage.StorageControl">StorageControl</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.cfg.Process.sequence">
+<span class="sig-name descname"><span class="pre">sequence</span></span><a class="headerlink" href="#fire.cfg.Process.sequence" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of event processors to pass the event bus objects to</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list of Producers and Analyzers</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.cfg.Process.drop_keep_rules">
+<span class="sig-name descname"><span class="pre">drop_keep_rules</span></span><a class="headerlink" href="#fire.cfg.Process.drop_keep_rules" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of rules to keep or drop objects from the event bus</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list of DropKeepRule</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.cfg.Process.libraries">
+<span class="sig-name descname"><span class="pre">libraries</span></span><a class="headerlink" href="#fire.cfg.Process.libraries" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of libraries to load before attempting to build any processors</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list of strings</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.cfg.Process.log_frequency">
+<span class="sig-name descname"><span class="pre">log_frequency</span></span><a class="headerlink" href="#fire.cfg.Process.log_frequency" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print the event number whenever its modulus with this frequency is zero</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.cfg.Process.term_level">
+<span class="sig-name descname"><span class="pre">term_level</span></span><a class="headerlink" href="#fire.cfg.Process.term_level" title="Permalink to this definition">¶</a></dt>
+<dd><p>Minimum severity of log messages to print to terminal: 0 (debug) - 4 (fatal)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.cfg.Process.file_level">
+<span class="sig-name descname"><span class="pre">file_level</span></span><a class="headerlink" href="#fire.cfg.Process.file_level" title="Permalink to this definition">¶</a></dt>
+<dd><p>Minimum severity of log messages to print to file: 0 (debug) - 4 (fatal)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.cfg.Process.log_file">
+<span class="sig-name descname"><span class="pre">log_file</span></span><a class="headerlink" href="#fire.cfg.Process.log_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>File to print log messages to, won’t setup file logging if this parameter is not set</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.cfg.Process.conditions">
+<span class="sig-name descname"><span class="pre">conditions</span></span><a class="headerlink" href="#fire.cfg.Process.conditions" title="Permalink to this definition">¶</a></dt>
+<dd><p>System handling providers as well as the global tag</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Conditions</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.cfg.Process.rnss">
+<span class="sig-name descname"><span class="pre">rnss</span></span><a class="headerlink" href="#fire.cfg.Process.rnss" title="Permalink to this definition">¶</a></dt>
+<dd><p>conditions object that provides random number seeds in a deterministic way</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#fire.cfg._rnss.RandomNumberSeedService" title="fire.cfg._rnss.RandomNumberSeedService">RandomNumberSeedService</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">fire.cfg.Producer</span></code></dt><dd><p>one type of event processor</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">fire.cfg.Analyzer</span></code></dt><dd><p>the other type of event processor</p>
+</dd>
+</dl>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="fire.cfg.Process.addLibrary">
+<span class="sig-name descname"><span class="pre">addLibrary</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fire.cfg.Process.addLibrary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a library to the list of dynamically loaded libraries</p>
+<p>A process object must already have been created.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>lib</strong> (<em>str</em>) – name of library to load</p>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<ul class="simple">
+<li><p>Will exit the script if a process object hasn’t been defined yet.</p></li>
+</ul>
+</div>
+<p class="rubric">Examples</p>
+<p>fire.cfg.Process.addLibrary( ‘libMyModule.so’ )</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fire.cfg.Process.addModule">
+<span class="sig-name descname"><span class="pre">addModule</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fire.cfg.Process.addModule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a module to the list of dynamically loaded libraries</p>
+<p>A process object must already have been created.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>We assume that the libraries are prefixed with ‘lib’ and
+have the ‘.so’ extension. This limits the usefulness of this
+function to Linux systems.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>module</strong> (<em>str</em>) – Name of module to load as a library</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#fire.cfg.Process.addLibrary" title="fire.cfg.Process.addLibrary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Process.addLibrary</span></code></a></p>
+</div>
+<p class="rubric">Examples</p>
+<p>You can use this function to load a general module</p>
+<blockquote>
+<div><p>addModule(‘MyModule’)</p>
+</div></blockquote>
+<p>With the string substitutions that are made, you can
+refer to submodules with cmake, C++, or the library
+syntax. The following calls are all equivalent.</p>
+<blockquote>
+<div><p>addModule(‘MyModule/Event’)
+addModule(‘MyModule::Event’)
+addModule(‘MyModule_Event’)</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fire.cfg.Process.declareConditionsProvider">
+<span class="sig-name descname"><span class="pre">declareConditionsProvider</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fire.cfg.Process.declareConditionsProvider" title="Permalink to this definition">¶</a></dt>
+<dd><p>Declare a conditions object provider to be loaded with the process</p>
+<p>A process object must already have been created.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cp</strong> (<a class="reference internal" href="#fire.cfg.ConditionsProvider" title="fire.cfg.ConditionsProvider"><em>ConditionsProvider</em></a>) – provider to load with the process</p>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<ul class="simple">
+<li><p>Will exit the script if a process object hasn’t been defined yet.</p></li>
+<li><p>Overrides an already declared COP with the passed COP if they are equal</p></li>
+</ul>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fire.cfg.Process.drop">
+<span class="sig-name descname"><span class="pre">drop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">regex</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fire.cfg.Process.drop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a regex rule for dropping event objects whose name matches the regex</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fire.cfg.Process.inputDir">
+<span class="sig-name descname"><span class="pre">inputDir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">indir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ext</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'h5'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fire.cfg.Process.inputDir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scan the input directory and make a list of input root files to read from it</p>
+<p>Lists all files ending in ‘.root’ in the input directory (not recursive).
+Extends the input_files list by these files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>indir</strong> (<em>str</em>) – Path to directory of event files to read in</p></li>
+<li><p><strong>ext</strong> (<em>str</em><em>, </em><em>optional</em>) – Filter by the input extension string, default: ‘h5’</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fire.cfg.Process.keep">
+<span class="sig-name descname"><span class="pre">keep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">regex</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fire.cfg.Process.keep" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a regex rule for keeping event objects whose name matches the regex</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">lastProcess</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fire.cfg.Process.parameterDump">
+<span class="sig-name descname"><span class="pre">parameterDump</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fire.cfg.Process.parameterDump" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recursively extract all configuration parameters for this process</p>
+<p>Only includes objects somehow attached to the process.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fire.cfg.Process.pause">
+<span class="sig-name descname"><span class="pre">pause</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fire.cfg.Process.pause" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print this Process and wait for user confirmation to continue</p>
+<p>Prints the process through the print function, and then
+waits for the user to press Enter to continue.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fire.cfg.Process.setConditionsGlobalTag">
+<span class="sig-name descname"><span class="pre">setConditionsGlobalTag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fire.cfg.Process.setConditionsGlobalTag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the global tag for all the ConditionsProviders</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>tag</strong> (<em>str</em>) – Global generation tag to pass to all COPs</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="fire-cfg-processor-class">
+<h2>fire.cfg.Processor class<a class="headerlink" href="#fire-cfg-processor-class" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="fire.cfg.Processor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fire.cfg.</span></span><span class="sig-name descname"><span class="pre">Processor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">library</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fire.cfg.Processor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A Processor configuration object</p>
+<p>This object contains the parameters that are necessary for a fire::Processor to be configured.</p>
+<p>You should NOT use this class directly. Use one of the derived classes Producer or Analyzer for clarity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – Name of this copy of the processor object</p></li>
+<li><p><strong>class_name</strong> (<em>str</em>) – Name (including namespace) of the C++ class that this processor should be</p></li>
+<li><p><strong>module</strong> (<em>str</em>) – Name of module the C++ class is in (i.e. the library that should be loaded)</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#fire.cfg.Process.addModule" title="fire.cfg.Process.addModule"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fire.cfg.Process.addModule</span></code></a></dt><dd><p>how module names are interpreted as libraries to be loaded</p>
+</dd>
+<dt><a class="reference internal" href="#fire.cfg.Process.addLibrary" title="fire.cfg.Process.addLibrary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fire.cfg.Process.addLibrary</span></code></a></dt><dd><p>how libraries are loaded</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+</section>
+</section>
+<section id="advanced-usage">
+<h1>Advanced Usage<a class="headerlink" href="#advanced-usage" title="Permalink to this headline">¶</a></h1>
+<p>Below is documentation of modules and classes that are only
+used for specific edge cases by the end user. They are “private”
+modules (beginning with an underscore) because they are subject
+to change and not meant to be used directly frequently.</p>
+<section id="module-fire.cfg._rnss">
+<span id="fire-cfg-rnss-module"></span><h2>fire.cfg._rnss module<a class="headerlink" href="#module-fire.cfg._rnss" title="Permalink to this headline">¶</a></h2>
+<p>RandomNumberSeedService (RNSS) configuration</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="fire.cfg._rnss.RandomNumberSeedService">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fire.cfg._rnss.</span></span><span class="sig-name descname"><span class="pre">RandomNumberSeedService</span></span><a class="headerlink" href="#fire.cfg._rnss.RandomNumberSeedService" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#fire.cfg.ConditionsProvider" title="fire.cfg._conditions.ConditionsProvider"><code class="xref py py-class docutils literal notranslate"><span class="pre">fire.cfg._conditions.ConditionsProvider</span></code></a></p>
+<p>The random number seed service</p>
+<p>This object registers the random number seed service with the process and
+gives some helper functions for configuration.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.cfg._rnss.RandomNumberSeedService.seedMode">
+<span class="sig-name descname"><span class="pre">seedMode</span></span><a class="headerlink" href="#fire.cfg._rnss.RandomNumberSeedService.seedMode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of mode of getting random seeds</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fire.cfg._rnss.RandomNumberSeedService.external">
+<span class="sig-name descname"><span class="pre">external</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fire.cfg._rnss.RandomNumberSeedService.external" title="Permalink to this definition">¶</a></dt>
+<dd><p>Input the master random number seed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>seed</strong> (<em>int</em>) – Integer to use as master random number seed</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fire.cfg._rnss.RandomNumberSeedService.override">
+<span class="sig-name descname"><span class="pre">override</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fire.cfg._rnss.RandomNumberSeedService.override" title="Permalink to this definition">¶</a></dt>
+<dd><p>Override the RNSS and provide your own seed for a specific name</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fire.cfg._rnss.RandomNumberSeedService.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fire.cfg._rnss.RandomNumberSeedService.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base random number seeds off of the run number</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fire.cfg._rnss.RandomNumberSeedService.time">
+<span class="sig-name descname"><span class="pre">time</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fire.cfg._rnss.RandomNumberSeedService.time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set master random seed based off of time</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-fire.cfg._storage">
+<span id="fire-cfg-storage-module"></span><h2>fire.cfg._storage module<a class="headerlink" href="#module-fire.cfg._storage" title="Permalink to this headline">¶</a></h2>
+<p>Configuration of storage/veto system in fire</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="fire.cfg._storage.DropKeepRule">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fire.cfg._storage.</span></span><span class="sig-name descname"><span class="pre">DropKeepRule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">regex</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fire.cfg._storage.DropKeepRule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A single rule specifying if a specific event object should be
+saved into the output file (keep) or not (drop)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>keep</strong> (<em>bool</em>) – True if the event object matching the regex should be kept</p></li>
+<li><p><strong>regex</strong> (<em>str</em>) – Regular expression for this rule</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="fire.cfg._storage.ListeningRule">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fire.cfg._storage.</span></span><span class="sig-name descname"><span class="pre">ListeningRule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">processor_regex</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">purpose_regex</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fire.cfg._storage.ListeningRule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A single rule telling storage control whether to listen to
+a set of processors</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>processor_regex</strong> (<em>str</em>) – regular expression matching processors to listen to</p></li>
+<li><p><strong>purpose_regex</strong> (<em>str</em>) – regular expression matching purpoeses to listen to</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Empty regex strings are translated to the “match all” regex ‘.*’
+on the C++ side of configuration.</p>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="fire.cfg._storage.StorageControl">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fire.cfg._storage.</span></span><span class="sig-name descname"><span class="pre">StorageControl</span></span><a class="headerlink" href="#fire.cfg._storage.StorageControl" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Configuration for how events are chosen to be stored.
+This configuration keeps the default storage decision and
+any rules about which processors to listen to when they are
+making storage hints.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.cfg._storage.StorageControl.default_keep">
+<span class="sig-name descname"><span class="pre">default_keep</span></span><a class="headerlink" href="#fire.cfg._storage.StorageControl.default_keep" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if the default storage is to keep the event</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fire.cfg._storage.StorageControl.listening_rules">
+<span class="sig-name descname"><span class="pre">listening_rules</span></span><a class="headerlink" href="#fire.cfg._storage.StorageControl.listening_rules" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of rules about processors/purposes to listen to</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list[<a class="reference internal" href="#fire.cfg._storage.ListeningRule" title="fire.cfg._storage.ListeningRule">ListeningRule</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fire.cfg._storage.StorageControl.default">
+<span class="sig-name descname"><span class="pre">default</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fire.cfg._storage.StorageControl.default" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fire.cfg._storage.StorageControl.listen">
+<span class="sig-name descname"><span class="pre">listen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">processor</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fire.cfg._storage.StorageControl.listen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a listening rule that will listen to the processor with
+name exactly matching the name of the input processor object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>processor</strong> (<a class="reference internal" href="#fire.cfg.Processor" title="fire.cfg.Processor"><em>Processor</em></a>) – Processor object to listen to</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fire.cfg._storage.StorageControl.listen_all">
+<span class="sig-name descname"><span class="pre">listen_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fire.cfg._storage.StorageControl.listen_all" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">fire.cfg package</a><ul>
+<li><a class="reference internal" href="#fire-cfg-conditionsprovider-class">fire.cfg.ConditionsProvider class</a></li>
+<li><a class="reference internal" href="#fire-cfg-outputfile-class">fire.cfg.OutputFile class</a></li>
+<li><a class="reference internal" href="#fire-cfg-process-class">fire.cfg.Process class</a></li>
+<li><a class="reference internal" href="#fire-cfg-processor-class">fire.cfg.Processor class</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#advanced-usage">Advanced Usage</a><ul>
+<li><a class="reference internal" href="#module-fire.cfg._rnss">fire.cfg._rnss module</a></li>
+<li><a class="reference internal" href="#module-fire.cfg._storage">fire.cfg._storage module</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="fire.html"
+                          title="previous chapter">fire package</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/fire.cfg.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="fire.html" title="fire package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">fire v0.11.1-8-gb144efd documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="fire.html" >fire package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">fire.cfg package</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, LDMX Collaboration.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.4.0.
+    </div>
+  </body>
+</html>

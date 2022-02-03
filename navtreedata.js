@@ -28,7 +28,7 @@ var NAVTREE =
     [ "🔥 fire 🔥", "index.html", [
       [ "Features", "index.html#autotoc_md27", null ],
       [ "Dependencies", "index.html#autotoc_md28", [
-        [ "Developer Dependencies (for testing)", "index.html#autotoc_md29", null ]
+        [ "Developer Dependencies", "index.html#autotoc_md29", null ]
       ] ]
     ] ],
     [ "Namespaces", "namespaces.html", [

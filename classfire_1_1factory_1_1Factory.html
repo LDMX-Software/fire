@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.11.1</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.11.1-8-gb144efd</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -159,7 +159,7 @@ class fire::factory::Factory&lt; Prototype, PrototypePtr, PrototypeConstructorAr
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">Prototype</td><td>the type of object that this factory creates. This should be the base class that all types in this factory derive from. </td></tr>
-    <tr><td class="paramname">PrototypePtr</td><td>the type of pointer to the object By defeault, we use <a href="https://en.cppreference.com/w/cpp/memory/unique_ptr"><code>std::unique_ptr</code></a> for good memory management but <code><a class="elRef" href="http://en.cppreference.com/w/cpp/memory/shared_ptr.html">std::shared_ptr</a></code> is another alternative provided by the standard libraries. The only requirement for this type is that it acts as a pointer to the Prototype class and can be constructed with a pointer to the derived class. </td></tr>
+    <tr><td class="paramname">PrototypePtr</td><td>the type of pointer to the object By defeault, we use <a class="elRef" href="http://en.cppreference.com/w/cpp/memory/unique_ptr.html">std::unique_ptr</a> for good memory management but <a class="elRef" href="http://en.cppreference.com/w/cpp/memory/shared_ptr.html">std::shared_ptr</a> is another alternative provided by the standard libraries. The only requirement for this type is that it acts as a pointer to the Prototype class and can be constructed with a pointer to the derived class. </td></tr>
     <tr><td class="paramname">PrototypeConstructorArgs</td><td>parameter pack of arguments to pass to the object constructor.</td></tr>
   </table>
   </dd>
@@ -186,8 +186,8 @@ Declaration</h3>
 <div class="line">  <span class="keyword">auto</span> v = <a class="code hl_function" href="classfire_1_1factory_1_1Factory.html#a1b19b85b8cf8a42269665fa3fae1694d">::fire::factory::Factory&lt;MyPrototype&gt;::get</a>()</div>
 <div class="line">    .<a class="code hl_function" href="classfire_1_1factory_1_1Factory.html#a8ce8d2289eaa7f1773c5526c58c42f26">declare</a>&lt;MyDerived&gt;(<span class="stringliteral">&quot;MyDerived&quot;</span>);</div>
 <div class="line">}</div>
-<div class="ttc" id="aclassfire_1_1factory_1_1Factory_html_a1b19b85b8cf8a42269665fa3fae1694d"><div class="ttname"><a href="classfire_1_1factory_1_1Factory.html#a1b19b85b8cf8a42269665fa3fae1694d">fire::factory::Factory::get</a></div><div class="ttdeci">static Factory &amp; get()</div><div class="ttdoc">get the factory instance</div><div class="ttdef"><b>Definition:</b> Factory.h:251</div></div>
-<div class="ttc" id="aclassfire_1_1factory_1_1Factory_html_a8ce8d2289eaa7f1773c5526c58c42f26"><div class="ttname"><a href="classfire_1_1factory_1_1Factory.html#a8ce8d2289eaa7f1773c5526c58c42f26">fire::factory::Factory::declare</a></div><div class="ttdeci">uint64_t declare(const std::string &amp;full_name)</div><div class="ttdoc">register a new object to be constructible</div><div class="ttdef"><b>Definition:</b> Factory.h:279</div></div>
+<div class="ttc" id="aclassfire_1_1factory_1_1Factory_html_a1b19b85b8cf8a42269665fa3fae1694d"><div class="ttname"><a href="classfire_1_1factory_1_1Factory.html#a1b19b85b8cf8a42269665fa3fae1694d">fire::factory::Factory::get</a></div><div class="ttdeci">static Factory &amp; get()</div><div class="ttdoc">get the factory instance</div><div class="ttdef"><b>Definition:</b> Factory.h:249</div></div>
+<div class="ttc" id="aclassfire_1_1factory_1_1Factory_html_a8ce8d2289eaa7f1773c5526c58c42f26"><div class="ttname"><a href="classfire_1_1factory_1_1Factory.html#a8ce8d2289eaa7f1773c5526c58c42f26">fire::factory::Factory::declare</a></div><div class="ttdeci">uint64_t declare(const std::string &amp;full_name)</div><div class="ttdoc">register a new object to be constructible</div><div class="ttdef"><b>Definition:</b> Factory.h:277</div></div>
 </div><!-- fragment --><p >The details of how this is handled is documented in <a href="https://en.cppreference.com/w/cpp/language/storage_duration">Storage Class Specifiers</a>.</p>
 <h2><a class="anchor" id="autotoc_md9"></a>
 Usage</h2>
@@ -195,7 +195,7 @@ Usage</h2>
 <p >Below is a rudimentary example that shows you the basics of this class.</p>
 <h3><a class="anchor" id="autotoc_md10"></a>
 A Prototype LibraryEntry</h3>
-<p >This <code>LibraryEntry</code> prototype class satisfies our requirements. It also defines a helpful "delcaration" macro for derived classes to use. </p><div class="fragment"><div class="line"><span class="comment">// LibraryEntry.hpp</span></div>
+<p >This <code>LibraryEntry</code> prototype class satisfies our requirements. It also defines a helpful "declaration" macro for derived classes to use. </p><div class="fragment"><div class="line"><span class="comment">// LibraryEntry.hpp</span></div>
 <div class="line"><span class="preprocessor">#ifndef LIBRARYENTRY_HPP</span></div>
 <div class="line"><span class="preprocessor">#define LIBRARYENTRY_HPP</span></div>
 <div class="line"><span class="comment">// we need the factory template</span></div>
@@ -219,7 +219,7 @@ A Prototype LibraryEntry</h3>
 <div class="line"><span class="preprocessor">  }</span></div>
 <div class="line"><span class="preprocessor">#endif </span><span class="comment">// LIBRARYENTRY_HPP</span></div>
 <div class="ttc" id="abasic_string_html"><div class="ttname"><a href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a></div></div>
-<div class="ttc" id="aclassfire_1_1factory_1_1Factory_html"><div class="ttname"><a href="classfire_1_1factory_1_1Factory.html">fire::factory::Factory</a></div><div class="ttdoc">Factory to dynamically create objects derived from a specific prototype class.</div><div class="ttdef"><b>Definition:</b> Factory.h:231</div></div>
+<div class="ttc" id="aclassfire_1_1factory_1_1Factory_html"><div class="ttname"><a href="classfire_1_1factory_1_1Factory.html">fire::factory::Factory</a></div><div class="ttdoc">Factory to dynamically create objects derived from a specific prototype class.</div><div class="ttdef"><b>Definition:</b> Factory.h:229</div></div>
 <div class="ttc" id="aclassfire_1_1factory_1_1Factory_html_ae29b1112307e92f1cb7214081c31bd15"><div class="ttname"><a href="classfire_1_1factory_1_1Factory.html#ae29b1112307e92f1cb7214081c31bd15">fire::factory::Factory::Factory</a></div><div class="ttdeci">Factory()=default</div><div class="ttdoc">private constructor to prevent creation</div></div>
 </div><!-- fragment --><h3><a class="anchor" id="autotoc_md11"></a>
 Example Derived Classes</h3>
