@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.11.2</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.12.0</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -210,7 +210,7 @@ Usage</h2>
 <div class="ttc" id="aclassfire_1_1ConditionsProvider_html"><div class="ttname"><a href="classfire_1_1ConditionsProvider.html">fire::ConditionsProvider</a></div><div class="ttdoc">Base class for all providers of conditions objects.</div><div class="ttdef"><b>Definition:</b> ConditionsProvider.h:83</div></div>
 <div class="ttc" id="aclassfire_1_1ConditionsProvider_html_a1294738522534896a54b03b78097cff1"><div class="ttname"><a href="classfire_1_1ConditionsProvider.html#a1294738522534896a54b03b78097cff1">fire::ConditionsProvider::getCondition</a></div><div class="ttdeci">virtual std::pair&lt; const ConditionsObject *, ConditionsIntervalOfValidity &gt; getCondition(const EventHeader &amp;context)=0</div><div class="ttdoc">Pure virtual getCondition function.</div></div>
 <div class="ttc" id="aclassfire_1_1ConditionsProvider_html_ac27343901e2ba16201290af560b09f2f"><div class="ttname"><a href="classfire_1_1ConditionsProvider.html#ac27343901e2ba16201290af560b09f2f">fire::ConditionsProvider::ConditionsProvider</a></div><div class="ttdeci">ConditionsProvider(const fire::config::Parameters &amp;ps)</div><div class="ttdoc">Configure the registered provider.</div><div class="ttdef"><b>Definition:</b> ConditionsProvider.cxx:6</div></div>
-<div class="ttc" id="aclassfire_1_1config_1_1Parameters_html"><div class="ttname"><a href="classfire_1_1config_1_1Parameters.html">fire::config::Parameters</a></div><div class="ttdoc">Class encapsulating parameters for configuring a processor.</div><div class="ttdef"><b>Definition:</b> Parameters.h:29</div></div>
+<div class="ttc" id="aclassfire_1_1config_1_1Parameters_html"><div class="ttname"><a href="classfire_1_1config_1_1Parameters.html">fire::config::Parameters</a></div><div class="ttdoc">Class encapsulating parameters for configuring a processor.</div><div class="ttdef"><b>Definition:</b> Parameters.h:28</div></div>
 <div class="ttc" id="apair_html"><div class="ttname"><a href="http://en.cppreference.com/w/cpp/utility/pair.html">std::pair</a></div></div>
 </div><!-- fragment --><p >One special (but somewhat common) use case is a global condition that is light in memory. These criteria are satisifed by the <a class="el" href="classfire_1_1RandomNumberSeedService.html" title="System for consistent seeding of random number generators.">RandomNumberSeedService</a> and allow the conditions provider and the conditions object to be the same object. </p><div class="fragment"><div class="line"><span class="comment">// LightAndGlobalCondition.cpp</span></div>
 <div class="line"><span class="preprocessor">#include &lt;fire/ConditionsProvider.h&gt;</span></div>

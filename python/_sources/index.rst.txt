@@ -9,7 +9,7 @@ fire Python Interaction Package
 This is the documentation of the python package meant to
 interact with fire.
 
-`Go Back to C++ Docs </index.html>`_
+`Go Back to C++ Docs </fire/index.html>`_
 
 .. toctree::
    :maxdepth: 4

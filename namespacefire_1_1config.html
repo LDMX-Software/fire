@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.11.2</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.12.0</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -107,7 +107,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:aac38aec227842f4827629ee9f4402fda"><td class="mdescLeft">&#160;</td><td class="mdescRight">run the python script and extract the parameters  <a href="namespacefire_1_1config.html#aac38aec227842f4827629ee9f4402fda">More...</a><br /></td></tr>
 <tr class="separator:aac38aec227842f4827629ee9f4402fda"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a357687b65425121bac85fc24ae14d05a"><td class="memItemLeft" align="right" valign="top">static <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefire_1_1config.html#a357687b65425121bac85fc24ae14d05a">getPyString</a> (PyObject *pyObj)</td></tr>
-<tr class="memdesc:a357687b65425121bac85fc24ae14d05a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn the input python string object into a C++ string.  <a href="namespacefire_1_1config.html#a357687b65425121bac85fc24ae14d05a">More...</a><br /></td></tr>
+<tr class="memdesc:a357687b65425121bac85fc24ae14d05a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turn the input python string object into a <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>.  <a href="namespacefire_1_1config.html#a357687b65425121bac85fc24ae14d05a">More...</a><br /></td></tr>
 <tr class="separator:a357687b65425121bac85fc24ae14d05a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7fb7cb99bead596a8ea4c7dec63b2dba"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classfire_1_1config_1_1Parameters.html">Parameters</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefire_1_1config.html#a7fb7cb99bead596a8ea4c7dec63b2dba">getMembers</a> (PyObject *object)</td></tr>
 <tr class="memdesc:a7fb7cb99bead596a8ea4c7dec63b2dba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract members from a python object.  <a href="namespacefire_1_1config.html#a7fb7cb99bead596a8ea4c7dec63b2dba">More...</a><br /></td></tr>
@@ -121,7 +121,7 @@ Variables</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >python execution and parameter extraction </p>
-<p >this namespace is focused on holding the necessary functions to run and extract the configuration parameters from a python script. </p>
+<p >this namespace is focused on holding the necessary functions to run and extract the configuration parameters from a python script. The documentation here is focused on the C++-side of the configuration - i.e. the translation of Python objects into their C++ counterparts. For documentation on the Python package used to configure fire, refer to fire's <a href="/fire/python/index.html">python package</a>. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a id="a7fb7cb99bead596a8ea4c7dec63b2dba" name="a7fb7cb99bead596a8ea4c7dec63b2dba"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7fb7cb99bead596a8ea4c7dec63b2dba">&#9670;&nbsp;</a></span>getMembers()</h2>
@@ -148,7 +148,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Extract members from a python object. </p>
-<p >Iterates through the object's dictionary and translates the objects inside of it into the type-specified C++ equivalents, then puts these objects into a STL map that can be passed to the <a class="el" href="classfire_1_1config_1_1Parameters.html" title="Class encapsulating parameters for configuring a processor.">Parameters</a> class.</p>
+<p >Iterates through the object's dictionary and translates the objects inside of it into the type-specified C++ equivalents, then puts these objects into an instance of the <a class="el" href="classfire_1_1config_1_1Parameters.html" title="Class encapsulating parameters for configuring a processor.">Parameters</a> class.</p>
 <p >This function is recursive. If a non-base type is encountered, we pass it back along to this function to translate it's own dictionary.</p>
 <p >We rely completely on python being awesome. For all higher level class objects, python keeps track of all of its member variables in the member dictionary <code>__dict__</code>.</p>
 <p >No Py_DECREF calls are made because all of the members of an object are borrowed references, meaning that when we destory that object, it handles the other members. We destroy the one Python object owning all of these references at the end of this function.</p>
@@ -157,9 +157,9 @@ Variables</h2></td></tr>
 Empty lists are NOT read in because there is no way for us to know what type should be inside the list. This means list parameters that can be empty need to put in a default empty list value: <code>{}</code>.</dd></dl>
 <p>This recursive extraction method is able to handle the following cases.</p><ul>
 <li>User-defined classes (via the <code>__dict__</code> member) are extracted to <a class="el" href="classfire_1_1config_1_1Parameters.html" title="Class encapsulating parameters for configuring a processor.">Parameters</a></li>
-<li>one-dimensional lists whose entries all have the same type are extracted to <code><a class="elRef" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector</a></code> of the type of the first entry in the list</li>
+<li>one-dimensional lists whose entries all have the same type are extracted to <a class="elRef" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector</a> of the type of the first entry in the list</li>
 <li><code>dict</code> objects are extracted to <a class="el" href="classfire_1_1config_1_1Parameters.html" title="Class encapsulating parameters for configuring a processor.">Parameters</a></li>
-<li>Python <code>str</code> are extracted to <code><a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a></code></li>
+<li>Python <code>str</code> are extracted to <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a></li>
 <li>Python <code>int</code> are extracted to C++ <code>int</code></li>
 <li>Python <code>bool</code> are extracted to C++ <code>bool</code></li>
 <li>Python <code>float</code> are extracted to C++ <code>double</code></li>
@@ -202,7 +202,7 @@ Empty lists are NOT read in because there is no way for us to know what type sho
 </table>
 </div><div class="memdoc">
 
-<p>Turn the input python string object into a C++ string. </p>
+<p>Turn the input python string object into a <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>. </p>
 <p >Helpful to condense down the multi-line nature of the python3 code.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">

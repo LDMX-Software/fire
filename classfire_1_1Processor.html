@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.11.2</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.12.0</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -226,7 +226,7 @@ Non-configurable Processors</h3>
 <div class="ttc" id="aclassfire_1_1Processor_html"><div class="ttname"><a href="classfire_1_1Processor.html">fire::Processor</a></div><div class="ttdoc">Base class for all event processing components.</div><div class="ttdef"><b>Definition:</b> Processor.h:209</div></div>
 <div class="ttc" id="aclassfire_1_1Processor_html_a6f1bc98203030e0757a004f3f275cd62"><div class="ttname"><a href="classfire_1_1Processor.html#a6f1bc98203030e0757a004f3f275cd62">fire::Processor::process</a></div><div class="ttdeci">virtual void process(Event &amp;event)=0</div><div class="ttdoc">have the derived processors do what they need to do</div></div>
 <div class="ttc" id="aclassfire_1_1Processor_html_ab2fc871f893086500941b33a47bacead"><div class="ttname"><a href="classfire_1_1Processor.html#ab2fc871f893086500941b33a47bacead">fire::Processor::Processor</a></div><div class="ttdeci">Processor(const config::Parameters &amp;ps)</div><div class="ttdoc">Configure the processor upon construction.</div><div class="ttdef"><b>Definition:</b> Processor.cxx:7</div></div>
-<div class="ttc" id="aclassfire_1_1config_1_1Parameters_html"><div class="ttname"><a href="classfire_1_1config_1_1Parameters.html">fire::config::Parameters</a></div><div class="ttdoc">Class encapsulating parameters for configuring a processor.</div><div class="ttdef"><b>Definition:</b> Parameters.h:29</div></div>
+<div class="ttc" id="aclassfire_1_1config_1_1Parameters_html"><div class="ttname"><a href="classfire_1_1config_1_1Parameters.html">fire::config::Parameters</a></div><div class="ttdoc">Class encapsulating parameters for configuring a processor.</div><div class="ttdef"><b>Definition:</b> Parameters.h:28</div></div>
 </div><!-- fragment --><p >This example shows the necessary parts of a new <a class="el" href="classfire_1_1Processor.html" title="Base class for all event processing components.">Processor</a>.</p><ol type="1">
 <li>Inherits from <code><a class="el" href="classfire_1_1Processor.html" title="Base class for all event processing components.">fire::Processor</a></code></li>
 <li>Constructor accepts configuration parameters and passes them to the base class</li>
@@ -264,7 +264,7 @@ Configurable Processor</h3>
 <div class="line">  }</div>
 <div class="line">};</div>
 <div class="line">DECLARE_PROCESSOR(MyProcessor);</div>
-<div class="ttc" id="aclassfire_1_1config_1_1Parameters_html_ab8c99a73cc43039d4d900f10ed7f15fa"><div class="ttname"><a href="classfire_1_1config_1_1Parameters.html#ab8c99a73cc43039d4d900f10ed7f15fa">fire::config::Parameters::get</a></div><div class="ttdeci">const T &amp; get(const std::string &amp;name) const</div><div class="ttdoc">Retrieve the parameter of the given name.</div><div class="ttdef"><b>Definition:</b> Parameters.h:72</div></div>
+<div class="ttc" id="aclassfire_1_1config_1_1Parameters_html_ab8c99a73cc43039d4d900f10ed7f15fa"><div class="ttname"><a href="classfire_1_1config_1_1Parameters.html#ab8c99a73cc43039d4d900f10ed7f15fa">fire::config::Parameters::get</a></div><div class="ttdeci">const T &amp; get(const std::string &amp;name) const</div><div class="ttdoc">Retrieve the parameter of the given name.</div><div class="ttdef"><b>Definition:</b> Parameters.h:71</div></div>
 </div><!-- fragment --><p> This constructor will recieves two parameters that are configurable. Exceptions are thrown if the parameter in Python cannot be converted to the passed type. For example, if <code>my_parameter</code> in Python is set to <code>2.0</code> instead of <code>2</code>.</p><ol type="1">
 <li><code>my_parameter_</code> is optional with a default value of <code>1</code>.</li>
 <li><code>my_required_parameter</code> is required - i.e. an exception will be thrown if a parameter with that name is not found</li>
