@@ -21,6 +21,7 @@ group() {
 
 group Deduced Environment
 env
+echo "::endgroup::"
 
 # GitHub workflow command to set an output key,val pair
 set_output() {
