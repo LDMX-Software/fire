@@ -83,14 +83,14 @@ static std::string getPyString(PyObject* pyObj) {
  * @return Mapping between member name and value.
  */
 static Parameters getMembers(PyObject* object) {
-  PyObject* dictionary{PyObject_GetAttrString(object, "__dict__")};
-
+  PyObject* dictionary;
   if (dictionary == 0) {
     if (PyDict_Check(object))
       dictionary = object;
-    else {
-      throw Exception("Python","Python Object does not have a __dict__ member",false);
-    }
+    else if (PyObject_HasAttrString(object, "__dict__"))
+      dictionary = PyObject_GetAttrString(object, "__dict__");
+    else
+      throw Exception("Python","Python object does not have a __dict__ member",false);
   }
 
   PyObject *key(0), *value(0);

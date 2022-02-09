@@ -128,7 +128,7 @@ target_link_libraries(framework PUBLIC logging version exception config factory 
 # Compiling the fire library requires features introduced by the cxx 17 standard.
 #   also to avoid conflicts, we expand the library prefix from 'lib' to 'libfire_'
 set_target_properties(
-  framework exception config factory h5 version logging
+  framework exception config factory h5 logging
   PROPERTIES CXX_STANDARD 17
              CXX_STANDARD_REQUIRED YES
              CXX_EXTENSIONS NO
