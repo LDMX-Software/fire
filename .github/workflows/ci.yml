@@ -132,6 +132,7 @@ jobs:
       name: bench developments
       run: |
         source .github/workflows/env.sh
+        set -x
         run_bench pr-${GITHUB_PR_NUMBER} ${N_TRIALS} ${NEVENT_SAMPLE_POINTS}
         group Cleanup
         git clean -xxfd -e ${BENCH_OUTPUT_DIR}
