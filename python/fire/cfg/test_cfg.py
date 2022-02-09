@@ -18,13 +18,13 @@ def test_cfg() :
     p.keep('.*')
     p.drop('.*')
 
-    assert p.conditions.providers[-1] == p.rnss
-    assert p.rnss.seedMode == 'run'
-    p.rnss.time()
-    assert p.rnss.seedMode == 'time'
-    p.rnss.external(420)
-    assert p.rnss.seedMode == 'external'
-    assert p.rnss.seed == 420
+    assert p.conditions.providers[-1] == p.rnss()
+    assert p.rnss().seedMode == 'run'
+    p.rnss().time()
+    assert p.rnss().seedMode == 'time'
+    p.rnss().external(420)
+    assert p.rnss().seedMode == 'external'
+    assert p.rnss().seed == 420
 
     # check auto registration of conditions providers
     cp = fire.cfg.ConditionsProvider('Provides','test::Provider','CPModule')
