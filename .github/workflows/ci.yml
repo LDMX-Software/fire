@@ -85,8 +85,8 @@ jobs:
         fire test/module/recon.py test/module/output_10.h5
   
   bench:
-    #needs: test
-    #if: github.event_name == 'pull_request'
+    needs: test
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -96,7 +96,7 @@ jobs:
       BENCH_DATA_FILE: .github/workflows/output/data.csv
       GITHUB_PR_NUMBER: ${{github.event.number}}
       N_TRIALS: 10
-      NEVENT_SAMPLE_POINTS: "1 5" #10 50 100 500 1000 5000 10000 100000 1000000"
+      NEVENT_SAMPLE_POINTS: "1 5 10 50 100 500 1000 5000 10000 100000 1000000"
     steps:
     -
       name: install pytest requirements
@@ -134,7 +134,6 @@ jobs:
       name: bench developments
       run: |
         source .github/workflows/env.sh
-        set -x
         run_bench pr-${GITHUB_PR_NUMBER} ${N_TRIALS} ${NEVENT_SAMPLE_POINTS}
         group Cleanup
         git clean -xxfd -e ${BENCH_OUTPUT_DIR}
