@@ -27,11 +27,8 @@ jobs:
     env:
       INSTALL: ${{github.workspace}}/install
     strategy:
-      matrix:
-        os: |
-          - ubuntu-18.04 # python 3.6.9
-          - ubuntu-20.04 # python 3.8.10
-            #- macOS-10.15
+      matrix: #python3.6.9, python3.8.10
+        os: [ ubuntu-18.04, ubuntu-20.04 ] #, macOS-10.15]
     steps:
     -
       name: install pytest requirements
