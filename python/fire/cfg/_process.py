@@ -47,8 +47,6 @@ class Process:
         File to print log messages to, won't setup file logging if this parameter is not set
     conditions : Conditions
         System handling providers as well as the global tag
-    rnss : RandomNumberSeedService
-        conditions object that provides random number seeds in a deterministic way
 
     See Also
     --------
@@ -89,8 +87,29 @@ class Process:
         Process.lastProcess=self
 
         # needs lastProcess defined to self-register
+        #   will be the first conditions provider
         from . import _rnss
-        self.rnss = _rnss.RandomNumberSeedService()
+        _rnss.RandomNumberSeedService()
+
+    def rnss(self) :
+        """Get the random number seed service condition
+
+        We create that condition in the constructor of the process,
+        so we can trust that it is the first entry in the conditions
+        provider list.
+
+        Returns
+        -------
+        RandomNumberSeedService for more configuration
+
+        Examples
+        --------
+        You would use this function if you wanted to change
+        the mode with which the random numbers are seeded.
+
+            p.rnss().time()
+        """
+        return self.conditions.providers[0]
 
     def addLibrary(lib) :
         """Add a library to the list of dynamically loaded libraries
