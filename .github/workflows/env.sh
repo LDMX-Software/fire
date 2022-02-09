@@ -19,6 +19,9 @@ group() {
   echo "::group::$@"
 }
 
+group Deduced Environment
+env
+
 # GitHub workflow command to set an output key,val pair
 set_output() {
   local _key="$1"
