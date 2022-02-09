@@ -24,8 +24,6 @@ jobs:
     defaults:
       run:
         shell: bash
-    env:
-      INSTALL: ${{github.workspace}}/install
     strategy:
       matrix: #python3.6.9, python3.8.10
         os: [ ubuntu-18.04, ubuntu-20.04 ] #, macOS-10.15]
@@ -62,7 +60,8 @@ jobs:
     -
       name: build fire
       run: |
-        cmake -B build -S . -DCMAKE_INSTALL_PREFIX=${INSTALL}
+        source .github/workflows/env.sh
+        cmake -B build -S . -DCMAKE_INSTALL_PREFIX=${FIRE_INSTALL_PREFIX}
         cmake --build build
     -
       name: test fire
@@ -75,16 +74,13 @@ jobs:
     -
       name: build test module
       run: |
-        cmake -B build/test/module -S test/module -DCMAKE_INSTALL_PREFIX=${INSTALL}
+        source .github/workflows/env.sh
+        cmake -B build/test/module -S test/module -DCMAKE_INSTALL_PREFIX=${FIRE_INSTALL_PREFIX}
         cmake --build build/test/module --target install
-      env:
-        CMAKE_PREFIX_PATH: ${{env.INSTALL}}
     -
       name: run test module
       run: |
-        export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${INSTALL}/lib
-        export PATH=${PATH}:${INSTALL}/bin
-        export PYTHONPATH=${PYTHONPATH}:${INSTALL}/python
+        source .github/workflows/env.sh
         fire test/module/produce.py 10
         fire test/module/recon.py test/module/output_10.h5
   
@@ -102,6 +98,43 @@ jobs:
       N_TRIALS: 10
       NEVENT_SAMPLE_POINTS: "1 5 10 50 100 500 1000 5000 10000 100000 1000000"
     steps:
+    -
+      name: install pytest requirements
+      run: python3 -m pip install --upgrade pytest h5py matplotlib pandas
+    -
+      name: install dependencies ubuntu
+      run: sudo apt-get update && sudo apt-get install libboost-all-dev libhdf5-dev 
+    -
+      name: install HighFive
+      run: |
+        mkdir src
+        wget -q -O - \
+          https://github.com/BlueBrain/HighFive/archive/refs/tags/v2.3.1.tar.gz |\
+          tar -xz --strip-components=1 --directory src
+        mkdir src/build
+        cd src/build
+        cmake -DHIGHFIVE_EXAMPLES=OFF -DHIGHFIVE_UNIT_TESTS=OFF ..
+        sudo make install
+        cd -
+        rm -rf src
+    - 
+      name: get fire
+      uses: actions/checkout@v2
+      with:
+        submodules: 'recursive'
+    -
+      name: build fire
+      run: |
+        cmake -B build -S . -DCMAKE_INSTALL_PREFIX=${INSTALL}
+        cmake --build build
+    -
+      name: test fire
+      working-directory: build
+      run: ctest -VV
+    -
+      name: install fire
+      working-directory: build
+      run: make install
     - 
       name: get fire
       uses: actions/checkout@v2
@@ -111,19 +144,6 @@ jobs:
       name: bench developments
       run: |
         source .github/workflows/env.sh
-        group Init Environment
-        ldmx use dev hdf5
-        ldmx base ..
-        group Build fire
-        ldmx cmake -B build -S . \
-          -DBUILD_TESTING=OFF \
-          -DCMAKE_INSTALL_PREFIX=${LDMX_BASE}/.container-install
-        ldmx cmake --build build/ --target install
-        group Build Test Module
-        ldmx cmake -B build/test/module -S test/module \
-          -DCMAKE_INSTALL_PREFIX=${LDMX_BASE}/.container-install
-        ldmx cmake --build build/test/module --target install
-        group Run Benchmark
         run_bench pr-${GITHUB_PR_NUMBER} ${N_TRIALS} ${NEVENT_SAMPLE_POINTS}
         group Cleanup
         git clean -xxfd -e ${BENCH_OUTPUT_DIR}
@@ -138,33 +158,12 @@ jobs:
       name: bench trunk
       run: |
         source .github/workflows/env.sh
-        group Init Environment
-        ldmx use dev hdf5
-        ldmx base ..
-        group Build fire
-        ldmx cmake -B build -S . \
-          -DBUILD_TESTING=OFF \
-          -DCMAKE_INSTALL_PREFIX=${LDMX_BASE}/.container-install
-        ldmx cmake --build build/ --target install
-        group Build Test Module
-        ldmx cmake -B build/test/module -S test/module \
-          -DCMAKE_INSTALL_PREFIX=${LDMX_BASE}/.container-install
-        ldmx cmake --build build/test/module --target install
-        group Run Benchmark
         run_bench trunk ${N_TRIALS} ${NEVENT_SAMPLE_POINTS}
         group Cleanup
         git clean -xxfd -e ${BENCH_OUTPUT_DIR}
     -
-      name: Setup Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
-    -
-      name: Install Plotting Requirements
-      run: python -m pip install --upgrade matplotlib pandas
-    -
       name: Plot
-      run: python .github/workflows/plot.py ${BENCH_DATA_FILE}
+      run: python3 .github/workflows/plot.py ${BENCH_DATA_FILE}
     -
       name: Upload Results
       uses: actions/upload-artifact@v2
