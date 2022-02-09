@@ -128,6 +128,8 @@ jobs:
         source .github/workflows/env.sh
         cmake -B build -S . -DBUILD_TESTING=OFF -DCMAKE_INSTALL_PREFIX=${FIRE_INSTALL_PREFIX}
         cmake --build build --target install
+        cmake -B build/test/module -S test/module -DCMAKE_INSTALL_PREFIX=${FIRE_INSTALL_PREFIX}
+        cmake --build build/test/module --target install
     -
       name: bench developments
       run: |
@@ -149,6 +151,8 @@ jobs:
         source .github/workflows/env.sh
         cmake -B build -S . -DBUILD_TESTING=OFF -DCMAKE_INSTALL_PREFIX=${FIRE_INSTALL_PREFIX}
         cmake --build build --target install
+        cmake -B build/test/module -S test/module -DCMAKE_INSTALL_PREFIX=${FIRE_INSTALL_PREFIX}
+        cmake --build build/test/module --target install
     -
       name: bench trunk
       run: |
