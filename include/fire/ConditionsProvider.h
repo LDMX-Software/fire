@@ -204,14 +204,14 @@ class ConditionsProvider {
  * // in source file
  * //   the names of the variables don't matter as long as they are different
  * namespace {
- * auto v0 = ::fire::ConditionsProvider::Factory.get().declare<One>("One");
- * auto v1 = ::fire::ConditionsProvider::Factory.get().declare<Two>("Two");
+ * auto v0 = ::fire::ConditionsProvider::Factory.get().declare<One>();
+ * auto v1 = ::fire::ConditionsProvider::Factory.get().declare<Two>();
  * }
  * ```
  */
-#define DECLARE_CONDITIONS_PROVIDER(CLASS)                                  \
-  namespace {                                                               \
-  auto v = fire::ConditionsProvider::Factory::get().declare<CLASS>(#CLASS); \
+#define DECLARE_CONDITIONS_PROVIDER(CLASS)                            \
+  namespace {                                                         \
+  auto v = fire::ConditionsProvider::Factory::get().declare<CLASS>(); \
   }
 
 #endif

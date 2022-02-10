@@ -66,8 +66,8 @@ class TestGet : public Processor {
  * in the same compilation unit.
  */
 namespace {
-  auto v0 = ::fire::Processor::Factory::get().declare<fire::test::TestAdd>("fire::test::TestAdd");
-  auto v1 = ::fire::Processor::Factory::get().declare<fire::test::TestGet>("fire::test::TestGet");
+  auto v0 = ::fire::Processor::Factory::get().declare<fire::test::TestAdd>();
+  auto v1 = ::fire::Processor::Factory::get().declare<fire::test::TestGet>();
 }
 
 /**

@@ -295,7 +295,7 @@ class Event {
   const DataType& get(const std::string& name,
                       const std::string& pass = "") const {
     static const bool GET_KEEP_DEFAULT = false;
-    std::string full_name;
+    std::string full_name, type;
     if (not pass.empty()) {
       // easy case, pass was specified explicitly
       full_name = fullName(name, pass);
@@ -303,18 +303,18 @@ class Event {
       full_name = known_lookups_.at(name);
     } else {
       // need to search current (and potential) available_objects using partial name
-      auto type = boost::core::demangle(typeid(DataType).name());
-      auto options{search("^" + name + "$", ".*", "^" + type + "$")};
+      auto options{search("^" + name + "$", ".*", ".*")};
       if (options.size() == 0) {
         throw Exception("Miss",
-            "Data " + name + " of type " + type + " not found.");
+            "Data " + name + " not found.");
       } else if (options.size() > 1) {
         throw Exception("Ambig",
-            "Data " + name + " of type " + type + " is ambiguous. Provide a pass name.");
+            "Data " + name + " is ambiguous. Provide a pass name.");
       }
 
       // exactly one option
       full_name = fullName(options.at(0).name(), options.at(0).pass());
+      type = options.at(0).type();
       // add into cache
       known_lookups_[name] = full_name;
     }
@@ -342,10 +342,16 @@ class Event {
       obj.should_load_ = true;
       obj.updated_ = false;
       // get this object up to the current entry
-      //    loading may throw an H5 error if DataType doesn't match the type
-      //    being read from the input file
-      for (std::size_t i{0}; i < i_entry_+1; i++)
-        obj.data_->load(*input_file_);
+      //    loading may throw an H5 error if the shape of the data on disk
+      //    cannot be loaded into the input type
+      try {
+        for (std::size_t i{0}; i < i_entry_+1; i++) obj.data_->load(*input_file_);
+      } catch (const HighFive::DataSetException&) {
+        throw Exception("BadType",
+            "Data " + full_name + " could not be loaded into "
+            + boost::core::demangle(typeid(DataType).name())
+            + " from the type it was written as " + type);
+      }
     }
 
     // type casting, 'bad_cast' thrown if unable
@@ -353,7 +359,9 @@ class Event {
       return objects_[full_name].getDataRef<DataType>().get();
     } catch (const std::bad_cast&) {
       throw Exception("BadType",
-          "Data corresponding to " + full_name + " has different type.");
+          "Data " + full_name + " was initialy loaded with type " + type
+          + " which cannot be casted into " 
+          + boost::core::demangle(typeid(DataType).name()));
     }
   }
 
