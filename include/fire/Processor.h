@@ -418,14 +418,14 @@ class Processor {
  * ```cpp
  * // in source file
  * namespace {
- * auto v0 = ::fire::Processor::Factory.get().declare<One>("One");
- * auto v1 = ::fire::Processor::Factory.get().declare<Two>("Two");
+ * auto v0 = ::fire::Processor::Factory.get().declare<One>();
+ * auto v1 = ::fire::Processor::Factory.get().declare<Two>();
  * }
  * ```
  */
-#define DECLARE_PROCESSOR(CLASS)                                   \
-  namespace {                                                      \
-  auto v = fire::Processor::Factory::get().declare<CLASS>(#CLASS); \
+#define DECLARE_PROCESSOR(CLASS)                             \
+  namespace {                                                \
+  auto v = fire::Processor::Factory::get().declare<CLASS>(); \
   }
 
 #endif

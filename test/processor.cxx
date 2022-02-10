@@ -53,9 +53,9 @@ class TestThrow : public fire::Processor {
  * compilation unit.
  */
 namespace {
-  auto v0 = ::fire::Processor::Factory::get().declare<test::TestProcessor>("test::TestProcessor");
-  auto v1 = ::fire::Processor::Factory::get().declare<test::TestProcessor2>("test::TestProcessor2");
-  auto v2 = ::fire::Processor::Factory::get().declare<test::TestThrow>("test::TestThrow");
+  auto v0 = ::fire::Processor::Factory::get().declare<test::TestProcessor>();
+  auto v1 = ::fire::Processor::Factory::get().declare<test::TestProcessor2>();
+  auto v2 = ::fire::Processor::Factory::get().declare<test::TestThrow>();
 }
 
 /**

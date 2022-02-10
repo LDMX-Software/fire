@@ -5,6 +5,8 @@
 #include <string>         // for the keys in the library map
 #include <unordered_map>  // for the library of prototypes
 
+#include <boost/core/demangle.hpp> // for demangling
+
 #include "fire/exception/Exception.h"
 
 /**
@@ -88,7 +90,7 @@ void loadLibrary(const std::string& libname);
  * // MyDerived inherits from MyPrototype
  * namespace {
  *   auto v = ::fire::factory::Factory<MyPrototype>::get()
- *     .declare<MyDerived>("MyDerived");
+ *     .declare<MyDerived>();
  * }
  * ```
  *
@@ -127,9 +129,9 @@ void loadLibrary(const std::string& libname);
  * };  // LibraryEntry
  * 
  * // a macro to help with registering our library entries with our factory
- * #define DECLARE_LIBRARYENTRY(CLASS)                                \
- *   namespace {                                                      \
- *     auto v = ::LibraryEntry::Factory::get().declare<CLASS>(#CLASS) \
+ * #define DECLARE_LIBRARYENTRY(CLASS)                          \
+ *   namespace {                                                \
+ *     auto v = ::LibraryEntry::Factory::get().declare<CLASS>() \
  *   }
  * #endif // LIBRARYENTRY_HPP
  * ```
@@ -257,15 +259,12 @@ class Factory {
    * We insert the new object into the library after
    * checking that it hasn't been defined before.
    *
-   * @throws Exception if the object has been declared before.
-   * This exception can easily be avoided by making sure the declaration
-   * macro for a prototype links the name input to declare to
-   * the name of the derived class. This means the user would have a
-   * compile-time error rather than a runtime exception.
-   *
-   * We _could_ code this into the declaration function by
-   * using some form of demangling. I need to do some research into
-   * if we can rely on demangling for such an important procedure.
+   * @note This uses the demangled name of the input type
+   * as the key in our library of objects. Using the demangled
+   * name effectively assumes that all of the libraries being
+   * loaded were compiled with the same compiler version.
+   * We could undo this assumption by having the key be an
+   * input into this function.
    *
    * @param[in] full_name name to use as a reference for the declared object
    * @param[in] maker a pointer to a function that can dynamically create an instance
@@ -274,13 +273,8 @@ class Factory {
    *  optimized away.
    */
   template<typename DerivedType>
-  uint64_t declare(const std::string& full_name) {
-    auto lib_it{get().library_.find(full_name)};
-    if (lib_it != library_.end()) {
-      throw Exception("Factory",
-          "An object named " + full_name +
-          " has already been declared.",false);
-    }
+  uint64_t declare() {
+    std::string full_name{boost::core::demangle(typeid(DerivedType).name())};
     library_[full_name] = &maker<DerivedType>;
     return reinterpret_cast<std::uintptr_t>(&library_);
   }
