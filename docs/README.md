@@ -2,7 +2,11 @@
 The fire documentation is generated with [Doxygen](https://www.doxygen.nl/index.html)
 using the fancy [doxygen-awesome](https://github.com/jothepro/doxygen-awesome-css) theme
 for the C++ code and using [sphinx](https://www.sphinx-doc.org/en/master/index.html)
-for the python package.
+for the python package. In order to obtain the same styling as the online documentation,
+you must make sure the doxygen-awesome submodule is downloaded. You can do this with
+```
+git submodule update --init
+```
 
 You can generate a local copy of the documentation after installing doxygen and sphinx.
 We assume that doxygen is run from the root directory of the fire repository.
