@@ -1,6 +1,8 @@
 #ifndef FIRE_H5_WRITER_H
 #define FIRE_H5_WRITER_H
 
+#include <unordered_map>
+
 // using HighFive
 #include <highfive/H5File.hpp>
 

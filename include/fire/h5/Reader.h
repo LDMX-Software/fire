@@ -1,6 +1,8 @@
 #ifndef FIRE_H5_READER_H
 #define FIRE_H5_READER_H
 
+#include <unordered_map>
+
 // using HighFive
 #include <highfive/H5File.hpp>
 
