@@ -3,8 +3,8 @@
 
 # same behavior in local and remote setup
 export GITHUB_WORKFLOWS_PATH="$(dirname ${BASH_SOURCE[0]})"
-export FIRE_TEST_MODULE_PATH="$(realpath ${GITHUB_WORKFLOWS_PATH}/../../test/module)"
-export FIRE_INSTALL_PREFIX="$(realpath ${GITHUB_WORKFLOWS_PATH}/../../install)"
+export FIRE_TEST_MODULE_PATH="$(cd ${GITHUB_WORKFLOWS_PATH}/../../test/module && pwd -P)"
+export FIRE_INSTALL_PREFIX="$(cd ${GITHUB_WORKFLOWS_PATH}/../../install && pwd -P)"
 
 export PATH=${PATH}:${FIRE_INSTALL_PREFIX}/bin
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${FIRE_INSTALL_PREFIX}/lib
@@ -42,8 +42,10 @@ __time__() {
   local n_trials=$1
   for ((i = 0; i < n_trials; i++)); do
     time -p fire ${@:2} || return $?
-  done |& awk '/real/ { real = real + $2; nr++ }
-    END { if (nr>0) printf("%f\n", real/nr); }'
+  done &> timing.log
+  awk '/real/ { real = real + $2; nr++ }
+    END { if (nr>0) printf("%f\n", real/nr); }' timing.log || return $?
+  rm timing.log
 }
 
 # Print the five inputs into the five columns of a CSV line
