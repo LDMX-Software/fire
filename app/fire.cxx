@@ -5,9 +5,6 @@
 
 #include <iostream>
 #include "fire/config/Python.h"
-/// define the object to pull parameters from
-std::string fire::config::root_object = "fire.cfg.Process.lastProcess";
-
 #include "fire/Process.h"
 
 /**
@@ -64,7 +61,8 @@ int main(int argc, char* argv[]) {
   std::unique_ptr<fire::Process> p;
   try {
     fire::config::Parameters config{
-        fire::config::run(argv[ptrpy], argv + ptrpy + 1, argc - ptrpy - 1)};
+        fire::config::run("fire.cfg.Process.lastProcess",
+            argv[ptrpy], argv + ptrpy + 1, argc - ptrpy - 1)};
     p = std::make_unique<fire::Process>(config);
   } catch (const fire::Exception& e) {
     std::cerr << "[" << e.category() << "] " << e.message() << std::endl;

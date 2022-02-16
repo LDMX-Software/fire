@@ -44,7 +44,7 @@ test_root.integer = int(sys.argv[1]) \n\
 const std::string config_file_name{"/tmp/fire_config_python_test.py"};
 
 /// change the root config object to dummy class defined in test script
-std::string fire::config::root_object = "test_root";
+const std::string root_object{"test_root"};
 
 /**
  * Test for reading configuration from python
@@ -62,7 +62,7 @@ BOOST_AUTO_TEST_CASE(no_arg) {
     config_py << class_defs << '\n' << root_obj << std::endl;
   }
   char *args[1];
-  fire::config::Parameters config{fire::config::run(config_file_name, args,0)};
+  fire::config::Parameters config{fire::config::run(root_object,config_file_name, args,0)};
   BOOST_TEST(config.get<std::string>("string") == "test");
   BOOST_TEST(config.get<int>("integer") == 10);
   BOOST_TEST(config.get<double>("double") == 6.9);
@@ -109,7 +109,7 @@ BOOST_AUTO_TEST_CASE(one_arg) {
   char arg[16];
   snprintf(arg,sizeof(arg),"%d",correct);
   args[0] = arg;
-  fire::config::Parameters config{fire::config::run(config_file_name, args, 1)};
+  fire::config::Parameters config{fire::config::run(root_object,config_file_name, args, 1)};
   BOOST_TEST(config.get<int>("integer") == correct);
 }
 
@@ -119,7 +119,7 @@ BOOST_AUTO_TEST_CASE(no_root) {
     config_py << class_defs << std::endl;
   }
   char *args[1];
-  BOOST_CHECK_THROW(fire::config::run(config_file_name,args,0), fire::Exception);
+  BOOST_CHECK_THROW(fire::config::run(root_object,config_file_name,args,0), fire::Exception);
 }
 BOOST_AUTO_TEST_CASE(py_except) {
   {
@@ -127,7 +127,7 @@ BOOST_AUTO_TEST_CASE(py_except) {
     config_py << class_defs << "\n" << throw_exception << "\n" << root_obj << std::endl;
   }
   char *args[1];
-  BOOST_CHECK_THROW(fire::config::run(config_file_name,args,0), fire::Exception);
+  BOOST_CHECK_THROW(fire::config::run(root_object,config_file_name,args,0), fire::Exception);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
