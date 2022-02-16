@@ -4,7 +4,7 @@
 # same behavior in local and remote setup
 export GITHUB_WORKFLOWS_PATH="$(dirname ${BASH_SOURCE[0]})"
 export FIRE_TEST_MODULE_PATH="$(cd ${GITHUB_WORKFLOWS_PATH}/../../test/module && pwd -P)"
-export FIRE_INSTALL_PREFIX="$(cd ${GITHUB_WORKFLOWS_PATH}/../../install && pwd -P)"
+export FIRE_INSTALL_PREFIX="$(cd ${GITHUB_WORKFLOWS_PATH}/../.. && pwd -P)/install"
 
 export PATH=${PATH}:${FIRE_INSTALL_PREFIX}/bin
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${FIRE_INSTALL_PREFIX}/lib
