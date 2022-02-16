@@ -88,7 +88,7 @@ target_include_directories(logging
   )
 
 add_library(config SHARED src/fire/config/Python.cxx)
-target_link_libraries(config PUBLIC Python3::Python Boost::boost)
+target_link_libraries(config PUBLIC exception Python3::Python Boost::boost)
 target_include_directories(config
   PUBLIC 
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
