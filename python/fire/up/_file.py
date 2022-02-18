@@ -39,6 +39,16 @@ class File(h5py.File) :
 
         Modeled after the uproot.File.arrays method.
 
+        Need to recursively reconstruct an event object into the hierarchical
+        nested ragged arrays. Goal: able to handle an event object which is a vector
+        of user classes which has a vector of another class within it.
+
+        { 'vec' : [
+            { 'subvec' : [ 1, 2, 3 ]},
+            { 'subvec' : [ 4, 5, 6 ]}
+            ]
+        }
+
         Parameters
         ----------
         event_objs_spec : dict
@@ -49,6 +59,8 @@ class File(h5py.File) :
             which type of array should we return?
         """
 
+        event_objs = [self[spec] for spec in event_objs_spec]
+        
         if library == 'np' :
             from ._numpy import load
         elif library == 'ak' :
@@ -58,5 +70,5 @@ class File(h5py.File) :
         else :
             raise KeyError(f'Library name {library} not recognized.')
 
-        return load(self, event_objs_spec)
+        return load(event_objs)
 
