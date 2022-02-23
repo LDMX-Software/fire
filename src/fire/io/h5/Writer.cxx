@@ -1,6 +1,6 @@
-#include "fire/h5/Writer.h"
+#include "fire/io/h5/Writer.h"
 
-#include "fire/h5/Constants.h"
+#include "fire/io/Constants.h"
 
 namespace fire::io::h5 {
 

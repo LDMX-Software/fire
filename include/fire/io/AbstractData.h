@@ -5,8 +5,8 @@
 
 namespace fire::io {
 
-namespace h5 {
 class Reader;
+namespace h5 {
 class Writer;
 }
 
@@ -39,7 +39,7 @@ class BaseData {
    *
    * @param[in] f Reader to load from
    */
-  virtual void load(h5::Reader& f) = 0;
+  virtual void load(Reader& f) = 0;
 
   /**
    * pure virtual method for saving the current data
@@ -111,7 +111,7 @@ class AbstractData : public BaseData {
    *
    * @param[in] f Reader to load from
    */
-  virtual void load(h5::Reader& f) = 0;
+  virtual void load(Reader& f) = 0;
 
   /**
    * pure virtual method for saving data

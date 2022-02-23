@@ -172,7 +172,7 @@ class Data<ParameterStorage> : public AbstractData<ParameterStorage> {
    *
    * @param[in] r h5::Reader to load from
    */
-  void load(Reader& r) final override;
+  void load(::fire::io::Reader& r) final override;
 
   /**
    * save the current entry of ParameterStorage into the file
@@ -218,6 +218,6 @@ class Data<ParameterStorage> : public AbstractData<ParameterStorage> {
   std::unordered_map<std::string, std::unique_ptr<BaseData>> parameters_;
 };
 
-}  // namespace fire::h5
+}
 
 #endif

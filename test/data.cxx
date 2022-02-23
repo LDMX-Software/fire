@@ -189,7 +189,7 @@ BOOST_AUTO_TEST_CASE(datad) {
 
     // reader requires at least one run so that it can deduced
     // the number of runs upon construction
-    fire::io::h5::Data<fire::RunHeader> rh_d(fire::io::h5::Reader::RUN_HEADER_NAME);
+    fire::io::h5::Data<fire::RunHeader> rh_d(fire::io::constants::RUN_HEADER_NAME);
     rh_d.save(f);
   }
 

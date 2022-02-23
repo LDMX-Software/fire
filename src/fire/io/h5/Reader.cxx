@@ -12,9 +12,10 @@ Reader::Reader(const std::string& name)
     runs_{file_.getDataSet(
         constants::RUN_HEADER_NAME+"/"+
         constants::NUMBER_NAME)
-      .getDimensions().at(0)} {}
+      .getDimensions().at(0)},
+   ::fire::io::Reader(name) {}
 
-const std::string& Reader::name() const { return file_.getName(); }
+std::string Reader::name() const { return file_.getName(); }
 
 std::vector<std::string> Reader::list(const std::string& group_path) const {
   // just return empty list of group does not exist
@@ -39,3 +40,8 @@ std::string Reader::getTypeName(const std::string& full_obj_name) const {
 }
 
 }  // namespace fire::h5
+
+/// register this reader with the reader factory
+namespace {
+auto v = fire::io::Reader::Factory::get().declare<fire::io::h5::Reader>();
+}

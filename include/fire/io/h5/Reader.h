@@ -4,6 +4,8 @@
 // using HighFive
 #include <highfive/H5File.hpp>
 
+#include "fire/io/Reader.h"
+
 #include "fire/io/h5/Atomic.h"
 
 namespace fire::io::h5 {
@@ -18,7 +20,7 @@ namespace fire::io::h5 {
  * a time without making disk read operation each time Reader::load is
  * called.
  */
-class Reader {
+class Reader : public ::fire::io::Reader {
  public:
   /**
    * Open the file in read mode
@@ -51,7 +53,7 @@ class Reader {
    * Get the name of this file
    * @return name of the file we are reading
    */
-  const std::string& name() const;
+  virtual std::string name() const final override;
 
   /**
    * List the entries inside of a group.
@@ -137,20 +139,6 @@ class Reader {
     }
 
     dynamic_cast<Buffer<AtomicType>&>(*buffers_[path]).read(val);
-  }
-
-  /**
-   * Print the input reader to the stream
-   *
-   * We print the name Reader as well as the name of the file
-   * we are reading.
-   *
-   * @param[in] s std::ostream to write to
-   * @param[in] r Reader to stream
-   * @return modified std::ostream
-   */
-  friend std::ostream& operator<<(std::ostream& s, const Reader& r) {
-    return s << "Reader(" << r.name() << ")";
   }
 
   /// never want to copy a reader

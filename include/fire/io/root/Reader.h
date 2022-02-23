@@ -3,7 +3,9 @@
 
 #include "TFile.h"
 #include "TTree.h"
+#include "TBranch.h"
 
+#include "fire/io/Reader.h"
 #include "fire/exception/Exception.h"
 #include "fire/io/root/Bus.h"
 
@@ -23,18 +25,14 @@ namespace fire::io::root {
  * this Reader effectively does tasks done by the 
  * framework::Event and framework::EventFile classes.
  */
-class Reader {
+class Reader : public ::fire::io::Reader {
  public:
   Reader(const std::string& file_name);
-  const std::string& name() const {
-    return file_->GetName();
-  }
-  inline std::size_t entries() const {
-    return tree_->GetEntriesFast();
-  }
-  inline std::size_t runs() const {
-    return 0;
-  }
+  virtual std::string name() const final override;
+  virtual std::size_t entries() const final override;
+  virtual std::size_t runs() const final override;
+  virtual std::string getTypeName(const std::string& obj_name) const final override;
+
   template <typename DataType>
   void load(const std::string& name, DataType& obj) {
     // transform h5 directory-style name into branchname
@@ -43,13 +41,13 @@ class Reader {
 
     if (not bus_.isOnBoard(branch_name)) {
       bus_.board<DataType>(branch_name);
-      TBranch* br = bus_.attach(tree_, branch_name, false);
+      TBranch* br = bus_.attach(event_tree_, branch_name, false);
       if (br == 0) {
         throw Exception("NotFound", 
             "Branch "+branch_name+" not found in input ROOT file.");
       }
       br->SetStatus(1);
-      auto i_entry{tree_->GetReadEntry()};
+      auto i_entry{event_tree_->GetReadEntry()};
       if (i_entry < 0) {
         throw Exception("BadInit",
             "Reading TTree not initialized properly before load attempt.");
@@ -64,9 +62,6 @@ class Reader {
           "The input data type does not match what is stored within the ROOT TTree.");
     }
   }
-  friend std::ostream& operator<<(std::ostream& s, const Reader& r) {
-    return s << "ROOTReader(" << r.name() << ")";
-  }
   Reader(const Reader&) = delete;
   void operator=(const Reader&) = delete;
  private:
@@ -76,10 +71,11 @@ class Reader {
    * static caching map since this function is called so
    * frequently
    */
-  std::string transform(const std::string& dir_name);
+  static std::string transform(const std::string& dir_name);
  private:
   TFile* file_;
-  TTree* tree_;
+  TTree* event_tree_;
+  TTree* run_tree_;
   Bus bus_;
 };  // Reader
 

@@ -75,8 +75,8 @@ void Event::load() {
     if (obj.should_load_) obj.data_->load(*input_file_);
 }
 
-void Event::setInputFile(io::h5::Reader& r) {
-  input_file_ = &r;
+void Event::setInputFile(io::h5::Reader* r) {
+  input_file_ = r;
 
   // there are input file, so mark the event header as should_load
   objects_[EventHeader::NAME].should_load_ = true;
@@ -84,16 +84,16 @@ void Event::setInputFile(io::h5::Reader& r) {
   // search through file and import the available objects that are there
   available_objects_.clear();
   known_lookups_.clear();
-  std::vector<std::string> passes = r.list(io::h5::Reader::EVENT_GROUP);
+  std::vector<std::string> passes = input_file_->list(io::constants::EVENT_GROUP);
   for (const std::string& pass : passes) {
     // skip the event header
-    if (pass == io::h5::Reader::EVENT_HEADER_NAME) continue;
+    if (pass == io::constants::EVENT_HEADER_NAME) continue;
     // get a list of objects in this pass group
     std::vector<std::string> object_names =
-        r.list(io::h5::Reader::EVENT_GROUP + "/" + pass);
+        input_file_->list(io::constants::EVENT_GROUP + "/" + pass);
     for (const std::string& obj_name : object_names) {
       available_objects_.emplace_back(obj_name, pass,
-                             r.getTypeName(fullName(obj_name, pass)));
+                             input_file_->getTypeName(fullName(obj_name, pass)));
     }
   }
 }
