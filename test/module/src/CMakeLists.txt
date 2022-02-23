@@ -1,10 +1,14 @@
 
 add_library(Bench_Event SHARED Hit.cxx)
 target_link_libraries(Bench_Event PUBLIC fire::h5)
-target_include_directories(Bench_Event PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
+find_package(ROOT 6.20)
+if (ROOT_FOUND)
+  target_link_libraries(Bench_Event PUBLIC ROOT::Core)
+  target_compile_definitions(Bench_Event PUBLIC USE_ROOT=1)
+endif()
 
 add_library(Bench SHARED Produce.cxx Recon.cxx)
 target_link_libraries(Bench PUBLIC Bench_Event fire::framework)
-target_include_directories(Bench PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 install(TARGETS Bench_Event Bench LIBRARY DESTINATION lib)
