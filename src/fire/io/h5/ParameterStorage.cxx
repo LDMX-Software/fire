@@ -18,14 +18,14 @@ void ParameterStorage::clear() {
 Data<ParameterStorage>::Data(const std::string& path, ParameterStorage* handle)
     : AbstractData<ParameterStorage>(path, handle) {}
 
-void Data<ParameterStorage>::load(Reader& r) {
+void Data<ParameterStorage>::load(::fire::io::Reader& r) {
   static bool first_load{true};
   if (first_load) {
     first_load = false;
     // first load - discovery - look through file to find parameters on disk
-    for (auto pname : r.list(this->path_)) {
+    for (auto pname : dynamic_cast<::fire::io::h5::Reader&>(r).list(this->path_)) {
       std::string path{this->path_+"/"+pname};
-      auto type{r.getDataSetType(path)};
+      auto type{dynamic_cast<::fire::io::h5::Reader&>(r).getDataSetType(path)};
       if (type == HighFive::DataTypeClass::Integer) {
         int i{};
         this->handle_->parameters_[pname] = i;

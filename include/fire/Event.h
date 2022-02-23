@@ -5,7 +5,6 @@
 #include <boost/core/demangle.hpp>
 
 #include "fire/io/h5/Data.h"
-#include "fire/ProductTag.h"
 #include "fire/EventHeader.h"
 
 namespace fire {
@@ -220,7 +219,7 @@ class Event {
       // - we mark these objects as should_load == false because
       //   they are new and not from an input file
       auto& obj{objects_[full_name]};
-      obj.data_ = std::make_unique<io::h5::Data<DataType>>(io::h5::Reader::EVENT_GROUP+"/"+full_name);
+      obj.data_ = std::make_unique<io::h5::Data<DataType>>(io::constants::EVENT_GROUP+"/"+full_name);
       obj.should_save_ = keep(full_name, ADD_KEEP_DEFAULT);
       obj.should_load_ = false;
       obj.updated_ = false;
@@ -338,13 +337,8 @@ class Event {
       // - we mark these objects as should_load == false because
       //   they are new and not from an input file
       auto& obj{objects_[full_name]};
-<<<<<<< HEAD
-      obj.data_ = std::make_unique<h5::Data<DataType>>(h5::constants::EVENT_GROUP+"/"+full_name);
+      obj.data_ = std::make_unique<io::h5::Data<DataType>>(io::constants::EVENT_GROUP+"/"+full_name);
       obj.should_save_ = keep(full_name, GET_KEEP_DEFAULT);
-=======
-      obj.data_ = std::make_unique<io::h5::Data<DataType>>(io::h5::Reader::EVENT_GROUP+"/"+full_name);
-      obj.should_save_ = keep(full_name, false);
->>>>>>> a59b45b... add in io namespace
       obj.should_load_ = true;
       obj.updated_ = false;
       // get this object up to the current entry
@@ -468,7 +462,7 @@ class Event {
    *
    * @param[in] r reference to HDF5 input file reader
    */
-  void setInputFile(io::h5::Reader& r);
+  void setInputFile(io::h5::Reader* r);
 
   /**
    * Move to the next event

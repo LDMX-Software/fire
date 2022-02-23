@@ -8,6 +8,7 @@
 #include <string>
 #include <variant>
 
+#include "fire/io/Constants.h"
 #include "fire/io/h5/ParameterStorage.h"
 
 namespace fire {
@@ -164,7 +165,7 @@ class EventHeader {
    */
   void attach(io::h5::Data<EventHeader>& d) {
     // make sure we use the name for this variable that the reader expects
-    d.attach(io::h5::Reader::NUMBER_NAME,number_);
+    d.attach(io::constants::NUMBER_NAME,number_);
     d.attach("run",run_);
     d.attach("timestamp",timestamp_);
     d.attach("weight",weight_);

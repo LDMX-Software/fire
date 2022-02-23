@@ -194,7 +194,7 @@ class Data : public AbstractData<DataType> {
    *
    * @param[in] f file to load from
    */
-  void load(Reader& f) final override {
+  void load(::fire::io::Reader& f) final override {
     for (auto& m : members_) m->load(f);
   }
 
@@ -258,8 +258,9 @@ class Data<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
    *
    * @param[in] f h5::Reader to load from
    */
-  void load(Reader& f) final override {
-    f.load(this->path_, *(this->handle_));
+  void load(::fire::io::Reader& f) final override {
+    /// OOF THIS IS A BIG RISK
+    dynamic_cast<::fire::io::h5::Reader&>(f).load(this->path_, *(this->handle_));
   }
   /**
    * Down to a type that h5::Writer can handle
@@ -311,7 +312,7 @@ class Data<std::vector<ContentType>>
    *
    * @param[in] f h5::Reader to load from
    */
-  void load(Reader& f) final override {
+  void load(::fire::io::Reader& f) final override {
     size_.load(f);
     this->handle_->resize(size_.get());
     for (std::size_t i_vec{0}; i_vec < size_.get(); i_vec++) {
@@ -384,7 +385,7 @@ class Data<std::map<KeyType,ValType>>
    *
    * @param[in] f h5::Reader to load from
    */
-  void load(Reader& f) final override {
+  void load(::fire::io::Reader& f) final override {
     size_.load(f);
     for (std::size_t i_map{0}; i_map < size_.get(); i_map++) {
       keys_.load(f);

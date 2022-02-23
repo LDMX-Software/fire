@@ -9,7 +9,7 @@
 
 namespace fire {
 
-const std::string RunHeader::NAME = io::h5::Reader::RUN_HEADER_NAME;
+const std::string RunHeader::NAME = io::constants::RUN_HEADER_NAME;
 
 void RunHeader::stream(std::ostream &s) const {
   s << "RunHeader { run: " << getRunNumber()

@@ -5,7 +5,7 @@
 #include <string>
 
 #include "fire/version/Version.h"
-#include "fire/h5/Constants.h"
+#include "fire/io/Constants.h"
 #include "fire/io/h5/Data.h"
 #include "fire/io/h5/ParameterStorage.h"
 
@@ -154,7 +154,7 @@ class RunHeader {
    * @param[in] d io::h5::Data to attach to
    */
   void attach(io::h5::Data<RunHeader>& d) {
-    d.attach(io::h5::Reader::NUMBER_NAME,number_);
+    d.attach(io::constants::NUMBER_NAME,number_);
     d.attach("start",runStart_);
     d.attach("end",runEnd_);
     d.attach("detectorName",detectorName_);

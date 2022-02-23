@@ -6,6 +6,38 @@
 
 namespace fire {
 
+/**
+ * open an input file for reading
+ *
+ * @note We determine the type of input file to open from
+ * the extension of the file name. We could implement a
+ * "header reading" but that is harder to develop compared
+ * to a relatively simple requirement that almost everyone
+ * already follows.
+ *
+ * @throws fire::Exception if the file does not have a
+ * recognized extension.
+ * @see fire::factory::Factory::make for how the readers
+ * are constructed
+ *
+ * @param[in] fp file path to file to open
+ * @return pointer to io::Reader that has opened file
+ */
+static std::unique_ptr<io::Reader> open(const std::string& fp) {
+  static const std::map<std::string, std::string> ext_to_type = {
+    { "root", "fire::io::root::Reader" },
+    { "hdf5", "fire::io::h5::Reader" },
+    { "h5"  , "fire::io::h5::Reader" }
+  };
+  auto ext{fp.substr(fp.find_last_of('.')+1)};
+  try {
+    return io::Reader::Factory::get().make(ext_to_type.at(ext), fp);
+  } catch (const std::out_of_range&) {
+    throw fire::Exception("BadExt",
+        "Unrecognized extension '"+ext+"' for input file.");
+  }
+}
+
 Process::Process(const fire::config::Parameters& configuration)
     : output_file_{configuration.get<int>("event_limit"),
                    configuration.get<config::Parameters>("output_file")},
@@ -99,27 +131,27 @@ void Process::run() {
     int ifile = 0;
     int wasRun = -1;
     for (auto fn : input_files_) {
-      io::h5::Reader input_file{fn};
+      std::unique_ptr<io::Reader> input_file = open(fn);
 
       /**
        * Load runs into in-memory cache
        */
       {
         io::h5::Data<RunHeader> read_d{RunHeader::NAME};
-        std::size_t num_runs = input_file.runs();
+        std::size_t num_runs = input_file->runs();
         for (std::size_t i_run{0}; i_run < num_runs; i_run++) {
-          read_d.load(input_file);
+          read_d.load(*input_file);
           // deep copy
           input_runs[read_d.get().getRunNumber()] = read_d.get();
         }
       }
 
-      fire_log(info) << "Opening " << input_file;
+      fire_log(info) << "Opening " << input_file->name();
 
-      for (auto& module : sequence_) module->onFileOpen(input_file.name());
-      event_.setInputFile(input_file);
+      for (auto& module : sequence_) module->onFileOpen(input_file->name());
+      event_.setInputFile(dynamic_cast<fire::io::h5::Reader*>(input_file.get()));
 
-      long unsigned int max_index = input_file.entries();
+      long unsigned int max_index = input_file->entries();
       if (event_limit_ > 0 and max_index + n_events_processed > event_limit_)
         max_index = event_limit_ - n_events_processed;
 
@@ -133,7 +165,7 @@ void Process::run() {
           wasRun = event_.header().getRun();
           if (input_runs.find(wasRun) != input_runs.end()) {
             newRun(input_runs[wasRun]);
-            fire_log(info) << "Got new run header from '" << input_file << "\n"
+            fire_log(info) << "Got new run header from '" << input_file->name() << "\n"
                            << runHeader();
           } else {
             fire_log(warn) << "Run header for run " << wasRun
@@ -151,9 +183,9 @@ void Process::run() {
                        << " events";
       }
 
-      fire_log(info) << "Closing " << input_file;
+      fire_log(info) << "Closing " << input_file->name();
 
-      for (auto& proc : sequence_) proc->onFileClose(input_file.name());
+      for (auto& proc : sequence_) proc->onFileClose(input_file->name());
     }  // loop through input files
 
     // copy the input run headers to the output file
