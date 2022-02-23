@@ -7,7 +7,9 @@
 // H5
 #include "fire/io/h5/Data.h"
 
+#ifdef USE_ROOT
 #include "TObject.h"
+#endif
 
 namespace bench {
 
@@ -222,7 +224,9 @@ class Hit {
     d.attach("pdgID",pdgID_);
   }
 
+#ifdef USE_ROOT
   ClassDef(Hit,1);
+#endif
 };  // Hit
 }  // namespace bench
 

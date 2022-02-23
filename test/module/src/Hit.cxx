@@ -1,6 +1,8 @@
 #include "Hit.h"
 
+#ifdef USE_ROOT
 ClassImp(Hit);
+#endif
 
 namespace bench {
 
