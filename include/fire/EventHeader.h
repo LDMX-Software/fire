@@ -9,7 +9,7 @@
 #include <variant>
 
 #include "fire/io/Constants.h"
-#include "fire/io/h5/ParameterStorage.h"
+#include "fire/io/ParameterStorage.h"
 
 namespace fire {
 
@@ -153,7 +153,7 @@ class EventHeader {
 
  private:
   /// allow data set access for reading/writing
-  friend class io::h5::Data<EventHeader>;
+  friend class io::Data<EventHeader>;
   /**
    * attach to the serializing h5::Data wrapper
    *
@@ -163,7 +163,7 @@ class EventHeader {
    *
    * @param[in] d h5::Data to attach to
    */
-  void attach(io::h5::Data<EventHeader>& d) {
+  void attach(io::Data<EventHeader>& d) {
     // make sure we use the name for this variable that the reader expects
     d.attach(io::constants::NUMBER_NAME,number_);
     d.attach("run",run_);
@@ -202,7 +202,7 @@ class EventHeader {
    * Event parameters
    *  three types of parameters are allowed: int, float, string
    */
-  io::h5::ParameterStorage parameters_;
+  io::ParameterStorage parameters_;
 };
 
 }  // namespace fire

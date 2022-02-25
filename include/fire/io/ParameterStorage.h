@@ -8,11 +8,11 @@
 #include <string>
 #include <variant>
 
-#include "fire/io/h5/Data.h"
-#include "fire/io/h5/Reader.h"
+#include "fire/io/Data.h"
+#include "fire/io/Reader.h"
 #include "fire/exception/Exception.h"
 
-namespace fire::io::h5 {
+namespace fire::io {
 
 /**
  * Provides dynamic parameter storage by interfacing between a map
@@ -172,7 +172,12 @@ class Data<ParameterStorage> : public AbstractData<ParameterStorage> {
    *
    * @param[in] r h5::Reader to load from
    */
-  void load(::fire::io::Reader& r) final override;
+  void load(h5::Reader& r) final override;
+
+#ifdef USE_ROOT
+  void load(root::Reader& r) final override {
+  }
+#endif
 
   /**
    * save the current entry of ParameterStorage into the file

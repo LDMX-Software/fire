@@ -67,7 +67,6 @@ class Bus {
   template <typename BaggageType>
   void board(const std::string& name) {
     passengers_[name] = std::make_unique<Passenger<BaggageType>>();
-    passengers_[name]->clear();  // make sure 'default' state is well defined
   }
 
   /**
@@ -122,15 +121,6 @@ class Bus {
   }
 
   /**
-   * Reset the objects carried by the passengers
-   *
-   * @see Passenger::clear for how we clear the individual passengers
-   */
-  void clear() {
-    for (auto& [n, handle] : passengers_) handle->clear();
-  }
-
-  /**
    * Kicks all of the passengers off the bus
    * and therefore destroys any objects they
    * are carrying.
@@ -141,33 +131,6 @@ class Bus {
    * about why you need to be careful.
    */
   void everybodyOff() { passengers_.clear(); }
-
-  /**
-   * Write the bus to the input ostream.
-   *
-   * Includes new-line characters to separate out the different
-   * objects carried on the bus.
-   *
-   * @param[in] s ostream to write to
-   */
-  void stream(std::ostream &s) const {
-    for (auto& [n, handle] : passengers_)
-      s << n << " : " << handle << std::endl;
-  }
-
-  /**
-   * Allow for the bus to be streamed to an ostream
-   *
-   * @see stream for the implmentation
-   *
-   * @param[in] s ostream to write to
-   * @param[in] b Bus to write out
-   * @return modified ostream
-   */
-  friend std::ostream &operator<<(std::ostream &s, const Bus &b) {
-    b.stream(s);
-    return s;
-  }
 
  private:
   /**
@@ -207,41 +170,6 @@ class Bus {
      */
     virtual TBranch* attach(TTree* tree, const std::string& branch_name,
                             bool can_create) = 0;
-
-    /**
-     * Clear this passenger
-     *
-     * Basically, we need to allow for this handle to reset
-     * the contents of the passenger because we won't know the type
-     * that is being stored when we wish to reset the event bus
-     * to an "undefined" state.
-     */
-    virtual void clear() = 0;
-
-    /**
-     * Define how we should stream the object to the input stream.
-     *
-     * @param[in] s ostream to write to
-     */
-    virtual void stream(std::ostream &s) const = 0;
-
-    /**
-     * Stream this object to the output stream
-     *
-     * Notice that the input Seat is a uniqe_ptr.
-     * This is because that is what is stored in the Bus.
-     *
-     * May contain newlines if large object.
-     *
-     * @see stream for detailed implementation
-     * @param[in] s ostream to write to
-     * @param[in] seat Seat to write out
-     * @return modified ostream
-     */
-    friend std::ostream& operator<<(std::ostream& s, const std::unique_ptr<Bus::Seat>& seat) {
-      seat->stream(s);
-      return s;
-    }
 
   };  // Seat
 
@@ -365,42 +293,6 @@ class Bus {
      */
     void update(const BaggageType& updated_obj) {
       *baggage_ = updated_obj;
-      post_update(the_type<BaggageType>());
-    }
-
-    /**
-     * Reset the object we are carrying to an undefined state.
-     *
-     * We call the overloaded, templated clear method that
-     * allows the compiler to deduce which implementation
-     * to use depending on the type of baggage we are carrying.
-     */
-    virtual void clear() { clear(the_type<BaggageType>{}); }
-
-    /**
-     * Stream the passenger's object to the input ostream
-     *
-     * We call the overloaded, templated stream method that
-     * allows the compiler to deduce which implementation
-     * to use depending on the type of baggage we are carrying.
-     */
-    virtual void stream(std::ostream& s) const { 
-      stream(the_type<BaggageType>{}, s);
-    }
-
-    /**
-     * Stream this object to the output stream
-     *
-     * May contain newlines if large object.
-     *
-     * @see stream for detailed implementation
-     * @param[in] s ostream to write to
-     * @param[in] p Passenger to write out
-     * @return modified ostream
-     */
-    friend std::ostream& operator<<(std::ostream& s, const Bus::Passenger<BaggageType>& p) {
-      p.stream(s);
-      return s;
     }
 
    private:
@@ -589,159 +481,6 @@ class Bus {
     TBranch* attach(the_type<double> t, TTree* tree,
                     const std::string& branch_name, bool can_create) {
       return attachBasic(tree, branch_name, can_create);
-    }
-
-   private:  // specializations of clear
-    /**
-     * Clear bool by setting it to false.
-     * @param t Unused, only helping compiler choose the correct method
-     */
-    void clear(the_type<bool> t) { *baggage_ = false; }
-
-    /**
-     * Clear short by setting it to the minimum defined by the compiler.
-     * @param t Unused, only helping compiler choose the correct method
-     */
-    void clear(the_type<short> t) {
-      *baggage_ = std::numeric_limits<BaggageType>::min();
-    }
-
-    /**
-     * Clear int by setting it to the minimum defined by the compiler.
-     * @param t Unused, only helping compiler choose the correct method
-     */
-    void clear(the_type<int> t) {
-      *baggage_ = std::numeric_limits<BaggageType>::min();
-    }
-
-    /**
-     * Clear long by setting it to the minimum defined by the compiler.
-     * @param t Unused, only helping compiler choose the correct method
-     */
-    void clear(the_type<long> t) {
-      *baggage_ = std::numeric_limits<BaggageType>::min();
-    }
-
-    /**
-     * Clear float by setting it to the minimum defined by the compiler.
-     * @param t Unused, only helping compiler choose the correct method
-     */
-    void clear(the_type<float> t) {
-      *baggage_ = std::numeric_limits<BaggageType>::min();
-    }
-
-    /**
-     * Clear double by setting it to the minimum defined by the compiler.
-     * @param t Unused, only helping compiler choose the correct method
-     */
-    void clear(the_type<double> t) {
-      *baggage_ = std::numeric_limits<BaggageType>::min();
-    }
-
-    /**
-     * Clear a general class by calling its 'Clear' method.
-     *
-     * @note The capitalization of 'Clear' is a relic of
-     * when the event bus objects needed to inherit from TObject.
-     * We _could_ simplify this code by renaming the 'Clear' method
-     * to 'clear' which would match std::vector and std::map.
-     *
-     * @param t Unused, only helping compiler choose the correct method
-     */
-    template <typename T>
-    void clear(the_type<T> t) { baggage_->Clear(); }
-
-    /**
-     * Clear a vector by calling the std::vector::clear method.
-     * @param t Unused, only helping compiler choose the correct method
-     */
-    template <typename Content>
-    void clear(the_type<std::vector<Content>> t) { baggage_->clear(); }
-
-    /**
-     * Clear a map by calling the std::map::clear method.
-     * @param t Unused, only helping compiler choose the correct method
-     */
-    template <typename Key, typename Val>
-    void clear(the_type<std::map<Key, Val>> t) { baggage_->clear(); }
-
-   private:  // specializations of post_update
-    /**
-     * In general, don't do anything after an object has been updated.
-     * @param t Unused, only helping compiler choose the correct method
-     */
-    template <typename T>
-    void post_update(the_type<T> t) {}
-
-    /**
-     * For std::vector, use the sort method after the contents are updated.
-     *
-     * @note This is where we require that any contents
-     * of vectors have the operator< defined.
-     *
-     * @param t Unused, only helping compiler choose the correct method
-    template <typename Content>
-    void post_update(the_type<std::vector<Content>> t) {
-      std::sort(baggage_->begin(), baggage_->end());
-    }
-     */
-
-   private: //specializations of stream
-    /**
-     * Stream a basic type that has its own
-     * definition of 'operator<<'.
-     *
-     * @note Here is where we require that all event bus
-     * objects (not inside a vector or map) need the
-     * 'operatore<<' defined.
-     *
-     * @param t Unused, only helping compiler choose the correct method
-     * @param s ostream to write to
-     */
-    template <typename T>
-    void stream(the_type<T> t, std::ostream& s) const {
-      //s << *baggagage_;
-    }
-
-    /**
-     * Stream a vector of objects by looping through them.
-     *
-     * @note Here is where we require that all event
-     * objects inside a vector need the 'operator<<' defined.
-     *
-     * @param t Unused, only helping compiler choose the correct method
-     * @param s ostream to write to
-     */
-    template <typename Content>
-    void stream(the_type<std::vector<Content>> t, std::ostream& s) const {
-      s << baggage_->size();
-      /*
-      s << "[ ";
-      for (auto const& entry : *baggage_) s << entry << " ";
-      s << "]";
-      */
-    }
-
-    /**
-     * Stream a map of objects by looping through them
-     *
-     * @note Here is where we require that all event
-     * objects used as a key or value in a map
-     * need the 'operator<<' defined.
-     *
-     * @param t Unused, only helping compiler choose the correct method
-     * @param s ostream to write to
-     */
-    template <typename Key, typename Val>
-    void stream(the_type<std::map<Key,Val>> t, std::ostream& s) const {
-      s << baggage_->size();
-      /*
-      s << "{ ";
-      for (auto const& [k, v] : *baggage_) {
-        s << k << " -> " << v << " ";
-      }
-      s << "}";
-      */
     }
 
    private:

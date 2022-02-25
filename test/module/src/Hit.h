@@ -5,7 +5,7 @@
 #include <iostream>
 
 // H5
-#include "fire/io/h5/Data.h"
+#include "fire/io/Data.h"
 
 #ifdef USE_ROOT
 #include "TObject.h"
@@ -208,8 +208,8 @@ class Hit {
    */
   int pdgID_{0};
 
-  friend class fire::io::h5::Data<Hit>;
-  void attach(fire::io::h5::Data<Hit>& d) {
+  friend class fire::io::Data<Hit>;
+  void attach(fire::io::Data<Hit>& d) {
     d.attach("layerID", layerID_);
     d.attach("moduleID", moduleID_);
     d.attach("time", time_);

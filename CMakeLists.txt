@@ -90,11 +90,24 @@ target_include_directories(logging
 add_library(config SHARED src/fire/config/Python.cxx)
 target_link_libraries(config PUBLIC exception Python3::Python)
 
-add_library(h5 SHARED
-  src/fire/io/h5/Writer.cxx
-  src/fire/io/h5/Reader.cxx
-  src/fire/io/h5/ParameterStorage.cxx)
-target_link_libraries(h5 PUBLIC HighFive config)
+find_package(ROOT 6.20)
+if (ROOT_FOUND)
+  message(STATUS "Building ROOT reader")
+  add_library(io SHARED 
+    src/fire/io/Writer.cxx
+    src/fire/io/ParameterStorage.cxx
+    src/fire/io/h5/Reader.cxx
+    src/fire/io/root/Reader.cxx)
+  target_link_libraries(io PUBLIC config HighFive ROOT::Core ROOT::TreePlayer)
+  target_compile_definitions(io PUBLIC USE_ROOT=1)
+else()
+  message(WARNING "ROOT not found. Reading ROOT files will not be supported.")
+  add_library(io SHARED 
+    src/fire/io/Writer.cxx
+    src/fire/io/ParameterStorage.cxx
+    src/fire/io/h5/Reader.cxx)
+  target_link_libraries(io PUBLIC config HighFive)
+endif()
 
 add_library(framework SHARED
   src/fire/StorageControl.cxx
@@ -108,24 +121,12 @@ add_library(framework SHARED
   src/fire/Conditions.cxx
   src/fire/RandomNumberSeedService.cxx
   )
-target_link_libraries(framework PUBLIC logging version exception config factory h5)
-
-find_package(ROOT 6.20)
-if (ROOT_FOUND)
-  message(STATUS "Building ROOT reader")
-  add_library(root SHARED src/fire/io/root/Reader.cxx)
-  target_link_libraries(root PRIVATE exception ROOT::Core)
-  target_link_libraries(framework PUBLIC root)
-  target_compile_definitions(framework PUBLIC USE_ROOT=1)
-  set(root_target root)
-else()
-  message(WARNING "ROOT not found. Reading ROOT files will not be supported.")
-endif()
+target_link_libraries(framework PUBLIC logging version exception config factory io)
 
 # Compiling the fire library requires features introduced by the cxx 17 standard.
 #   also to avoid conflicts, we expand the library prefix from 'lib' to 'libfire_'
 set_target_properties(
-  framework exception config factory h5 logging ${root_target}
+  framework exception config factory io logging
   PROPERTIES CXX_STANDARD 17
              CXX_STANDARD_REQUIRED YES
              CXX_EXTENSIONS NO
@@ -134,7 +135,7 @@ set_target_properties(
 # installing the fire target and generate CMake-compatible package files
 #   is done by following the documentation linked below
 # https://cmake.org/cmake/help/git-stage/guide/importing-exporting/index.html
-install(TARGETS framework exception config factory h5 version logging ${root_target}
+install(TARGETS framework exception config factory io version logging
   EXPORT fireTargets 
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib

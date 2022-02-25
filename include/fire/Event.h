@@ -4,7 +4,7 @@
 #include <regex>
 #include <boost/core/demangle.hpp>
 
-#include "fire/io/h5/Data.h"
+#include "fire/io/Data.h"
 #include "fire/EventHeader.h"
 
 namespace fire {
@@ -219,7 +219,7 @@ class Event {
       // - we mark these objects as should_load == false because
       //   they are new and not from an input file
       auto& obj{objects_[full_name]};
-      obj.data_ = std::make_unique<io::h5::Data<DataType>>(io::constants::EVENT_GROUP+"/"+full_name);
+      obj.data_ = std::make_unique<io::Data<DataType>>(io::constants::EVENT_GROUP+"/"+full_name);
       obj.should_save_ = keep(full_name, ADD_KEEP_DEFAULT);
       obj.should_load_ = false;
       obj.updated_ = false;
@@ -337,7 +337,7 @@ class Event {
       // - we mark these objects as should_load == false because
       //   they are new and not from an input file
       auto& obj{objects_[full_name]};
-      obj.data_ = std::make_unique<io::h5::Data<DataType>>(io::constants::EVENT_GROUP+"/"+full_name);
+      obj.data_ = std::make_unique<io::Data<DataType>>(io::constants::EVENT_GROUP+"/"+full_name);
       obj.should_save_ = keep(full_name, GET_KEEP_DEFAULT);
       obj.should_load_ = true;
       obj.updated_ = false;
@@ -372,7 +372,7 @@ class Event {
    *
    * @param[in] test_file Output file to write any testing to.
    */
-  static Event test(io::h5::Writer& test_file) {
+  static Event test(io::Writer& test_file) {
     return Event(test_file,"test",{});
   }
 
@@ -438,7 +438,7 @@ class Event {
    * @param[in] pass name of current processing pass
    * @param[in] dk_rules configuration for the drop/keep rules
    */
-  Event(io::h5::Writer& output_file,
+  Event(io::Writer& output_file,
         const std::string& pass,
         const std::vector<config::Parameters>& dk_rules);
 
@@ -487,7 +487,7 @@ class Event {
   /// pointer to input file (nullptr if no input files)
   io::h5::Reader* input_file_;
   /// handle to output file (owned by Process)
-  io::h5::Writer& output_file_;
+  io::Writer& output_file_;
   /// name of current processing pass
   std::string pass_;
   /**
@@ -508,8 +508,8 @@ class Event {
      * @throws bad_cast if DataSet does not hold the same type
      */
     template <typename DataType>
-    io::h5::Data<DataType>& getDataRef() {
-      return dynamic_cast<io::h5::Data<DataType>&>(*data_);
+    io::Data<DataType>& getDataRef() {
+      return dynamic_cast<io::Data<DataType>&>(*data_);
     }
     /**
      * Clear the event object at the end of an event

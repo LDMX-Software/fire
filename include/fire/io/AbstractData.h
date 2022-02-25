@@ -3,12 +3,13 @@
 
 #include <string>
 
-namespace fire::io {
+#include "fire/io/Writer.h"
+#include "fire/io/h5/Reader.h"
+#ifdef USE_ROOT
+#include "fire/io/root/Reader.h"
+#endif
 
-class Reader;
-namespace h5 {
-class Writer;
-}
+namespace fire::io {
 
 /**
  * Empty data base allowing recursion
@@ -37,16 +38,25 @@ class BaseData {
   /**
    * pure virtual method for loading data from the input file
    *
-   * @param[in] f Reader to load from
+   * @param[in] f h5::Reader to load from
    */
-  virtual void load(Reader& f) = 0;
+  virtual void load(h5::Reader& f) = 0;
+
+#ifdef USE_ROOT
+  /**
+   * pure virtual method for loading data from the input file
+   *
+   * @param[in] f h5::Reader to load from
+   */
+  virtual void load(root::Reader& f) = 0;
+#endif
 
   /**
    * pure virtual method for saving the current data
    *
    * @param[in] f h5::Writer to write to
    */
-  virtual void save(h5::Writer& f) = 0;
+  virtual void save(Writer& f) = 0;
 
   /**
    * pure virtual method for resetting the current data to a blank state
@@ -111,14 +121,23 @@ class AbstractData : public BaseData {
    *
    * @param[in] f Reader to load from
    */
-  virtual void load(Reader& f) = 0;
+  virtual void load(h5::Reader& f) = 0;
+
+#ifdef USE_ROOT
+  /**
+   * pure virtual method for loading data from the input file
+   *
+   * @param[in] f h5::Reader to load from
+   */
+  virtual void load(root::Reader& f) = 0;
+#endif
 
   /**
    * pure virtual method for saving data
    *
    * @param[in] f h5::Writer to save to
    */
-  virtual void save(h5::Writer& f) = 0;
+  virtual void save(Writer& f) = 0;
 
   /**
    * Define the clear function here to handle the most common cases.
