@@ -31,7 +31,7 @@ bool Event::keep(const std::string& full_name, bool def) const {
   return rule_it == drop_keep_rules_.rend() ? def : rule_it->second;
 }
 
-Event::Event(io::h5::Writer& output_file,
+Event::Event(io::Writer& output_file,
              const std::string& pass,
              const std::vector<config::Parameters>& dk_rules)
     : output_file_{output_file},
@@ -43,7 +43,7 @@ Event::Event(io::h5::Writer& output_file,
   //    we own the pointer in this special case so we can return both mutable
   //    and const references
   auto& obj{objects_[EventHeader::NAME]};
-  obj.data_ = std::make_unique<io::h5::Data<EventHeader>>(EventHeader::NAME,
+  obj.data_ = std::make_unique<io::Data<EventHeader>>(EventHeader::NAME,
                                                         header_.get()),
   obj.should_save_ = true;   // always save event header
   obj.should_load_ = false;  // don't load unless input files are passed

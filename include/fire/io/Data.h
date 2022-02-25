@@ -1,5 +1,5 @@
-#ifndef FIRE_IO_H5_DATA_H
-#define FIRE_IO_H5_DATA_H
+#ifndef FIRE_IO_DATA_H
+#define FIRE_IO_DATA_H
 
 #include <memory>
 #include <type_traits>
@@ -7,8 +7,6 @@
 #include <map>
 
 #include "fire/io/AbstractData.h"
-#include "fire/io/h5/Reader.h"
-#include "fire/io/h5/Writer.h"
 
 /**
  * serialization to and from HDF5 files
@@ -22,11 +20,7 @@
  * the saving and loading of data to and from a file comes from this namespace.
  * fire is able to handle all so-called "atomic" types (types with 
  * [numeric limits](https://en.cppreference.com/w/cpp/types/numeric_limits)
- * defined and 
- * [`std::string`](https://en.cppreference.com/w/cpp/string/basic_string)),
- * [`std::vector`](https://en.cppreference.com/w/cpp/container/vector) of, 
- * and [`std::map`](https://en.cppreference.com/w/cpp/container/map) 
- * of these types.
+ * defined and std::string, std::vector of, and std::map of these types.
  *
  * This accomodates a lot of workflows, but it doesn't accomodate everything.
  * In order to make fire even more flexible, there is a method of interfacing
@@ -36,22 +30,22 @@
  * necessary to interface with fire's serialization method.
  *
  * ```cpp
- * #include "fire/io/h5/Data.h"
+ * #include "fire/io/Data.h"
  * class MyData {
- *   friend class fire::h5::Data<MyData>;
+ *   friend class fire::io::Data<MyData>;
  *   MyData() = default;
  *   void clear();
- *   void attach(fire::h5::Data<MyData>& d);
+ *   void attach(fire::io::Data<MyData>& d);
  * };
  * ```
  *
  * The user class has four necessary components:
- * 1. Your class declares the the wrapping h5::Data class as a `friend`.
- *    - This allows the h5::Data class access to the (potentially private)
+ * 1. Your class declares the the wrapping io::Data class as a `friend`.
+ *    - This allows the io::Data class access to the (potentially private)
  *      methods defined below.
  * 2. Your class has a (public or private) default constructor.
  *    - The default constructor may be how we initialize the data,
- *      so it must be defined and available to fire::h5.
+ *      so it must be defined and available to fire::io.
  *    - If you don't want other parts of the program using the default
  *      constructor, you can declare it `private`.
  * 3. Your class has a `void clear()` method defined which resets the object
@@ -59,7 +53,7 @@
  *    - This is used by fire to reset the data at the end of each event.
  *    - Similar to the default constructor, this method can be public 
  *      or private.
- * 4. Your class implements a `void attach(fire::h5::Data<MyData>& d)` method.
+ * 4. Your class implements a `void attach(fire::io::Data<MyData>& d)` method.
  *    - This method should be private since it should not be called by
  *      other parts of your code.
  *    - More detail below.
@@ -67,12 +61,12 @@
  * ## The attach Method
  * This method is where you make the decision on which member variables of
  * your class should be stored to or read from data files and how those
- * variables are named. You do this using the fire::h5::Data<DataType>::attach
+ * variables are named. You do this using the fire::io::Data<DataType>::attach
  * method. This is best illustrated with an example.
  *
  * ```cpp
  * // member_one_ and member_two_ are members of MyData
- * void MyData::attach(fire::h5::Data<MyData>& d) {
+ * void MyData::attach(fire::io::Data<MyData>& d) {
  *   d.attach("first_member", member_one_);
  *   d.attach("another_member", member_two_);
  * }
@@ -86,11 +80,11 @@
  * - The name of variables on disk cannot be the same in one `attach`
  *   method, but they can repeat across different classes (similar
  *   to member variables).
- * - Passing h5::Data as reference (i.e. with the `&`) is necessary;
- *   otherwise, you would attach to a local copy and the real h5::Data
+ * - Passing io::Data as reference (i.e. with the `&`) is necessary;
+ *   otherwise, you would attach to a local copy and the real io::Data
  *   wouldn't be attached to anything.
- * - The members of MyData you pass to h5::Data::attach can be any
- *   class that fire::h5 can handle. This includes the classes listed
+ * - The members of MyData you pass to io::Data::attach can be any
+ *   class that fire::io can handle. This includes the classes listed
  *   above or other classes you have defined following these rules.
  *
  * ## Full Example
@@ -104,10 +98,10 @@
  * redundant and so it shouldn't waste disk space.
  *
  * ```cpp
- * #include "fire/io/h5/Data.h"
+ * #include "fire/io/Data.h"
  * class Point {
  *   double x_,y_,z_,mag_;
- *   friend class fire::h5::Data<Point>;
+ *   friend class fire::io::Data<Point>;
  *   Point() = default;
  *   void clear() {
  *     x_ = 0.;
@@ -115,7 +109,7 @@
  *     z_ = 0.;
  *     mag_ = -1.;
  *   }
- *   void attach(fire::h5::Data<Point>& d) {
+ *   void attach(fire::io::Data<Point>& d) {
  *     d.attach("x",x_);
  *     d.attach("y",y_);
  *     d.attach("z",z_);
@@ -134,18 +128,18 @@
  * };
  * ```
  */
-namespace fire::io::h5 {
+namespace fire::io {
 
 /**
  * General data set
  *
  * This is the top-level data set that will be used most often.
  * It is meant to be used by a class which registers its member
- * variables to this set via the h5::DataSet<DataType>::attach
+ * variables to this set via the io::DataSet<DataType>::attach
  * method.
  *
  * More complete documentation is kept in the documentation
- * of the fire::h5 namespace; nevertheless, a short example
+ * of the fire::io namespace; nevertheless, a short example
  * is kep here.
  *
  * ```cpp
@@ -154,8 +148,8 @@ namespace fire::io::h5 {
  *   MyData() = default; // required by serialization technique
  *   // other public members
  *  private:
- *   friend class fire::h5::Data<MyData>;
- *   void attach(fire::h5::Data<MyData>& set) {
+ *   friend class fire::io::Data<MyData>;
+ *   void attach(fire::io::Data<MyData>& set) {
  *     set.attach("my_double",my_double_);
  *   }
  *   void clear() {
@@ -175,10 +169,10 @@ class Data : public AbstractData<DataType> {
    * Attach ourselves to the input type after construction.
    *
    * After the intermediate class AbstractData does the
-   * initialization, we call the `void attach(h5::Data<DataType>& d)`
+   * initialization, we call the `void attach(io::Data<DataType>& d)`
    * method of the data pointed to by our handle. 
    * This allows us to register its member variables with our own 
-   * h5::Data<DataType>::attach method.
+   * io::Data<DataType>::attach method.
    *
    * @param[in] path full in-file path to the data set for this data
    * @param[in] handle address of object already created (optional)
@@ -194,9 +188,19 @@ class Data : public AbstractData<DataType> {
    *
    * @param[in] f file to load from
    */
-  void load(::fire::io::Reader& f) final override {
+  void load(h5::Reader& f) final override {
     for (auto& m : members_) m->load(f);
   }
+
+#ifdef USE_ROOT
+  /**
+   * Loading this dataset from a ROOT file involves giving
+   * it directly to the file immediately.
+   */
+  void load(root::Reader& f) final override {
+    f.load(this->path_, *(this->handle_));
+  }
+#endif
 
   /*
    * Saving this dataset from the file involves simply saving
@@ -232,7 +236,7 @@ class Data : public AbstractData<DataType> {
 /**
  * Data wrapper for atomic types
  *
- * @see h5::is_atomic for how we deduce if a type is atomic
+ * @see io::is_atomic for how we deduce if a type is atomic
  *
  * Once we finally recurse down to actual fundamental ("atomic") types,
  * we can start actually calling the file load and save methods.
@@ -258,17 +262,27 @@ class Data<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
    *
    * @param[in] f h5::Reader to load from
    */
-  void load(::fire::io::Reader& f) final override {
-    /// OOF THIS IS A BIG RISK
-    dynamic_cast<::fire::io::h5::Reader&>(f).load(this->path_, *(this->handle_));
+  void load(h5::Reader& f) final override {
+    f.load(this->path_, *(this->handle_));
   }
+
+#ifdef USE_ROOT
   /**
-   * Down to a type that h5::Writer can handle
+   * Loading this dataset from a ROOT file involves giving
+   * it directly to the file immediately.
+   */
+  void load(root::Reader& f) final override {
+    f.load(this->path_, this->handle_);
+  }
+#endif
+
+  /**
+   * Down to a type that io::Writer can handle
    *
-   * @see h5::Writer::save for how we write data to
+   * @see io::Writer::save for how we write data to
    * the file at the input path from our handle.
    *
-   * @param[in] f h5::Writer to save to
+   * @param[in] f io::Writer to save to
    */
   void save(Writer& f) final override {
     f.save(this->path_, *(this->handle_));
@@ -312,7 +326,7 @@ class Data<std::vector<ContentType>>
    *
    * @param[in] f h5::Reader to load from
    */
-  void load(::fire::io::Reader& f) final override {
+  void load(h5::Reader& f) final override {
     size_.load(f);
     this->handle_->resize(size_.get());
     for (std::size_t i_vec{0}; i_vec < size_.get(); i_vec++) {
@@ -321,6 +335,16 @@ class Data<std::vector<ContentType>>
     }
   }
 
+#ifdef USE_ROOT
+  /**
+   * Loading this dataset from a ROOT file involves giving
+   * it directly to the file immediately.
+   */
+  void load(root::Reader& f) final override {
+    f.load(this->path_, this->handle_);
+  }
+#endif
+
   /**
    * Save a vector to the output file
    *
@@ -328,7 +352,7 @@ class Data<std::vector<ContentType>>
    *
    * We write the size and the content onto the end of their data sets.
    *
-   * @param[in] f h5::Writer to save to
+   * @param[in] f io::Writer to save to
    */
   void save(Writer& f) final override {
     size_.update(this->handle_->size());
@@ -353,7 +377,7 @@ class Data<std::vector<ContentType>>
  * two columns rather than only one.
  *
  * @note We assume the load/save is done sequentially.
- * Similar rational as h5::Data<std::vector<ContentType>>
+ * Similar rational as io::Data<std::vector<ContentType>>
  *
  * @tparam KeyType type that the keys in the map are
  * @tparam ValType type that the vals in the map are
@@ -385,7 +409,7 @@ class Data<std::map<KeyType,ValType>>
    *
    * @param[in] f h5::Reader to load from
    */
-  void load(::fire::io::Reader& f) final override {
+  void load(h5::Reader& f) final override {
     size_.load(f);
     for (std::size_t i_map{0}; i_map < size_.get(); i_map++) {
       keys_.load(f);
@@ -394,6 +418,16 @@ class Data<std::map<KeyType,ValType>>
     }
   }
 
+#ifdef USE_ROOT
+  /**
+   * Loading this dataset from a ROOT file involves giving
+   * it directly to the file immediately.
+   */
+  void load(root::Reader& f) final override {
+    f.load(this->path_, this->handle_);
+  }
+#endif
+
   /**
    * Save a vector to the output file
    *
@@ -401,7 +435,7 @@ class Data<std::map<KeyType,ValType>>
    *
    * We write the size and the keys/vals onto the end of their data sets.
    *
-   * @param[in] f h5::Writer to save to
+   * @param[in] f io::Writer to save to
    */
   void save(Writer& f) final override {
     size_.update(this->handle_->size());
@@ -423,7 +457,7 @@ class Data<std::map<KeyType,ValType>>
   Data<ValType> vals_;
 };  // Data<std::map>
 
-}  // namespace fire::h5
+}  // namespace fire::io
 
 #endif  // FIRE_H5_DATASET_H
 

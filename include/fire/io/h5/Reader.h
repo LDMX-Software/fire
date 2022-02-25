@@ -6,7 +6,7 @@
 
 #include "fire/io/Reader.h"
 
-#include "fire/io/h5/Atomic.h"
+#include "fire/io/Atomic.h"
 
 namespace fire::io::h5 {
 

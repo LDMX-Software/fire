@@ -1,9 +1,7 @@
-#ifndef FIRE_IO_H5_ATOMIC_H
-#define FIRE_IO_H5_ATOMIC_H
+#ifndef FIRE_IO_ATOMIC_H
+#define FIRE_IO_ATOMIC_H
 
-#include <highfive/H5DataType.hpp>
-
-namespace fire::io::h5 {
+namespace fire::io {
 
 /**
  * HighFive supports many C++ "atomic" types that are used regularly.

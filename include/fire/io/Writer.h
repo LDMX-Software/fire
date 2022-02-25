@@ -5,9 +5,9 @@
 #include <highfive/H5File.hpp>
 
 #include "fire/config/Parameters.h"
-#include "fire/io/h5/Atomic.h"
+#include "fire/io/Atomic.h"
 
-namespace fire::io::h5 {
+namespace fire::io {
 
 /**
  * Write the fire DataSets into a deterministic structure

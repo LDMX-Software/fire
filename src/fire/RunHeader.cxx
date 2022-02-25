@@ -1,7 +1,5 @@
 #include "fire/RunHeader.h"
 
-#include "fire/io/h5/Reader.h"
-
 /*~~~~~~~~~~~~~~~~*/
 /*   C++ StdLib   */
 /*~~~~~~~~~~~~~~~~*/

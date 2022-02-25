@@ -1,8 +1,8 @@
-#include "fire/io/h5/Writer.h"
+#include "fire/io/Writer.h"
 
 #include "fire/io/Constants.h"
 
-namespace fire::io::h5 {
+namespace fire::io {
 
 Writer::Writer(const int& event_limit, const config::Parameters& ps)
     : file_(ps.get<std::string>("name"),
