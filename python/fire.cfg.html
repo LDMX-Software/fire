@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>fire.cfg package &#8212; fire v0.12.0 documentation</title>
+    <title>fire.cfg package &#8212; fire v0.12.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bizstyle.css" />
     
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="fire.html" title="fire package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">fire v0.12.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">fire v0.12.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="fire.html" accesskey="U">fire package</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">fire.cfg package</a></li> 
       </ul>
@@ -231,17 +231,6 @@ Only used in Production Mode (no input files)</p>
 </dl>
 </dd></dl>
 
-<dl class="py attribute">
-<dt class="sig sig-object py" id="fire.cfg.Process.rnss">
-<span class="sig-name descname"><span class="pre">rnss</span></span><a class="headerlink" href="#fire.cfg.Process.rnss" title="Permalink to this definition">¶</a></dt>
-<dd><p>conditions object that provides random number seeds in a deterministic way</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#fire.cfg._rnss.RandomNumberSeedService" title="fire.cfg._rnss.RandomNumberSeedService">RandomNumberSeedService</a></p>
-</dd>
-</dl>
-</dd></dl>
-
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <dl class="simple">
@@ -371,6 +360,26 @@ Extends the input_files list by these files.</p>
 <dd><p>Print this Process and wait for user confirmation to continue</p>
 <p>Prints the process through the print function, and then
 waits for the user to press Enter to continue.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fire.cfg.Process.rnss">
+<span class="sig-name descname"><span class="pre">rnss</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fire.cfg.Process.rnss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the random number seed service condition</p>
+<p>We create that condition in the constructor of the process,
+so we can trust that it is the first entry in the conditions
+provider list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>RandomNumberSeedService for more configuration</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>You would use this function if you wanted to change
+the mode with which the random numbers are seeded.</p>
+<blockquote>
+<div><p>p.rnss().time()</p>
+</div></blockquote>
 </dd></dl>
 
 <dl class="py method">
@@ -721,7 +730,7 @@ name exactly matching the name of the input processor object</p>
         <li class="right" >
           <a href="fire.html" title="fire package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">fire v0.12.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">fire v0.12.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="fire.html" >fire package</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">fire.cfg package</a></li> 
       </ul>

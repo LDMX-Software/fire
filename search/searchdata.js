@@ -11,7 +11,7 @@ var indexSectionsWithContent =
   8: "defiw",
   9: "dhop",
   10: "bef",
-  11: "🔥"
+  11: "dg🔥"
 };
 
 var indexSectionNames =

@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.12.0</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.12.1</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -146,9 +146,9 @@ $(document).ready(function(){initNavTree('ConditionsProvider_8h_source.html','')
 <div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span> </div>
 <div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>}  <span class="comment">// namespace fire</span></div>
 <div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span> </div>
-<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span><span class="preprocessor">#define DECLARE_CONDITIONS_PROVIDER(CLASS)                                  \</span></div>
-<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span><span class="preprocessor">  namespace {                                                               \</span></div>
-<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span><span class="preprocessor">  auto v = fire::ConditionsProvider::Factory::get().declare&lt;CLASS&gt;(#CLASS); \</span></div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span><span class="preprocessor">#define DECLARE_CONDITIONS_PROVIDER(CLASS)                            \</span></div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span><span class="preprocessor">  namespace {                                                         \</span></div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span><span class="preprocessor">  auto v = fire::ConditionsProvider::Factory::get().declare&lt;CLASS&gt;(); \</span></div>
 <div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span><span class="preprocessor">  }</span></div>
 <div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span> </div>
 <div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span><span class="preprocessor">#endif</span></div>
@@ -175,8 +175,8 @@ $(document).ready(function(){initNavTree('ConditionsProvider_8h_source.html','')
 <div class="ttc" id="aclassfire_1_1EventHeader_html"><div class="ttname"><a href="classfire_1_1EventHeader.html">fire::EventHeader</a></div><div class="ttdoc">Header information of an event such as event number and timestamp.</div><div class="ttdef"><b>Definition:</b> EventHeader.h:19</div></div>
 <div class="ttc" id="aclassfire_1_1RunHeader_html"><div class="ttname"><a href="classfire_1_1RunHeader.html">fire::RunHeader</a></div><div class="ttdoc">Container for run parameters.</div><div class="ttdef"><b>Definition:</b> RunHeader.h:22</div></div>
 <div class="ttc" id="aclassfire_1_1config_1_1Parameters_html"><div class="ttname"><a href="classfire_1_1config_1_1Parameters.html">fire::config::Parameters</a></div><div class="ttdoc">Class encapsulating parameters for configuring a processor.</div><div class="ttdef"><b>Definition:</b> Parameters.h:28</div></div>
-<div class="ttc" id="aclassfire_1_1factory_1_1Factory_html"><div class="ttname"><a href="classfire_1_1factory_1_1Factory.html">fire::factory::Factory</a></div><div class="ttdoc">Factory to dynamically create objects derived from a specific prototype class.</div><div class="ttdef"><b>Definition:</b> Factory.h:229</div></div>
-<div class="ttc" id="anamespacefire_1_1logging_html_af31a24e73f3968047026401b1204867f"><div class="ttname"><a href="namespacefire_1_1logging.html#af31a24e73f3968047026401b1204867f">fire::logging::logger</a></div><div class="ttdeci">log::sources::severity_channel_logger_mt&lt; level, std::string &gt; logger</div><div class="ttdoc">Short names for boost::log.</div><div class="ttdef"><b>Definition:</b> Logger.h:82</div></div>
+<div class="ttc" id="aclassfire_1_1factory_1_1Factory_html"><div class="ttname"><a href="classfire_1_1factory_1_1Factory.html">fire::factory::Factory</a></div><div class="ttdoc">Factory to dynamically create objects derived from a specific prototype class.</div><div class="ttdef"><b>Definition:</b> Factory.h:231</div></div>
+<div class="ttc" id="anamespacefire_1_1logging_html_af31a24e73f3968047026401b1204867f"><div class="ttname"><a href="namespacefire_1_1logging.html#af31a24e73f3968047026401b1204867f">fire::logging::logger</a></div><div class="ttdeci">log::sources::severity_channel_logger_mt&lt; level, std::string &gt; logger</div><div class="ttdoc">Short names for boost::log.</div><div class="ttdef"><b>Definition:</b> Logger.h:84</div></div>
 <div class="ttc" id="apair_html"><div class="ttname"><a href="http://en.cppreference.com/w/cpp/utility/pair.html">std::pair</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

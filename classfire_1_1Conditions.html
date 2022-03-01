@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.12.0</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.12.1</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -153,15 +153,15 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Container and cache for conditions and conditions providers. </p>
-<h2><a class="anchor" id="autotoc_md0"></a>
+<h2><a class="anchor" id="autotoc_md16"></a>
 Conditions System</h2>
 <p >This class and the classes in its immediate ecosystem (<a class="el" href="classfire_1_1ConditionsProvider.html" title="Base class for all providers of conditions objects.">ConditionsProvider</a>, <a class="el" href="classfire_1_1ConditionsObject.html" title="Base class for all conditions objects, very simple.">ConditionsObject</a>, and <a class="el" href="classfire_1_1ConditionsIntervalOfValidity.html" title="Defines the run/event/type range for which a given condition is valid, including for all time.">ConditionsIntervalOfValidity</a>) are helpful for defining a "condition system". As the name implies, this system provides information about the conditions or circumstances in which a particular event's data was taken. For example, if we are taking data using a device that depends on the temperature, we would want to record the temperature that a certain series of events were taken at.</p>
 <p >Since (most of the time) conditions information is changing slowly relative to the events (i.e. we expect one piece of conditions information to be valid for many events in a row), this system is separate from the <a class="el" href="classfire_1_1Event.html" title="Event class for interfacing with processors.">Event</a> which holds the data.</p>
-<h2><a class="anchor" id="autotoc_md1"></a>
+<h2><a class="anchor" id="autotoc_md17"></a>
 Design</h2>
 <p >The <a class="el" href="classfire_1_1Conditions.html" title="Container and cache for conditions and conditions providers.">Conditions</a> system holds all registered instances of <a class="el" href="classfire_1_1ConditionsProvider.html" title="Base class for all providers of conditions objects.">ConditionsProvider</a> in memory, waiting for a <a class="el" href="classfire_1_1Processor.html" title="Base class for all event processing components.">Processor</a> to request a specific condition. If a provider that can provide the requested condition is available, the system caches that provider and returns the object that it provides. The system also requres instances of <a class="el" href="classfire_1_1ConditionsProvider.html" title="Base class for all providers of conditions objects.">ConditionsProvider</a> to define the range of validity that the condition can be used for so that the system can automatically update the condition when events with different conditions are encountered. This design makes it safe and efficient for a <a class="el" href="classfire_1_1Processor.html" title="Base class for all event processing components.">Processor</a> to use <a class="el" href="classfire_1_1Processor.html#ad92639b07e18eb6885773d61f37f903d" title="Access a conditions object for the current event.">Processor::getCondition</a> <em>on every event</em> since this will only cause the construction of a new object on events where the conditions change according to their changing validity.</p>
 <p >A reasonable question to ask is why even have a separation between providers and objects? The answer is because many of the provided objects could be memory intensive (for example, a big table of read out chip settings to be used for later reconstruction of the data), so having this memory only used when specifically requested makes the system easier and safer to use.</p>
-<h2><a class="anchor" id="autotoc_md2"></a>
+<h2><a class="anchor" id="autotoc_md18"></a>
 Usage</h2>
 <p >Users of fire will inevitably want to define their own conditions with their own providers. <a class="el" href="classfire_1_1Conditions.html" title="Container and cache for conditions and conditions providers.">Conditions</a> are defined simply by deriving from <a class="el" href="classfire_1_1ConditionsObject.html" title="Base class for all conditions objects, very simple.">ConditionsObject</a> so that the system can cache them. Providers are defined similarly as how a <a class="el" href="classfire_1_1Processor.html" title="Base class for all event processing components.">Processor</a> is defined: deriving from the parent class <a class="el" href="classfire_1_1ConditionsProvider.html" title="Base class for all providers of conditions objects.">ConditionsProvider</a> and declaring it using a macro in the source file.</p>
 <p >A more thorough example of definine your own conditions provider is given in the documentation of <a class="el" href="classfire_1_1ConditionsProvider.html" title="Base class for all providers of conditions objects.">ConditionsProvider</a>. </p>

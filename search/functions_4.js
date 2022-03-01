@@ -8,7 +8,7 @@ var searchData=
   ['deallocate_5',['deallocate',['http://en.cppreference.com/w/cpp/memory/allocator_traits/deallocate.html',1,'std::allocator_traits::deallocate()'],['http://en.cppreference.com/w/cpp/memory/allocator/deallocate.html',1,'std::allocator::deallocate()'],['http://en.cppreference.com/w/cpp/memory/scoped_allocator_adaptor/deallocate.html',1,'std::scoped_allocator_adaptor::deallocate()']]],
   ['dec_6',['dec',['http://en.cppreference.com/w/cpp/io/manip/hex.html',1,'std']]],
   ['decimal_5fpoint_7',['decimal_point',['http://en.cppreference.com/w/cpp/locale/numpunct/decimal_point.html',1,'std::numpunct_byname::decimal_point()'],['http://en.cppreference.com/w/cpp/locale/numpunct/decimal_point.html',1,'std::numpunct::decimal_point()'],['http://en.cppreference.com/w/cpp/locale/moneypunct/decimal_point.html',1,'std::moneypunct_byname::decimal_point()'],['http://en.cppreference.com/w/cpp/locale/moneypunct/decimal_point.html',1,'std::moneypunct::decimal_point()']]],
-  ['declare_8',['declare',['../classfire_1_1factory_1_1Factory.html#a8ce8d2289eaa7f1773c5526c58c42f26',1,'fire::factory::Factory']]],
+  ['declare_8',['declare',['../classfire_1_1factory_1_1Factory.html#a87b83f41dd52057384684cfbaa1b2962',1,'fire::factory::Factory']]],
   ['declare_5fno_5fpointers_9',['declare_no_pointers',['http://en.cppreference.com/w/cpp/memory/gc/declare_no_pointers.html',1,'std']]],
   ['declare_5freachable_10',['declare_reachable',['http://en.cppreference.com/w/cpp/memory/gc/declare_reachable.html',1,'std']]],
   ['declval_11',['declval',['http://en.cppreference.com/w/cpp/utility/declval.html',1,'std']]],

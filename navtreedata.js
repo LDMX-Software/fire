@@ -26,11 +26,31 @@ var NAVTREE =
 [
   [ "fire", "index.html", [
     [ "🔥 fire 🔥", "index.html", [
-      [ "Features", "index.html#autotoc_md27", null ],
-      [ "Dependencies", "index.html#autotoc_md28", [
-        [ "Developer Dependencies", "index.html#autotoc_md29", null ]
+      [ "Features", "index.html#autotoc_md43", null ],
+      [ "Dependencies", "index.html#autotoc_md44", [
+        [ "Developer Dependencies", "index.html#autotoc_md45", null ]
       ] ]
     ] ],
+    [ "Doxygen Awesome", "md_docs_doxygen_awesome_css_README.html", [
+      [ "Motivation", "md_docs_doxygen_awesome_css_README.html#autotoc_md1", null ],
+      [ "Features", "md_docs_doxygen_awesome_css_README.html#autotoc_md2", null ],
+      [ "Installation", "md_docs_doxygen_awesome_css_README.html#autotoc_md3", [
+        [ "Variants", "md_docs_doxygen_awesome_css_README.html#autotoc_md4", null ],
+        [ "Dark Mode Toggle (Experimental)", "md_docs_doxygen_awesome_css_README.html#autotoc_md5", null ]
+      ] ],
+      [ "Examples", "md_docs_doxygen_awesome_css_README.html#autotoc_md6", null ],
+      [ "Configuration", "md_docs_doxygen_awesome_css_README.html#autotoc_md7", [
+        [ "CSS Variables", "md_docs_doxygen_awesome_css_README.html#autotoc_md8", null ],
+        [ "Doxygen generator", "md_docs_doxygen_awesome_css_README.html#autotoc_md9", null ]
+      ] ],
+      [ "Browser support", "md_docs_doxygen_awesome_css_README.html#autotoc_md10", null ],
+      [ "Tips & Tricks", "md_docs_doxygen_awesome_css_README.html#autotoc_md11", [
+        [ "Class Diagrams with Graphviz", "md_docs_doxygen_awesome_css_README.html#autotoc_md12", null ],
+        [ "Share your own theme customizations", "md_docs_doxygen_awesome_css_README.html#autotoc_md13", null ]
+      ] ],
+      [ "Credits", "md_docs_doxygen_awesome_css_README.html#autotoc_md14", null ]
+    ] ],
+    [ "Generating fire docs", "md_docs_README.html", null ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
