@@ -83,6 +83,44 @@ jobs:
         source .github/workflows/env.sh
         fire test/module/produce.py 10
         fire test/module/recon.py test/module/output_10.h5
+
+  roottest:
+    needs: test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    env:
+      LDMX_DOCKER_TAG: ldmx/dev:root-hdf5
+    steps:
+    - 
+      name: get fire
+      uses: actions/checkout@v2
+      with:
+        submodules: 'recursive'
+    -
+      name: generate files to read with ROOT
+      run: |
+        source .github/workflows/container-env.sh
+        ldmx cmake -B test/rootgen/build -S test/rootgen \
+          -DCMAKE_INSTALL_PREFIX=${LDMX_BASE}/.container-install
+        ldmx cmake --build test/rootgen/build --target install
+        ldmx fire test/rootgen/produce.py 10
+        rm -r ${LDMX_BASE}/.container-install
+    -
+      name: build fire and the test module
+      run: |
+        source .github/workflows/container-env.sh
+        ldmx cmake -B build -S . -DCMAKE_INSTALL_PREFIX=${LDMX_BASE}/.container-install
+        ldmx cmake --build build --target install
+        ldmx cmake -B build/test/module -S test/module \
+          -DCMAKE_INSTALL_PREFIX=${LDMX_BASE}/.container-install
+        ldmx cmake --build build/test/module --target install
+    -
+      name: read ROOT files with fire
+      run: |
+        source .github/workflows/container-env.sh
+        ldmx fire test/module/recon.py test/rootgen/output_10.root
   
   bench:
     needs: test
