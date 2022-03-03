@@ -26,6 +26,12 @@ find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
 find_package(Boost REQUIRED COMPONENTS log)
 find_package(HighFive REQUIRED)
 
+# optional dependency
+find_package(ROOT 6.20)
+if (ROOT_FOUND)
+  set(USE_ROOT YES)
+endif()
+
 # Execute the command to extract the SHA1 hash of the current git tag.
 # 'git' is removed from within the container to discourage opening a shell
 # in the container, so we need to go to some lengths in order to avoid using 'git'
@@ -90,23 +96,21 @@ target_include_directories(logging
 add_library(config SHARED src/fire/config/Python.cxx)
 target_link_libraries(config PUBLIC exception Python3::Python)
 
-find_package(ROOT 6.20)
-if (ROOT_FOUND)
+if (USE_ROOT)
   message(STATUS "Building ROOT reader")
   add_library(io SHARED 
     src/fire/io/Writer.cxx
     src/fire/io/ParameterStorage.cxx
     src/fire/io/h5/Reader.cxx
     src/fire/io/root/Reader.cxx)
-  target_link_libraries(io PUBLIC config HighFive ROOT::Core ROOT::TreePlayer)
-  target_compile_definitions(io PUBLIC USE_ROOT=1)
+  target_link_libraries(io PUBLIC version config HighFive ROOT::Core ROOT::TreePlayer)
 else()
   message(WARNING "ROOT not found. Reading ROOT files will not be supported.")
   add_library(io SHARED 
     src/fire/io/Writer.cxx
     src/fire/io/ParameterStorage.cxx
     src/fire/io/h5/Reader.cxx)
-  target_link_libraries(io PUBLIC config HighFive)
+  target_link_libraries(io PUBLIC version config HighFive)
 endif()
 
 add_library(framework SHARED
