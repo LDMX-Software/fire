@@ -3,13 +3,13 @@
 
 #include <string>
 
-#include "fire/io/Writer.h"
-#include "fire/io/h5/Reader.h"
-#ifdef USE_ROOT
-#include "fire/io/root/Reader.h"
-#endif
-
 namespace fire::io {
+
+class Writer;
+namespace h5 { class Reader; }
+#ifdef USE_ROOT
+namespace root { class Reader; }
+#endif
 
 /**
  * Empty data base allowing recursion

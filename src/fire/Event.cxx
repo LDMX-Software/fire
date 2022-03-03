@@ -72,10 +72,10 @@ void Event::save() {
 void Event::load() {
   assert(input_file_);
   for (auto& [_, obj] : objects_)
-    if (obj.should_load_) obj.data_->load(*input_file_);
+    if (obj.should_load_) input_file_->load_into(*obj.data_);
 }
 
-void Event::setInputFile(io::h5::Reader* r) {
+void Event::setInputFile(io::Reader* r) {
   input_file_ = r;
 
   // there are input file, so mark the event header as should_load
@@ -84,17 +84,8 @@ void Event::setInputFile(io::h5::Reader* r) {
   // search through file and import the available objects that are there
   available_objects_.clear();
   known_lookups_.clear();
-  std::vector<std::string> passes = input_file_->list(io::constants::EVENT_GROUP);
-  for (const std::string& pass : passes) {
-    // skip the event header
-    if (pass == io::constants::EVENT_HEADER_NAME) continue;
-    // get a list of objects in this pass group
-    std::vector<std::string> object_names =
-        input_file_->list(io::constants::EVENT_GROUP + "/" + pass);
-    for (const std::string& obj_name : object_names) {
-      available_objects_.emplace_back(obj_name, pass,
-                             input_file_->getTypeName(fullName(obj_name, pass)));
-    }
+  for (const auto& obj : input_file_->availableObjects()) {
+    available_objects_.emplace_back(obj);
   }
 }
 

@@ -7,6 +7,11 @@
 #include <map>
 
 #include "fire/io/AbstractData.h"
+#include "fire/io/Writer.h"
+#include "fire/io/h5/Reader.h"
+#ifdef USE_ROOT
+#include "fire/io/root/Reader.h"
+#endif
 
 /**
  * serialization to and from HDF5 files

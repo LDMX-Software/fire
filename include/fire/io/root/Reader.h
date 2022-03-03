@@ -28,10 +28,11 @@ namespace fire::io::root {
 class Reader : public ::fire::io::Reader {
  public:
   Reader(const std::string& file_name);
+  virtual void load_into(BaseData& d) final override;
+  virtual std::vector<std::array<std::string,3>> availableObjects() final override;
   virtual std::string name() const final override;
   virtual std::size_t entries() const final override;
   virtual std::size_t runs() const final override;
-  virtual std::string getTypeName(const std::string& obj_name) const final override;
 
   template <typename DataType>
   void load(const std::string& name, DataType& obj) {

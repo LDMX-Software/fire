@@ -50,6 +50,13 @@ class Reader : public ::fire::io::Reader {
   Reader(const std::string& name);
 
   /**
+   * Load the next event into the passed data
+   */
+  virtual void load_into(BaseData& d) final override;
+
+  virtual std::vector<std::array<std::string,3>> availableObjects() final override;
+
+  /**
    * Get the name of this file
    * @return name of the file we are reading
    */

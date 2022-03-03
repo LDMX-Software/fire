@@ -24,29 +24,44 @@ Reader::Reader(const std::string& file_name)
     }
 }
 
+void Reader::load_into(BaseData& d) {
+  d.load(*this);
+}
+
+std::vector<std::array<std::string,3>> Reader::availableObjects() {
+  std::vector<std::array<std::string,3>> objs;
+  // find the names of all the existing branches
+  TObjArray* branches = event_tree_->GetListOfBranches();
+  for (int i = 0; i < branches->GetEntriesFast(); i++) {
+    std::string brname = branches->At(i)->GetName();
+    if (brname != "EventHeader") { //ldmx::EventHeader::BRANCH) {
+      size_t j = brname.find("_");
+      auto br = dynamic_cast<TBranchElement*>(branches->At(i));
+      // can't determine type if branch isn't
+      //  the higher-level TBranchElement type
+      // Only occurs if the type on the bus is one of:
+      //  bool, short, int, long, float, double (BSILFD)
+      std::array<std::string,3> obj = {
+          brname.substr(0, j),   // object name is before '_'
+          brname.substr(j + 1),  // pass name is after
+          br ? br->GetClassName() : "BSILFD"
+          };
+      objs.push_back(obj);
+    }
+  }
+  return objs;
+}
+
 std::string Reader::name() const {
   return file_->GetName();
 }
+
 std::size_t Reader::entries() const {
   return event_tree_->GetEntriesFast();
 }
+
 std::size_t Reader::runs() const {
   return run_tree_->GetEntriesFast();
-}
-std::string Reader::getTypeName(const std::string& obj_name) const {
-  std::string branch_name{transform(obj_name)};
-  TBranch* br = event_tree_->GetBranch(branch_name.c_str());
-  if (br == 0) {
-    throw Exception("NoBranch",
-        "Branch named '"+branch_name+"' does not exist in event tree.");
-  }
-  if (dynamic_cast<TBranchElement*>(br)) {
-    // higher-level branch, can get name this way
-    return dynamic_cast<TBranchElement*>(br)->GetClassName();
-  } else {
-    // atomic types
-    return "BSILFD";
-  }
 }
 
 std::string Reader::transform(const std::string& dir_name) {
