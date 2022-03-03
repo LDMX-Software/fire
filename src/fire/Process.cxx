@@ -118,8 +118,8 @@ void Process::run() {
     fire_log(info) << runHeader();
 
     try {
-    io::Data<RunHeader> write_d{RunHeader::NAME, run_header_};
-    write_d.save(output_file_);
+      io::Data<RunHeader> write_d{RunHeader::NAME, run_header_};
+      write_d.save(output_file_);
     } catch (const HighFive::Exception&) {
       throw Exception("RunWrite","Unable to write RunHeader to output file "
           +output_file_.name());
