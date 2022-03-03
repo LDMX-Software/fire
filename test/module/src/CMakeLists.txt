@@ -1,8 +1,8 @@
 
 add_library(Bench_Event SHARED Hit.cxx)
-target_link_libraries(Bench_Event PUBLIC fire::h5)
+target_link_libraries(Bench_Event PUBLIC fire::io)
 
-find_package(ROOT 6.20)
+find_package(ROOT 6.20 QUIET)
 if (ROOT_FOUND)
   target_link_libraries(Bench_Event PUBLIC ROOT::Core)
   target_compile_definitions(Bench_Event PUBLIC USE_ROOT=1)
