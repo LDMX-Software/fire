@@ -182,7 +182,7 @@ class Data : public AbstractData<DataType> {
    * @param[in] path full in-file path to the data set for this data
    * @param[in] handle address of object already created (optional)
    */
-  explicit Data(std::string const& path, DataType* handle = nullptr)
+  explicit Data(const std::string& path, DataType* handle = nullptr)
       : AbstractData<DataType>(path, handle) {
     this->handle_->attach(*this);
   }
@@ -228,7 +228,7 @@ class Data : public AbstractData<DataType> {
    * @param[in] m reference of member variable
    */
   template <typename MemberType>
-  void attach(std::string const& name, MemberType& m) {
+  void attach(const std::string& name, MemberType& m) {
     members_.push_back(
         std::make_unique<Data<MemberType>>(this->path_ + "/" + name, &m));
   }
@@ -257,7 +257,7 @@ class Data<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
    * @param[in] path full in-file path to set holding this data
    * @param[in] handle pointer to already constructed data object (optional)
    */
-  explicit Data(std::string const& path, AtomicType* handle = nullptr)
+  explicit Data(const std::string& path, AtomicType* handle = nullptr)
       : AbstractData<AtomicType>(path, handle) {}
   /**
    * Down to a type that h5::Reader can handle.
@@ -316,7 +316,7 @@ class Data<std::vector<ContentType>>
    * @param[in] path full in-file path to set holding this data
    * @param[in] handle pointer to object already constructed (optional)
    */
-  explicit Data(std::string const& path, std::vector<ContentType>* handle = nullptr)
+  explicit Data(const std::string& path, std::vector<ContentType>* handle = nullptr)
       : AbstractData<std::vector<ContentType>>(path, handle),
         size_{path + "/size"},
         data_{path + "/data"} {}
@@ -398,7 +398,7 @@ class Data<std::map<KeyType,ValType>>
    * @param[in] path full in-file path to set holding this data
    * @param[in] handle pointer to object already constructed (optional)
    */
-  explicit Data(std::string const& path, std::map<KeyType,ValType>* handle = nullptr)
+  explicit Data(const std::string& path, std::map<KeyType,ValType>* handle = nullptr)
       : AbstractData<std::map<KeyType,ValType>>(path, handle),
         size_{path + "/size"},
         keys_{path + "/keys"},

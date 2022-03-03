@@ -98,6 +98,7 @@ target_link_libraries(config PUBLIC exception Python3::Python)
 
 if (USE_ROOT)
   message(STATUS "Building ROOT reader")
+  # include ROOT reader in io submodule
   add_library(io SHARED 
     src/fire/io/Writer.cxx
     src/fire/io/ParameterStorage.cxx
@@ -112,7 +113,6 @@ else()
     src/fire/io/h5/Reader.cxx)
   target_link_libraries(io PUBLIC version config HighFive)
 endif()
-
 add_library(framework SHARED
   src/fire/StorageControl.cxx
   src/fire/Event.cxx
@@ -126,6 +126,19 @@ add_library(framework SHARED
   src/fire/RandomNumberSeedService.cxx
   )
 target_link_libraries(framework PUBLIC logging version exception config factory io)
+target_include_directories(framework PUBLIC
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+  "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>"
+  "$<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>")
+if(USE_ROOT)
+  # generate dictionary source file from headers and link def
+  root_generate_dictionary(fireDict
+    ${PROJECT_SOURCE_DIR}/include/fire/RunHeader.h
+    ${PROJECT_SOURCE_DIR}/include/fire/EventHeader.h
+    LINKDEF ${PROJECT_SOURCE_DIR}/include/fire/fireLinkDef.h
+    MODULE framework)
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libframework_rdict.pcm DESTINATION lib)
+endif()
 
 # Compiling the fire library requires features introduced by the cxx 17 standard.
 #   also to avoid conflicts, we expand the library prefix from 'lib' to 'libfire_'

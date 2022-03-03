@@ -112,7 +112,10 @@ jobs:
       run: |
         source .github/workflows/container-env.sh
         ldmx cmake -B build -S . -DCMAKE_INSTALL_PREFIX=${LDMX_BASE}/.container-install
-        ldmx cmake --build build --target install
+        cd build
+        ldmx make install
+        ldmx ctest -VV
+        cd ..
         ldmx cmake -B build/test/module -S test/module \
           -DCMAKE_INSTALL_PREFIX=${LDMX_BASE}/.container-install
         ldmx cmake --build build/test/module --target install

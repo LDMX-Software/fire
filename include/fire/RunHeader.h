@@ -9,7 +9,12 @@
 #include "fire/io/Data.h"
 #include "fire/io/ParameterStorage.h"
 
+#ifdef USE_ROOT
+#include "TObject.h"
+namespace ldmx {
+#else
 namespace fire {
+#endif
 
 /**
  * Container for run parameters
@@ -25,7 +30,7 @@ class RunHeader {
   static const std::string NAME;
 
   /** @return The run number. */
-  int getRunNumber() const { return number_; }
+  int getRunNumber() const { return runNumber_; }
 
   /** @return The name of the detector used to create the events. */
   const std::string &getDetectorName() const { return detectorName_; }
@@ -60,7 +65,7 @@ class RunHeader {
    */
   void runStart(const int run) { 
     runStart_ = std::time(nullptr);
-    number_ = run;
+    runNumber_ = run;
   }
 
   /**
@@ -117,7 +122,7 @@ class RunHeader {
    * clear the run header
    */
   void clear() {
-    number_ = -1;
+    runNumber_ = -1;
     runStart_ = 0;
     runEnd_ = 0;
     detectorName_.clear();
@@ -144,28 +149,20 @@ class RunHeader {
 
  private:
   /// friends with the h5::Data that can read/write us
-  friend class io::Data<RunHeader>;
+  friend class fire::io::Data<RunHeader>;
 
   /**
-   * Attach to our io::Data
+   * Attach to our fire::io::Data
    *
    * We attach all of our parameters.
    *
-   * @param[in] d io::Data to attach to
+   * @param[in] d fire::io::Data to attach to
    */
-  void attach(io::Data<RunHeader>& d) {
-    d.attach(io::constants::NUMBER_NAME,number_);
-    d.attach("start",runStart_);
-    d.attach("end",runEnd_);
-    d.attach("detectorName",detectorName_);
-    d.attach("description",description_);
-    d.attach("softwareTag",softwareTag_);
-    d.attach("parameters",parameters_);
-  }
+  void attach(fire::io::Data<RunHeader>& d);
 
  private:
   /** Run number. */
-  int number_{0};
+  int runNumber_{0};
 
   /** Detector name. */
   std::string detectorName_{""};
@@ -183,12 +180,68 @@ class RunHeader {
    * git SHA-1 hash associated with the software tag used to generate
    * this file.
    */
-  std::string softwareTag_{version::GIT_SHA1};
+  std::string softwareTag_{fire::version::GIT_SHA1};
 
   /// run parameteres
-  io::ParameterStorage parameters_;
+  fire::io::ParameterStorage parameters_;
 
-};  // RunHeader
-}  // namespace fire 
-
+#ifdef USE_ROOT
+  std::map<std::string,int> intParameters_;
+  std::map<std::string,float> floatParameters_;
+  std::map<std::string,std::string> stringParameters_;
+  ClassDef(RunHeader, 4);
 #endif
+};  // RunHeader
+}  // namespace fire/ldmx
+
+#ifdef USE_ROOT
+namespace fire {
+using RunHeader = ldmx::RunHeader;
+namespace io {
+
+template<>
+class Data<ldmx::RunHeader> : public AbstractData<ldmx::RunHeader> {
+ public:
+  explicit Data(const std::string& path, ldmx::RunHeader* rh = nullptr);
+  /**
+   * copied from general Data class
+   */
+  void load(h5::Reader& r) final override;
+  /**
+   * copied from general Data class
+   * AND THEN we translate the old containers for parameters
+   * into the new ones
+   */
+  void load(root::Reader& r) final override;
+  /**
+   * copied from general Data class
+   */
+  void save(Writer& w) final override;
+
+  /**
+   * Attach a member object from the our data handle
+   *
+   * @note Copied from general Data class.
+   *
+   * We create a new child Data so that we can recursively
+   * handle complex member variable types.
+   *
+   * @tparam MemberType type of member variable we are attaching
+   * @param[in] name name of member variable
+   * @param[in] m reference of member variable
+   */
+  template <typename MemberType>
+  void attach(const std::string& name, MemberType& m) {
+    members_.push_back(
+        std::make_unique<Data<MemberType>>(this->path_ + "/" + name, &m));
+  }
+
+ private:
+  /// list of members in this dataset
+  std::vector<std::unique_ptr<BaseData>> members_;
+};  // Data<ldmx::RunHeader>
+
+}  // namespace io
+}  // namespace fire
+#endif // USE_ROOT
+#endif // FIRE_RUNHEADER_H

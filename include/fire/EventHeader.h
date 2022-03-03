@@ -8,10 +8,18 @@
 #include <string>
 #include <variant>
 
+#include "fire/version/Version.h"
 #include "fire/io/Constants.h"
+#include "fire/io/Data.h"
 #include "fire/io/ParameterStorage.h"
 
+#ifdef USE_ROOT
+#include "TObject.h"
+#include "TTimeStamp.h"
+namespace ldmx {
+#else
 namespace fire {
+#endif
 
 /**
  * Header information of an event such as event number and timestamp
@@ -39,9 +47,9 @@ class EventHeader {
    */
   friend std::ostream& operator<<(std::ostream& s, const EventHeader& eh) {
     std::string_view label{eh.isRealData_ ? "DATA" : "MC"};
-    std::time_t t = eh.timestamp_;
+    std::time_t t = eh.time_;
     return s << "EventHeader {"
-      << " number: " << eh.number_
+      << " number: " << eh.eventNumber_
       << ", run: " << eh.run_
       << ", weight: " << eh.weight_
       << ", " <<  label
@@ -53,13 +61,13 @@ class EventHeader {
    * Return the event number.
    * @return The event number.
    */
-  int getEventNumber() const { return number_; }
+  int getEventNumber() const { return eventNumber_; }
 
   /**
    * Return the event number.
    * @return The event number.
    */
-  int number() const { return number_; }
+  int number() const { return eventNumber_; }
 
   /**
    * Return the run number.
@@ -95,7 +103,7 @@ class EventHeader {
    * Set the event number.
    * @param number The event number.
    */
-  void setEventNumber(int number) { this->number_ = number; }
+  void setEventNumber(int number) { this->eventNumber_ = number; }
 
   /**
    * Set the run number.
@@ -108,7 +116,7 @@ class EventHeader {
    * @param timestamp The timestamp.
    */
   void setTimestamp() {
-    this->timestamp_ = std::time(nullptr);
+    this->time_ = std::time(nullptr);
   }
 
   /**
@@ -121,9 +129,9 @@ class EventHeader {
   void clear() {
     weight_ = 1.;
     isRealData_ = false;
-    timestamp_ = 0.;
+    time_ = 0.;
     run_ = -1;
-    number_ = -1;
+    eventNumber_ = -1;
     parameters_.clear();
   }
 
@@ -153,30 +161,23 @@ class EventHeader {
 
  private:
   /// allow data set access for reading/writing
-  friend class io::Data<EventHeader>;
+  friend class fire::io::Data<EventHeader>;
+
   /**
    * attach to the serializing h5::Data wrapper
    *
    * We use h5::constants::NUMBER_NAME so that the serialization
    * method can deduce the number of events in a file using the
-   * size of our number_ dataset.
+   * size of our eventNumber_ dataset.
    *
    * @param[in] d h5::Data to attach to
    */
-  void attach(io::Data<EventHeader>& d) {
-    // make sure we use the name for this variable that the reader expects
-    d.attach(io::constants::NUMBER_NAME,number_);
-    d.attach("run",run_);
-    d.attach("timestamp",timestamp_);
-    d.attach("weight",weight_);
-    d.attach("isRealData",isRealData_);
-    d.attach("parameters",parameters_);
-  }
+  void attach(fire::io::Data<EventHeader>& d);
 
   /**
    * The event number.
    */
-  int number_{-1};
+  int eventNumber_{-1};
 
   /**
    * The run number.
@@ -186,7 +187,7 @@ class EventHeader {
   /**
    * The event timestamp
    */
-  long int timestamp_;
+  long int time_;
 
   /**
    * The event weight.
@@ -202,9 +203,67 @@ class EventHeader {
    * Event parameters
    *  three types of parameters are allowed: int, float, string
    */
-  io::ParameterStorage parameters_;
+  fire::io::ParameterStorage parameters_;
+
+#ifdef USE_ROOT
+  TTimeStamp timestamp_;
+  std::map<std::string,int> intParameters_;
+  std::map<std::string,float> floatParameters_;
+  std::map<std::string,std::string> stringParameters_;
+  ClassDef(EventHeader, 2);
+#endif
 };
 
 }  // namespace fire
 
-#endif 
+#ifdef USE_ROOT
+namespace fire {
+using EventHeader = ldmx::EventHeader;
+namespace io {
+
+template<>
+class Data<ldmx::EventHeader> : public AbstractData<ldmx::EventHeader> {
+ public:
+  explicit Data(const std::string& path, ldmx::EventHeader* eh);
+  /**
+   * copied from general Data class
+   */
+  void load(h5::Reader& r) final override;
+  /**
+   * copied from general Data class
+   * AND THEN we translate the old containers for parameters and timestamp
+   * into the new ones
+   */
+  void load(root::Reader& r) final override;
+  /**
+   * copied from general Data class
+   */
+  void save(Writer& w) final override;
+
+  /**
+   * Attach a member object from the our data handle
+   *
+   * @note Copied from general Data class.
+   *
+   * We create a new child Data so that we can recursively
+   * handle complex member variable types.
+   *
+   * @tparam MemberType type of member variable we are attaching
+   * @param[in] name name of member variable
+   * @param[in] m reference of member variable
+   */
+  template <typename MemberType>
+  void attach(const std::string& name, MemberType& m) {
+    members_.push_back(
+        std::make_unique<Data<MemberType>>(this->path_ + "/" + name, &m));
+  }
+
+ private:
+  /// list of members in this dataset
+  std::vector<std::unique_ptr<BaseData>> members_;
+}; // Data<ldmx::EventHeader>
+
+} // namespace fire
+} // namespace io
+#endif // USE_ROOT
+#endif // FIRE_EVENTHEADER_H
