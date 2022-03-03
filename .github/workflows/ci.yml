@@ -201,6 +201,11 @@ jobs:
         name: set version
         run: |
           _version_tag=$(git describe --tags)
+          _cmake_version=$(grep "^[ \t]*VERSION" CMakeLists.txt | sed 's/[^.0-9]*//g')
+          if [[ "${_version_tag}" == "v${_cmake_version}" ]]; then
+            echo "::error::Git version v${_version_tag} does not match CMake version ${_cmake_version}"
+            exit 1
+          fi
           echo ${_version_tag}
           echo "PROJECT_NUMBER = ${_version_tag}" >> docs/doxyfile
           echo "release = '${_version_tag}'" >> docs/python/conf.py
