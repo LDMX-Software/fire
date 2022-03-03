@@ -1,3 +1,9 @@
 [submodule "docs/doxygen-awesome-css"]
 	path = docs/doxygen-awesome-css
 	url = https://github.com/jothepro/doxygen-awesome-css.git
+[submodule "test/rootgen/Framework"]
+	path = test/rootgen/Framework
+	url = git@github.com:LDMX-Software/Framework.git
+[submodule "test/rootgen/cmake"]
+	path = test/rootgen/cmake
+	url = git@github.com:LDMX-Software/cmake.git
