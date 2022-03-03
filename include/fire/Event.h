@@ -39,6 +39,7 @@ class Event {
    */
   class EventObjectTag {
    public:
+
     /**
      * Wrap the three pieces of information in our class
      * @param name name of event object
@@ -48,6 +49,17 @@ class Event {
     EventObjectTag(const std::string& name, const std::string& pass,
                const std::string& type)
         : name_{name}, pass_{pass}, type_{type} {}
+
+    /**
+     * Pass the three pieces of information to our class via an array.
+     *
+     * This is used by io::Reader to pass information from the various
+     * types of readers to us in setInputFile.
+     *
+     * @param[in] obj array of name, pass, typename (that order)
+     */
+    EventObjectTag(std::array<std::string,3> obj)
+      : EventObjectTag(obj[0],obj[1],obj[2]) {}
   
     /**
      * Get the object name
@@ -345,7 +357,7 @@ class Event {
       //    loading may throw an H5 error if the shape of the data on disk
       //    cannot be loaded into the input type
       try {
-        for (std::size_t i{0}; i < i_entry_+1; i++) obj.data_->load(*input_file_);
+        for (std::size_t i{0}; i < i_entry_+1; i++) input_file_->load_into(*obj.data_);
       } catch (const HighFive::DataSetException&) {
         throw Exception("BadType",
             "Data " + full_name + " could not be loaded into "
@@ -455,14 +467,14 @@ class Event {
   void load();
 
   /**
-   * Attach a HDF5 file to this event as the input file
+   * Attach a file to this event as the input file
    *
    * @note We store the input file as a pointer, but
    * don't clean-up later.
    *
-   * @param[in] r reference to HDF5 input file reader
+   * @param[in] r reference to input file reader
    */
-  void setInputFile(io::h5::Reader* r);
+  void setInputFile(io::Reader* r);
 
   /**
    * Move to the next event
@@ -485,7 +497,7 @@ class Event {
   /// header that we control
   std::unique_ptr<EventHeader> header_;
   /// pointer to input file (nullptr if no input files)
-  io::h5::Reader* input_file_;
+  io::Reader* input_file_;
   /// handle to output file (owned by Process)
   io::Writer& output_file_;
   /// name of current processing pass

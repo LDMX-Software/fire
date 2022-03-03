@@ -33,7 +33,7 @@ static std::unique_ptr<io::Reader> open(const std::string& fp) {
   try {
     return io::Reader::Factory::get().make(ext_to_type.at(ext), fp);
   } catch (const std::out_of_range&) {
-    throw fire::Exception("BadExt",
+    throw Exception("BadExt",
         "Unrecognized extension '"+ext+"' for input file.");
   }
 }
@@ -117,8 +117,13 @@ void Process::run() {
     runHeader().runEnd();
     fire_log(info) << runHeader();
 
+    try {
     io::Data<RunHeader> write_d{RunHeader::NAME, run_header_};
     write_d.save(output_file_);
+    } catch (const HighFive::Exception&) {
+      throw Exception("RunWrite","Unable to write RunHeader to output file "
+          +output_file_.name());
+    }
 
   } else {
     fire_log(info) << input_files_.size()
@@ -136,20 +141,22 @@ void Process::run() {
       /**
        * Load runs into in-memory cache
        */
-      {
+      try {
         io::Data<RunHeader> read_d{RunHeader::NAME};
         std::size_t num_runs = input_file->runs();
         for (std::size_t i_run{0}; i_run < num_runs; i_run++) {
-          read_d.load(dynamic_cast<fire::io::h5::Reader&>(*input_file));
+          input_file->load_into(read_d);
           // deep copy
           input_runs[read_d.get().getRunNumber()] = read_d.get();
         }
+      } catch (const HighFive::Exception&) {
+        throw Exception("RunRead","Unable to extract runs from input file "+input_file->name());
       }
 
       fire_log(info) << "Opening " << input_file->name();
 
       for (auto& module : sequence_) module->onFileOpen(input_file->name());
-      event_.setInputFile(dynamic_cast<fire::io::h5::Reader*>(input_file.get()));
+      event_.setInputFile(input_file.get());
 
       long unsigned int max_index = input_file->entries();
       if (event_limit_ > 0 and max_index + n_events_processed > event_limit_)
@@ -189,12 +196,15 @@ void Process::run() {
     }  // loop through input files
 
     // copy the input run headers to the output file
-    {
+    try {
       io::Data<RunHeader> write_d(RunHeader::NAME);
       for (const auto& [_, rh] : input_runs) {
         write_d.update(rh);
         write_d.save(output_file_);
       }
+    } catch (const HighFive::Exception& ) {
+      throw Exception("RunWrite","Unable to write run headers to output file "
+          +output_file_.name());
     }
   }  // are there input files? if-else tree
 

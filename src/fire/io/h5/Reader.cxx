@@ -15,6 +15,10 @@ Reader::Reader(const std::string& name)
       .getDimensions().at(0)},
    ::fire::io::Reader(name) {}
 
+void Reader::load_into(BaseData& d) {
+  d.load(*this);
+}
+
 std::string Reader::name() const { return file_.getName(); }
 
 std::vector<std::string> Reader::list(const std::string& group_path) const {
@@ -37,6 +41,23 @@ std::string Reader::getTypeName(const std::string& full_obj_name) const {
   std::string type;
   attr.read(type);
   return type;
+}
+
+std::vector<std::array<std::string,3>> Reader::availableObjects() {
+  std::vector<std::array<std::string,3>> objs;
+  std::vector<std::string> passes = list(io::constants::EVENT_GROUP);
+  for (const std::string& pass : passes) {
+    // skip the event header
+    if (pass == io::constants::EVENT_HEADER_NAME) continue;
+    // get a list of objects in this pass group
+    std::vector<std::string> object_names = list(io::constants::EVENT_GROUP + "/" + pass);
+    for (const std::string& obj_name : object_names) {
+      std::array<std::string,3> obj = {obj_name, pass,
+          getTypeName(pass+"/"+obj_name) };
+      objs.push_back(obj);
+    }
+  }
+  return objs;
 }
 
 }  // namespace fire::h5
