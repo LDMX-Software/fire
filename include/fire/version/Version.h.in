@@ -10,6 +10,18 @@
 #include <string_view>
 
 /**
+ * Configuration-level decision on whether fire can read
+ * ROOT files or not.
+ *
+ * This is configured into
+ * ```cpp
+ * #define USE_ROOT
+ * ```
+ * if USE_ROOT evaulatese to true in the CMake context.
+ */
+#cmakedefine USE_ROOT
+
+/**
  * Housing for variables defined by CMake at configuration.
  *
  * The version namespace holds variables that are configured by CMake

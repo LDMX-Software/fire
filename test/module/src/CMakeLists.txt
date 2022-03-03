@@ -1,11 +1,13 @@
 
-add_library(Bench_Event SHARED Hit.cxx)
-target_link_libraries(Bench_Event PUBLIC fire::io)
+project(fire-Bench)
 
-find_package(ROOT 6.20 QUIET)
-if (ROOT_FOUND)
-  target_link_libraries(Bench_Event PUBLIC ROOT::Core)
-  target_compile_definitions(Bench_Event PUBLIC USE_ROOT=1)
+if (fire_USE_ROOT)
+  # tell build event library with ROOT dictionary
+  add_library(Bench_Event SHARED Hit.cxx)
+  target_link_libraries(Bench_Event PUBLIC fire::io)
+else()
+  add_library(Bench_Event SHARED Hit.cxx)
+  target_link_libraries(Bench_Event PUBLIC fire::io)
 endif()
 
 add_library(Bench SHARED Produce.cxx Recon.cxx)

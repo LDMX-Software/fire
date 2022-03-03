@@ -16,6 +16,12 @@ find_dependency(Python3 COMPONENTS Interpreter Development)
 find_dependency(Boost COMPONENTS log)
 find_dependency(HighFive)
 
+# ROOT is an optional dependency so we use find_package
+find_package(ROOT 6.20 QUIET)
+if (ROOT_FOUND)
+  set(fire_USE_ROOT YES)
+endif()
+
 include("${CMAKE_CURRENT_LIST_DIR}/fireTargets.cmake")
 
 check_required_components(fire)

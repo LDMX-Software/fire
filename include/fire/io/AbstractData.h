@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "fire/version/Version.h"
+
 namespace fire::io {
 
 class Writer;
