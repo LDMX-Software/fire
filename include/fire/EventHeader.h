@@ -13,7 +13,7 @@
 #include "fire/io/Data.h"
 #include "fire/io/ParameterStorage.h"
 
-#ifdef USE_ROOT
+#ifdef fire_USE_ROOT
 #include "TObject.h"
 #include "TTimeStamp.h"
 namespace ldmx {
@@ -205,45 +205,103 @@ class EventHeader {
    */
   fire::io::ParameterStorage parameters_;
 
-#ifdef USE_ROOT
+#ifdef fire_USE_ROOT
+  /**
+   * member used only for reading from ROOT input files
+   */
   TTimeStamp timestamp_;
+
+  /**
+   * member used only for reading from ROOT input files
+   */
   std::map<std::string,int> intParameters_;
+
+  /**
+   * member used only for reading from ROOT input files
+   */
   std::map<std::string,float> floatParameters_;
+
+  /**
+   * member used only for reading from ROOT input files
+   */
   std::map<std::string,std::string> stringParameters_;
-  ClassDef(EventHeader, 2);
+
+  /**
+   * ROOT class definition
+   *
+   * version is one more than it was in ROOT-based Framework
+   */
+  ClassDef(EventHeader, 4);
 #endif
 };
 
 }  // namespace fire
 
-#ifdef USE_ROOT
+#ifdef fire_USE_ROOT
 namespace fire {
+
+/// alias EventHeader in fire namespace
 using EventHeader = ldmx::EventHeader;
+
 namespace io {
 
+/**
+ * Data specialization for EventHeaders when ROOT reading is available
+ *
+ * @note Further developments of this class or the base Data class
+ * need to be done with **extreme** caution.
+ *
+ * If fire is built without ROOT reading, then this class not necessary.
+ * All of the functions excep the load(root::Reader&) function are
+ * identical to the ones from the general Data class.
+ *
+ * When reading EventHeaders from ROOT, you will see the following error.
+ * ```
+ * Warning in <TStreamerInfo::Build>: ldmx::EventHeader: fire::io::ParameterStorage has no streamer or dictionary, data member "parameters_" will not be saved
+ * ```
+ * This can be ignored because we will not persist the EventHeader through ROOT.
+ */
 template<>
 class Data<ldmx::EventHeader> : public AbstractData<ldmx::EventHeader> {
  public:
+  /**
+   * Construct a Data wrapper around the event header.
+   *
+   * We _require_ an input handle because the event header is supposed to
+   * be handled by the Event class completely.
+   *
+   * @param[in] path Path to event header
+   * @param[in] eh handle to event header to manipulate
+   */
   explicit Data(const std::string& path, ldmx::EventHeader* eh);
+
   /**
    * copied from general Data class
+   *
+   * @param[in] r h5::Reader to load from
    */
   void load(h5::Reader& r) final override;
+
   /**
    * copied from general Data class
+   *
    * AND THEN we translate the old containers for parameters and timestamp
-   * into the new ones
+   * into the new ones. This allows us to get rid of TTimeStamp
+   * and evolve the parameter sets into a more user friendly structure.
+   * 
+   * @param[in] r root::Reader to load from
    */
   void load(root::Reader& r) final override;
+
   /**
    * copied from general Data class
+   *
+   * @param[in] w Writer to write to
    */
   void save(Writer& w) final override;
 
   /**
    * Attach a member object from the our data handle
-   *
-   * @note Copied from general Data class.
    *
    * We create a new child Data so that we can recursively
    * handle complex member variable types.
@@ -265,5 +323,5 @@ class Data<ldmx::EventHeader> : public AbstractData<ldmx::EventHeader> {
 
 } // namespace fire
 } // namespace io
-#endif // USE_ROOT
+#endif // fire_USE_ROOT
 #endif // FIRE_EVENTHEADER_H

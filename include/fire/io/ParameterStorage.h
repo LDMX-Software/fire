@@ -124,7 +124,7 @@ class ParameterStorage {
 };
 
 /**
- * h5::Data specialization for ParameterStorage
+ * io::Data specialization for ParameterStorage
  *
  * We use HDF5's introspection capability to determine the types
  * of parameters when loading and we use the std::visit method
@@ -174,8 +174,16 @@ class Data<ParameterStorage> : public AbstractData<ParameterStorage> {
    */
   void load(h5::Reader& r) final override;
 
-#ifdef USE_ROOT
-  void load(root::Reader& r) final override {
+#ifdef fire_USE_ROOT
+  /**
+   * Only here to conform to abstract base class
+   *
+   * This function should never be called and so 
+   * its contents are just an Exception saying
+   * as much.
+   */
+  void load(root::Reader&) final override {
+    throw Exception("BadCode","This function should never be called.");
   }
 #endif
 
@@ -190,7 +198,7 @@ class Data<ParameterStorage> : public AbstractData<ParameterStorage> {
    * has its own dataset), we pass the writer onto the
    * individula entry dataset to save.
    *
-   * @param[in] w h5::Writer to save to
+   * @param[in] w Writer to save to
    */
   void save(Writer& w) final override;
 

@@ -124,6 +124,9 @@ jobs:
       run: |
         source .github/workflows/container-env.sh
         ldmx fire test/module/recon.py test/rootgen/output_10.root
+        ldmx fire test/module/produce.py 10
+        ldmx fire test/module/recon.py test/module/output_10.h5
+        ldmx fire test/module/recon.py test/module/output_10.h5 test/rootgen/output_10.root
   
   bench:
     needs: test

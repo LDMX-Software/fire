@@ -9,7 +9,7 @@
 #include "fire/io/Data.h"
 #include "fire/io/ParameterStorage.h"
 
-#ifdef USE_ROOT
+#ifdef fire_USE_ROOT
 #include "TObject.h"
 namespace ldmx {
 #else
@@ -185,43 +185,93 @@ class RunHeader {
   /// run parameteres
   fire::io::ParameterStorage parameters_;
 
-#ifdef USE_ROOT
+#ifdef fire_USE_ROOT
+  /**
+   * member only used for reading ROOT files
+   */
   std::map<std::string,int> intParameters_;
+
+  /**
+   * member only used for reading ROOT files
+   */
   std::map<std::string,float> floatParameters_;
+
+  /**
+   * member only used for reading ROOT files
+   */
   std::map<std::string,std::string> stringParameters_;
-  ClassDef(RunHeader, 4);
+  /**
+   * ROOT class definition
+   *
+   * version is one more than what it was in the latest ROOT-based Framework
+   */
+  ClassDef(RunHeader, 5);
 #endif
 };  // RunHeader
 }  // namespace fire/ldmx
 
-#ifdef USE_ROOT
+#ifdef fire_USE_ROOT
 namespace fire {
+
+/// alias RunHeader into the fire namespace
 using RunHeader = ldmx::RunHeader;
+
 namespace io {
 
+/**
+ * Data specialization for RunHeaders when ROOT reading is available
+ *
+ * @note Further developments of this class or the base Data class
+ * need to be done with **extreme** caution.
+ *
+ * If fire is built without ROOT reading, then this class not necessary.
+ * All of the functions excep the load(root::Reader&) function are
+ * identical to the ones from the general Data class.
+ *
+ * When reading RunHeaders from ROOT, you will see the following error.
+ * ```
+ * Warning in <TStreamerInfo::Build>: ldmx::RunHeader: fire::io::ParameterStorage has no streamer or dictionary, data member "parameters_" will not be saved
+ * ```
+ * This can be ignored because we will not persist the RunHeader through ROOT.
+ */
 template<>
 class Data<ldmx::RunHeader> : public AbstractData<ldmx::RunHeader> {
  public:
+  /**
+   * Construct a Data wrapper around the event header.
+   *
+   * @param[in] path Path to run header
+   * @param[in] rh handle to run header to manipulate
+   */
   explicit Data(const std::string& path, ldmx::RunHeader* rh = nullptr);
+
   /**
    * copied from general Data class
+   *
+   * @param[in] r h5::Reader to load from
    */
   void load(h5::Reader& r) final override;
+
   /**
    * copied from general Data class
-   * AND THEN we translate the old containers for parameters
-   * into the new ones
+   *
+   * AND THEN we translate the old containers for parameters and timestamp
+   * into the new ones. This allows us to evolve the parameter sets into a 
+   * more user friendly structure.
+   * 
+   * @param[in] r root::Reader to load from
    */
   void load(root::Reader& r) final override;
+
   /**
    * copied from general Data class
+   *
+   * @param[in] w Writer to write to
    */
   void save(Writer& w) final override;
 
   /**
    * Attach a member object from the our data handle
-   *
-   * @note Copied from general Data class.
    *
    * We create a new child Data so that we can recursively
    * handle complex member variable types.
@@ -243,5 +293,5 @@ class Data<ldmx::RunHeader> : public AbstractData<ldmx::RunHeader> {
 
 }  // namespace io
 }  // namespace fire
-#endif // USE_ROOT
+#endif // fire_USE_ROOT
 #endif // FIRE_RUNHEADER_H

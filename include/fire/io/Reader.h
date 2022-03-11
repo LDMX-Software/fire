@@ -74,6 +74,14 @@ class Reader {
   virtual std::size_t runs() const = 0;
 
   /**
+   * Callback for readers to prepare for loading the next event
+   *
+   * Currently, this is only used in the ROOT reader for incrementing
+   * the entry index of the event TTree.
+   */
+  virtual void next() {}
+
+  /**
    * Get the event objects available in the file
    * @return vector of 3 string arrays `{ obj_name, pass, type }`
    */

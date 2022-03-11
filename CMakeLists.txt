@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.12)
 
 # Set the project name
 project(fire 
-  VERSION 0.12.1
+  VERSION 0.13.0
   DESCRIPTION "fire for sImulation and Reconstruction of Events"
   LANGUAGES C CXX)
 
@@ -28,8 +28,9 @@ find_package(HighFive REQUIRED)
 
 # optional dependency
 find_package(ROOT 6.20)
-if (ROOT_FOUND)
-  set(USE_ROOT YES)
+option(fire_USE_ROOT "Enable ability to read files produced with ROOT-based Framework" ${ROOT_FOUND})
+if (NOT ROOT_FOUND AND fire_USE_ROOT)
+  message(FATAL_ERROR "Unable to build ROOT-reader without access to ROOT.")
 endif()
 
 # Execute the command to extract the SHA1 hash of the current git tag.
@@ -96,7 +97,7 @@ target_include_directories(logging
 add_library(config SHARED src/fire/config/Python.cxx)
 target_link_libraries(config PUBLIC exception Python3::Python)
 
-if (USE_ROOT)
+if (fire_USE_ROOT)
   message(STATUS "Building ROOT reader")
   # include ROOT reader in io submodule
   add_library(io SHARED 
@@ -106,7 +107,7 @@ if (USE_ROOT)
     src/fire/io/root/Reader.cxx)
   target_link_libraries(io PUBLIC version config HighFive ROOT::Core ROOT::TreePlayer)
 else()
-  message(WARNING "ROOT not found. Reading ROOT files will not be supported.")
+  message(WARNING "Reading ROOT files will not be supported.")
   add_library(io SHARED 
     src/fire/io/Writer.cxx
     src/fire/io/ParameterStorage.cxx
@@ -130,7 +131,7 @@ target_include_directories(framework PUBLIC
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>"
   "$<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>")
-if(USE_ROOT)
+if(fire_USE_ROOT)
   # generate dictionary source file from headers and link def
   root_generate_dictionary(fireDict
     ${PROJECT_SOURCE_DIR}/include/fire/RunHeader.h

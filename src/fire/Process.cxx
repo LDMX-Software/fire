@@ -165,7 +165,8 @@ void Process::run() {
       for (std::size_t i_entry_file{0}; i_entry_file < max_index;
            i_entry_file++) {
         // load data from input file
-        event_.load();
+        input_file->next(); // for ROOT reader to increment TTree entry
+        event_.load(); // pull data from disk into memory
 
         // notify for new run if necessary
         if (event_.header().getRun() != wasRun) {

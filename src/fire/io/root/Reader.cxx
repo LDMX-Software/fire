@@ -2,26 +2,39 @@
 
 #include <sstream>
 
+#include "TSystem.h"
+#include "TBranchElement.h"
+
 #include "fire/io/Constants.h"
 
 namespace fire::io::root {
 
 Reader::Reader(const std::string& file_name)
-  : file_{TFile::Open(file_name.c_str())},
+  : i_event_{-1}, i_run_{-1},
+    file_{TFile::Open(file_name.c_str())},
     ::fire::io::Reader(file_name) {
-    event_tree_ = static_cast<TTree*>(file_->Get("LDMX_Events"));
-    if (event_tree_ == 0) {
-      throw Exception("BadFile",
-          "TTree named 'LDMX_Events' does not exist in input ROOT file "+
-          file_name+".");
-    }
 
-    run_tree_ = static_cast<TTree*>(file_->Get("LDMX_Runs"));
-    if (run_tree_ == 0) {
-      throw Exception("BadFile",
-          "TTree named 'LDMX_Runs' does not exist in input ROOT file "+
-          file_name+".");
-    }
+  if (file_ == 0) {
+    throw Exception("NoFile",
+        "File named "+file_name+" could not be opened by ROOT.");
+  }
+
+  event_tree_ = static_cast<TTree*>(file_->Get("LDMX_Events"));
+  if (event_tree_ == 0) {
+    throw Exception("BadFile",
+        "TTree named 'LDMX_Events' does not exist in input ROOT file "+
+        file_name+".");
+  }
+
+  run_tree_ = static_cast<TTree*>(file_->Get("LDMX_Run"));
+  if (run_tree_ == 0) {
+    throw Exception("BadFile",
+        "TTree named 'LDMX_Run' does not exist in input ROOT file "+
+        file_name+".");
+  }
+
+  // don't allow ROOT to handle unix failure signals
+  for (int s{0}; s < kMAXSIGNALS; s++) gSystem->ResetSignal((ESignals)s);
 }
 
 void Reader::load_into(BaseData& d) {
@@ -64,8 +77,16 @@ std::size_t Reader::runs() const {
   return run_tree_->GetEntriesFast();
 }
 
+void Reader::next() {
+  i_event_++;
+}
+
 std::string Reader::transform(const std::string& dir_name) {
-  static std::map<std::string,std::string> cache;
+  // static cache initialized with objects we already know the locations of
+  static std::map<std::string,std::string> cache = {
+    { constants::RUN_HEADER_NAME , "RunHeader" },
+    { constants::EVENT_GROUP+"/"+constants::EVENT_HEADER_NAME , constants::EVENT_HEADER_NAME }
+  };
   if (cache.find(dir_name) == cache.end()) {
     // split dir_name into event_group, pass, obj
     std::string dir;
