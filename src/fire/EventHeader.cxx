@@ -1,7 +1,7 @@
 
 #include "fire/EventHeader.h"
 
-#ifdef USE_ROOT
+#ifdef fire_USE_ROOT
 ClassImp(ldmx::EventHeader);
 namespace ldmx {
 #else
@@ -22,7 +22,7 @@ void EventHeader::attach(fire::io::Data<EventHeader>& d) {
 
 }
 
-#ifdef USE_ROOT
+#ifdef fire_USE_ROOT
 namespace fire::io {
 
 Data<ldmx::EventHeader>::Data(const std::string& path, ldmx::EventHeader* eh)

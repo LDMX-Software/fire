@@ -9,7 +9,7 @@ namespace fire::io {
 
 class Writer;
 namespace h5 { class Reader; }
-#ifdef USE_ROOT
+#ifdef fire_USE_ROOT
 namespace root { class Reader; }
 #endif
 
@@ -44,11 +44,11 @@ class BaseData {
    */
   virtual void load(h5::Reader& f) = 0;
 
-#ifdef USE_ROOT
+#ifdef fire_USE_ROOT
   /**
    * pure virtual method for loading data from the input file
    *
-   * @param[in] f h5::Reader to load from
+   * @param[in] f root::Reader to load from
    */
   virtual void load(root::Reader& f) = 0;
 #endif
@@ -56,7 +56,7 @@ class BaseData {
   /**
    * pure virtual method for saving the current data
    *
-   * @param[in] f h5::Writer to write to
+   * @param[in] f Writer to write to
    */
   virtual void save(Writer& f) = 0;
 
@@ -121,15 +121,15 @@ class AbstractData : public BaseData {
   /**
    * pure virtual method for loading data 
    *
-   * @param[in] f Reader to load from
+   * @param[in] f h5::Reader to load from
    */
   virtual void load(h5::Reader& f) = 0;
 
-#ifdef USE_ROOT
+#ifdef fire_USE_ROOT
   /**
    * pure virtual method for loading data from the input file
    *
-   * @param[in] f h5::Reader to load from
+   * @param[in] f root::Reader to load from
    */
   virtual void load(root::Reader& f) = 0;
 #endif
@@ -137,7 +137,7 @@ class AbstractData : public BaseData {
   /**
    * pure virtual method for saving data
    *
-   * @param[in] f h5::Writer to save to
+   * @param[in] f Writer to save to
    */
   virtual void save(Writer& f) = 0;
 

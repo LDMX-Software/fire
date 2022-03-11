@@ -5,7 +5,7 @@
 /*~~~~~~~~~~~~~~~~*/
 #include <iostream>
 
-#ifdef USE_ROOT
+#ifdef fire_USE_ROOT
 ClassImp(ldmx::RunHeader);
 namespace ldmx {
 #else
@@ -41,7 +41,7 @@ void RunHeader::attach(fire::io::Data<RunHeader>& d) {
 
 }  // namespace fire/ldmx
 
-#ifdef USE_ROOT
+#ifdef fire_USE_ROOT
 namespace fire::io {
 
 Data<ldmx::RunHeader>::Data(const std::string& path, ldmx::RunHeader* eh)

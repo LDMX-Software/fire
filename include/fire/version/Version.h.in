@@ -15,11 +15,11 @@
  *
  * This is configured into
  * ```cpp
- * #define USE_ROOT
+ * #define fire_USE_ROOT
  * ```
- * if USE_ROOT evaulatese to true in the CMake context.
+ * if fire_USE_ROOT evaulatese to true in the CMake context.
  */
-#cmakedefine USE_ROOT
+#cmakedefine fire_USE_ROOT
 
 /**
  * Housing for variables defined by CMake at configuration.

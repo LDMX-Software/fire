@@ -9,7 +9,7 @@
 #include "fire/io/AbstractData.h"
 #include "fire/io/Writer.h"
 #include "fire/io/h5/Reader.h"
-#ifdef USE_ROOT
+#ifdef fire_USE_ROOT
 #include "fire/io/root/Reader.h"
 #endif
 
@@ -197,7 +197,7 @@ class Data : public AbstractData<DataType> {
     for (auto& m : members_) m->load(f);
   }
 
-#ifdef USE_ROOT
+#ifdef fire_USE_ROOT
   /**
    * Loading this dataset from a ROOT file involves giving
    * it directly to the file immediately.
@@ -271,13 +271,13 @@ class Data<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
     f.load(this->path_, *(this->handle_));
   }
 
-#ifdef USE_ROOT
+#ifdef fire_USE_ROOT
   /**
    * Loading this dataset from a ROOT file involves giving
    * it directly to the file immediately.
    */
   void load(root::Reader& f) final override {
-    f.load(this->path_, this->handle_);
+    f.load(this->path_, *(this->handle_));
   }
 #endif
 
@@ -340,13 +340,13 @@ class Data<std::vector<ContentType>>
     }
   }
 
-#ifdef USE_ROOT
+#ifdef fire_USE_ROOT
   /**
    * Loading this dataset from a ROOT file involves giving
    * it directly to the file immediately.
    */
   void load(root::Reader& f) final override {
-    f.load(this->path_, this->handle_);
+    f.load(this->path_, *(this->handle_));
   }
 #endif
 
@@ -423,13 +423,13 @@ class Data<std::map<KeyType,ValType>>
     }
   }
 
-#ifdef USE_ROOT
+#ifdef fire_USE_ROOT
   /**
    * Loading this dataset from a ROOT file involves giving
    * it directly to the file immediately.
    */
   void load(root::Reader& f) final override {
-    f.load(this->path_, this->handle_);
+    f.load(this->path_, *(this->handle_));
   }
 #endif
 

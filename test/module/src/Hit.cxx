@@ -1,7 +1,7 @@
 #include "Hit.h"
 
 #ifdef USE_ROOT
-ClassImp(Hit);
+ClassImp(bench::Hit);
 #endif
 
 namespace bench {
