@@ -27,7 +27,7 @@ find_package(Boost REQUIRED COMPONENTS log)
 find_package(HighFive REQUIRED)
 
 # optional dependency
-find_package(ROOT 6.20)
+find_package(ROOT 6.20 QUIET)
 option(fire_USE_ROOT "Enable ability to read files produced with ROOT-based Framework" ${ROOT_FOUND})
 if (NOT ROOT_FOUND AND fire_USE_ROOT)
   message(FATAL_ERROR "Unable to build ROOT-reader without access to ROOT.")
