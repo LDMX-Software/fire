@@ -209,20 +209,7 @@ class Hit {
   int pdgID_{0};
 
   friend class fire::io::Data<Hit>;
-  void attach(fire::io::Data<Hit>& d) {
-    d.attach("layerID", layerID_);
-    d.attach("moduleID", moduleID_);
-    d.attach("time", time_);
-    d.attach("px", px_);
-    d.attach("py", py_);
-    d.attach("pz", pz_);
-    d.attach("energy",energy_);
-    d.attach("x", x_);
-    d.attach("y", y_);
-    d.attach("z", z_);
-    d.attach("trackID",trackID_);
-    d.attach("pdgID",pdgID_);
-  }
+  void attach(fire::io::Data<Hit>& d);
 
 #ifdef USE_ROOT
   ClassDef(Hit,1);
