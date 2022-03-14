@@ -47,7 +47,7 @@ std::vector<std::array<std::string,3>> Reader::availableObjects() {
   TObjArray* branches = event_tree_->GetListOfBranches();
   for (int i = 0; i < branches->GetEntriesFast(); i++) {
     std::string brname = branches->At(i)->GetName();
-    if (brname != "EventHeader") { //ldmx::EventHeader::BRANCH) {
+    if (brname != "EventHeader") {
       size_t j = brname.find("_");
       auto br = dynamic_cast<TBranchElement*>(branches->At(i));
       // can't determine type if branch isn't

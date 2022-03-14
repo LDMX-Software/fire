@@ -28,40 +28,145 @@ namespace fire::io::root {
  */
 class Reader : public ::fire::io::Reader {
  public:
+  /**
+   * open input file for reading
+   *
+   * @throws Exception if file cannot be opened, a TTree named 'LDMX_Events'
+   * is not found, or if a TTree named 'LDMX_Run' is not found.
+   *
+   * After opening the file and retrieve the TTrees we will read,
+   * we turn off ROOT's "feature" of handling standard Unix signals.
+   *
+   * @param[in] file_name file to open with ROOT
+   */
   Reader(const std::string& file_name);
+
+  /**
+   * Following the instructions in ::fire::io::Reader, we simply call the BaseData's
+   * load function.
+   *
+   * @param[in] d Data to load data into
+   */
   virtual void load_into(BaseData& d) final override;
+
+  /**
+   * Get the event objects available in the file
+   *
+   * We loop through the branches of the event TTree and parse their
+   * type names, object name, and pass name. We skip the branch named
+   * "EventHeader" to achieve the same behavior as h5::Reader.
+   *
+   * @note Arithmetic types (bool, short, int, long, float, double - BSILFD)
+   * do not have a handle for getting the type name, so I just use the
+   * acronym 'BSILFD'.
+   *
+   * @return vector of 3 string arrays `{ obj_name, pass, type }`
+   */
   virtual std::vector<std::array<std::string,3>> availableObjects() final override;
+
+  /**
+   * Get the name of the file
+   *
+   * We use ROOT's TFile rather than storing the name of the file ourselves.
+   *
+   * @return full name of file currently reading
+   */
   virtual std::string name() const final override;
+
+  /**
+   * Number of entries in the file
+   *
+   * We get this from the number of entries in the event ttree.
+   *
+   * @return number of entries in the file
+   */
   virtual std::size_t entries() const final override;
+
+  /**
+   * Number of runs in the file
+   *
+   * We get this from the number of runs in the run ttree.
+   *
+   * @return number of runs in the file
+   */
   virtual std::size_t runs() const final override;
+
+  /**
+   * Iterate the event index for loading in the future
+   */
   virtual void next() final override;
 
+  /**
+   * Load the **event** data at the input name into the input object
+   *
+   * @see transform for how we get the ROOT branch name
+   * from the input HDF5-style nested group names.
+   *
+   * @see loadRun for loading RunHeaders into memory.
+   *
+   * We choose the tree and the index from the deduced
+   * branch name. If the branch name is "RunHeader",
+   * the we use the run tree and the run index; otherwise,
+   * the event tree and the event index.
+   *
+   * If the branch name isn't found in our 'attached_' map,
+   * then we use attach to attempt to attach it.
+   *
+   * At the end, we load the data into memory using TBranch
+   * GetEntry.
+   *
+   * @tparam DataType type of data to load into
+   * @param[in] name name of data to load
+   * @param[in] obj reference to load into
+   */
   template <typename DataType>
   void load(const std::string& name, DataType& obj) {
     // transform h5 directory-style name into branchname
     // of ROOT-based framework
     std::string branch_name{transform(name)};
-    // choose TTree to load from
-    TTree* tree{event_tree_};
-    long int i_entry{i_event_};
-    if (branch_name=="RunHeader") {
-      tree = run_tree_;
-      // RunHeader is only branch on run tree, so we move entry now
-      i_run_++;
-      i_entry = i_run_;
-    }
-
     if (attached_.find(branch_name) == attached_.end()) {
-      attached_.insert(branch_name);
-      attach(tree,branch_name,obj);
+      attached_[branch_name] = attach(event_tree_,branch_name,obj);
     }
-
-    // the attach process confirms that the branch exists,
-    // so we can call it directly to load the entry into memory
-    tree->GetBranch(branch_name.c_str())->GetEntry(i_entry);
+    attached_[branch_name]->GetEntry(i_event_);
   }
 
+  /**
+   * Load the run data into the input object
+   *
+   * @see transform for how we get the ROOT branch name
+   * from the input HDF5-style nested group names.
+   *
+   * @see load for loading event objects into memory.
+   *
+   * The branch name is "RunHeader", no deduction is done
+   * based on the input HDF5-style path name.
+   *
+   * If the branch name isn't found in our 'attached_' map,
+   * then we use attach to attempt to attach it.
+   *
+   * At the end, we load the data into memory using TBranch
+   * GetEntry.
+   *
+   * @note Since there is only one branch in the runs TTree,
+   * we increment the run index on each call to this function.
+   *
+   * @tparam DataType type of data to load into (should be fire::RunHeader)
+   * @param[in] name name of data to load (not used)
+   * @param[in] obj reference to load into
+   */
+  template <typename DataType>
+  void loadRun(const std::string& name, DataType& obj) {
+    static std::string branch_name{"RunHeader"};
+    i_run_++;
+    if (attached_.find(branch_name) == attached_.end()) {
+      attached_[branch_name] = attach(run_tree_,branch_name,obj);
+    }
+    attached_[branch_name]->GetEntry(i_run_);
+  }
+
+  /// no copy constructor of readers
   Reader(const Reader&) = delete;
+  /// no copy assignment of readers
   void operator=(const Reader&) = delete;
  private:
   /**
@@ -69,17 +174,27 @@ class Reader : public ::fire::io::Reader {
    *
    * static caching map since this function is called so
    * frequently
+   *
+   * @param[in] dir_name HDF5-style (<pass>/<object>) group name of event object
+   * @return branch name in ROOT-framework-style (<object>_<pass>)
    */
   static std::string transform(const std::string& dir_name);
- private:
-  long int i_event_;
-  long int i_run_;
-  TFile* file_;
-  TTree* event_tree_;
-  TTree* run_tree_;
-  // branches that have been attached
-  std::set<std::string> attached_;
- private:
+
+  /**
+   * Attach the input object to the TTree on the given branch
+   *
+   * @throws Exception if branch cannot be found.
+   *
+   * If the type is arithmetic (numeric_limits are specialized for it),
+   * then we use the SetAddress function for attaching to the branch;
+   * otherwise, we can use the SetObject method.
+   *
+   * @tparam T type of object to attach
+   * @param[in] tree TTree to attach to
+   * @param[in] branch_name name of branch to attach to
+   * @param[in] obj reference to object to attach
+   * @return pointer to branch that we attached to
+   */
   template<typename T>
   TBranch* attach(TTree* tree, const std::string& branch_name, T& obj) {
     TBranch* br = tree->GetBranch(branch_name.c_str());
@@ -95,8 +210,21 @@ class Reader : public ::fire::io::Reader {
     br->SetStatus(1);
     return br;
   }
+ private:
+  /// the index of the event we are currently reading
+  long int i_event_;
+  /// the index of the run we are currently reading
+  long int i_run_;
+  /// file being read
+  TFile* file_;
+  /// tree of events in the file
+  TTree* event_tree_;
+  /// tree of runs in the file
+  TTree* run_tree_;
+  // branches that have been attached
+  std::map<std::string, TBranch*> attached_;
 };  // Reader
 
-}  // namespace fire::root
+}  // namespace fire::io::root
 
 #endif

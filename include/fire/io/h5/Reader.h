@@ -50,9 +50,25 @@ class Reader : public ::fire::io::Reader {
 
   /**
    * Load the next event into the passed data
+   *
+   * As instructed by ::fire::io::Reader, we simply
+   * call the data's load function with a reference to
+   * ourselves.
+   *
+   * @param[in] d Data to load data into
    */
   virtual void load_into(BaseData& d) final override;
 
+  /**
+   * Get the event objects available in the file
+   *
+   * We crawl the internal directory structure of the file we have open.
+   *
+   * @see getTypeName for how we get the name of the class that was used
+   * to write the data
+   *
+   * @return vector of 3 string arrays `{ obj_name, pass, type }`
+   */
   virtual std::vector<std::array<std::string,3>> availableObjects() final override;
 
   /**
