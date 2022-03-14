@@ -19,7 +19,6 @@
  * Isolation of lower-level interaction with HDF5 files is done here.
  * These classes should never be used directly by the end user except
  * for the example provided below.
- *
  * 
  * The ability of fire to handle
  * the saving and loading of data to and from a file comes from this namespace.
@@ -92,6 +91,79 @@
  *   class that fire::io can handle. This includes the classes listed
  *   above or other classes you have defined following these rules.
  *
+ * ## ROOT Reading
+ * As a transitory feature, reading from ROOT files fire::io::root previously
+ * produced by a ROOT-based serialization framework has been implemented.
+ * In order to effectively read these ROOT files, the user must provide the
+ * ROOT dictionaries for the classes that they wish to read. The method used
+ * in the testing module in this repository is a good example of how to get
+ * this done; that method involves three steps.
+ *
+ * ### Step 1: Add ROOT macros to your class
+ * You must include the `TObject.h` header file in order to have access to
+ * these macros. Then use `ClassDef(<class-name>,<version>)` in the header
+ * within the class definition. Finally, use `ClassDef(<ns>::<class-name>);`
+ * in the source file. This lines should be wrapped by preprocessor checks
+ * so that users compiling your library _without_ ROOT can still compile it.
+ * For example,
+ * ```cpp
+ * #include <fire/io/Data.h> // get fire_USE_ROOT definition
+ * #ifdef fire_USE_ROOT
+ * #include <TObject.h>
+ * #endif
+ * ```
+ * **Note**: ROOT associates the data stored in member variables with the
+ * name of that member variable. This means that ROOT will print warnings
+ * or event error out if new member variables are added or if member variables
+ * change names from when the file was written with ROOT.
+ *
+ * ### Step 2: Write a LinkDef file.
+ * This file _must_ end in the string `LinkDef.h`. The prefix to this can
+ * be anything that makes sense to you. The template link def is given below
+ * with a few examples of how to list classes. This file should be alongside
+ * any other headers in your dictionary.
+ * ```cpp
+ * // MyEventLinkDef.h
+ * #ifdef __CINT__
+ * 
+ * #pragma link off all globals;
+ * #pragma link off all classes;
+ * #pragma link off all functions;
+ * #pragma link C++ nestedclasses;
+ * 
+ * // always have to list my class
+ * #pragma link C++ class myns::MyClass+;
+ * // include if you want to read vectors of your class
+ * #pragma link C++ class std::vector<myns::MyClass>+;
+ * // include if you want maps of your class 
+ * // (key could be anything in dictionary, not just int)
+ * #pragma link C++ class std::map<int,myns::MyClass>+;
+ * 
+ * #endif
+ * ```
+ *
+ * ### Step 3: CMake Nonsense
+ * ROOT has written a CMake function that can be used to attach a dictionary
+ * compilation to an existing CMake target. It is a bit finnicky, so be careful
+ * when deviating from the template below.
+ * ```cmake
+ * find_package(fire REQUIRED 0.13.0)
+ * add_library(MyEvent SHARED <list-source-files>)
+ * target_link_libraries(MyEvent PUBLIC fire::io)
+ * if(fire_USE_ROOT)
+ *   target_include_directories(MyEvent PUBLIC
+ *     "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+ *     "$<INSTALL_INTERFACE:${CMAKE_INSTALL_PREFIX}/include>")
+ *   root_generate_dictionary(MyEventDict
+ *     <list-header-files>
+ *     LINKDEF ${CMAKE_CURRENT_SOURCE_DIR}/include/MyEvent/MyEventLinkDef.h
+ *     MODULE MyEvent)
+ *   install(FILES ${CMAKE_CURRENT_BINARY_DIR}/libMyEVent_rdict.pcm DESTINATION lib)
+ * endif()
+ * ```
+ * This will include the compilation of a ROOT event dictionary if fire was built
+ * with ROOT available.
+ *
  * ## Full Example
  * Putting all of these notes together, below is an example class
  * that will read/write the coordinate positions but won't 
@@ -103,34 +175,53 @@
  * redundant and so it shouldn't waste disk space.
  *
  * ```cpp
+ * // Point.h
  * #include "fire/io/Data.h"
+ * #ifdef fire_USE_ROOT
+ * #include "TObject.h"
+ * #endif
  * class Point {
  *   double x_,y_,z_,mag_;
  *   friend class fire::io::Data<Point>;
  *   Point() = default;
- *   void clear() {
- *     x_ = 0.;
- *     y_ = 0.;
- *     z_ = 0.;
- *     mag_ = -1.;
- *   }
- *   void attach(fire::io::Data<Point>& d) {
- *     d.attach("x",x_);
- *     d.attach("y",y_);
- *     d.attach("z",z_);
- *   }
+ *   void clear();
+ *   void attach(fire::io::Data<Point>& d);
  *  public:
- *   Point(double x, double y, double z)
- *     : x_{x}, y_{y}, z_{z}, mag_{-1.} {
- *       mag();
- *     }
- *   double mag() const {
- *     if (mag_ < 0.) {
- *       mag_ = std::sqrt(x_*x_+y_*y_+z_*z_);
- *     }
- *     return mag_;
- *   }
+ *   Point(double x, double y, double z);
+ *   double mag() const;
+ * #ifdef fire_USE_ROOT
+ *   ClassDef(Point,1);
+ * #endif
  * };
+ * 
+ * // Point.cxx
+ * #include "Point.h"
+ *
+ * void Point::clear() {
+ *   x_ = 0.;
+ *   y_ = 0.;
+ *   z_ = 0.;
+ *   mag_ = -1.;
+ * }
+ * void Point::attach(fire::io::Data<Point>& d);
+ *   d.attach("x",x_);
+ *   d.attach("y",y_);
+ *   d.attach("z",z_);
+ * }
+ * Point::Point(double x, double y, double z)
+ *   : x_{x}, y_{y}, z_{z}, mag_{-1.} {
+ *     mag();
+ *   }
+ * double Point::mag() const {
+ *   if (mag_ < 0.) {
+ *     mag_ = std::sqrt(x_*x_+y_*y_+z_*z_);
+ *   }
+ *   return mag_;
+ * }
+ *
+ * #ifdef fire_USE_ROOT
+ * ClassImp(Point);
+ * #endif
  * ```
  */
 namespace fire::io {
