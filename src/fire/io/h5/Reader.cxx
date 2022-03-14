@@ -60,7 +60,7 @@ std::vector<std::array<std::string,3>> Reader::availableObjects() {
   return objs;
 }
 
-}  // namespace fire::h5
+}  // namespace fire::io::h5
 
 /// register this reader with the reader factory
 namespace {

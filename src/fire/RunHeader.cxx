@@ -55,7 +55,7 @@ void Data<ldmx::RunHeader>::load(h5::Reader& r) {
 
 void Data<ldmx::RunHeader>::load(root::Reader& r) {
   // load ROOT stuff
-  r.load(this->path_, *(this->handle_));
+  r.loadRun(this->path_, *(this->handle_));
 
   // copy into new containers
   for (const auto& [key, val] : this->handle_->intParameters_)
