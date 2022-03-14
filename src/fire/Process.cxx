@@ -34,7 +34,7 @@ static std::unique_ptr<io::Reader> open(const std::string& fp) {
     return io::Reader::Factory::get().make(ext_to_type.at(ext), fp);
   } catch (const std::out_of_range&) {
     throw Exception("BadExt",
-        "Unrecognized extension '"+ext+"' for input file.");
+        "Unrecognized extension '"+ext+"' for input file "+fp+".");
   }
 }
 
