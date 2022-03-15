@@ -245,9 +245,9 @@ jobs:
         name: set version
         run: |
           _version_tag=$(git describe --tags)
-          _cmake_version=$(grep "^[ \t]*VERSION" CMakeLists.txt | sed 's/[^.0-9]*//g')
-          if [[ "${_version_tag}" == "v${_cmake_version}" ]]; then
-            echo "::error::Git version v${_version_tag} does not match CMake version ${_cmake_version}"
+          _cmake_version=v$(grep "^[ \t]*VERSION" CMakeLists.txt | sed 's/[^.0-9]*//g')
+          if [[ "${_version_tag}" != "${_cmake_version}" ]]; then
+            echo "::error::Git version ${_version_tag} does not match CMake version ${_cmake_version}"
             exit 1
           fi
           echo ${_version_tag}
