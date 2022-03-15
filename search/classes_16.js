@@ -21,7 +21,7 @@ var searchData=
   ['wostream_18',['wostream',['http://en.cppreference.com/w/cpp/io/basic_ostream.html',1,'std']]],
   ['wostringstream_19',['wostringstream',['http://en.cppreference.com/w/cpp/io/basic_ostringstream.html',1,'std']]],
   ['wregex_20',['wregex',['http://en.cppreference.com/w/cpp/regex/basic_regex.html',1,'std']]],
-  ['writer_21',['Writer',['../classfire_1_1h5_1_1Writer.html',1,'fire::h5']]],
+  ['writer_21',['Writer',['../classfire_1_1io_1_1Writer.html',1,'fire::io']]],
   ['wsmatch_22',['wsmatch',['http://en.cppreference.com/w/cpp/regex/match_results.html',1,'std']]],
   ['wsregex_5fiterator_23',['wsregex_iterator',['http://en.cppreference.com/w/cpp/regex/regex_iterator.html',1,'std']]],
   ['wsregex_5ftoken_5fiterator_24',['wsregex_token_iterator',['http://en.cppreference.com/w/cpp/regex/regex_token_iterator.html',1,'std']]],

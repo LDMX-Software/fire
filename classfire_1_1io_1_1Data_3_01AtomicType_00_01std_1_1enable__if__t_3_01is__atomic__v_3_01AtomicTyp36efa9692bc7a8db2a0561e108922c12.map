@@ -1,0 +1,5 @@
+<map id="fire::io::Data&lt; AtomicType, std::enable_if_t&lt; is_atomic_v&lt; AtomicType &gt; &gt; &gt;" name="fire::io::Data&lt; AtomicType, std::enable_if_t&lt; is_atomic_v&lt; AtomicType &gt; &gt; &gt;">
+<area shape="rect" id="node1" title="Data wrapper for atomic types." alt="" coords="5,169,209,225"/>
+<area shape="rect" id="node2" href="$classfire_1_1io_1_1AbstractData.html" title=" " alt="" coords="29,80,185,121"/>
+<area shape="rect" id="node3" href="$classfire_1_1io_1_1BaseData.html" title="Empty data base allowing recursion." alt="" coords="40,5,175,32"/>
+</map>

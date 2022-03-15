@@ -3,7 +3,7 @@ var namespaces_dup =
     [ "fire", null, [
       [ "config", "namespacefire_1_1config.html", "namespacefire_1_1config" ],
       [ "factory", "namespacefire_1_1factory.html", "namespacefire_1_1factory" ],
-      [ "h5", "namespacefire_1_1h5.html", "namespacefire_1_1h5" ],
+      [ "io", "namespacefire_1_1io.html", "namespacefire_1_1io" ],
       [ "logging", "namespacefire_1_1logging.html", [
         [ "logger", "namespacefire_1_1logging.html#af31a24e73f3968047026401b1204867f", null ],
         [ "level", "namespacefire_1_1logging.html#ac97b2d477a714cca17fa9cc9ac2a1726", [

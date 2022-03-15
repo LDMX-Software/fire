@@ -18,7 +18,7 @@ var classfire_1_1Process =
     [ "input_files_", "classfire_1_1Process.html#aadef98a3c4b8c6b32f1ac188b940fa54", null ],
     [ "log_frequency_", "classfire_1_1Process.html#aab1932526ff8bb42fa40f64324880784", null ],
     [ "max_tries_", "classfire_1_1Process.html#a0bbfb2bf5bc6c17152d3f85ade5f5f6a", null ],
-    [ "output_file_", "classfire_1_1Process.html#ad45b4db1ac21796ceef6182d14b1b180", null ],
+    [ "output_file_", "classfire_1_1Process.html#a66652aef49ff0ac1a67613d97e78f8f0", null ],
     [ "run_", "classfire_1_1Process.html#aacb3cf178c6bb2d53ab7f59f71a12d8e", null ],
     [ "run_header_", "classfire_1_1Process.html#a3bd962d309d3b82e95184ad1685d9f7f", null ],
     [ "sequence_", "classfire_1_1Process.html#acde07060b0980d55a941d69787cbd934", null ],

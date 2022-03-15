@@ -10,7 +10,7 @@ var searchData=
   ['bad_5foptional_5faccess_7',['bad_optional_access',['http://en.cppreference.com/w/cpp/utility/bad_optional_access.html',1,'std']]],
   ['bad_5ftypeid_8',['bad_typeid',['http://en.cppreference.com/w/cpp/types/bad_typeid.html',1,'std']]],
   ['bad_5fweak_5fptr_9',['bad_weak_ptr',['http://en.cppreference.com/w/cpp/memory/bad_weak_ptr.html',1,'std']]],
-  ['basedata_10',['BaseData',['../classfire_1_1h5_1_1BaseData.html',1,'fire::h5']]],
+  ['basedata_10',['BaseData',['../classfire_1_1io_1_1BaseData.html',1,'fire::io']]],
   ['basic_5ffilebuf_11',['basic_filebuf',['http://en.cppreference.com/w/cpp/io/basic_filebuf.html',1,'std']]],
   ['basic_5ffstream_12',['basic_fstream',['http://en.cppreference.com/w/cpp/io/basic_fstream.html',1,'std']]],
   ['basic_5ffstream_3c_20char_20_3e_13',['basic_fstream&lt; char &gt;',['http://en.cppreference.com/w/cpp/io/basic_fstream.html',1,'std']]],
@@ -60,6 +60,6 @@ var searchData=
   ['bit_5fnot_57',['bit_not',['http://en.cppreference.com/w/cpp/utility/functional/bit_not.html',1,'std']]],
   ['bit_5for_58',['bit_or',['http://en.cppreference.com/w/cpp/utility/functional/bit_or.html',1,'std']]],
   ['bitset_59',['bitset',['http://en.cppreference.com/w/cpp/utility/bitset.html',1,'std']]],
-  ['buffer_60',['Buffer',['../classfire_1_1h5_1_1Reader_1_1Buffer.html',1,'fire::h5::Reader::Buffer&lt; AtomicType &gt;'],['../classfire_1_1h5_1_1Writer_1_1Buffer.html',1,'fire::h5::Writer::Buffer&lt; AtomicType &gt;']]],
-  ['bufferhandle_61',['BufferHandle',['../classfire_1_1h5_1_1Reader_1_1BufferHandle.html',1,'fire::h5::Reader::BufferHandle'],['../classfire_1_1h5_1_1Writer_1_1BufferHandle.html',1,'fire::h5::Writer::BufferHandle']]]
+  ['buffer_60',['Buffer',['../classfire_1_1io_1_1h5_1_1Reader_1_1Buffer.html',1,'fire::io::h5::Reader::Buffer&lt; AtomicType &gt;'],['../classfire_1_1io_1_1Writer_1_1Buffer.html',1,'fire::io::Writer::Buffer&lt; AtomicType &gt;']]],
+  ['bufferhandle_61',['BufferHandle',['../classfire_1_1io_1_1h5_1_1Reader_1_1BufferHandle.html',1,'fire::io::h5::Reader::BufferHandle'],['../classfire_1_1io_1_1Writer_1_1BufferHandle.html',1,'fire::io::Writer::BufferHandle']]]
 ];

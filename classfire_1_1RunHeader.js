@@ -1,6 +1,6 @@
 var classfire_1_1RunHeader =
 [
-    [ "attach", "classfire_1_1RunHeader.html#ac962bde1915ba8facf49a3768d6a5242", null ],
+    [ "attach", "classfire_1_1RunHeader.html#a79162ee0ef0ea99d15e99f3c2cf0d43b", null ],
     [ "clear", "classfire_1_1RunHeader.html#a3b2bdd9bb1445a1377f4dec77f43194b", null ],
     [ "get", "classfire_1_1RunHeader.html#ac9a349e790f5f7bc8cd70957611ab0cf", null ],
     [ "getDescription", "classfire_1_1RunHeader.html#a2f4c3d85621e4bbe5595597b3bde074a", null ],
@@ -16,14 +16,14 @@ var classfire_1_1RunHeader =
     [ "setDescription", "classfire_1_1RunHeader.html#a685594d2124f838807723b1765865ce3", null ],
     [ "setDetectorName", "classfire_1_1RunHeader.html#a453dd2fe71a5e1e65aed8777af2a952d", null ],
     [ "stream", "classfire_1_1RunHeader.html#a27f97e2847286af83bda00c36b22abf0", null ],
-    [ "h5::Data< RunHeader >", "classfire_1_1RunHeader.html#ae8321b634f91609d451d1c937f8b88d5", null ],
+    [ "fire::io::Data< RunHeader >", "classfire_1_1RunHeader.html#a0c60351e8dda1fccb3cf77c1a0a55d5c", null ],
     [ "operator<<", "classfire_1_1RunHeader.html#aa5404f59434ac6422d11711c72bc2028", null ],
     [ "description_", "classfire_1_1RunHeader.html#a2ae59052c6ad4fd8d6f95683216a0e95", null ],
     [ "detectorName_", "classfire_1_1RunHeader.html#a2b6b29ba5445e0649cb95a28de58e50a", null ],
     [ "NAME", "classfire_1_1RunHeader.html#a614d0e9847446f8ebcb11f29087b6949", null ],
-    [ "number_", "classfire_1_1RunHeader.html#a83335ee5d4dbccb92d5009026a976b36", null ],
-    [ "parameters_", "classfire_1_1RunHeader.html#ac7b2c905c39090ec308ef31467e004c9", null ],
+    [ "parameters_", "classfire_1_1RunHeader.html#add62fb8fb26753e59dfffa4e146aac51", null ],
     [ "runEnd_", "classfire_1_1RunHeader.html#a7809635050ef6db5e462e0366f074c45", null ],
+    [ "runNumber_", "classfire_1_1RunHeader.html#a9525c3e447cfdfa8521f4883d86cd608", null ],
     [ "runStart_", "classfire_1_1RunHeader.html#a66fd725276634e7e1c8fb32cbcd48b0a", null ],
     [ "softwareTag_", "classfire_1_1RunHeader.html#aaf306b0b4b0dc823b92377d1e5db1fd3", null ]
 ];

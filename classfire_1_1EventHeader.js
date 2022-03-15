@@ -1,6 +1,6 @@
 var classfire_1_1EventHeader =
 [
-    [ "attach", "classfire_1_1EventHeader.html#a2eabc09f6e26f88d738916bdb80868a6", null ],
+    [ "attach", "classfire_1_1EventHeader.html#a9bb77781dd100a412965f6bb2ff66dc7", null ],
     [ "clear", "classfire_1_1EventHeader.html#a909598fa55133024e1fcfa8c997d0ce8", null ],
     [ "get", "classfire_1_1EventHeader.html#ad366083fe7edb9caafb5515a42809190", null ],
     [ "getEventNumber", "classfire_1_1EventHeader.html#ad308d332ed57e0406bc5f8403c67bbb4", null ],
@@ -15,13 +15,13 @@ var classfire_1_1EventHeader =
     [ "setTimestamp", "classfire_1_1EventHeader.html#ae08360fe396e3846db1f34ba36a600f2", null ],
     [ "setWeight", "classfire_1_1EventHeader.html#a48f1383993d6ac407aafc0b295b9caa5", null ],
     [ "weight", "classfire_1_1EventHeader.html#aa32cb1c3fad3d06c25108cfcd7bea9a1", null ],
-    [ "h5::Data< EventHeader >", "classfire_1_1EventHeader.html#a9eb275c9f0b15696d5b1c41241f4da53", null ],
+    [ "fire::io::Data< EventHeader >", "classfire_1_1EventHeader.html#a8d5c35569835c2161cdbfcc1444b15a9", null ],
     [ "operator<<", "classfire_1_1EventHeader.html#a943581026931851b662366b0af7ef9d0", null ],
+    [ "eventNumber_", "classfire_1_1EventHeader.html#ab8b472981d5f87116b95040652a001b9", null ],
     [ "isRealData_", "classfire_1_1EventHeader.html#a869cc6f07246b3d089b7c3ced1ca066e", null ],
     [ "NAME", "classfire_1_1EventHeader.html#a4f43cf948ecab2b7cfb2c24fb8149ad8", null ],
-    [ "number_", "classfire_1_1EventHeader.html#a38d9a094411ec235c7da2da6d5102cd6", null ],
-    [ "parameters_", "classfire_1_1EventHeader.html#afbfc4f727f6368ffda585faec55668c2", null ],
+    [ "parameters_", "classfire_1_1EventHeader.html#a60910ac6a9e814985305bee07ec28cad", null ],
     [ "run_", "classfire_1_1EventHeader.html#a0a9c06777b73b91c468269bced307cd1", null ],
-    [ "timestamp_", "classfire_1_1EventHeader.html#afac2f384c5b6b81a68a2ceb96dd1a078", null ],
+    [ "time_", "classfire_1_1EventHeader.html#a4ea3a1fc08244a34faf93f90ede59c8c", null ],
     [ "weight_", "classfire_1_1EventHeader.html#a0d5ade8084bb83016fd0b122f0cdb16a", null ]
 ];

@@ -1,0 +1,4 @@
+<map id="fire::io::root::Reader" name="fire::io::root::Reader">
+<area shape="rect" id="node1" title="Reading ROOT files into our data structures." alt="" coords="5,80,156,107"/>
+<area shape="rect" id="node2" href="$classfire_1_1io_1_1Reader.html" title="Prototype for reading files within fire." alt="" coords="22,5,139,32"/>
+</map>

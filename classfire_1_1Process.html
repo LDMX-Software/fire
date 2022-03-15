@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.12.1</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.13.0</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -100,7 +100,7 @@ $(document).ready(function(){initNavTree('classfire_1_1Process.html',''); initRe
 <div class="dynheader">
 Collaboration diagram for fire::Process:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classfire_1_1Process__coll__graph.svg" width="615" height="394"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classfire_1_1Process__coll__graph.svg" width="656" height="379"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -169,10 +169,10 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>run_</b></td></tr>
 <a class="elRef" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>input_files_</b></td></tr>
 <tr class="memdesc:aadef98a3c4b8c6b32f1ac188b940fa54"><td class="mdescLeft">&#160;</td><td class="mdescRight">input file listing, PRODUCTION MODE if empty <br /></td></tr>
 <tr class="separator:aadef98a3c4b8c6b32f1ac188b940fa54"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad45b4db1ac21796ceef6182d14b1b180"><td class="memItemLeft" align="right" valign="top"><a id="ad45b4db1ac21796ceef6182d14b1b180" name="ad45b4db1ac21796ceef6182d14b1b180"></a>
-<a class="el" href="classfire_1_1h5_1_1Writer.html">h5::Writer</a>&#160;</td><td class="memItemRight" valign="bottom"><b>output_file_</b></td></tr>
-<tr class="memdesc:ad45b4db1ac21796ceef6182d14b1b180"><td class="mdescLeft">&#160;</td><td class="mdescRight">output file we are writing to <br /></td></tr>
-<tr class="separator:ad45b4db1ac21796ceef6182d14b1b180"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66652aef49ff0ac1a67613d97e78f8f0"><td class="memItemLeft" align="right" valign="top"><a id="a66652aef49ff0ac1a67613d97e78f8f0" name="a66652aef49ff0ac1a67613d97e78f8f0"></a>
+<a class="el" href="classfire_1_1io_1_1Writer.html">io::Writer</a>&#160;</td><td class="memItemRight" valign="bottom"><b>output_file_</b></td></tr>
+<tr class="memdesc:a66652aef49ff0ac1a67613d97e78f8f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">output file we are writing to <br /></td></tr>
+<tr class="separator:a66652aef49ff0ac1a67613d97e78f8f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acde07060b0980d55a941d69787cbd934"><td class="memItemLeft" align="right" valign="top"><a id="acde07060b0980d55a941d69787cbd934" name="acde07060b0980d55a941d69787cbd934"></a>
 <a class="elRef" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/memory/unique_ptr.html">std::unique_ptr</a>&lt; <a class="el" href="classfire_1_1Processor.html">Processor</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>sequence_</b></td></tr>
 <tr class="memdesc:acde07060b0980d55a941d69787cbd934"><td class="mdescLeft">&#160;</td><td class="mdescRight">the sequence of processors to run <br /></td></tr>
@@ -214,9 +214,9 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>run_</b></td></tr>
 </div><div class="memdoc">
 
 <p>Construct the process by configuring the necessary objects. </p>
-<p >The order with which we configure the objects is <em>very</em> important. Some objects require references to other objects (for example, <a class="el" href="classfire_1_1Event.html" title="Event class for interfacing with processors.">Event</a> depends on an <a class="el" href="classfire_1_1h5_1_1Writer.html" title="Write the fire DataSets into a deterministic structure in the output HDF5 data file.">h5::Writer</a>), so the order the objects are declared and therefore the order in which they are constructed should be modified with care.</p>
+<p >The order with which we configure the objects is <em>very</em> important. Some objects require references to other objects (for example, <a class="el" href="classfire_1_1Event.html" title="Event class for interfacing with processors.">Event</a> depends on an h5::Writer), so the order the objects are declared and therefore the order in which they are constructed should be modified with care.</p>
 <p >Currently, the order of construction is given below. I skip listing any types provided by STL.</p><ul>
-<li>The output file as a <a class="el" href="classfire_1_1h5_1_1Writer.html" title="Write the fire DataSets into a deterministic structure in the output HDF5 data file.">h5::Writer</a></li>
+<li>The output file as a h5::Writer</li>
 <li>the <a class="el" href="classfire_1_1Event.html" title="Event class for interfacing with processors.">Event</a> bus</li>
 <li><a class="el" href="classfire_1_1StorageControl.html" title="Isolation of voting system deciding if events should be kept.">StorageControl</a> system</li>
 </ul>
@@ -508,12 +508,12 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>run_</b></td></tr>
 </div><div class="memdoc">
 
 <p>Do the processing run. </p>
-<h2><a class="anchor" id="autotoc_md35"></a>
+<h2><a class="anchor" id="autotoc_md39"></a>
 Production Mode</h2>
 <p >This is when no input files are provided.</p>
 <p >We simply do max_tries_ number of attempts for event_limit_ number of events looping through the processor sequence. This is helpful for simulations where aborted events are a common method to generate samples focused on specific interactions.</p>
 <p >The run header and event headers are updated with their time stamps and using run_ to define the run number.</p>
-<h2><a class="anchor" id="autotoc_md36"></a>
+<h2><a class="anchor" id="autotoc_md40"></a>
 Reconstruction Mode</h2>
 <p >This is when there are input files provided.</p>
 <p >The number of events processed is the number of events in the input file(s) or the event_limit_ if it is provided and lower than the number in the input files.</p>

@@ -21,7 +21,7 @@ var searchData=
   ['ratio_5fnot_5fequal_18',['ratio_not_equal',['http://en.cppreference.com/w/cpp/numeric/ratio/ratio_not_equal.html',1,'std']]],
   ['ratio_5fsubtract_19',['ratio_subtract',['http://en.cppreference.com/w/cpp/numeric/ratio/ratio_subtract.html',1,'std']]],
   ['raw_5fstorage_5fiterator_20',['raw_storage_iterator',['http://en.cppreference.com/w/cpp/memory/raw_storage_iterator.html',1,'std']]],
-  ['reader_21',['Reader',['../classfire_1_1h5_1_1Reader.html',1,'fire::h5']]],
+  ['reader_21',['Reader',['../classfire_1_1io_1_1h5_1_1Reader.html',1,'fire::io::h5::Reader'],['../classfire_1_1io_1_1Reader.html',1,'fire::io::Reader'],['../classfire_1_1io_1_1root_1_1Reader.html',1,'fire::io::root::Reader']]],
   ['recursive_5fmutex_22',['recursive_mutex',['http://en.cppreference.com/w/cpp/thread/recursive_mutex.html',1,'std']]],
   ['recursive_5ftimed_5fmutex_23',['recursive_timed_mutex',['http://en.cppreference.com/w/cpp/thread/recursive_timed_mutex.html',1,'std']]],
   ['reference_24',['reference',['http://en.cppreference.com/w/cpp/utility/bitset/reference.html',1,'std::bitset']]],
