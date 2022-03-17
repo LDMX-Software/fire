@@ -21,7 +21,26 @@ using Parameters = fire::config::Parameters;
 }
 
 /// alias Event into this namespace
-using Event = fire::Event;
+class Event {
+  fire::Event& event_;
+  Event(fire::Event& e) : event_{e} {}
+  template<typename T>
+  void add(const std::string& n, const T& o) {
+    event_.add(n,o);
+  }
+  template<typename T>
+  const T& getObject(const std::string& n, const std::string& p = "") {
+    return event_.get<T>(n,p);
+  }
+  template<typename T>
+  const std::vector<T>& getCollection(const std::string& n, const std::string& p = "") {
+    return getObject<std::vector<T>>(n,p);
+  }
+  template<typename K, typename V>
+  const std::map<K,V>& getCollection(const std::string& n, const std::string& p = "") {
+    return getObject<std::map<K,V>>(n,p);
+  }
+};
 
 /// alias Process into this namespace
 using Process = fire::Process;
@@ -32,21 +51,41 @@ using Process = fire::Process;
  * and adds the old configure method.
  */
 class EventProcessor : public fire::Processor {
- public:
-  EventProcessor(const std::string& name, framework::Process& p) {}
-  EventProcessor(const config::Parameters& ps) 
-    : fire::Processor(ps), 
-      EventProcessor(ps.get<std::string>("name"),/*nullref somehow*/) {
-        this->configure(ps);
+  static fire::config::Parameters minimal_parameter_set(const std::string& name) {
+    fire::config::Parameters ps;
+    ps.add("name",name);
+    return ps;
   }
+ public:
+  EventProcessor(const std::string& name, framework::Process& p) 
+    : fire::Processor(minimal_parameter_set(name)) {
+      this->attach(&p);
+    }
   virtual void configure(const config::Parameters& ps) {}
 };
 
 /// alias for old-style producers
-class Producer : public EventProcessor {};
+class Producer : public EventProcessor {
+ public:
+  Producer(const std::string& name, framework::Process& p)
+    : EventProcessor(name,p) {}
+  virtual void produce(framework::Event &event) = 0;
+  virtual void process(fire::Event &event) final override {
+    this->produce(framework::Event(event));
+  }
+};
 
 /// alias for old-style analyzers
-class Analyzer : public EventProcessor {};
+class Analyzer : public EventProcessor {
+ public:
+  Producer(const std::string& name, framework::Process& p)
+    : EventProcessor(name,p) {}
+  virtual void beforeNewRun(fire::RunHeader&) final override {}
+  virtual void analyze(const framework::Event &event) = 0;
+  virtual void process(fire::Event &event) final override {
+    this->analyze(framework::Event(event));
+  }
+};
 
 }
 

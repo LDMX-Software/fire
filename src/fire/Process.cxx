@@ -74,13 +74,7 @@ Process::Process(const fire::config::Parameters& configuration)
   }
   for (const auto& proc : sequence) {
     auto class_name{proc.get<std::string>("class_name")};
-    sequence_.emplace_back(Processor::Factory::get().make(class_name, proc));
-    sequence_.back()->attach(this);
-    /*
-    if (dynamic_cast<framework::EventProcessor*>(sequence_.back().get())) {
-      sequence_.back()->configure(proc);
-    }
-    */
+    sequence_.emplace_back(Processor::Factory::get().make(class_name, proc, *this));
   }
 }
 

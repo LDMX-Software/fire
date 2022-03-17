@@ -241,6 +241,11 @@ class Processor {
   virtual ~Processor() = default;
 
   /**
+   * making configuration availble for old-style processors
+   */
+  virtual void configure(const config::Parameters& ps) {}
+
+  /**
    * Handle allowing processors to modify run headers before the run begins
    *
    * This is called _before_ any conditions providers are given the run
@@ -302,11 +307,6 @@ class Processor {
    */
   const std::string &getName() const { return name_; }
 
-  /**
-   * The type of factory that can be used to create processors
-   */
-  using Factory = factory::Factory<Processor, std::unique_ptr<Processor>,
-                                   const config::Parameters &>;
 
   /**
    * have the derived processors do what they need to do
@@ -327,6 +327,147 @@ class Processor {
    * @param[in] p pointer to current Process
    */
   virtual void attach(Process *p) final { process_ = p; }
+ public:
+  /**
+   * The special factory used to create processors
+   *
+   * we need a special factory because it needs to be able to create processors
+   * with two different construtor options
+   *
+   * When "old-style" processors can be abandoned, this redundant code can
+   * be removed in favor of the templated factory:
+   * ```cpp 
+   * using Factory = factory::Factory<Processor, std::unique_ptr<Processor>, 
+   *  const config::Parameters &>;
+   * ```
+   * and then adding the following line to the loop constructing Processors
+   * in the Process constructor:
+   * ```cpp 
+   * sequence_.emplace_back(Processor::Factory::get().make(class_name, proc));
+   * sequence_.back()->attach(this);
+   * ```
+   */
+  class Factory {
+   public:
+    /**
+     * The base pointer for processors
+     */
+    using PrototypePtr = std::unique_ptr<Processor>;
+
+    /**
+     * the signature of a function that can be used by this factory
+     * to dynamically create a new object.
+     *
+     * This is merely here to make the definition of the Factory simpler.
+     */
+    using PrototypeMaker = std::function<PrototypePtr(const config::Parameters&,Process&)>;
+  
+   public:
+    /**
+     * get the factory instance
+     *
+     * Using a static function variable gaurantees that the factory
+     * is created as soon as it is needed and that it is deleted
+     * before the program completes.
+     *
+     * @returns reference to single Factory instance
+     */
+    static Factory& get() {
+      static Factory the_factory;
+      return the_factory;
+    }
+  
+    /**
+     * register a new object to be constructible
+     *
+     * We insert the new object into the library after
+     * checking that it hasn't been defined before.
+     *
+     * @note This uses the demangled name of the input type
+     * as the key in our library of objects. Using the demangled
+     * name effectively assumes that all of the libraries being
+     * loaded were compiled with the same compiler version.
+     * We could undo this assumption by having the key be an
+     * input into this function.
+     *
+     * @param[in] full_name name to use as a reference for the declared object
+     * @param[in] maker a pointer to a function that can dynamically create an instance
+     * @return value to define a static variable to force running this function
+     *  at library load time. It relates to variables so that it cannot be
+     *  optimized away.
+     */
+    template<typename DerivedType>
+    uint64_t declare() {
+      std::string full_name{boost::core::demangle(typeid(DerivedType).name())};
+      library_[full_name] = &maker<DerivedType>;
+      return reinterpret_cast<std::uintptr_t>(&library_);
+    }
+  
+    /**
+     * make a new object by name
+     *
+     * We look through the library to find the requested object.
+     * If found, we create one and return a pointer to the newly
+     * created object. If not found, we raise an exception.
+     *
+     * @throws Exception if the input object name could not be found
+     *
+     * The arguments to the maker are determined at compiletime
+     * using the template parameters of Factory.
+     *
+     * @param[in] full_name name of object to create, same name as passed to declare
+     * @param[in] maker_args parameter pack of arguments to pass on to maker
+     *
+     * @returns a pointer to the parent class that the objects derive from.
+     */
+    PrototypePtr make(const std::string& full_name,
+                      const config::Parameters& ps,
+                      Process& p) {
+      auto lib_it{library_.find(full_name)};
+      if (lib_it == library_.end()) {
+        throw Exception("Factory","An object named " + full_name +
+                         " has not been declared.",false);
+      }
+      return lib_it->second(ps,p);
+    }
+  
+    /// delete the copy constructor
+    Factory(Factory const&) = delete;
+  
+    /// delete the assignment operator
+    void operator=(Factory const&) = delete;
+  
+   private:
+    /**
+     * make a DerivedType returning a PrototypePtr
+     *
+     * We do a constexpr check on which type of processor it is. If it can be constructed
+     * from a Parameters alone, then it is a "new" type. Otherewise, it is a "old" type.
+     *
+     * @tparam DerivedType type of derived object we should create
+     * @param[in] args constructor arguments for derived type construction
+     */
+    template <typename DerivedType>
+    static PrototypePtr maker(const config::Parameters& parameters, Process& process) {
+      std::unique_ptr<Processor> ptr;
+      if constexpr (std::is_constructible<DerivedType, const config::Parameters&>::value) {
+        // new type
+        ptr = std::make_unique<DerivedType>(parameters);
+        ptr->attach(&process);
+      } else {
+        // old type
+        ptr = std::make_unique<DerivedType>(parameters.get<std::string>("name"), process);
+        ptr->configure(parameters);
+      }
+      return ptr;
+    }
+  
+    /// private constructor to prevent creation
+    Factory() = default;
+  
+    /// library of possible objects to create
+    std::unordered_map<std::string, PrototypeMaker> library_;
+  };  // Factory
 
  protected:
   /**
