@@ -4,6 +4,7 @@
 #include <highfive/H5Easy.hpp>
 
 #include "fire/Processor.h"
+#include "fire/Process.h"
 
 namespace test {
 
@@ -63,65 +64,153 @@ namespace {
  */
 BOOST_AUTO_TEST_SUITE(processor)
 
-BOOST_AUTO_TEST_CASE(misspell) {
-  fire::config::Parameters ps;
+BOOST_AUTO_TEST_SUITE(misspell)
+
+BOOST_AUTO_TEST_CASE(class_name) {
+  std::string output{"shouldnt_exist.h5"};
+  fire::config::Parameters configuration;
+  configuration.add("pass_name",std::string("test"));
+
+  fire::config::Parameters output_file;
+  output_file.add("name", output);
+  output_file.add("event_limit", 10);
+  output_file.add("rows_per_chunk", 1000);
+  output_file.add("compression_level", 6);
+  output_file.add("shuffle",false);
+  configuration.add("output_file",output_file);
+
+  fire::config::Parameters storage;
+  storage.add("default_keep",true);
+  configuration.add("storage",storage);
+  
+  configuration.add("event_limit", 10);
+  configuration.add("log_frequency", -1);
+  configuration.add("run", 1);
+  configuration.add("max_tries", 1);
+
+  configuration.add<fire::config::Parameters>("conditions",{});
   
   // misspell class name
-  BOOST_CHECK_THROW(fire::Processor::Factory::get().make("DNE",ps), fire::Exception);
-
-  // misspell a different parameter
-  ps.add("run_number", 420);
-  BOOST_CHECK_THROW(fire::Processor::Factory::get().make("test::TestProcessor",ps), fire::Exception);
+  fire::config::Parameters test_proc;
+  test_proc.add<std::string>("name","test_proc");
+  test_proc.add<std::string>("class_name","DNE");
+  configuration.add<std::vector<fire::config::Parameters>>("sequence",{test_proc});
+  BOOST_CHECK_THROW(std::make_unique<fire::Process>(configuration), fire::Exception);
 }
 
+BOOST_AUTO_TEST_CASE(other_parameter) {
+  std::string output{"shouldnt_exist.h5"};
+  fire::config::Parameters configuration;
+  configuration.add("pass_name",std::string("test"));
+
+  fire::config::Parameters output_file;
+  output_file.add("name", output);
+  output_file.add("event_limit", 10);
+  output_file.add("rows_per_chunk", 1000);
+  output_file.add("compression_level", 6);
+  output_file.add("shuffle",false);
+  configuration.add("output_file",output_file);
+
+  fire::config::Parameters storage;
+  storage.add("default_keep",true);
+  configuration.add("storage",storage);
+  
+  configuration.add("event_limit", 10);
+  configuration.add("log_frequency", -1);
+  configuration.add("run", 1);
+  configuration.add("max_tries", 1);
+
+  configuration.add<fire::config::Parameters>("conditions",{});
+  
+  // misspell a different parameter
+  fire::config::Parameters test_proc;
+  test_proc.add<std::string>("name","test_proc");
+  test_proc.add<std::string>("class_name","test::TestProcessor");
+  test_proc.add("run_number", 420);
+  configuration.add<std::vector<fire::config::Parameters>>("sequence",{test_proc});
+  BOOST_CHECK_THROW(std::make_unique<fire::Process>(configuration), fire::Exception);
+}
+
+BOOST_AUTO_TEST_SUITE_END()
+
 BOOST_AUTO_TEST_CASE(mimic_process) {
+  std::string output{"processors_run.h5"};
+  fire::config::Parameters configuration;
+  configuration.add("pass_name",std::string("test"));
+
+  fire::config::Parameters output_file;
+  output_file.add("name", output);
+  output_file.add("event_limit", 10);
+  output_file.add("rows_per_chunk", 1000);
+  output_file.add("compression_level", 6);
+  output_file.add("shuffle",false);
+  configuration.add("output_file",output_file);
+
+  fire::config::Parameters storage;
+  storage.add("default_keep",true);
+  configuration.add("storage",storage);
+  
+  configuration.add("event_limit", 10);
+  configuration.add("log_frequency", -1);
+  configuration.add("run", 1);
+  configuration.add("max_tries", 1);
+
+  configuration.add<fire::config::Parameters>("conditions",{});
+
   fire::config::Parameters producer, analyzer;
   producer.add<std::string>("name","producer");
+  producer.add<std::string>("class_name","test::TestProcessor");
   producer.add("run", 420);
 
   analyzer.add<std::string>("name","analyzer");
+  analyzer.add<std::string>("class_name","test::TestProcessor2");
 
-  fire::config::Parameters output_file;
-  output_file.add<std::string>("name", "processor.h5");
-  output_file.add("event_limit", 10);
-  output_file.add("rows_per_chunk", 1000);
-  output_file.add("compression_level", 6);
-  output_file.add("shuffle",false);
-  fire::io::Writer of{10,output_file};
+  configuration.add<std::vector<fire::config::Parameters>>("sequence",{producer, analyzer});
 
-  fire::Event event{fire::Event::test(of)};
-
-  std::vector<std::unique_ptr<fire::Processor>> sequence;
-  sequence.emplace_back(fire::Processor::Factory::get().make("test::TestProcessor",producer));
-  sequence.emplace_back(fire::Processor::Factory::get().make("test::TestProcessor2",analyzer));
-
-  for (auto& proc : sequence) proc->process(event);
+  std::unique_ptr<fire::Process> p;
+  try {
+    p = std::make_unique<fire::Process>(configuration);
+    p->run();
+  } catch (const fire::Exception& e) {
+    std::cerr << "ERROR [" << e.category() << "] : " << e.message() << std::endl;
+    BOOST_TEST(false);
+  }
 }
 
 BOOST_AUTO_TEST_CASE(throw_exceptions) {
-  fire::config::Parameters analyzer;
-  analyzer.add<std::string>("name","analyzer");
-
-  auto p{fire::Processor::Factory::get().make("test::TestThrow",analyzer)};
-  BOOST_CHECK_THROW(p->onProcessStart(), fire::Exception);
-  BOOST_CHECK_THROW(p->onProcessEnd(), fire::Exception);
+  std::string output{"shouldnt_exist.h5"};
+  fire::config::Parameters configuration;
+  configuration.add("pass_name",std::string("test"));
 
   fire::config::Parameters output_file;
-  output_file.add<std::string>("name", "processor.h5");
+  output_file.add("name", output);
   output_file.add("event_limit", 10);
   output_file.add("rows_per_chunk", 1000);
   output_file.add("compression_level", 6);
   output_file.add("shuffle",false);
-  fire::io::Writer of{10,output_file};
+  configuration.add("output_file",output_file);
 
-  fire::Event event{fire::Event::test(of)};
-  BOOST_REQUIRE_THROW(p->process(event), fire::Exception);
+  fire::config::Parameters storage;
+  storage.add("default_keep",true);
+  configuration.add("storage",storage);
+  
+  configuration.add("event_limit", 10);
+  configuration.add("log_frequency", -1);
+  configuration.add("run", 1);
+  configuration.add("max_tries", 1);
 
-  // check that exception has correct name
+  configuration.add<fire::config::Parameters>("conditions",{});
+
+  fire::config::Parameters th;
+  th.add<std::string>("name","test_throw");
+  th.add<std::string>("class_name","test::TestThrow");
+  configuration.add<std::vector<fire::config::Parameters>>("sequence",{th});
+
   try {
-    p->process(event);
+    auto p = std::make_unique<fire::Process>(configuration);
+    p->run();
   } catch (const fire::Exception& e) {
-    BOOST_TEST(e.category() == analyzer.get<std::string>("name"));
+    BOOST_TEST(e.category() == th.get<std::string>("name"));
   }
 }
 
