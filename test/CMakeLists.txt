@@ -6,6 +6,7 @@ add_executable(test_fire
   config.cxx
   process.cxx
   processor.cxx
+  legacy_processor.cxx
   storage_control.cxx
   conditions.cxx
   highlevel.cxx
