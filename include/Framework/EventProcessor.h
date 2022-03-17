@@ -23,21 +23,28 @@ using Parameters = fire::config::Parameters;
 /// alias Event into this namespace
 class Event {
   fire::Event& event_;
+ public:
   Event(fire::Event& e) : event_{e} {}
+  int getEventNumber() const {
+    return event_.header().number();
+  }
+  double getEventWeight() const {
+    return event_.header().weight();
+  }
   template<typename T>
   void add(const std::string& n, const T& o) {
     event_.add(n,o);
   }
   template<typename T>
-  const T& getObject(const std::string& n, const std::string& p = "") {
+  const T& getObject(const std::string& n, const std::string& p = "") const {
     return event_.get<T>(n,p);
   }
   template<typename T>
-  const std::vector<T>& getCollection(const std::string& n, const std::string& p = "") {
+  const std::vector<T>& getCollection(const std::string& n, const std::string& p = "") const {
     return getObject<std::vector<T>>(n,p);
   }
   template<typename K, typename V>
-  const std::map<K,V>& getCollection(const std::string& n, const std::string& p = "") {
+  const std::map<K,V>& getCollection(const std::string& n, const std::string& p = "") const {
     return getObject<std::map<K,V>>(n,p);
   }
 };
@@ -71,19 +78,21 @@ class Producer : public EventProcessor {
     : EventProcessor(name,p) {}
   virtual void produce(framework::Event &event) = 0;
   virtual void process(fire::Event &event) final override {
-    this->produce(framework::Event(event));
+    framework::Event e(event);
+    this->produce(e);
   }
 };
 
 /// alias for old-style analyzers
 class Analyzer : public EventProcessor {
  public:
-  Producer(const std::string& name, framework::Process& p)
+  Analyzer(const std::string& name, framework::Process& p)
     : EventProcessor(name,p) {}
   virtual void beforeNewRun(fire::RunHeader&) final override {}
   virtual void analyze(const framework::Event &event) = 0;
   virtual void process(fire::Event &event) final override {
-    this->analyze(framework::Event(event));
+    framework::Event e(event);
+    this->analyze(e);
   }
 };
 
