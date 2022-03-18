@@ -1,4 +1,4 @@
-"""Test configuration module of fire
+"""Test legacy configuration module of fire
 
 This is simply checking that things run and methods
 aren't broken. Since the configuration module is
@@ -7,15 +7,15 @@ only responsible for copying values into C++,
 
 import pytest
 
-def test_cfg() :
-    import fire.cfg
+def test_legacy() :
+    from LDMX.Framework import ldmxcfg
     # make sure start from blank slate
-    fire.cfg.Process.lastProcess = None
+    ldmxcfg.Process.lastProcess = None
     with pytest.raises(Exception) :
-        fire.cfg.Process.addModule('ShouldntWork')
+        ldmxcfg.Process.addModule('ShouldntWork')
 
-    p = fire.cfg.Process('test')
-    fire.cfg.Process.addModule('ShouldWork')
+    p = ldmxcfg.Process('test')
+    ldmxcfg.Process.addModule('ShouldWork')
     p.output_file = fire.cfg.OutputFile('test.h5')
     p.keep('.*')
     p.drop('.*')
@@ -78,5 +78,5 @@ def test_cfg() :
     dummy_var = str(p)
     dummy_var = p.parameterDump()
     with pytest.raises(Exception) :
-        p2 = fire.cfg.Process('CantCreateTwo')
+        p2 = ldmxcfg.Process('CantCreateTwo')
 
