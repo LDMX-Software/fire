@@ -117,7 +117,7 @@ class Process:
         elif name == 'keep' :
             for rule in value :
                 # assume value is space sep string
-                decision, regex = value.split()
+                decision, regex = rule.split()
                 if decision == 'keep' :
                     self.keep(regex)
                 elif decision == 'drop' :
@@ -127,7 +127,7 @@ class Process:
             # leave early because we already modified 'dict' in above member functions
             return
 
-
+        from ._output_file import OutputFile
         if name == 'output_file' and not isinstance(value,OutputFile) :
             value = OutputFile(value)
 
@@ -140,8 +140,8 @@ class Process:
 
         rather than this function.
         """
-
-        self.storage.listening_rules.append(._storage.ListeningRule(namePat,''))
+        from ._storage import ListeningRule
+        self.storage.listening_rules.append(ListeningRule(namePat,''))
 
     def skimDefaultIsDrop(self) :
         """Legacy function, user is encouraged to use
