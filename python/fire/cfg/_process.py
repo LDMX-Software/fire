@@ -91,6 +91,76 @@ class Process:
         from . import _rnss
         _rnss.RandomNumberSeedService()
 
+    def __setattr__(self, name, value) :
+        """Override setting attributes to allow for legacy translation and wrapping
+        of helper classes
+        """
+
+        if name == 'maxEvents' :
+            name = 'event_limit'
+        elif name == 'maxTriesPerEvent' :
+            name = 'max_tries'
+        elif name == 'inputFiles' :
+            name = 'input_files'
+        elif name == 'logFrequency' :
+            name = 'log_frequency'
+        elif name == 'termLogLevel' :
+            name = 'term_level'
+        elif name == 'fileLogLevel' :
+            name = 'file_level'
+        elif name == 'logFileName' :
+            name = 'log_file'
+        elif name == 'outputFiles' :
+            name = 'output_file'
+            if isinstance(value,list) and len(value) != 1 :
+                raise AttributeError('Only one output file is allowed.')
+        elif name == 'keep' :
+            for rule in value :
+                # assume value is space sep string
+                decision, regex = value.split()
+                if decision == 'keep' :
+                    self.keep(regex)
+                elif decision == 'drop' :
+                    self.drop(regex)
+                else :
+                    raise AttributeError(f'Drop keep rule {rule} does not have a decision ("drop" or "keep")')
+            # leave early because we already modified 'dict' in above member functions
+            return
+
+
+        if name == 'output_file' and not isinstance(value,OutputFile) :
+            value = OutputFile(value)
+
+        self.__dict__[name] = value
+
+    def skimConsider(self, namePat) :
+        """Legacy function, user is encouraged to use
+
+            p.storage.listen(processor)
+
+        rather than this function.
+        """
+
+        self.storage.listening_rules.append(._storage.ListeningRule(namePat,''))
+
+    def skimDefaultIsDrop(self) :
+        """Legacy function, user is encouraged to use
+
+            p.storage.default(False)
+
+        rather than this function.
+        """
+        self.storage.default(False)
+
+    def skimDefaultIsSave(self) :
+        """Legacy function, user is encouraged to use
+
+            p.storage.default(True)
+
+        rather than this function.
+        """
+        self.storage.default(True)
+
     def rnss(self) :
         """Get the random number seed service condition
 
@@ -171,7 +241,7 @@ class Process:
         """
 
         actual_module_name = module.replace('/','_').replace('::','_')
-        Process.addLibrary('lib%s.so'%(actual_module_name))
+        Process.addLibrary(f'lib{actual_module_name}.so')
 
     def keep(self,regex) :
         """Add a regex rule for keeping event objects whose name matches the regex"""
