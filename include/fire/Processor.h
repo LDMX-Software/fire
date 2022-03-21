@@ -241,11 +241,6 @@ class Processor {
   virtual ~Processor() = default;
 
   /**
-   * making configuration availble for old-style processors
-   */
-  virtual void configure(const config::Parameters& ps) {}
-
-  /**
    * Handle allowing processors to modify run headers before the run begins
    *
    * This is called _before_ any conditions providers are given the run
@@ -457,7 +452,7 @@ class Processor {
       } else {
         // old type
         ptr = std::make_unique<DerivedType>(parameters.get<std::string>("name"), process);
-        ptr->configure(parameters);
+        dynamic_cast<DerivedType*>(ptr.get())->configure(parameters);
       }
       return ptr;
     }
