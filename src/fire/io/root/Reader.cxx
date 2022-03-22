@@ -77,10 +77,6 @@ std::size_t Reader::runs() const {
   return run_tree_->GetEntriesFast();
 }
 
-void Reader::next() {
-  i_event_++;
-}
-
 std::string Reader::transform(const std::string& dir_name) {
   // static cache initialized with objects we already know the locations of
   static std::map<std::string,std::string> cache = {
