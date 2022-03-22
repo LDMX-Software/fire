@@ -10,8 +10,7 @@
 namespace fire::io::root {
 
 Reader::Reader(const std::string& file_name)
-  : i_event_{-1}, i_run_{-1},
-    file_{TFile::Open(file_name.c_str())},
+  : file_{TFile::Open(file_name.c_str())},
     ::fire::io::Reader(file_name) {
 
   if (file_ == 0) {
