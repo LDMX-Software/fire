@@ -14,7 +14,7 @@
  * styled processors
  *
  * These "legacy" processors are written with some small behavioral differences.
- * We decoreate them with deprecation warnings to try to encourage users towards
+ * We document them with deprecation warnings to try to encourage users towards
  * using the newer style of processors.
  */
 namespace framework {

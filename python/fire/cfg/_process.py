@@ -94,6 +94,28 @@ class Process:
     def __setattr__(self, name, value) :
         """Override setting attributes to allow for legacy translation and wrapping
         of helper classes
+
+        We do the following translations
+
+        - maxEvents -> event_limit
+        - maxTriesPerEvent -> max_tries
+        - inputFiles -> input_files
+        - logFrequency -> log_frequency
+        - termLogLevel -> term_level
+        - fileLogLevel -> file_level
+        - logFileName -> log_file
+        - outputFiles -> output_file
+
+        If more than one output file is given, an AttributeError is thrown.
+
+        For the 'keep' attribute, the provided list is parsed into drop keep rules
+        assuming the legacy syntax where each rule is '<drop/keep> <regex>'.
+
+        If value is a str and name (post translation) is output_file, then
+        value is wrapped in the OutputFile constructor inheriting the default parameters.
+
+        When legacy configuration and processors are fully removed,
+        this function can be shortened to only the wrapping of internal objects.
         """
 
         if name == 'maxEvents' :
@@ -114,6 +136,7 @@ class Process:
             name = 'output_file'
             if isinstance(value,list) and len(value) != 1 :
                 raise AttributeError('Only one output file is allowed.')
+            value = value[0]
         elif name == 'keep' :
             for rule in value :
                 # assume value is space sep string
