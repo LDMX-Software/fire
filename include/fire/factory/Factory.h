@@ -266,8 +266,7 @@ class Factory {
    * We could undo this assumption by having the key be an
    * input into this function.
    *
-   * @param[in] full_name name to use as a reference for the declared object
-   * @param[in] maker a pointer to a function that can dynamically create an instance
+   * @tparam DerivedType object type to declare
    * @return value to define a static variable to force running this function
    *  at library load time. It relates to variables so that it cannot be
    *  optimized away.
@@ -291,7 +290,7 @@ class Factory {
    * The arguments to the maker are determined at compiletime
    * using the template parameters of Factory.
    *
-   * @param[in] full_name name of object to create, same name as passed to declare
+   * @param[in] full_name name of class to create, same name as passed to declare
    * @param[in] maker_args parameter pack of arguments to pass on to maker
    *
    * @returns a pointer to the parent class that the objects derive from.

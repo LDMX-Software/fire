@@ -385,8 +385,7 @@ class Processor {
      * We could undo this assumption by having the key be an
      * input into this function.
      *
-     * @param[in] full_name name to use as a reference for the declared object
-     * @param[in] maker a pointer to a function that can dynamically create an instance
+     * @tparam DerivedType type of processor to declare
      * @return value to define a static variable to force running this function
      *  at library load time. It relates to variables so that it cannot be
      *  optimized away.
@@ -411,7 +410,8 @@ class Processor {
      * using the template parameters of Factory.
      *
      * @param[in] full_name name of object to create, same name as passed to declare
-     * @param[in] maker_args parameter pack of arguments to pass on to maker
+     * @param[in] ps Parameters to configure the Processor
+     * @param[in] p handle to current Process
      *
      * @returns a pointer to the parent class that the objects derive from.
      */
@@ -420,7 +420,7 @@ class Processor {
                       Process& p) {
       auto lib_it{library_.find(full_name)};
       if (lib_it == library_.end()) {
-        throw Exception("Factory","An object named " + full_name +
+        throw Exception("Factory","A processor of class " + full_name +
                          " has not been declared.",false);
       }
       return lib_it->second(ps,p);
@@ -437,10 +437,12 @@ class Processor {
      * make a DerivedType returning a PrototypePtr
      *
      * We do a constexpr check on which type of processor it is. If it can be constructed
-     * from a Parameters alone, then it is a "new" type. Otherewise, it is a "old" type.
+     * from a Parameters alone, then it is a "new" type. Otherewise, it is a "legacy" type
+     * as defined in the framework namespace.
      *
      * @tparam DerivedType type of derived object we should create
-     * @param[in] args constructor arguments for derived type construction
+     * @param[in] parameters config::Parameters to configure Processor
+     * @param[in] process handle to current Process
      */
     template <typename DerivedType>
     static PrototypePtr maker(const config::Parameters& parameters, Process& process) {
