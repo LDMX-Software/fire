@@ -122,7 +122,7 @@ class Reader : public ::fire::io::Reader {
       if (branch_name == "RunHeader") tree = run_tree_;
       attached_[branch_name] = attach(tree,branch_name,obj);
     }
-    attached_[branch_name]->GetEntry(attached_[branch_name]->GetReadEntry()++);
+    attached_[branch_name]->GetEntry(attached_[branch_name]->GetReadEntry()+1);
   }
 
   /// no copy constructor of readers
