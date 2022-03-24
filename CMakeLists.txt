@@ -27,11 +27,14 @@ find_package(Boost REQUIRED COMPONENTS log)
 find_package(HighFive REQUIRED)
 
 # optional dependency
+include(CMakeDependentOption)
 find_package(ROOT 6.20 QUIET)
-option(fire_USE_ROOT "Enable ability to read files produced with ROOT-based Framework" ${ROOT_FOUND})
-if (NOT ROOT_FOUND AND fire_USE_ROOT)
-  message(FATAL_ERROR "Unable to build ROOT-reader without access to ROOT.")
-endif()
+# the option fire_USER_ROOT is 
+#   ON (by default, still settable by user) if ROOT_FOUND is true and 
+#   is OFF and not settably by user if ROOT_FOUND is false
+cmake_dependent_option(fire_USE_ROOT 
+  "Enable ability to read files produced with ROOT-based Framework" 
+  ON "ROOT_FOUND" OFF)
 
 # Execute the command to extract the SHA1 hash of the current git tag.
 # 'git' is removed from within the container to discourage opening a shell
