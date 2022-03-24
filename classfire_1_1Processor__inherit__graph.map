@@ -1,5 +1,6 @@
 <map id="fire::Processor" name="fire::Processor">
-<area shape="rect" id="node1" title="Base class for all event processing components." alt="" coords="67,5,182,32"/>
-<area shape="rect" id="node2" href="$classfire_1_1Analyzer.html" title="Base class for a module which does not produce a data product." alt="" coords="5,80,113,107"/>
-<area shape="rect" id="node3" href="$classfire_1_1Producer.html" title="Base class for a module which produces a data product." alt="" coords="137,80,245,107"/>
+<area shape="rect" id="node1" title="Base class for all event processing components." alt="" coords="118,5,233,32"/>
+<area shape="rect" id="node2" href="$classframework_1_1EventProcessor.html" title="Wrapper class for fire::Processor which does the necessary modifications on the constructors and adds..." alt="" coords="75,80,276,107"/>
+<area shape="rect" id="node3" href="$classframework_1_1Analyzer.html" title="Legacy analyzer class." alt="" coords="5,155,164,181"/>
+<area shape="rect" id="node4" href="$classframework_1_1Producer.html" title="Legacy producer class." alt="" coords="188,155,347,181"/>
 </map>

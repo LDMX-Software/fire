@@ -7,6 +7,5 @@ var classfire_1_1io_1_1Reader =
     [ "entries", "classfire_1_1io_1_1Reader.html#a7f25ae28541483870889fba505a08cdb", null ],
     [ "load_into", "classfire_1_1io_1_1Reader.html#a0c6e520b73816003678ce948cf544b59", null ],
     [ "name", "classfire_1_1io_1_1Reader.html#ab78dfe2f4b0ec7fe2cb6e67b2a0f81b2", null ],
-    [ "next", "classfire_1_1io_1_1Reader.html#a5a0c7dd81ca873c5aa630f085c47ce69", null ],
     [ "runs", "classfire_1_1io_1_1Reader.html#a94ef6306ea796cd0fc13ba6251d61859", null ]
 ];

@@ -34,6 +34,7 @@ var hierarchy =
     ] ],
     [ "fire::io::constants", "structfire_1_1io_1_1constants.html", null ],
     [ "fire::Event", "classfire_1_1Event.html", null ],
+    [ "framework::Event", "classframework_1_1Event.html", null ],
     [ "fire::EventHeader", "classfire_1_1EventHeader.html", null ],
     [ "fire::Event::EventObject", "structfire_1_1Event_1_1EventObject.html", null ],
     [ "fire::Event::EventObjectTag", "classfire_1_1Event_1_1EventObjectTag.html", null ],
@@ -42,10 +43,16 @@ var hierarchy =
       [ "fire::Processor::AbortEventException", "classfire_1_1Processor_1_1AbortEventException.html", null ]
     ] ],
     [ "fire::factory::Factory< Prototype, PrototypePtr, PrototypeConstructorArgs >", "classfire_1_1factory_1_1Factory.html", null ],
+    [ "fire::Processor::Factory", "classfire_1_1Processor_1_1Factory.html", null ],
     [ "fire::config::Parameters", "classfire_1_1config_1_1Parameters.html", null ],
     [ "fire::io::ParameterStorage", "classfire_1_1io_1_1ParameterStorage.html", null ],
     [ "fire::Process", "classfire_1_1Process.html", null ],
-    [ "fire::Processor", "classfire_1_1Processor.html", null ],
+    [ "fire::Processor", "classfire_1_1Processor.html", [
+      [ "framework::EventProcessor", "classframework_1_1EventProcessor.html", [
+        [ "framework::Analyzer", "classframework_1_1Analyzer.html", null ],
+        [ "framework::Producer", "classframework_1_1Producer.html", null ]
+      ] ]
+    ] ],
     [ "fire::io::Reader", "classfire_1_1io_1_1Reader.html", [
       [ "fire::io::h5::Reader", "classfire_1_1io_1_1h5_1_1Reader.html", null ],
       [ "fire::io::root::Reader", "classfire_1_1io_1_1root_1_1Reader.html", null ]

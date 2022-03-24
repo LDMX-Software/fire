@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.13.0</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.14.0</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -187,7 +187,7 @@ Declaration</h3>
 <div class="line">    .<a class="code hl_function" href="classfire_1_1factory_1_1Factory.html#a87b83f41dd52057384684cfbaa1b2962">declare</a>&lt;MyDerived&gt;();</div>
 <div class="line">}</div>
 <div class="ttc" id="aclassfire_1_1factory_1_1Factory_html_a1b19b85b8cf8a42269665fa3fae1694d"><div class="ttname"><a href="classfire_1_1factory_1_1Factory.html#a1b19b85b8cf8a42269665fa3fae1694d">fire::factory::Factory::get</a></div><div class="ttdeci">static Factory &amp; get()</div><div class="ttdoc">get the factory instance</div><div class="ttdef"><b>Definition:</b> Factory.h:251</div></div>
-<div class="ttc" id="aclassfire_1_1factory_1_1Factory_html_a87b83f41dd52057384684cfbaa1b2962"><div class="ttname"><a href="classfire_1_1factory_1_1Factory.html#a87b83f41dd52057384684cfbaa1b2962">fire::factory::Factory::declare</a></div><div class="ttdeci">uint64_t declare()</div><div class="ttdoc">register a new object to be constructible</div><div class="ttdef"><b>Definition:</b> Factory.h:276</div></div>
+<div class="ttc" id="aclassfire_1_1factory_1_1Factory_html_a87b83f41dd52057384684cfbaa1b2962"><div class="ttname"><a href="classfire_1_1factory_1_1Factory.html#a87b83f41dd52057384684cfbaa1b2962">fire::factory::Factory::declare</a></div><div class="ttdeci">uint64_t declare()</div><div class="ttdoc">register a new object to be constructible</div><div class="ttdef"><b>Definition:</b> Factory.h:275</div></div>
 </div><!-- fragment --><p >The details of how this is handled is documented in <a href="https://en.cppreference.com/w/cpp/language/storage_duration">Storage Class Specifiers</a>.</p>
 <h2><a class="anchor" id="autotoc_md25"></a>
 Usage</h2>
@@ -344,10 +344,9 @@ template&lt;typename DerivedType &gt; </div>
 <p>register a new object to be constructible </p>
 <p >We insert the new object into the library after checking that it hasn't been defined before.</p>
 <dl class="section note"><dt>Note</dt><dd>This uses the demangled name of the input type as the key in our library of objects. Using the demangled name effectively assumes that all of the libraries being loaded were compiled with the same compiler version. We could undo this assumption by having the key be an input into this function.</dd></dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">full_name</td><td>name to use as a reference for the declared object </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">maker</td><td>a pointer to a function that can dynamically create an instance </td></tr>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">DerivedType</td><td>object type to declare </td></tr>
   </table>
   </dd>
 </dl>
@@ -433,7 +432,7 @@ template&lt;typename Prototype , typename PrototypePtr  = std::unique_ptr&lt;Pro
 <p>The arguments to the maker are determined at compiletime using the template parameters of <a class="el" href="classfire_1_1factory_1_1Factory.html" title="Factory to dynamically create objects derived from a specific prototype class.">Factory</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">full_name</td><td>name of object to create, same name as passed to declare </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">full_name</td><td>name of class to create, same name as passed to declare </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">maker_args</td><td>parameter pack of arguments to pass on to maker</td></tr>
   </table>
   </dd>

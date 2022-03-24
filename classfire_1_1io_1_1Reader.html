@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.13.0</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.14.0</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -131,9 +131,6 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Reader</b> ()=def
 <tr class="memitem:a94ef6306ea796cd0fc13ba6251d61859"><td class="memItemLeft" align="right" valign="top">virtual <a class="elRef" href="http://en.cppreference.com/w/cpp/types/size_t.html">std::size_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1Reader.html#a94ef6306ea796cd0fc13ba6251d61859">runs</a> () const =0</td></tr>
 <tr class="memdesc:a94ef6306ea796cd0fc13ba6251d61859"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of runs in the file.  <a href="classfire_1_1io_1_1Reader.html#a94ef6306ea796cd0fc13ba6251d61859">More...</a><br /></td></tr>
 <tr class="separator:a94ef6306ea796cd0fc13ba6251d61859"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a0c7dd81ca873c5aa630f085c47ce69"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1Reader.html#a5a0c7dd81ca873c5aa630f085c47ce69">next</a> ()</td></tr>
-<tr class="memdesc:a5a0c7dd81ca873c5aa630f085c47ce69"><td class="mdescLeft">&#160;</td><td class="mdescRight">Callback for readers to prepare for loading the next event.  <a href="classfire_1_1io_1_1Reader.html#a5a0c7dd81ca873c5aa630f085c47ce69">More...</a><br /></td></tr>
-<tr class="separator:a5a0c7dd81ca873c5aa630f085c47ce69"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac81b1fd74b1ccd45e5a7634ae06f9392"><td class="memItemLeft" align="right" valign="top">virtual <a class="elRef" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/container/array.html">std::array</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>, 3 &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1Reader.html#ac81b1fd74b1ccd45e5a7634ae06f9392">availableObjects</a> ()=0</td></tr>
 <tr class="memdesc:ac81b1fd74b1ccd45e5a7634ae06f9392"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the event objects available in the file.  <a href="classfire_1_1io_1_1Reader.html#ac81b1fd74b1ccd45e5a7634ae06f9392">More...</a><br /></td></tr>
 <tr class="separator:ac81b1fd74b1ccd45e5a7634ae06f9392"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -307,36 +304,6 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Reader</b> ()=def
 <dl class="section return"><dt>Returns</dt><dd>name of file </dd></dl>
 
 <p>Implemented in <a class="el" href="classfire_1_1io_1_1h5_1_1Reader.html#a804b2be29adcd2b6b3df541833870ed7">fire::io::h5::Reader</a>, and <a class="el" href="classfire_1_1io_1_1root_1_1Reader.html#ae79418fab059d39866ac2bb621337c80">fire::io::root::Reader</a>.</p>
-
-</div>
-</div>
-<a id="a5a0c7dd81ca873c5aa630f085c47ce69" name="a5a0c7dd81ca873c5aa630f085c47ce69"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5a0c7dd81ca873c5aa630f085c47ce69">&#9670;&nbsp;</a></span>next()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void fire::io::Reader::next </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Callback for readers to prepare for loading the next event. </p>
-<p >Currently, this is only used in the ROOT reader for incrementing the entry index of the event TTree. </p>
-
-<p>Reimplemented in <a class="el" href="classfire_1_1io_1_1root_1_1Reader.html#a17c934aa8b570d66b220bebe695ba435">fire::io::root::Reader</a>.</p>
 
 </div>
 </div>

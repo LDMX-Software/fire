@@ -51,6 +51,7 @@ var NAVTREE =
       [ "Credits", "md_docs_doxygen_awesome_css_README.html#autotoc_md14", null ]
     ] ],
     [ "Generating fire docs", "md_docs_README.html", null ],
+    [ "Deprecated List", "deprecated.html", null ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
@@ -89,12 +90,12 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "AbstractData_8h_source.html",
-"classfire_1_1Event_1_1EventObjectTag.html#a43100e6608ae94a66fb94a9cc845e2b9",
-"classfire_1_1config_1_1Parameters.html#a754cda06e4903a401a0edeeef64b3467",
-"classfire_1_1io_1_1h5_1_1Reader_1_1Buffer.html#a19275464f1570d2828369a7754ebdc58",
-"cpp/io/c/putwchar.html",
-"cpp/string/multibyte/mbrtoc16.html",
-"structfire_1_1Event_1_1EventObject.html#af39b84a9cac4cf469690844c9376be54"
+"classfire_1_1EventHeader.html#afaad89bb54e63a187ea614e41bca423d",
+"classfire_1_1StorageControl.html#a402b80c778174eb94974d044aa59fbc2",
+"classfire_1_1io_1_1h5_1_1Reader.html#a5c785abeea7c26857cab3eb08c7d74b2",
+"cpp/chrono/c/localtime.html",
+"cpp/string/basic_string/stof.html",
+"md_docs_doxygen_awesome_css_README.html#autotoc_md13"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

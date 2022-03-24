@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.13.0</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.14.0</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -131,17 +131,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a822ba24a49acd23c19acb6d769d51a02"><td class="memItemLeft" align="right" valign="top">virtual <a class="elRef" href="http://en.cppreference.com/w/cpp/types/size_t.html">std::size_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1root_1_1Reader.html#a822ba24a49acd23c19acb6d769d51a02">runs</a> () const final override</td></tr>
 <tr class="memdesc:a822ba24a49acd23c19acb6d769d51a02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of runs in the file.  <a href="classfire_1_1io_1_1root_1_1Reader.html#a822ba24a49acd23c19acb6d769d51a02">More...</a><br /></td></tr>
 <tr class="separator:a822ba24a49acd23c19acb6d769d51a02"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a17c934aa8b570d66b220bebe695ba435"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1root_1_1Reader.html#a17c934aa8b570d66b220bebe695ba435">next</a> () final override</td></tr>
-<tr class="memdesc:a17c934aa8b570d66b220bebe695ba435"><td class="mdescLeft">&#160;</td><td class="mdescRight">Iterate the event index for loading in the future.  <a href="classfire_1_1io_1_1root_1_1Reader.html#a17c934aa8b570d66b220bebe695ba435">More...</a><br /></td></tr>
-<tr class="separator:a17c934aa8b570d66b220bebe695ba435"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a310f90792296d1069325aa4ed3adc668"><td class="memTemplParams" colspan="2">template&lt;typename DataType &gt; </td></tr>
 <tr class="memitem:a310f90792296d1069325aa4ed3adc668"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1root_1_1Reader.html#a310f90792296d1069325aa4ed3adc668">load</a> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;<a class="el" href="classfire_1_1io_1_1root_1_1Reader.html#ae79418fab059d39866ac2bb621337c80">name</a>, DataType &amp;obj)</td></tr>
-<tr class="memdesc:a310f90792296d1069325aa4ed3adc668"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load the <b>event</b> data at the input name into the input object.  <a href="classfire_1_1io_1_1root_1_1Reader.html#a310f90792296d1069325aa4ed3adc668">More...</a><br /></td></tr>
+<tr class="memdesc:a310f90792296d1069325aa4ed3adc668"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load the data at the input name into the input object.  <a href="classfire_1_1io_1_1root_1_1Reader.html#a310f90792296d1069325aa4ed3adc668">More...</a><br /></td></tr>
 <tr class="separator:a310f90792296d1069325aa4ed3adc668"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a378906e60b37e641f397a896afee71cf"><td class="memTemplParams" colspan="2">template&lt;typename DataType &gt; </td></tr>
-<tr class="memitem:a378906e60b37e641f397a896afee71cf"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1root_1_1Reader.html#a378906e60b37e641f397a896afee71cf">loadRun</a> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;<a class="el" href="classfire_1_1io_1_1root_1_1Reader.html#ae79418fab059d39866ac2bb621337c80">name</a>, DataType &amp;obj)</td></tr>
-<tr class="memdesc:a378906e60b37e641f397a896afee71cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load the run data into the input object.  <a href="classfire_1_1io_1_1root_1_1Reader.html#a378906e60b37e641f397a896afee71cf">More...</a><br /></td></tr>
-<tr class="separator:a378906e60b37e641f397a896afee71cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a943a42e53f72cfeb860669f9121899b3"><td class="memItemLeft" align="right" valign="top"><a id="a943a42e53f72cfeb860669f9121899b3" name="a943a42e53f72cfeb860669f9121899b3"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Reader</b> (const <a class="el" href="classfire_1_1io_1_1root_1_1Reader.html">Reader</a> &amp;)=delete</td></tr>
 <tr class="memdesc:a943a42e53f72cfeb860669f9121899b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">no copy constructor of readers <br /></td></tr>
@@ -174,14 +167,6 @@ Static Private Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:ae49417ca0108094afd75ac64700d081e"><td class="memItemLeft" align="right" valign="top"><a id="ae49417ca0108094afd75ac64700d081e" name="ae49417ca0108094afd75ac64700d081e"></a>
-long int&#160;</td><td class="memItemRight" valign="bottom"><b>i_event_</b></td></tr>
-<tr class="memdesc:ae49417ca0108094afd75ac64700d081e"><td class="mdescLeft">&#160;</td><td class="mdescRight">the index of the event we are currently reading <br /></td></tr>
-<tr class="separator:ae49417ca0108094afd75ac64700d081e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a63b452a5020aa17230ebd3f128f90e79"><td class="memItemLeft" align="right" valign="top"><a id="a63b452a5020aa17230ebd3f128f90e79" name="a63b452a5020aa17230ebd3f128f90e79"></a>
-long int&#160;</td><td class="memItemRight" valign="bottom"><b>i_run_</b></td></tr>
-<tr class="memdesc:a63b452a5020aa17230ebd3f128f90e79"><td class="mdescLeft">&#160;</td><td class="mdescRight">the index of the run we are currently reading <br /></td></tr>
-<tr class="separator:a63b452a5020aa17230ebd3f128f90e79"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab121692fd27d938e252ac270de722681"><td class="memItemLeft" align="right" valign="top"><a id="ab121692fd27d938e252ac270de722681" name="ab121692fd27d938e252ac270de722681"></a>
 TFile *&#160;</td><td class="memItemRight" valign="bottom"><b>file_</b></td></tr>
 <tr class="memdesc:ab121692fd27d938e252ac270de722681"><td class="mdescLeft">&#160;</td><td class="mdescRight">file being read <br /></td></tr>
@@ -208,7 +193,7 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>Factory</b> = ::<a c
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Reading ROOT files into our data structures. </p>
-<p >If you are familiar with the ROOT-based Framework, this <a class="el" href="classfire_1_1io_1_1root_1_1Reader.html" title="Reading ROOT files into our data structures.">Reader</a> effectively does tasks done by the framework::Event and framework::EventFile classes. </p>
+<p >If you are familiar with the ROOT-based Framework, this <a class="el" href="classfire_1_1io_1_1root_1_1Reader.html" title="Reading ROOT files into our data structures.">Reader</a> effectively does tasks done by the <a class="el" href="classframework_1_1Event.html" title="Wrapper Event in this namespace reintroducing legacy functionality.">framework::Event</a> and framework::EventFile classes. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="af16be49d46e608236edd65bd2a3f9913" name="af16be49d46e608236edd65bd2a3f9913"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af16be49d46e608236edd65bd2a3f9913">&#9670;&nbsp;</a></span>Reader()</h2>
@@ -411,13 +396,11 @@ template&lt;typename DataType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Load the <b>event</b> data at the input name into the input object. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classfire_1_1io_1_1root_1_1Reader.html#a6b18158201446a3d14b6e5dfbd9f705d" title="pull out pass and object name, construct branch name">transform</a> for how we get the ROOT branch <a class="el" href="classfire_1_1io_1_1root_1_1Reader.html#ae79418fab059d39866ac2bb621337c80" title="Get the name of the file.">name</a> from the input HDF5-style nested group names.</dd>
-<dd>
-<a class="el" href="classfire_1_1io_1_1root_1_1Reader.html#a378906e60b37e641f397a896afee71cf" title="Load the run data into the input object.">loadRun</a> for loading RunHeaders into memory.</dd></dl>
-<p>We choose the tree and the index from the deduced branch name. If the branch name is "RunHeader", the we use the run tree and the run index; otherwise, the event tree and the event index.</p>
+<p>Load the data at the input name into the input object. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classfire_1_1io_1_1root_1_1Reader.html#a6b18158201446a3d14b6e5dfbd9f705d" title="pull out pass and object name, construct branch name">transform</a> for how we get the ROOT branch <a class="el" href="classfire_1_1io_1_1root_1_1Reader.html#ae79418fab059d39866ac2bb621337c80" title="Get the name of the file.">name</a> from the input HDF5-style nested group names.</dd></dl>
+<p>We choose the tree from the deduced branch name. If the branch name is "RunHeader", the we use the run tree ; otherwise, the event tree.</p>
 <p >If the branch name isn't found in our 'attached_' map, then we use attach to attempt to attach it.</p>
-<p >At the end, we load the data into memory using TBranch GetEntry.</p>
+<p >At the end, we load the data into memory using TBranch GetReadEntry to retrieve the current entry and increment it before providing it back to GetEntry.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">DataType</td><td>type of data to load into </td></tr>
@@ -470,66 +453,6 @@ template&lt;typename DataType &gt; </div>
 
 </div>
 </div>
-<a id="a378906e60b37e641f397a896afee71cf" name="a378906e60b37e641f397a896afee71cf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a378906e60b37e641f397a896afee71cf">&#9670;&nbsp;</a></span>loadRun()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename DataType &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void fire::io::root::Reader::loadRun </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;&#160;</td>
-          <td class="paramname"><em>name</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">DataType &amp;&#160;</td>
-          <td class="paramname"><em>obj</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Load the run data into the input object. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classfire_1_1io_1_1root_1_1Reader.html#a6b18158201446a3d14b6e5dfbd9f705d" title="pull out pass and object name, construct branch name">transform</a> for how we get the ROOT branch <a class="el" href="classfire_1_1io_1_1root_1_1Reader.html#ae79418fab059d39866ac2bb621337c80" title="Get the name of the file.">name</a> from the input HDF5-style nested group names.</dd>
-<dd>
-<a class="el" href="classfire_1_1io_1_1root_1_1Reader.html#a310f90792296d1069325aa4ed3adc668" title="Load the event data at the input name into the input object.">load</a> for loading event objects into memory.</dd></dl>
-<p>The branch name is "RunHeader", no deduction is done based on the input HDF5-style path name.</p>
-<p >If the branch name isn't found in our 'attached_' map, then we use attach to attempt to attach it.</p>
-<p >At the end, we load the data into memory using TBranch GetEntry.</p>
-<dl class="section note"><dt>Note</dt><dd>Since there is only one branch in the runs TTree, we increment the run index on each call to this function.</dd></dl>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">DataType</td><td>type of data to load into (should be <a class="el" href="classfire_1_1RunHeader.html" title="Container for run parameters.">fire::RunHeader</a>) </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">name</td><td>name of data to load (not used) </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">obj</td><td>reference to load into </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 <a id="ae79418fab059d39866ac2bb621337c80" name="ae79418fab059d39866ac2bb621337c80"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae79418fab059d39866ac2bb621337c80">&#9670;&nbsp;</a></span>name()</h2>
 
@@ -558,35 +481,6 @@ template&lt;typename DataType &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>full name of file currently reading </dd></dl>
 
 <p>Implements <a class="el" href="classfire_1_1io_1_1Reader.html#ab78dfe2f4b0ec7fe2cb6e67b2a0f81b2">fire::io::Reader</a>.</p>
-
-</div>
-</div>
-<a id="a17c934aa8b570d66b220bebe695ba435" name="a17c934aa8b570d66b220bebe695ba435"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a17c934aa8b570d66b220bebe695ba435">&#9670;&nbsp;</a></span>next()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void fire::io::root::Reader::next </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">final</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Iterate the event index for loading in the future. </p>
-
-<p>Reimplemented from <a class="el" href="classfire_1_1io_1_1Reader.html#a5a0c7dd81ca873c5aa630f085c47ce69">fire::io::Reader</a>.</p>
 
 </div>
 </div>

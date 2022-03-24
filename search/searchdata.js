@@ -10,7 +10,7 @@ var indexSectionsWithContent =
   7: "hl",
   8: "defiw",
   9: "dfop",
-  10: "bef",
+  10: "bdef",
   11: "dg🔥"
 };
 

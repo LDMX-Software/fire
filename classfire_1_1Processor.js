@@ -1,7 +1,7 @@
 var classfire_1_1Processor =
 [
     [ "AbortEventException", "classfire_1_1Processor_1_1AbortEventException.html", null ],
-    [ "Factory", "classfire_1_1Processor.html#a864c31a590d8380804af3b1da5d77cf7", null ],
+    [ "Factory", "classfire_1_1Processor_1_1Factory.html", "classfire_1_1Processor_1_1Factory" ],
     [ "Processor", "classfire_1_1Processor.html#ab2fc871f893086500941b33a47bacead", null ],
     [ "~Processor", "classfire_1_1Processor.html#acc037f739ba8b8c2e6784440a4a2a78e", null ],
     [ "abortEvent", "classfire_1_1Processor.html#a471b2c3c6c323d016557d13b1f0e1e18", null ],

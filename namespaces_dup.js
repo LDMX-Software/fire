@@ -36,6 +36,7 @@ var namespaces_dup =
       [ "RunHeader", "classfire_1_1RunHeader.html", "classfire_1_1RunHeader" ],
       [ "StorageControl", "classfire_1_1StorageControl.html", "classfire_1_1StorageControl" ]
     ] ],
+    [ "framework", "namespaceframework.html", "namespaceframework" ],
     [ "std", "namespacestd.html", [
       [ "chrono", null, [
         [ "duration_cast", "http://en.cppreference.com/w/cpp/chrono/duration/duration_cast.html", null ],

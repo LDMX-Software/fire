@@ -1,0 +1,15 @@
+<map id="framework::Analyzer" name="framework::Analyzer">
+<area shape="rect" id="node1" title="Legacy analyzer class." alt="" coords="1577,164,1736,191"/>
+<area shape="rect" id="node2" href="$classframework_1_1EventProcessor.html" title="Wrapper class for fire::Processor which does the necessary modifications on the constructors and adds..." alt="" coords="1327,164,1528,191"/>
+<area shape="rect" id="node3" href="$classfire_1_1Processor.html" title="Base class for all event processing components." alt="" coords="1163,164,1277,191"/>
+<area shape="rect" id="node4" href="/home/runner/work/fire/fire/docs/cppreference-doxygen-web.tag.xml$cpp/string/basic_string.html" title=" " alt="" coords="356,139,443,165"/>
+<area shape="rect" id="node10" href="$classfire_1_1Event.html" title="Event class for interfacing with processors." alt="" coords="673,240,761,267"/>
+<area shape="rect" id="node12" href="$classfire_1_1RunHeader.html" title="Container for run parameters." alt="" coords="655,88,778,115"/>
+<area shape="rect" id="node5" href="/home/runner/work/fire/fire/docs/cppreference-doxygen-web.tag.xml$cpp/string/basic_string.html" title=" " alt="" coords="5,131,144,173"/>
+<area shape="rect" id="node6" href="$classfire_1_1Process.html" title="The central object managing the data processing." alt="" coords="952,189,1053,216"/>
+<area shape="rect" id="node7" href="$classfire_1_1io_1_1Writer.html" title="Write the fire DataSets into a deterministic structure in the output HDF5 data file." alt="" coords="344,288,455,315"/>
+<area shape="rect" id="node8" href="/home/runner/work/fire/fire/docs/cppreference-doxygen-web.tag.xml$cpp/types/size_t.html" title=" " alt="" coords="31,288,119,315"/>
+<area shape="rect" id="node9" href="$classfire_1_1StorageControl.html" title="Isolation of voting system deciding if events should be kept." alt="" coords="643,189,791,216"/>
+<area shape="rect" id="node11" href="$classfire_1_1io_1_1Reader.html" title="Prototype for reading files within fire." alt="" coords="341,219,458,245"/>
+<area shape="rect" id="node13" href="$classfire_1_1io_1_1ParameterStorage.html" title="Provides dynamic parameter storage by interfacing between a map to variants storing parameters and a ..." alt="" coords="305,5,493,32"/>
+</map>

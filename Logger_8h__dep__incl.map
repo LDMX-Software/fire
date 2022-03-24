@@ -1,9 +1,10 @@
 <map id="include/fire/logging/Logger.h" name="include/fire/logging/Logger.h">
-<area shape="rect" id="node1" title="Interface to Boost.Logging." alt="" coords="127,5,273,47"/>
-<area shape="rect" id="node2" href="$Conditions_8h_source.html" title=" " alt="" coords="35,177,213,203"/>
+<area shape="rect" id="node1" title="Interface to Boost.Logging." alt="" coords="189,5,336,47"/>
+<area shape="rect" id="node2" href="$Conditions_8h_source.html" title=" " alt="" coords="97,177,276,203"/>
 <area shape="rect" id="node3" href="$Process_8h_source.html" title=" " alt="" coords="5,333,165,360"/>
-<area shape="rect" id="node5" href="$Processor_8h_source.html" title=" " alt="" coords="123,259,295,285"/>
-<area shape="rect" id="node6" href="$ConditionsProvider_8h_source.html" title=" " alt="" coords="161,95,393,121"/>
+<area shape="rect" id="node5" href="$Processor_8h_source.html" title=" " alt="" coords="210,259,382,285"/>
+<area shape="rect" id="node7" href="$ConditionsProvider_8h_source.html" title=" " alt="" coords="224,95,456,121"/>
 <area shape="rect" id="node4" href="$fire_8cxx.html" title="main definition for fire executable" alt="" coords="36,408,135,435"/>
-<area shape="rect" id="node7" href="$RandomNumberSeedService_8h.html" title="Conditions object for random number seeds." alt="" coords="238,169,442,211"/>
+<area shape="rect" id="node6" href="$EventProcessor_8h.html" title="Re&#45;interpretation of ROOT&#45;based framework code into fire." alt="" coords="189,333,451,360"/>
+<area shape="rect" id="node8" href="$RandomNumberSeedService_8h.html" title="Conditions object for random number seeds." alt="" coords="301,169,505,211"/>
 </map>

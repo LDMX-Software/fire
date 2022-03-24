@@ -38,5 +38,11 @@ var annotated_dup =
       [ "RandomNumberSeedService", "classfire_1_1RandomNumberSeedService.html", "classfire_1_1RandomNumberSeedService" ],
       [ "RunHeader", "classfire_1_1RunHeader.html", "classfire_1_1RunHeader" ],
       [ "StorageControl", "classfire_1_1StorageControl.html", "classfire_1_1StorageControl" ]
+    ] ],
+    [ "framework", "namespaceframework.html", [
+      [ "Analyzer", "classframework_1_1Analyzer.html", "classframework_1_1Analyzer" ],
+      [ "Event", "classframework_1_1Event.html", "classframework_1_1Event" ],
+      [ "EventProcessor", "classframework_1_1EventProcessor.html", "classframework_1_1EventProcessor" ],
+      [ "Producer", "classframework_1_1Producer.html", "classframework_1_1Producer" ]
     ] ]
 ];

@@ -1,0 +1,6 @@
+<map id="framework::EventProcessor" name="framework::EventProcessor">
+<area shape="rect" id="node1" title="Wrapper class for fire::Processor which does the necessary modifications on the constructors and adds..." alt="" coords="75,80,276,107"/>
+<area shape="rect" id="node3" href="$classframework_1_1Analyzer.html" title="Legacy analyzer class." alt="" coords="5,155,164,181"/>
+<area shape="rect" id="node4" href="$classframework_1_1Producer.html" title="Legacy producer class." alt="" coords="188,155,347,181"/>
+<area shape="rect" id="node2" href="$classfire_1_1Processor.html" title="Base class for all event processing components." alt="" coords="118,5,233,32"/>
+</map>
