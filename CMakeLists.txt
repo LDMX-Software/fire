@@ -79,7 +79,7 @@ target_include_directories(exception
   )
 
 add_library(factory SHARED src/fire/factory/Factory.cxx)
-target_link_libraries(factory PUBLIC exception)
+target_link_libraries(factory PUBLIC exception Boost::boost)
 target_include_directories(factory
   PUBLIC 
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
@@ -95,7 +95,7 @@ target_include_directories(logging
   )
 
 add_library(config SHARED src/fire/config/Python.cxx)
-target_link_libraries(config PUBLIC exception Python3::Python)
+target_link_libraries(config PUBLIC exception Python3::Python Boost::boost)
 
 if (fire_USE_ROOT)
   message(STATUS "Building ROOT reader")
@@ -126,7 +126,7 @@ add_library(framework SHARED
   src/fire/Conditions.cxx
   src/fire/RandomNumberSeedService.cxx
   )
-target_link_libraries(framework PUBLIC logging version exception config factory io)
+target_link_libraries(framework PUBLIC logging version exception config factory io Boost::boost)
 target_include_directories(framework PUBLIC
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
   "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>"
