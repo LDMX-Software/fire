@@ -1,14 +1,16 @@
-#include "fire/h5/Atomic.h"
+#include "fire/io/Atomic.h"
 
-namespace fire::h5 {
+namespace fire::io {
 
 HighFive::EnumType<Bool> create_enum_bool() {
   return {{"TRUE" , Bool::TRUE },
           {"FALSE", Bool::FALSE}};
 }
 
-}  // namespace fire::h5
+}  // namespace fire::io
 
-/// register our enum type with HighFive
-HIGHFIVE_REGISTER_TYPE(fire::h5::Bool, fire::h5::create_enum_bool)
+template<>
+HighFive::DataType HighFive::create_datatype<fire::io::Bool>() {
+  return fire::io::create_enum_bool();
+}
 

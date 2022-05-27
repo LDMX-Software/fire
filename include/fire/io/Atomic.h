@@ -1,6 +1,10 @@
 #ifndef FIRE_IO_ATOMIC_H
 #define FIRE_IO_ATOMIC_H
 
+#include <type_traits>
+
+#include <highfive/H5DataType.hpp>
+
 namespace fire::io {
 
 /**
@@ -37,5 +41,8 @@ enum class Bool : bool {
 HighFive::EnumType<Bool> create_enum_bool();
 
 }  // namespace fire::h5
+
+template<>
+HighFive::DataType HighFive::create_datatype<fire::io::Bool>();
 
 #endif
