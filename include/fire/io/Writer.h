@@ -91,6 +91,8 @@ class Writer {
       //    for flushing purposes
       // - the length of the buffer is the same size as the chunks in
       //    HDF5, this is done on purpose
+      // - if the type is a bool, we define the HighFive type to be
+      //    our custom enum which mimics the type used by h5py
       HighFive::DataType t;
       if constexpr (std::is_same_v<AtomicType,bool>) {
         t = create_enum_bool();
@@ -223,6 +225,9 @@ class Writer {
      * a compile-time choice that handles the std::vector<bool>
      * specialization
      * [bug in HighFive](https://github.com/BlueBrain/HighFive/issues/490).
+     * *and* translates bools into our custom enum fire::io::Bool
+     * which mimics the serialization behavior of the bool type
+     * understandable by h5py.
      *
      * Finally, we update the file index, clear the buffer,
      * and re-reserve the maximum length of the buffer to prepare

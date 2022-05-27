@@ -267,7 +267,8 @@ class Reader : public ::fire::io::Reader {
      * We have a compile-time split in order to patch 
      * [a bug](https://github.com/BlueBrain/HighFive/issues/490)
      * in HighFive that doesn't allow writing of std::vector<bool>
-     * due to the specialization of it.
+     * due to the specialization of it **and** to translate
+     * our custom enum fire::io::Bool into bools.
      *
      * After reading the next chunk into memory, we update our
      * indicies by resetting the in-memory index to 0 and moving
@@ -287,7 +288,11 @@ class Reader : public ::fire::io::Reader {
       }
       // load the next chunk into memory
       if constexpr (std::is_same_v<AtomicType,bool>) {
-        // get around std::vector<bool> specialization
+        /**
+         * compile-time split for bools which
+         * 1. gets around the std::vector<bool> specialization
+         * 2. allows us to translate io::Bool into bools
+         */
         std::vector<Bool> buff;
         buff.resize(request_len);
         this->set_.select({i_file_}, {request_len})

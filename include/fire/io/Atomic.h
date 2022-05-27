@@ -1,3 +1,5 @@
+/** @file Atomic.h */
+
 #ifndef FIRE_IO_ATOMIC_H
 #define FIRE_IO_ATOMIC_H
 
@@ -40,8 +42,25 @@ enum class Bool : bool {
  */
 HighFive::EnumType<Bool> create_enum_bool();
 
-}  // namespace fire::h5
+}  // namespace fire::io
 
+/**
+ * full specialization of HighFive template function
+ *
+ * This is necessary for compile-time registration of a new type
+ * and is usually hidden within the HIGHFIVE_REGISTER_TYPE macro.
+ *
+ * The reason we have to _not_ use the macro here is two fold.
+ * 1. We need the declaration of this registration to be done in this header 
+ *    so that it is accessible by both the fire::io target and the downstream
+ *    fire::framework target.
+ * 2. We need to define the registration only once to avoid a duplicate
+ *    definition compiler error during the linking step.
+ *
+ * These two goals can be met by splitting the declaration and the 
+ * definition of this full specialization into the header and source
+ * files of Atomic.
+ */
 template<>
 HighFive::DataType HighFive::create_datatype<fire::io::Bool>();
 
