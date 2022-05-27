@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['level_0',['level',['../namespacefire_1_1logging.html#ac97b2d477a714cca17fa9cc9ac2a1726',1,'fire::logging']]]
+  ['hint_0',['Hint',['../classfire_1_1StorageControl.html#a402b80c778174eb94974d044aa59fbc2',1,'fire::StorageControl']]]
 ];

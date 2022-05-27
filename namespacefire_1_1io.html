@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.14.1</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.15.0</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -88,6 +88,8 @@ $(document).ready(function(){initNavTree('namespacefire_1_1io.html',''); initRes
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">fire::io Namespace Reference</div></div>
 </div><!--header-->
@@ -144,6 +146,21 @@ Typedefs</h2></td></tr>
 <tr class="memitem:a72de2f95e2ff93da56d7cfe9bc0a6e0c"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacefire_1_1io.html#a72de2f95e2ff93da56d7cfe9bc0a6e0c">is_atomic</a> = <a class="elRef" href="http://en.cppreference.com/w/cpp/types/integral_constant.html">std::integral_constant</a>&lt; bool, <a class="elRef" href="http://en.cppreference.com/w/cpp/types/is_arithmetic.html">std::is_arithmetic</a>&lt; AtomicType &gt;::value||<a class="elRef" href="http://en.cppreference.com/w/cpp/types/is_same.html">std::is_same</a>&lt; AtomicType, <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &gt;::value &gt;</td></tr>
 <tr class="memdesc:a72de2f95e2ff93da56d7cfe9bc0a6e0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">HighFive supports many C++ "atomic" types that are used regularly.  <a href="namespacefire_1_1io.html#a72de2f95e2ff93da56d7cfe9bc0a6e0c">More...</a><br /></td></tr>
 <tr class="separator:a72de2f95e2ff93da56d7cfe9bc0a6e0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a4daa8c0068cf8f6c75a396b69adc41df"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefire_1_1io.html#a4daa8c0068cf8f6c75a396b69adc41df">Bool</a> : bool { <b>TRUE</b> = true
+, <b>FALSE</b> = false
+ }</td></tr>
+<tr class="memdesc:a4daa8c0068cf8f6c75a396b69adc41df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Boolean enum aligned with h5py.  <a href="namespacefire_1_1io.html#a4daa8c0068cf8f6c75a396b69adc41df">More...</a><br /></td></tr>
+<tr class="separator:a4daa8c0068cf8f6c75a396b69adc41df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:aba97cbfb1683301e7cff785cc39cfcbe"><td class="memItemLeft" align="right" valign="top"><a id="aba97cbfb1683301e7cff785cc39cfcbe" name="aba97cbfb1683301e7cff785cc39cfcbe"></a>
+HighFive::EnumType&lt; <a class="el" href="namespacefire_1_1io.html#a4daa8c0068cf8f6c75a396b69adc41df">Bool</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>create_enum_bool</b> ()</td></tr>
+<tr class="memdesc:aba97cbfb1683301e7cff785cc39cfcbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">HighFive method for creating the enum data type. <br /></td></tr>
+<tr class="separator:aba97cbfb1683301e7cff785cc39cfcbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
@@ -322,6 +339,32 @@ template&lt;typename AtomicType &gt; </div>
 <p>HighFive supports many C++ "atomic" types that are used regularly. </p>
 <p >In order to conform to our more flexible structure, I have isolated their deduction into this (currently small) header file.</p>
 <p >This will make it easier to fold in future atomic types if we see fit. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="a4daa8c0068cf8f6c75a396b69adc41df" name="a4daa8c0068cf8f6c75a396b69adc41df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4daa8c0068cf8f6c75a396b69adc41df">&#9670;&nbsp;</a></span>Bool</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="namespacefire_1_1io.html#a4daa8c0068cf8f6c75a396b69adc41df">fire::io::Bool</a> : bool</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Boolean enum aligned with h5py. </p>
+<p >We serialize bools in the same method as h5py so that Python-based analyses are easier. </p>
 
 </div>
 </div>

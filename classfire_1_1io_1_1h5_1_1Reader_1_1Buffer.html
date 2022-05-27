@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.14.1</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.15.0</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -248,9 +248,13 @@ template&lt;typename AtomicType &gt; </div>
 
 <p>Load the next chunk of data into memory. </p>
 <p >We determine the size of the next chunk from our own maximum and the number of entries in the data set. We shrink the size of the next chunk depending on how many entries are left if we can't grab a whole maximum sized chunk.</p>
-<p >We have a compile-time split in order to patch <a href="https://github.com/BlueBrain/HighFive/issues/490">a bug</a> in HighFive that doesn't allow writing of std::vector&lt;bool&gt; due to the specialization of it.</p>
+<p >We have a compile-time split in order to patch <a href="https://github.com/BlueBrain/HighFive/issues/490">a bug</a> in HighFive that doesn't allow writing of std::vector&lt;bool&gt; due to the specialization of it <b>and</b> to translate our custom enum <a class="el" href="namespacefire_1_1io.html#a4daa8c0068cf8f6c75a396b69adc41df" title="Boolean enum aligned with h5py.">fire::io::Bool</a> into bools.</p>
 <p >After reading the next chunk into memory, we update our indicies by resetting the in-memory index to 0 and moving the file index by the size of the buffer.</p>
 <dl class="section note"><dt>Note</dt><dd>We assume that the downstream objects using this buffer know to stop processing before attempting to read passed the end of the data set. We enforce this with an assertion. </dd></dl>
+<p >compile-time split for bools which</p><ol type="1">
+<li>gets around the std::vector&lt;bool&gt; specialization</li>
+<li>allows us to translate <a class="el" href="namespacefire_1_1io.html#a4daa8c0068cf8f6c75a396b69adc41df" title="Boolean enum aligned with h5py.">io::Bool</a> into bools</li>
+</ol>
 
 <p>Implements <a class="el" href="classfire_1_1io_1_1h5_1_1Reader_1_1BufferHandle.html#ab51f87491c39f9db73e142d9deec3cc4">fire::io::h5::Reader::BufferHandle</a>.</p>
 

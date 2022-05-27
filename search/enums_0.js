@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['hint_0',['Hint',['../classfire_1_1StorageControl.html#a402b80c778174eb94974d044aa59fbc2',1,'fire::StorageControl']]]
+  ['bool_0',['Bool',['../namespacefire_1_1io.html#a4daa8c0068cf8f6c75a396b69adc41df',1,'fire::io']]]
 ];

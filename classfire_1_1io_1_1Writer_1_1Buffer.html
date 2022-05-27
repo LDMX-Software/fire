@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.14.1</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.15.0</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -241,7 +241,7 @@ template&lt;typename AtomicType &gt; </div>
 <p>Flush our in-memory buffer onto disk. </p>
 <p >We leave early if the buffer is empty. This is helpful for the case where the number of elements in the dataset happen to be an exact multiple of the buffer size. Then the buffer would be empty at the time that <a class="el" href="classfire_1_1io_1_1Writer.html#aecd2641ffba5094feb2c63f1f640efba" title="Close up our file, making sure to flush contents to disk.">Writer::~Writer</a> is called which calls all Buffers to flush in order to avoid data loss.</p>
 <p >We determine the new extent of the dataset given how many elements are in the buffer, then we resize the dataset that is on disk to this new extent.</p>
-<p >Then, we copy the buffer into the DataSet on disk using a compile-time choice that handles the std::vector&lt;bool&gt; specialization <a href="https://github.com/BlueBrain/HighFive/issues/490">bug in HighFive</a>.</p>
+<p >Then, we copy the buffer into the DataSet on disk using a compile-time choice that handles the std::vector&lt;bool&gt; specialization <a href="https://github.com/BlueBrain/HighFive/issues/490">bug in HighFive</a>. <em>and</em> translates bools into our custom enum <a class="el" href="namespacefire_1_1io.html#a4daa8c0068cf8f6c75a396b69adc41df" title="Boolean enum aligned with h5py.">fire::io::Bool</a> which mimics the serialization behavior of the bool type understandable by h5py.</p>
 <p >Finally, we update the file index, clear the buffer, and re-reserve the maximum length of the buffer to prepare for another chunk of data.</p>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">

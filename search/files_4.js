@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['randomnumberseedservice_2eh_0',['RandomNumberSeedService.h',['../RandomNumberSeedService_8h.html',1,'']]]
+  ['logger_2eh_0',['Logger.h',['../Logger_8h.html',1,'']]]
 ];
