@@ -223,6 +223,10 @@
  * ClassImp(Point);
  * #endif
  * ```
+ *
+ * ## Access Pattern
+ *
+ * \image html fire_io_Data_AccessPatter.svg
  */
 namespace fire::io {
 
