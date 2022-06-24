@@ -2,18 +2,19 @@
 
 <!doctype html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>fire.cfg package &#8212; fire v0.15.0 documentation</title>
+    <title>fire.cfg package &#8212; fire v0.15.2 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bizstyle.css" />
     
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -36,7 +37,7 @@
         <li class="right" >
           <a href="fire.html" title="fire package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">fire v0.15.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">fire v0.15.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="fire.html" accesskey="U">fire package</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">fire.cfg package</a></li> 
       </ul>
@@ -48,9 +49,9 @@
           <div class="body" role="main">
             
   <section id="fire-cfg-package">
-<h1>fire.cfg package<a class="headerlink" href="#fire-cfg-package" title="Permalink to this headline">¶</a></h1>
+<h1>fire.cfg package<a class="headerlink" href="#fire-cfg-package" title="Permalink to this heading">¶</a></h1>
 <section id="fire-cfg-process-class">
-<h2>fire.cfg.Process class<a class="headerlink" href="#fire-cfg-process-class" title="Permalink to this headline">¶</a></h2>
+<h2>fire.cfg.Process class<a class="headerlink" href="#fire-cfg-process-class" title="Permalink to this heading">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="fire.cfg.Process">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fire.cfg.</span></span><span class="sig-name descname"><span class="pre">Process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pass_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fire.cfg.Process" title="Permalink to this definition">¶</a></dt>
@@ -61,7 +62,7 @@ a Process for fire to execute.</p>
 <p>Upon construction, the class-wide reference lastProcess is set
 and the rest of the attributes are set to sensible defaults.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>pass_name</strong> (<em>str</em>) – Short reference name for this run of the process</p>
 </dd>
 </dl>
@@ -70,7 +71,7 @@ and the rest of the attributes are set to sensible defaults.</p>
 <span class="sig-name descname"><span class="pre">lastProcess</span></span><a class="headerlink" href="#fire.cfg.Process.lastProcess" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class-wide reference to the last Process object to be constructed</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#fire.cfg.Process" title="fire.cfg.Process">Process</a></p>
 </dd>
 </dl>
@@ -81,7 +82,7 @@ and the rest of the attributes are set to sensible defaults.</p>
 <span class="sig-name descname"><span class="pre">event_limit</span></span><a class="headerlink" href="#fire.cfg.Process.event_limit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Maximum number events to process</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -93,7 +94,7 @@ and the rest of the attributes are set to sensible defaults.</p>
 <dd><p>Maximum number of attempts to make in a row before giving up on an event.
 Only used in Production Mode (no input files)</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -104,7 +105,7 @@ Only used in Production Mode (no input files)</p>
 <span class="sig-name descname"><span class="pre">run</span></span><a class="headerlink" href="#fire.cfg.Process.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run number for this process</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -115,7 +116,7 @@ Only used in Production Mode (no input files)</p>
 <span class="sig-name descname"><span class="pre">input_files</span></span><a class="headerlink" href="#fire.cfg.Process.input_files" title="Permalink to this definition">¶</a></dt>
 <dd><p>Input files to read in event data from and process</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list of strings</p>
 </dd>
 </dl>
@@ -126,7 +127,7 @@ Only used in Production Mode (no input files)</p>
 <span class="sig-name descname"><span class="pre">output_file</span></span><a class="headerlink" href="#fire.cfg.Process.output_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Output file to write out event data to after processing</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#fire.cfg.OutputFile" title="fire.cfg.OutputFile">OutputFile</a></p>
 </dd>
 </dl>
@@ -137,7 +138,7 @@ Only used in Production Mode (no input files)</p>
 <span class="sig-name descname"><span class="pre">storage</span></span><a class="headerlink" href="#fire.cfg.Process.storage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Configuration of veto-ing decision maker</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#fire.cfg._storage.StorageControl" title="fire.cfg._storage.StorageControl">StorageControl</a></p>
 </dd>
 </dl>
@@ -148,7 +149,7 @@ Only used in Production Mode (no input files)</p>
 <span class="sig-name descname"><span class="pre">sequence</span></span><a class="headerlink" href="#fire.cfg.Process.sequence" title="Permalink to this definition">¶</a></dt>
 <dd><p>List of event processors to pass the event bus objects to</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list of Processor</p>
 </dd>
 </dl>
@@ -159,7 +160,7 @@ Only used in Production Mode (no input files)</p>
 <span class="sig-name descname"><span class="pre">drop_keep_rules</span></span><a class="headerlink" href="#fire.cfg.Process.drop_keep_rules" title="Permalink to this definition">¶</a></dt>
 <dd><p>List of rules to keep or drop objects from the event bus</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list of DropKeepRule</p>
 </dd>
 </dl>
@@ -170,7 +171,7 @@ Only used in Production Mode (no input files)</p>
 <span class="sig-name descname"><span class="pre">libraries</span></span><a class="headerlink" href="#fire.cfg.Process.libraries" title="Permalink to this definition">¶</a></dt>
 <dd><p>List of libraries to load before attempting to build any processors</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list of strings</p>
 </dd>
 </dl>
@@ -181,7 +182,7 @@ Only used in Production Mode (no input files)</p>
 <span class="sig-name descname"><span class="pre">log_frequency</span></span><a class="headerlink" href="#fire.cfg.Process.log_frequency" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print the event number whenever its modulus with this frequency is zero</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -192,7 +193,7 @@ Only used in Production Mode (no input files)</p>
 <span class="sig-name descname"><span class="pre">term_level</span></span><a class="headerlink" href="#fire.cfg.Process.term_level" title="Permalink to this definition">¶</a></dt>
 <dd><p>Minimum severity of log messages to print to terminal: 0 (debug) - 4 (fatal)</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -203,7 +204,7 @@ Only used in Production Mode (no input files)</p>
 <span class="sig-name descname"><span class="pre">file_level</span></span><a class="headerlink" href="#fire.cfg.Process.file_level" title="Permalink to this definition">¶</a></dt>
 <dd><p>Minimum severity of log messages to print to file: 0 (debug) - 4 (fatal)</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
 </dd>
 </dl>
@@ -214,7 +215,7 @@ Only used in Production Mode (no input files)</p>
 <span class="sig-name descname"><span class="pre">log_file</span></span><a class="headerlink" href="#fire.cfg.Process.log_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>File to print log messages to, won’t setup file logging if this parameter is not set</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
@@ -225,7 +226,7 @@ Only used in Production Mode (no input files)</p>
 <span class="sig-name descname"><span class="pre">conditions</span></span><a class="headerlink" href="#fire.cfg.Process.conditions" title="Permalink to this definition">¶</a></dt>
 <dd><p>System handling providers as well as the global tag</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#fire.cfg._conditions.Conditions" title="fire.cfg._conditions.Conditions">Conditions</a></p>
 </dd>
 </dl>
@@ -246,7 +247,7 @@ Only used in Production Mode (no input files)</p>
 <dd><p>Add a library to the list of dynamically loaded libraries</p>
 <p>A process object must already have been created.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>lib</strong> (<em>str</em>) – name of library to load</p>
 </dd>
 </dl>
@@ -272,7 +273,7 @@ have the ‘.so’ extension. This limits the usefulness of this
 function to Linux systems.</p>
 </div>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>module</strong> (<em>str</em>) – Name of module to load as a library</p>
 </dd>
 </dl>
@@ -301,7 +302,7 @@ addModule(‘MyModule_Event’)</p>
 <dd><p>Declare a conditions object provider to be loaded with the process</p>
 <p>A process object must already have been created.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>cp</strong> (<a class="reference internal" href="#fire.cfg.ConditionsProvider" title="fire.cfg.ConditionsProvider"><em>ConditionsProvider</em></a>) – provider to load with the process</p>
 </dd>
 </dl>
@@ -327,7 +328,7 @@ addModule(‘MyModule_Event’)</p>
 <p>Lists all files ending in ‘.root’ in the input directory (not recursive).
 Extends the input_files list by these files.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>indir</strong> (<em>str</em>) – Path to directory of event files to read in</p></li>
 <li><p><strong>ext</strong> (<em>str</em><em>, </em><em>optional</em>) – Filter by the input extension string, default: ‘h5’</p></li>
@@ -370,7 +371,7 @@ waits for the user to press Enter to continue.</p>
 so we can trust that it is the first entry in the conditions
 provider list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>RandomNumberSeedService for more configuration</p>
 </dd>
 </dl>
@@ -387,7 +388,7 @@ the mode with which the random numbers are seeded.</p>
 <span class="sig-name descname"><span class="pre">setConditionsGlobalTag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tag</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fire.cfg.Process.setConditionsGlobalTag" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the global tag for all the ConditionsProviders</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>tag</strong> (<em>str</em>) – Global generation tag to pass to all COPs</p>
 </dd>
 </dl>
@@ -427,7 +428,7 @@ the mode with which the random numbers are seeded.</p>
 
 </section>
 <section id="fire-cfg-processor-class">
-<h2>fire.cfg.Processor class<a class="headerlink" href="#fire-cfg-processor-class" title="Permalink to this headline">¶</a></h2>
+<h2>fire.cfg.Processor class<a class="headerlink" href="#fire-cfg-processor-class" title="Permalink to this heading">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="fire.cfg.Processor">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fire.cfg.</span></span><span class="sig-name descname"><span class="pre">Processor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">library</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fire.cfg.Processor" title="Permalink to this definition">¶</a></dt>
@@ -435,7 +436,7 @@ the mode with which the random numbers are seeded.</p>
 <p>A Processor configuration object</p>
 <p>This object contains the parameters that are necessary for a fire::Processor to be configured.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>name</strong> (<em>str</em>) – Name of this copy of the processor object</p></li>
 <li><p><strong>class_name</strong> (<em>str</em>) – Name (including namespace) of the C++ class that this processor should be</p></li>
@@ -457,14 +458,14 @@ the mode with which the random numbers are seeded.</p>
 
 </section>
 <section id="fire-cfg-outputfile-class">
-<h2>fire.cfg.OutputFile class<a class="headerlink" href="#fire-cfg-outputfile-class" title="Permalink to this headline">¶</a></h2>
+<h2>fire.cfg.OutputFile class<a class="headerlink" href="#fire-cfg-outputfile-class" title="Permalink to this heading">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="fire.cfg.OutputFile">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fire.cfg.</span></span><span class="sig-name descname"><span class="pre">OutputFile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rows_per_chunk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compression_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fire.cfg.OutputFile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Configuration for writing an output file</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>name</strong> (<em>str</em>) – Name of file to write</p></li>
 <li><p><strong>rows_per_chunk</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of “rows” in the output file to “chunk” together</p></li>
@@ -475,7 +476,7 @@ the mode with which the random numbers are seeded.</p>
 
 </section>
 <section id="fire-cfg-conditionsprovider-class">
-<h2>fire.cfg.ConditionsProvider class<a class="headerlink" href="#fire-cfg-conditionsprovider-class" title="Permalink to this headline">¶</a></h2>
+<h2>fire.cfg.ConditionsProvider class<a class="headerlink" href="#fire-cfg-conditionsprovider-class" title="Permalink to this heading">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="fire.cfg.ConditionsProvider">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fire.cfg.</span></span><span class="sig-name descname"><span class="pre">ConditionsProvider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">library</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fire.cfg.ConditionsProvider" title="Permalink to this definition">¶</a></dt>
@@ -487,7 +488,7 @@ a fire::ConditionsProvider to be configured.</p>
 1. We append the module that this provider is in to the list of libraries to load
 2. We declare this provider so that the Process “knows” it exists and will load it into the run</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>obj_name</strong> (<em>str</em>) – Name of the object this provider provides</p></li>
 <li><p><strong>class_name</strong> (<em>str</em>) – Name (including namespace) of the C++ class of the provider</p></li>
@@ -500,7 +501,7 @@ a fire::ConditionsProvider to be configured.</p>
 <span class="sig-name descname"><span class="pre">tag_name</span></span><a class="headerlink" href="#fire.cfg.ConditionsProvider.tag_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Tag which identifies the generation of information</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
@@ -520,7 +521,7 @@ a fire::ConditionsProvider to be configured.</p>
 <span class="sig-name descname"><span class="pre">setTag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">newtag</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fire.cfg.ConditionsProvider.setTag" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the tag generation of the Conditions</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>newtag</strong> (<em>str</em>) – Tag for generation of conditions</p>
 </dd>
 </dl>
@@ -531,18 +532,18 @@ a fire::ConditionsProvider to be configured.</p>
 </section>
 </section>
 <section id="advanced-usage">
-<h1>Advanced Usage<a class="headerlink" href="#advanced-usage" title="Permalink to this headline">¶</a></h1>
+<h1>Advanced Usage<a class="headerlink" href="#advanced-usage" title="Permalink to this heading">¶</a></h1>
 <p>Below is documentation of modules and classes that are only
 used for specific edge cases by the end user. They are “private”
 modules (beginning with an underscore) because they are subject
 to change and not meant to be used directly frequently.</p>
 <section id="module-fire.cfg._rnss">
-<span id="fire-cfg-rnss-module"></span><h2>fire.cfg._rnss module<a class="headerlink" href="#module-fire.cfg._rnss" title="Permalink to this headline">¶</a></h2>
+<span id="fire-cfg-rnss-module"></span><h2>fire.cfg._rnss module<a class="headerlink" href="#module-fire.cfg._rnss" title="Permalink to this heading">¶</a></h2>
 <p>RandomNumberSeedService (RNSS) configuration</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="fire.cfg._rnss.RandomNumberSeedService">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fire.cfg._rnss.</span></span><span class="sig-name descname"><span class="pre">RandomNumberSeedService</span></span><a class="headerlink" href="#fire.cfg._rnss.RandomNumberSeedService" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#fire.cfg.ConditionsProvider" title="fire.cfg._conditions.ConditionsProvider"><code class="xref py py-class docutils literal notranslate"><span class="pre">fire.cfg._conditions.ConditionsProvider</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#fire.cfg.ConditionsProvider" title="fire.cfg._conditions.ConditionsProvider"><code class="xref py py-class docutils literal notranslate"><span class="pre">ConditionsProvider</span></code></a></p>
 <p>The random number seed service</p>
 <p>This object registers the random number seed service with the process and
 gives some helper functions for configuration.</p>
@@ -551,7 +552,7 @@ gives some helper functions for configuration.</p>
 <span class="sig-name descname"><span class="pre">seedMode</span></span><a class="headerlink" href="#fire.cfg._rnss.RandomNumberSeedService.seedMode" title="Permalink to this definition">¶</a></dt>
 <dd><p>Name of mode of getting random seeds</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
@@ -562,7 +563,7 @@ gives some helper functions for configuration.</p>
 <span class="sig-name descname"><span class="pre">external</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fire.cfg._rnss.RandomNumberSeedService.external" title="Permalink to this definition">¶</a></dt>
 <dd><p>Input the master random number seed</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>seed</strong> (<em>int</em>) – Integer to use as master random number seed</p>
 </dd>
 </dl>
@@ -590,7 +591,7 @@ gives some helper functions for configuration.</p>
 
 </section>
 <section id="module-fire.cfg._storage">
-<span id="fire-cfg-storage-module"></span><h2>fire.cfg._storage module<a class="headerlink" href="#module-fire.cfg._storage" title="Permalink to this headline">¶</a></h2>
+<span id="fire-cfg-storage-module"></span><h2>fire.cfg._storage module<a class="headerlink" href="#module-fire.cfg._storage" title="Permalink to this heading">¶</a></h2>
 <p>Configuration of storage/veto system in fire</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="fire.cfg._storage.DropKeepRule">
@@ -599,7 +600,7 @@ gives some helper functions for configuration.</p>
 <p>A single rule specifying if a specific event object should be
 saved into the output file (keep) or not (drop)</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>keep</strong> (<em>bool</em>) – True if the event object matching the regex should be kept</p></li>
 <li><p><strong>regex</strong> (<em>str</em>) – Regular expression for this rule</p></li>
@@ -615,7 +616,7 @@ saved into the output file (keep) or not (drop)</p>
 <p>A single rule telling storage control whether to listen to
 a set of processors</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>processor_regex</strong> (<em>str</em>) – regular expression matching processors to listen to</p></li>
 <li><p><strong>purpose_regex</strong> (<em>str</em>) – regular expression matching purpoeses to listen to</p></li>
@@ -642,7 +643,7 @@ making storage hints.</p>
 <span class="sig-name descname"><span class="pre">default_keep</span></span><a class="headerlink" href="#fire.cfg._storage.StorageControl.default_keep" title="Permalink to this definition">¶</a></dt>
 <dd><p>True if the default storage is to keep the event</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>bool</p>
 </dd>
 </dl>
@@ -653,7 +654,7 @@ making storage hints.</p>
 <span class="sig-name descname"><span class="pre">listening_rules</span></span><a class="headerlink" href="#fire.cfg._storage.StorageControl.listening_rules" title="Permalink to this definition">¶</a></dt>
 <dd><p>List of rules about processors/purposes to listen to</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list[<a class="reference internal" href="#fire.cfg._storage.ListeningRule" title="fire.cfg._storage.ListeningRule">ListeningRule</a>]</p>
 </dd>
 </dl>
@@ -670,7 +671,7 @@ making storage hints.</p>
 <dd><p>Add a listening rule that will listen to the processor with
 name exactly matching the name of the input processor object</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>processor</strong> (<a class="reference internal" href="#fire.cfg.Processor" title="fire.cfg.Processor"><em>Processor</em></a>) – Processor object to listen to</p>
 </dd>
 </dl>
@@ -685,7 +686,7 @@ name exactly matching the name of the input processor object</p>
 
 </section>
 <section id="fire-cfg-conditions-module">
-<h2>fire.cfg._conditions module<a class="headerlink" href="#fire-cfg-conditions-module" title="Permalink to this headline">¶</a></h2>
+<h2>fire.cfg._conditions module<a class="headerlink" href="#fire-cfg-conditions-module" title="Permalink to this heading">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="fire.cfg._conditions.Conditions">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fire.cfg._conditions.</span></span><span class="sig-name descname"><span class="pre">Conditions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">global_tag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Default'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fire.cfg._conditions.Conditions" title="Permalink to this definition">¶</a></dt>
@@ -743,7 +744,7 @@ name exactly matching the name of the input processor object</p>
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -760,14 +761,14 @@ name exactly matching the name of the input processor object</p>
         <li class="right" >
           <a href="fire.html" title="fire package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">fire v0.15.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">fire v0.15.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="fire.html" >fire package</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">fire.cfg package</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, LDMX Collaboration.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
     </div>
   </body>
 </html>

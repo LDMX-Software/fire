@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.15.0</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.15.2</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -164,20 +164,20 @@ class fire::factory::Factory&lt; Prototype, PrototypePtr, PrototypeConstructorAr
   </table>
   </dd>
 </dl>
-<h2><a class="anchor" id="autotoc_md22"></a>
+<h2><a class="anchor" id="autotoc_md23"></a>
 Terminology</h2>
 <ul>
 <li><a class="el" href="classfire_1_1factory_1_1Factory.html" title="Factory to dynamically create objects derived from a specific prototype class.">Factory</a>: An object that has a look-up table between class names and pointers to functions that can create them</li>
 <li>Maker: A function that can create a specific class</li>
 <li>Prototype: An abstract base class from which derived classes can be used</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md23"></a>
+<h2><a class="anchor" id="autotoc_md24"></a>
 Design</h2>
 <p >The factory itself works in two steps.</p><ol type="1">
 <li>All of the different derived classes "declare" themselves so that the factory knowns how to create them. This registration is done by providing their type and the name they should be referred to by.</li>
 <li>The factory creates any of the registered classes and returns a pointer to it in the form of a prototype-class pointer.</li>
 </ol>
-<h3><a class="anchor" id="autotoc_md24"></a>
+<h3><a class="anchor" id="autotoc_md25"></a>
 Declaration</h3>
 <p >Using an <a href="https://en.cppreference.com/w/cpp/language/namespace#Unnamed_namespaces">unnamed namespace</a> defines the variables inside it as having internal linkage and as implicitly static. Having internal linkage allows us to have repeat variable names across different source files. Being static means that the variable is guaranteed to be constructed during library load time.</p>
 <p >This if we put the following code in the source file for a class deriving from our prototype, it will be declared to the factory during library load. </p><div class="fragment"><div class="line"><span class="comment">// MyDerived.cpp</span></div>
@@ -189,11 +189,11 @@ Declaration</h3>
 <div class="ttc" id="aclassfire_1_1factory_1_1Factory_html_a1b19b85b8cf8a42269665fa3fae1694d"><div class="ttname"><a href="classfire_1_1factory_1_1Factory.html#a1b19b85b8cf8a42269665fa3fae1694d">fire::factory::Factory::get</a></div><div class="ttdeci">static Factory &amp; get()</div><div class="ttdoc">get the factory instance</div><div class="ttdef"><b>Definition:</b> Factory.h:251</div></div>
 <div class="ttc" id="aclassfire_1_1factory_1_1Factory_html_a87b83f41dd52057384684cfbaa1b2962"><div class="ttname"><a href="classfire_1_1factory_1_1Factory.html#a87b83f41dd52057384684cfbaa1b2962">fire::factory::Factory::declare</a></div><div class="ttdeci">uint64_t declare()</div><div class="ttdoc">register a new object to be constructible</div><div class="ttdef"><b>Definition:</b> Factory.h:275</div></div>
 </div><!-- fragment --><p >The details of how this is handled is documented in <a href="https://en.cppreference.com/w/cpp/language/storage_duration">Storage Class Specifiers</a>.</p>
-<h2><a class="anchor" id="autotoc_md25"></a>
+<h2><a class="anchor" id="autotoc_md26"></a>
 Usage</h2>
 <p >Using the factory effecitvely can be done in situations where many classes all follow the same design structure, but have different implementations for specific steps. In order to reflect this "same design structure", we define an abstract base class for all of our derived classes from which to inherit. This abstract base class is our "prototype".</p>
 <p >Below is a rudimentary example that shows you the basics of this class.</p>
-<h3><a class="anchor" id="autotoc_md26"></a>
+<h3><a class="anchor" id="autotoc_md27"></a>
 A Prototype LibraryEntry</h3>
 <p >This <code>LibraryEntry</code> prototype class satisfies our requirements. It also defines a helpful "declaration" macro for derived classes to use. </p><div class="fragment"><div class="line"><span class="comment">// LibraryEntry.hpp</span></div>
 <div class="line"><span class="preprocessor">#ifndef LIBRARYENTRY_HPP</span></div>
@@ -221,7 +221,7 @@ A Prototype LibraryEntry</h3>
 <div class="ttc" id="abasic_string_html"><div class="ttname"><a href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a></div></div>
 <div class="ttc" id="aclassfire_1_1factory_1_1Factory_html"><div class="ttname"><a href="classfire_1_1factory_1_1Factory.html">fire::factory::Factory</a></div><div class="ttdoc">Factory to dynamically create objects derived from a specific prototype class.</div><div class="ttdef"><b>Definition:</b> Factory.h:231</div></div>
 <div class="ttc" id="aclassfire_1_1factory_1_1Factory_html_ae29b1112307e92f1cb7214081c31bd15"><div class="ttname"><a href="classfire_1_1factory_1_1Factory.html#ae29b1112307e92f1cb7214081c31bd15">fire::factory::Factory::Factory</a></div><div class="ttdeci">Factory()=default</div><div class="ttdoc">private constructor to prevent creation</div></div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md27"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md28"></a>
 Example Derived Classes</h3>
 <p >Here are a few example derived classes.</p>
 <div class="fragment"><div class="line"><span class="comment">// Book.cpp</span></div>
@@ -264,7 +264,7 @@ Example Derived Classes</h3>
 <div class="line">}</div>
 <div class="line"> </div>
 <div class="line">DECLARE_LIBRARYENTRY(library::audio::Album)</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md28"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md29"></a>
 Executable</h3>
 <p >Since the <code>DECLARE_LIBRARYENTRY</code> macro defines a function that is decorated with a compiler attribute causing the function to be called at library-load time, the registration of our various library entries is automatically done before the execution of <code>main</code> (or after if the loadLibrary function is used). For simplicity, let's compile these sources files together with a main defined below.</p>
 <div class="fragment"><div class="line"><span class="comment">// main.cxx</span></div>

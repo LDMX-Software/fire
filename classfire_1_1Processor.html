@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.15.0</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.15.2</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -205,10 +205,10 @@ Private Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Base class for all event processing components. </p>
 <p >This is the main interface that users of fire will interact with. In order to perform a new task, a user would define a new <a class="el" href="classfire_1_1Processor.html" title="Base class for all event processing components.">Processor</a> which can take data from the event bus, process it in some way, and then add new data onto the event bus. This format is applicable all along the data processing chain from generation (simulation or raw decoding) to reconstruction to analysis.</p>
-<h2><a class="anchor" id="autotoc_md41"></a>
+<h2><a class="anchor" id="autotoc_md43"></a>
 Usage</h2>
 <p >Defining a new processor can be done to varying levels of complexity; however, they fall into two distinct groups: configurable and non-configurable.</p>
-<h3><a class="anchor" id="autotoc_md42"></a>
+<h3><a class="anchor" id="autotoc_md44"></a>
 Non-configurable Processors</h3>
 <p >Non-configurable processors cannot be configured at run time from the python configuration. This makes starting them simpler even if they are slightly less powerful.</p>
 <div class="fragment"><div class="line"><span class="comment">// MyProcessor.cpp</span></div>
@@ -243,7 +243,7 @@ Non-configurable Processors</h3>
 <div class="line">  ]</div>
 </div><!-- fragment --><p> The full path to <code>libMyModule.so</code> only needs to be provided if it is not accessible by <code>ld</code> (i.e. it is not in a directory listed in LD_LIBRARY_PATH or a system directory). Moreover, if the library is accessible by <code>ld</code> and you are on a Linux system (so that the libraries follow the naming format of the example), you could replace the <code>library</code> argument with &lsquo;module='MyModule&rsquo;` to make it easier to read. This second option is more common for larger software sets with many modules.</p>
 <p >You can determine if your library is accessible by the linker using some <a href="https://unix.stackexchange.com/a/282207">fancy command line nonsense</a>.</p>
-<h3><a class="anchor" id="autotoc_md43"></a>
+<h3><a class="anchor" id="autotoc_md45"></a>
 Configurable Processor</h3>
 <p >Making a processor configurable from Python is not very complicated on the C++ side, but it introduces many complexities and nuances on the Python side.</p>
 <p >On the C++ side, it simply involves expanding the constructor in order to use the passed set of parameters to define member variables. Expanding on the example from above:</p>
@@ -293,7 +293,7 @@ Configurable Processor</h3>
 <div class="line"><span class="comment"># later inside the python config</span></div>
 <div class="line">my_proc = MyProcessor(<span class="stringliteral">&#39;my_proc&#39;</span>,5.0)</div>
 </div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>Python's variable handling is very dynamic. For us, this means that we need to be very careful that the parameters in Python are spelled the same as the parameters in C++. In Python, the variables provided to <code>fire.cfg.Processor</code> (or defined in <code>__init__</code> for the last option) need to have <b>exactly</b> the same name as the parameter names requested in the constructor of the C++ processor.</dd></dl>
-<h2><a class="anchor" id="autotoc_md44"></a>
+<h2><a class="anchor" id="autotoc_md46"></a>
 Callback Ordering</h2>
 <p >The ordering of the callback functions is decided by the <a class="el" href="classfire_1_1Process.html#a9de0ff0b04bda2481ef194127ef3fbb1" title="Do the processing run.">Process::run</a> and is helpful to document here for users creating new Processors.</p>
 <ol type="1">
@@ -499,7 +499,7 @@ template&lt;class T &gt; </div>
 
 <p>Access a conditions object for the current event. </p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classfire_1_1Conditions.html#a434cbb039762a354800995cb5a378d98" title="Primary request action for a conditions object.">Conditions::get</a> and <a class="el" href="classfire_1_1Conditions.html#a6398dc18c77debde4daa75a717884a96" title="Core request action for a conditions object.">Conditions::getConditionPtr</a> for how conditions objects are retrieved.</dd></dl>
-<h2><a class="anchor" id="autotoc_md45"></a>
+<h2><a class="anchor" id="autotoc_md47"></a>
 Usage</h2>
 <p >Inside of the process function, this function can be used following the example below. </p><div class="fragment"><div class="line"><span class="comment">// inside void process(Event&amp; event) for your Processor</span></div>
 <div class="line"><span class="keyword">const</span> <span class="keyword">auto</span>&amp; co = getCondition&lt;MyObjectType&gt;(<span class="stringliteral">&quot;ConditionName&quot;</span>);</div>

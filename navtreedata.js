@@ -26,9 +26,9 @@ var NAVTREE =
 [
   [ "fire", "index.html", [
     [ "🔥 fire 🔥", "index.html", [
-      [ "Features", "index.html#autotoc_md47", null ],
-      [ "Dependencies", "index.html#autotoc_md48", [
-        [ "Developer Dependencies", "index.html#autotoc_md49", null ]
+      [ "Features", "index.html#autotoc_md49", null ],
+      [ "Dependencies", "index.html#autotoc_md50", [
+        [ "Developer Dependencies", "index.html#autotoc_md51", null ]
       ] ]
     ] ],
     [ "Doxygen Awesome", "md_docs_doxygen_awesome_css_README.html", [
@@ -95,7 +95,7 @@ var NAVTREEINDEX =
 "classfire_1_1io_1_1h5_1_1Reader.html#a0deb6c4d55bd50683f42bab4ce395e32",
 "cpp/atomic/atomic_store.html",
 "cpp/numeric/math/trunc.html",
-"index.html#autotoc_md48"
+"index.html#autotoc_md50"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
