@@ -226,7 +226,10 @@
  *
  * ## Access Pattern
  *
- * \image html fire_io_Data_AccessPatter.svg
+ * Below is a sketch of how the various fire::io::Data template classes
+ * interact with each other and the broader fire ecosystem.
+ *
+ * @image html fire_io_Data_AccessPattern.svg
  */
 namespace fire::io {
 
