@@ -102,7 +102,7 @@ class Writer {
       buffers_.emplace(
           path, std::make_unique<Buffer<AtomicType>>(
                     rows_per_chunk_,
-                    file_.createDataSet(path, space_,t,create_props_)));
+                    file_->createDataSet(path, space_,t,create_props_)));
     }
     dynamic_cast<Buffer<AtomicType>&>(*buffers_.at(path)).save(val);
   }
@@ -207,6 +207,7 @@ class Writer {
       buffer_.push_back(val);
       if (buffer_.size() > this->max_len_) flush();
     }
+
     /**
      * Flush our in-memory buffer onto disk
      *
@@ -259,8 +260,14 @@ class Writer {
   };
 
  private:
-  /// our highfive file
-  HighFive::File file_;
+  /**
+   * our highfive file
+   *
+   * we need it to be a smart pointer because we want to
+   * do some parameter validation before creating the file in
+   * the constructor
+   */
+  std::unique_ptr<HighFive::File> file_;
   /// the creation properties to be used on datasets we are writing
   HighFive::DataSetCreateProps create_props_;
   /// the dataspace shared amongst all of our datasets
