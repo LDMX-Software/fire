@@ -80,6 +80,14 @@ class Reader {
   virtual std::vector<std::array<std::string,3>> availableObjects() = 0;
 
   /**
+   * Copy the input object into the output file
+   */
+  virtual void copy(long unsigned int i_entry, const std::string& full_name, Writer& output) const {
+    std::cerr << "[ WARN ] : " << full_name << " is supposed to be kept but has not been accessed"
+      " with Event::get so it is not being written to the output file." << std::endl;
+  }
+
+  /**
    * Type of factory used to create readers
    */
   using Factory = ::fire::factory::Factory<Reader, std::unique_ptr<Reader>, const std::string&>;
