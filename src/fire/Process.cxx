@@ -179,14 +179,15 @@ void Process::run() {
         n_events_processed++;
       }  // loop through events
 
-      if (event_limit_ > 0 && n_events_processed == event_limit_) {
-        fire_log(info) << "Reached event limit of " << event_limit_
-                       << " events";
-      }
-
       fire_log(info) << "Closing " << input_file->name();
 
       for (auto& proc : sequence_) proc->onFileClose(input_file->name());
+
+      if (event_limit_ > 0 && n_events_processed == event_limit_) {
+        fire_log(info) << "Reached event limit of " << event_limit_
+                       << " events";
+        break;
+      }
     }  // loop through input files
 
     // copy the input run headers to the output file
