@@ -15,7 +15,7 @@ var classfire_1_1io_1_1Writer =
     [ "buffers_", "classfire_1_1io_1_1Writer.html#a9cfb4d8528ac9cf5100b8e2a3a98d1eb", null ],
     [ "create_props_", "classfire_1_1io_1_1Writer.html#a4fcae84b9d2c88b8ecde35bfc9937a6d", null ],
     [ "entries_", "classfire_1_1io_1_1Writer.html#aefbce123af45c722dd415fc7ba811e55", null ],
-    [ "file_", "classfire_1_1io_1_1Writer.html#ab88b9ea98c1d6d0fef96d6f640683c66", null ],
+    [ "file_", "classfire_1_1io_1_1Writer.html#acd34f70f38ab4c16702cc69008fb8a2d", null ],
     [ "rows_per_chunk_", "classfire_1_1io_1_1Writer.html#a40dd8b4c12b053e74f6e5986b164189d", null ],
     [ "space_", "classfire_1_1io_1_1Writer.html#ac7e8a7dfe7c1e0d75de6200b80a0e80c", null ]
 ];

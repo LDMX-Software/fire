@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.15.2</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.15.3</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -152,10 +152,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const 
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:ab88b9ea98c1d6d0fef96d6f640683c66"><td class="memItemLeft" align="right" valign="top"><a id="ab88b9ea98c1d6d0fef96d6f640683c66" name="ab88b9ea98c1d6d0fef96d6f640683c66"></a>
-HighFive::File&#160;</td><td class="memItemRight" valign="bottom"><b>file_</b></td></tr>
-<tr class="memdesc:ab88b9ea98c1d6d0fef96d6f640683c66"><td class="mdescLeft">&#160;</td><td class="mdescRight">our highfive file <br /></td></tr>
-<tr class="separator:ab88b9ea98c1d6d0fef96d6f640683c66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd34f70f38ab4c16702cc69008fb8a2d"><td class="memItemLeft" align="right" valign="top"><a class="elRef" href="http://en.cppreference.com/w/cpp/memory/unique_ptr.html">std::unique_ptr</a>&lt; HighFive::File &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1Writer.html#acd34f70f38ab4c16702cc69008fb8a2d">file_</a></td></tr>
+<tr class="memdesc:acd34f70f38ab4c16702cc69008fb8a2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">our highfive file  <a href="classfire_1_1io_1_1Writer.html#acd34f70f38ab4c16702cc69008fb8a2d">More...</a><br /></td></tr>
+<tr class="separator:acd34f70f38ab4c16702cc69008fb8a2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4fcae84b9d2c88b8ecde35bfc9937a6d"><td class="memItemLeft" align="right" valign="top"><a id="a4fcae84b9d2c88b8ecde35bfc9937a6d" name="a4fcae84b9d2c88b8ecde35bfc9937a6d"></a>
 HighFive::DataSetCreateProps&#160;</td><td class="memItemRight" valign="bottom"><b>create_props_</b></td></tr>
 <tr class="memdesc:a4fcae84b9d2c88b8ecde35bfc9937a6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">the creation properties to be used on datasets we are writing <br /></td></tr>
@@ -384,6 +383,32 @@ template&lt;typename AtomicType &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>modified ostream </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="acd34f70f38ab4c16702cc69008fb8a2d" name="acd34f70f38ab4c16702cc69008fb8a2d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd34f70f38ab4c16702cc69008fb8a2d">&#9670;&nbsp;</a></span>file_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="elRef" href="http://en.cppreference.com/w/cpp/memory/unique_ptr.html">std::unique_ptr</a>&lt;HighFive::File&gt; fire::io::Writer::file_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>our highfive file </p>
+<p >we need it to be a smart pointer because we want to do some parameter validation before creating the file in the constructor </p>
 
 </div>
 </div>
