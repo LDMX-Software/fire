@@ -2,6 +2,25 @@
 
 namespace fire {
 
+Event::EventObjectTag::EventObjectTag(const std::string& name, const std::string& pass,
+                 const std::string& type, bool keep)
+  : name_{name}, pass_{pass}, type_{type}, keep_{keep} {}
+
+Event::EventObjectTag::EventObjectTag(std::array<std::string,3> obj, bool keep)
+  : EventObjectTag(obj[0],obj[1],obj[2],keep) {}
+
+const std::string& Event::EventObjectTag::name() const { return name_; }
+const std::string& Event::EventObjectTag::pass() const { return pass_; }
+const std::string& Event::EventObjectTag::type() const { return type_; }
+const bool Event::EventObjectTag::keep() const { return keep_; }
+const bool Event::EventObjectTag::loaded() const { return loaded_; }
+
+const std::string Event::EventObjectTag::fullName() const {
+  /// WARN manually made the same as Event::fullName
+  //  but without the check on empty pass name
+  return pass()+"/"+name();
+}
+
 std::vector<Event::EventObjectTag> Event::search(const std::string& namematch,
                                       const std::string& passmatch,
                                       const std::string& typematch) const {
@@ -67,6 +86,16 @@ Event::Event(io::Writer& output_file,
 void Event::save() {
   for (auto& [_, obj] : objects_)
     if (obj.should_save_) obj.data_->save(output_file_);
+
+  for (const auto& tag : available_objects_) {
+    if (tag.keep() and not tag.loaded()) {
+      // need to copy this event object from the input file
+      // into the output file because it is supposed to be kept
+      // but hasn't been loaded by the user
+      std::cout << "Should copy " << tag.fullName() << std::endl;
+      //input_file_->copy(tag.fullName(), output_file_);
+    }
+  }
 }
 
 void Event::load() {
@@ -76,6 +105,7 @@ void Event::load() {
 }
 
 void Event::setInputFile(io::Reader* r) {
+  static const bool READ_KEEP_DEFAULT = false;
   input_file_ = r;
 
   // there are input file, so mark the event header as should_load
@@ -85,7 +115,8 @@ void Event::setInputFile(io::Reader* r) {
   available_objects_.clear();
   known_lookups_.clear();
   for (const auto& obj : input_file_->availableObjects()) {
-    available_objects_.emplace_back(obj);
+    available_objects_.emplace_back(obj, 
+        keep(fullName(obj[0],obj[1]), READ_KEEP_DEFAULT));
   }
 }
 

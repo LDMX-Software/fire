@@ -39,16 +39,15 @@ class Event {
    */
   class EventObjectTag {
    public:
-
     /**
      * Wrap the three pieces of information in our class
      * @param name name of event object
      * @param pass pass name
      * @param type name of type
+     * @param keep if we should write this object into the output file
      */
     EventObjectTag(const std::string& name, const std::string& pass,
-               const std::string& type)
-        : name_{name}, pass_{pass}, type_{type} {}
+                   const std::string& type, bool keep);
 
     /**
      * Pass the three pieces of information to our class via an array.
@@ -57,27 +56,45 @@ class Event {
      * types of readers to us in setInputFile.
      *
      * @param[in] obj array of name, pass, typename (that order)
+     * @param keep if we should write this object into the output file
      */
-    EventObjectTag(std::array<std::string,3> obj)
-      : EventObjectTag(obj[0],obj[1],obj[2]) {}
+    EventObjectTag(std::array<std::string,3> obj, bool keep);
   
     /**
      * Get the object name
      * @return name of event object
      */
-    const std::string& name() const { return name_; }
+    const std::string& name() const;
   
     /**
      * Get the pass name the object was produced on
      * @return pass name
      */
-    const std::string& pass() const { return pass_; }
+    const std::string& pass() const;
   
     /**
      * Get the name of the type of the object
      * @return demangled type name
      */
-    const std::string& type() const { return type_; }
+    const std::string& type() const;
+
+    /**
+     * Get if this object will be kept (i.e. written to the output file)
+     * @return true if object will be written
+     */
+    const bool keep() const;
+
+    /**
+     * Get if this object is currently loaded in memory
+     * @return true if there is a memory representation of this object
+     */
+    const bool loaded() const;
+
+    /**
+     * Get the full name relative to the events group in the file
+     * @return full name of this event object in a file
+     */
+    const std::string fullName() const;
   
     /**
      * String method for printing this tag in a helpful manner
@@ -95,6 +112,14 @@ class Event {
   
    private:
     /**
+     * friends with our parent class Event so that it can modify our members after-the-fact
+     *
+     * (mainly so that we can change the loaded_ boolean when an object transitions from 
+     * being available to being in-memory)
+     */
+    friend class Event;
+
+    /**
      * Name given to the object
      */
     std::string name_;
@@ -108,6 +133,22 @@ class Event {
      * Type name of the object
      */
     std::string type_;
+
+    /**
+     * If the object represented by this tag should be kept
+     *
+     * kept means written to output file
+     */
+    bool keep_;
+
+    /**
+     * If the object represented by this tag has been loaded
+     * into a memory object.
+     *
+     * We need to be mutable so that we can be changed during
+     * get which is a const member function.
+     */
+    mutable bool loaded_{false};
   };
 
  public:
@@ -217,8 +258,10 @@ class Event {
         throw Exception("Repeat",
             "Data named "+full_name+" already exists in the input file.");
       }
-      available_objects_.emplace_back(name, pass_,
-          boost::core::demangle(typeid(DataType).name()));
+      auto& tag{available_objects_.emplace_back(name, pass_,
+                  boost::core::demangle(typeid(DataType).name()),
+                  keep(full_name, ADD_KEEP_DEFAULT))};
+      tag.loaded_ = true;
 
       // a data set hasn't been created for this data yet
       // we good, lets create the new data set
@@ -232,7 +275,7 @@ class Event {
       //   they are new and not from an input file
       auto& obj{objects_[full_name]};
       obj.data_ = std::make_unique<io::Data<DataType>>(io::constants::EVENT_GROUP+"/"+full_name);
-      obj.should_save_ = keep(full_name, ADD_KEEP_DEFAULT);
+      obj.should_save_ = tag.keep_;
       obj.should_load_ = false;
       obj.updated_ = false;
 
@@ -306,7 +349,6 @@ class Event {
   template <typename DataType>
   const DataType& get(const std::string& name,
                       const std::string& pass = "") const {
-    static const bool GET_KEEP_DEFAULT = false;
     std::string full_name, type;
     if (not pass.empty()) {
       // easy case, pass was specified explicitly
@@ -338,6 +380,16 @@ class Event {
             "Data " + full_name + " was not created by an earlier processor "
             "and there is not input file to attempt to read it from.");
       }
+      
+      // when setting up the in-memory object, we need to find the tag so we can
+      // 1. get whether the object should be copied to the output file and
+      // 2. set the loaded_ flag to true
+      auto tag_it = std::find_if(available_objects_.begin(), available_objects_.end(), 
+          [&full_name](const EventObjectTag& tag) {
+            return tag.fullName() == full_name;
+          });
+      tag_it->loaded_ = true;
+
       // a data set hasn't been created for this data yet
       // we good, lets create the new data set
       //
@@ -350,9 +402,10 @@ class Event {
       //   they are new and not from an input file
       auto& obj{objects_[full_name]};
       obj.data_ = std::make_unique<io::Data<DataType>>(io::constants::EVENT_GROUP+"/"+full_name);
-      obj.should_save_ = keep(full_name, GET_KEEP_DEFAULT);
+      obj.should_save_ = tag_it->keep();
       obj.should_load_ = true;
       obj.updated_ = false;
+
       // get this object up to the current entry
       //    loading may throw an H5 error if the shape of the data on disk
       //    cannot be loaded into the input type
@@ -506,7 +559,13 @@ class Event {
    * structure to hold event data in memory
    */
   struct EventObject {
-    /// the data for save/load
+    /**
+     * the data for save/load
+     *
+     * this pointer will be nullptr for the data objects
+     * that have been seen in an input file but not requested
+     * by a Processor through Event::get
+     */
     std::unique_ptr<io::BaseData> data_;
     /// should we save the data into output file?
     bool should_save_;
