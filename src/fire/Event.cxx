@@ -92,8 +92,7 @@ void Event::save() {
       // need to copy this event object from the input file
       // into the output file because it is supposed to be kept
       // but hasn't been loaded by the user
-      std::cout << "Should copy " << tag.fullName() << std::endl;
-      //input_file_->copy(tag.fullName(), output_file_);
+      input_file_->copy(i_entry_, tag.fullName(), output_file_);
     }
   }
 }
