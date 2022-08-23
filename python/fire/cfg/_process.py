@@ -1,5 +1,7 @@
 """Configuration of fire Process"""
 
+from ._output_file import OutputFile
+
 class Process:
     """Process configuration object
 
@@ -67,7 +69,7 @@ class Process:
         self.max_tries = 1
         self.run = -1
         self.input_files = []
-        self.output_file = None
+        self.output_file = OutputFile('')
         self.sequence = []
         self.drop_keep_rules = []
 
@@ -150,7 +152,6 @@ class Process:
             # leave early because we already modified 'dict' in above member functions
             return
 
-        from ._output_file import OutputFile
         if name == 'output_file' and not isinstance(value,OutputFile) :
             value = OutputFile(value)
 
