@@ -1,6 +1,7 @@
 #include <boost/test/tools/interface.hpp>
 #define BOOST_TEST_DYN_LINK
 #include <boost/test/unit_test.hpp>
+
 #include <highfive/H5Easy.hpp>
 
 #include "fire/Process.h"
@@ -17,6 +18,7 @@ class TestAdd : public Processor {
     : Processor(ps) {}
   ~TestAdd() = default;
   void process(fire::Event& event) final override {
+    int along  = event.header().number();
     int dropme = event.header().number() * 10;
     int keepme = event.header().number() * 100;
     int async  = event.header().number() * 1000;
@@ -25,7 +27,17 @@ class TestAdd : public Processor {
       event.add("async",async);
     }
 
+    // along is not access with get so we can check that it is being
+    // copied to the output file in recon mode
+    event.add("keepalong", along); 
+    // keeplateget will only be accessed by TestGet during the last half
+    // of processing, but since it should be kept, the whole dataset should
+    // exist in the final output file
+    event.add("keeplateget", along);
+    // these objects should not be around during the recon stage
+    event.add("dropalong", along); 
     event.add("dropme",dropme);
+    // this should be around
     event.add("keepme",keepme);
   }
 };
@@ -42,8 +54,9 @@ class TestGet : public Processor {
       // should still get dropme in same sequence
       BOOST_TEST(event.get<int>("dropme") == event.header().number() * 10);
     } else {
-      // make sure dropme was dropped
+      // make sure dropme and dropalong were dropped
       BOOST_TEST(not event.exists("dropme"));
+      BOOST_TEST(not event.exists("dropalong"));
     }
     
     // keepme should be here in both cases
@@ -55,6 +68,10 @@ class TestGet : public Processor {
     } else if (not same_sequence_) {
       // make sure async was cleared when put into output file
       BOOST_TEST(event.get<int>("async") == std::numeric_limits<int>::min());
+    }
+
+    if (event.header().number() > 4) {
+      BOOST_TEST(event.get<int>("keeplateget") == event.header().number());
     }
   }
 };
@@ -149,6 +166,13 @@ BOOST_AUTO_TEST_CASE(recon_drop_async, *boost::unit_test::depends_on("highlevel/
   storage.add("default_keep",true);
   configuration.add("storage",storage);
 
+  // keep all objects beginning with 'keep'
+  //  this should be keepme, keepalong
+  fire::config::Parameters dk_rule;
+  dk_rule.add<std::string>("regex",".*/keep.*");
+  dk_rule.add("keep",true);
+  configuration.add<std::vector<fire::config::Parameters>>("drop_keep_rules", {dk_rule});
+
   configuration.add("event_limit", -1);
   configuration.add("log_frequency", -1);
 
@@ -170,6 +194,19 @@ BOOST_AUTO_TEST_CASE(recon_drop_async, *boost::unit_test::depends_on("highlevel/
     std::cerr << e.what() << std::endl;
     BOOST_TEST(false);
   }
+
+  // check that output has keepme and keepalong while it does not
+  //  have dropme or dropalong
+  std::vector<int> correct = {1,2,3,4,5,6,7,8,9,10};
+  H5Easy::File f(output);
+  BOOST_TEST(f.exist(fire::io::constants::EVENT_GROUP+"/keepme"));
+  BOOST_TEST(H5Easy::load<std::vector<int>>(f, fire::io::constants::EVENT_GROUP+"/keepme") == correct);
+  BOOST_TEST(f.exist(fire::io::constants::EVENT_GROUP+"/keepalong"));
+  BOOST_TEST(H5Easy::load<std::vector<int>>(f, fire::io::constants::EVENT_GROUP+"/keepalong") == correct);
+  BOOST_TEST(f.exist(fire::io::constants::EVENT_GROUP+"/keeplateget"));
+  BOOST_TEST(H5Easy::load<std::vector<int>>(f, fire::io::constants::EVENT_GROUP+"/keeplateget") == correct);
+  BOOST_TEST((!f.exist(fire::io::constants::EVENT_GROUP+"/dropme")));
+  BOOST_TEST((!f.exist(fire::io::constants::EVENT_GROUP+"/dropalong")));
 }
 
 BOOST_AUTO_TEST_SUITE_END()
