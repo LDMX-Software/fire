@@ -2,25 +2,6 @@
 
 namespace fire {
 
-Event::EventObjectTag::EventObjectTag(const std::string& name, const std::string& pass,
-                 const std::string& type, bool keep)
-  : name_{name}, pass_{pass}, type_{type}, keep_{keep} {}
-
-Event::EventObjectTag::EventObjectTag(std::array<std::string,3> obj, bool keep)
-  : EventObjectTag(obj[0],obj[1],obj[2],keep) {}
-
-const std::string& Event::EventObjectTag::name() const { return name_; }
-const std::string& Event::EventObjectTag::pass() const { return pass_; }
-const std::string& Event::EventObjectTag::type() const { return type_; }
-const bool Event::EventObjectTag::keep() const { return keep_; }
-const bool Event::EventObjectTag::loaded() const { return loaded_; }
-
-const std::string Event::EventObjectTag::fullName() const {
-  /// WARN manually made the same as Event::fullName
-  //  but without the check on empty pass name
-  return pass()+"/"+name();
-}
-
 std::vector<Event::EventObjectTag> Event::search(const std::string& namematch,
                                       const std::string& passmatch,
                                       const std::string& typematch) const {
@@ -92,7 +73,7 @@ void Event::save() {
       // need to copy this event object from the input file
       // into the output file because it is supposed to be kept
       // but hasn't been loaded by the user
-      input_file_->copy(i_entry_, tag.fullName(), output_file_);
+      input_file_->copy(i_entry_, fullName(tag.name(), tag.pass()), output_file_);
     }
   }
 }

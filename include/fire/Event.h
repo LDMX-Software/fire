@@ -47,7 +47,8 @@ class Event {
      * @param keep if we should write this object into the output file
      */
     EventObjectTag(const std::string& name, const std::string& pass,
-                   const std::string& type, bool keep);
+                   const std::string& type, bool keep)
+      : name_{name}, pass_{pass}, type_{type}, keep_{keep} {}
 
     /**
      * Pass the three pieces of information to our class via an array.
@@ -58,43 +59,38 @@ class Event {
      * @param[in] obj array of name, pass, typename (that order)
      * @param keep if we should write this object into the output file
      */
-    EventObjectTag(std::array<std::string,3> obj, bool keep);
+    EventObjectTag(std::array<std::string,3> obj, bool keep)
+      : EventObjectTag(obj[0],obj[1],obj[2],keep) {}
   
     /**
      * Get the object name
      * @return name of event object
      */
-    const std::string& name() const;
+    const std::string& name() const { return name_; }
   
     /**
      * Get the pass name the object was produced on
      * @return pass name
      */
-    const std::string& pass() const;
+    const std::string& pass() const { return pass_; }
   
     /**
      * Get the name of the type of the object
      * @return demangled type name
      */
-    const std::string& type() const;
+    const std::string& type() const { return type_; }
 
     /**
      * Get if this object will be kept (i.e. written to the output file)
      * @return true if object will be written
      */
-    const bool keep() const;
+    const bool keep() const { return keep_; }
 
     /**
      * Get if this object is currently loaded in memory
      * @return true if there is a memory representation of this object
      */
-    const bool loaded() const;
-
-    /**
-     * Get the full name relative to the events group in the file
-     * @return full name of this event object in a file
-     */
-    const std::string fullName() const;
+    const bool loaded() const { return loaded_; }
   
     /**
      * String method for printing this tag in a helpful manner
@@ -385,8 +381,8 @@ class Event {
       // 1. get whether the object should be copied to the output file and
       // 2. set the loaded_ flag to true
       auto tag_it = std::find_if(available_objects_.begin(), available_objects_.end(), 
-          [&full_name](const EventObjectTag& tag) {
-            return tag.fullName() == full_name;
+          [&full_name,this](const EventObjectTag& tag) {
+            return fullName(tag.name(),tag.pass()) == full_name;
           });
       tag_it->loaded_ = true;
 

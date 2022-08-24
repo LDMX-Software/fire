@@ -60,6 +60,40 @@ std::vector<std::array<std::string,3>> Reader::availableObjects() {
   return objs;
 }
 
+static void recursive_list(const HighFive::File& file, const std::string& path, 
+                           std::vector<HighFive::DataSet> ds = {}) {
+  auto datasets{ds};
+  if (file.getObjectType(path) == HighFive::ObjectType::Dataset) {
+    datasets.push_back(file.getDataSet(path));
+  } else {
+    auto subobjs = file.getGroup(path).listObjectNames();
+    for (auto& subobj : subobjs) recursive_list(file, path+"/"+subobj, datasets);
+  }
+  return datasets;
+}
+
+
+void Reader::copy(unsigned int long i_entry, const std::string& full_name, Writer& output) const {
+  /**
+   * STRATEGY:
+   *
+   * ## Initialization
+   * 1. Recurse into the 'full_name' event object obtaining a full list of all DataSets
+   * 2. While doing this, categorize the DataSets such that we can deduce if there are
+   *    "commanders" (i.e. DataSets named `size`) who will control the number of entries
+   *    read from other DataSets.
+   * 3. Set-up these atomic data sets in a structure that mimics the on-disk structure in-memory.
+   *
+   * ## Every Copy
+   * Connect the Reader::load handles immediately to the Writer::save call.
+   */
+
+  /// 1. Obtain Full List of DataSets
+  std::vector<HighFive::DataSets> datasets = recursive_list(file_, full_name);
+
+
+}
+
 }  // namespace fire::io::h5
 
 /// register this reader with the reader factory
