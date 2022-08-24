@@ -133,6 +133,21 @@ class Reader : public ::fire::io::Reader {
   inline std::size_t runs() const final override { return runs_; }
 
   /**
+   * Copy the input data set to the output file
+   *
+   * This happens when the input data set has passed all of the drop/keep
+   * rules so it is supposed to be copied into the output file; however,
+   * noone has accessed it with Event::get yet so an in-memory class object
+   * has not been created for it yet.
+   *
+   * @param[in] i_entry entry we are currently on
+   * @param[in] full_name full event object name
+   * @param[in] output handle to the writer writing the output file
+   */
+  virtual void copy(unsigned long int i_entry, const std::string& full_name, 
+      Writer& output) const final override;
+
+  /**
    * Try to load a single value of an atomic type into the input handle
    *
    * If the input path does not exist in our list of buffers,
