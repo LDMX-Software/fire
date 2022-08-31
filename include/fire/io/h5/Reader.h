@@ -96,9 +96,9 @@ class Reader : public ::fire::io::Reader {
    * for more flexibility in the parameter maps.
    *
    * @param[in] dataset full in-file path to H5 dataset
-   * @return HighFive::DataTypeClass specifying the atomic type of the set
+   * @return HighFive::DataType specifying the atomic type of the set
    */
-  HighFive::DataTypeClass getDataSetType(const std::string& dataset) const;
+  HighFive::DataType getDataSetType(const std::string& dataset) const;
 
   /**
    * Get the H5 type of object at the input path
@@ -146,10 +146,10 @@ class Reader : public ::fire::io::Reader {
    * has not been created for it yet.
    *
    * @param[in] i_entry entry we are currently on
-   * @param[in] full_name full event object name
+   * @param[in] path full event object name
    * @param[in] output handle to the writer writing the output file
    */
-  virtual void copy(unsigned long int i_entry, const std::string& full_name, 
+  virtual void copy(unsigned long int i_entry, const std::string& path, 
       Writer& output) final override;
 
   /**
@@ -355,7 +355,7 @@ class Reader : public ::fire::io::Reader {
     /**
      * Construct this mirror object and any of its (data or object) children
      */
-    MirrorObject(const std::string& full_name, Reader& reader);
+    MirrorObject(const std::string& path, Reader& reader);
 
     /**
      * Copy the n entries starting from i_entry
