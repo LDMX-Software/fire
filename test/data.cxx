@@ -103,162 +103,202 @@ bool load(ArbitraryData& h5d, DataType const& d, fire::io::h5::Reader& f) {
   }
 }
 
-BOOST_AUTO_TEST_CASE(datad) {
-  std::string filename{"datad.h5"};
+static std::string filename{"datad.h5"};
 
-  std::vector<double> doubles = { 1.0, 32., 69. };
-  std::vector<int>    ints    = { 0, -33, 88 };
-  std::vector<
-    std::vector<Hit>
-    > all_hits = {
-      {Hit(25.,1), Hit(32.,2), Hit(1234.,10)},
-      {Hit(25.,1), Hit(32.,2), Hit(23.,10), Hit(321.,69)},
-      {Hit(2.,1), Hit(31.,6)}
-    };
+static std::vector<double> doubles = { 1.0, 32., 69. };
+static std::vector<int>    ints    = { 0, -33, 88 };
+static std::vector<
+         std::vector<Hit>
+       > all_hits = {
+         {Hit(25.,1), Hit(32.,2), Hit(1234.,10)},
+         {Hit(25.,1), Hit(32.,2), Hit(23.,10), Hit(321.,69)},
+         {Hit(2.,1), Hit(31.,6)}
+       };
 
 
-  { // Writing
-    fire::config::Parameters output_params;
-    output_params.add("name",filename);
-    output_params.add("rows_per_chunk",2);
-    output_params.add("compression_level", 6);
-    output_params.add("shuffle",false);
-    int num_events = doubles.size(); //allow implicit conversion
-    fire::io::Writer f{num_events,output_params};
+BOOST_AUTO_TEST_SUITE(data)
 
-    fire::EventHeader eh;
-    fire::io::Data<fire::EventHeader> event_header(fire::EventHeader::NAME,&eh);
-    fire::io::Data<double> double_ds("double");
-    fire::io::Data<int>    int_ds("int");
-    fire::io::Data<bool>   bool_ds("bool");
-    fire::io::Data<std::vector<double>> vector_double_ds("vector_double");
-    fire::io::Data<std::vector<int>> vector_int_ds("vector_int");
-    fire::io::Data<std::map<int,double>> map_int_double_ds("map_int_double");
-    fire::io::Data<Hit> hit_ds("hit");
-    fire::io::Data<std::vector<Hit>> vector_hit_ds("vector_hit");
-    fire::io::Data<SpecialHit> special_hit_ds("special_hit");
-    fire::io::Data<std::vector<SpecialHit>> vector_special_hit_ds("vector_special_hit");
-    fire::io::Data<Cluster> cluster_ds("cluster");
-    fire::io::Data<std::vector<Cluster>> vector_cluster_ds("vector_cluster");
-    fire::io::Data<std::map<int,Cluster>> map_cluster_ds("map_cluster");
+BOOST_AUTO_TEST_CASE(write) {
+  fire::config::Parameters output_params;
+  output_params.add("name",filename);
+  output_params.add("rows_per_chunk",2);
+  output_params.add("compression_level", 6);
+  output_params.add("shuffle",false);
+  int num_events = doubles.size(); //allow implicit conversion
+  fire::io::Writer f{num_events,output_params};
 
-    for (std::size_t i_entry{0}; i_entry < doubles.size(); i_entry++) {
-      eh.setEventNumber(i_entry);
-      // check dynamic parameters
-      eh.set("istring",std::to_string(i_entry));
-      eh.set("int",int(i_entry));
-      eh.set("float",float(i_entry*10.));
+  fire::EventHeader eh;
+  fire::io::Data<fire::EventHeader> event_header(fire::EventHeader::NAME,&eh);
+  fire::io::Data<double> double_ds("double");
+  fire::io::Data<int>    int_ds("int");
+  fire::io::Data<bool>   bool_ds("bool");
+  fire::io::Data<std::vector<double>> vector_double_ds("vector_double");
+  fire::io::Data<std::vector<int>> vector_int_ds("vector_int");
+  fire::io::Data<std::map<int,double>> map_int_double_ds("map_int_double");
+  fire::io::Data<Hit> hit_ds("hit");
+  fire::io::Data<std::vector<Hit>> vector_hit_ds("vector_hit");
+  fire::io::Data<SpecialHit> special_hit_ds("special_hit");
+  fire::io::Data<std::vector<SpecialHit>> vector_special_hit_ds("vector_special_hit");
+  fire::io::Data<Cluster> cluster_ds("cluster");
+  fire::io::Data<std::vector<Cluster>> vector_cluster_ds("vector_cluster");
+  fire::io::Data<std::map<int,Cluster>> map_cluster_ds("map_cluster");
 
-      BOOST_CHECK(save(event_header,eh,f));
-      BOOST_CHECK(save(double_ds,doubles.at(i_entry),f));
-      BOOST_CHECK(save(int_ds,ints.at(i_entry),f));
+  for (std::size_t i_entry{0}; i_entry < doubles.size(); i_entry++) {
+    eh.setEventNumber(i_entry);
+    // check dynamic parameters
+    eh.set("istring",std::to_string(i_entry));
+    eh.set("int",int(i_entry));
+    eh.set("float",float(i_entry*10.));
 
-      bool positive{ints.at(i_entry) > 0};
-      BOOST_CHECK(save(bool_ds,positive,f));
+    BOOST_CHECK(save(event_header,eh,f));
+    BOOST_CHECK(save(double_ds,doubles.at(i_entry),f));
+    BOOST_CHECK(save(int_ds,ints.at(i_entry),f));
 
-      BOOST_CHECK(save(vector_double_ds,doubles,f));
-      BOOST_CHECK(save(vector_int_ds,ints,f));
-      std::map<int,double> map_int_double;
-      for (std::size_t i{0}; i < ints.size(); i++) {
-        map_int_double[ints.at(i)] = doubles.at(i);
-      }
-      BOOST_CHECK(save(map_int_double_ds,map_int_double,f));
+    bool positive{ints.at(i_entry) > 0};
+    BOOST_CHECK(save(bool_ds,positive,f));
 
-      BOOST_CHECK(save(hit_ds,all_hits[i_entry][0],f));
-      BOOST_CHECK(save(vector_hit_ds,all_hits[i_entry],f));
-      BOOST_CHECK(save(special_hit_ds,SpecialHit(0,all_hits[i_entry][0]),f));
-
-      std::vector<SpecialHit> sphit_vec;
-      for (auto& hit : all_hits[i_entry]) sphit_vec.emplace_back(i_entry,hit);
-      BOOST_CHECK(save(vector_special_hit_ds,sphit_vec,f));
-
-      auto c = Cluster(i_entry, all_hits.at(i_entry));
-      BOOST_CHECK(save(cluster_ds,c,f));
-
-      std::vector<Cluster> clusters;
-      clusters.emplace_back(2, all_hits.at(0));
-      clusters.emplace_back(3, all_hits.at(1));
-      BOOST_CHECK(save(vector_cluster_ds,clusters,f));
-
-      std::map<int,Cluster> map_clusters = {
-        { 2, Cluster(2, all_hits.at(0)) },
-        { 3, Cluster(3, all_hits.at(1)) }
-      };
-      BOOST_CHECK(save(map_cluster_ds,map_clusters,f));
+    BOOST_CHECK(save(vector_double_ds,doubles,f));
+    BOOST_CHECK(save(vector_int_ds,ints,f));
+    std::map<int,double> map_int_double;
+    for (std::size_t i{0}; i < ints.size(); i++) {
+      map_int_double[ints.at(i)] = doubles.at(i);
     }
+    BOOST_CHECK(save(map_int_double_ds,map_int_double,f));
 
-    // reader requires at least one run so that it can deduced
-    // the number of runs upon construction
-    fire::io::Data<fire::RunHeader> rh_d(fire::io::constants::RUN_HEADER_NAME);
-    rh_d.save(f);
+    BOOST_CHECK(save(hit_ds,all_hits[i_entry][0],f));
+    BOOST_CHECK(save(vector_hit_ds,all_hits[i_entry],f));
+    BOOST_CHECK(save(special_hit_ds,SpecialHit(0,all_hits[i_entry][0]),f));
+
+    std::vector<SpecialHit> sphit_vec;
+    for (auto& hit : all_hits[i_entry]) sphit_vec.emplace_back(i_entry,hit);
+    BOOST_CHECK(save(vector_special_hit_ds,sphit_vec,f));
+
+    auto c = Cluster(i_entry, all_hits.at(i_entry));
+    BOOST_CHECK(save(cluster_ds,c,f));
+
+    std::vector<Cluster> clusters;
+    clusters.emplace_back(2, all_hits.at(0));
+    clusters.emplace_back(3, all_hits.at(1));
+    BOOST_CHECK(save(vector_cluster_ds,clusters,f));
+
+    std::map<int,Cluster> map_clusters = {
+      { 2, Cluster(2, all_hits.at(0)) },
+      { 3, Cluster(3, all_hits.at(1)) }
+    };
+    BOOST_CHECK(save(map_cluster_ds,map_clusters,f));
   }
 
-  { // Reading
-    fire::io::h5::Reader f{filename};
+  // reader requires at least one run so that it can deduced
+  // the number of runs upon construction
+  fire::io::Data<fire::RunHeader> rh_d(fire::io::constants::RUN_HEADER_NAME);
+  rh_d.save(f);
+}
 
-    fire::EventHeader eh;
-    fire::io::Data<fire::EventHeader> event_header(fire::EventHeader::NAME,&eh);
-    fire::io::Data<double> double_ds("double");
-    fire::io::Data<int>    int_ds("int");
-    fire::io::Data<bool>   bool_ds("bool");
-    fire::io::Data<std::vector<double>> vector_double_ds("vector_double");
-    fire::io::Data<std::vector<int>> vector_int_ds("vector_int");
-    fire::io::Data<std::map<int,double>> map_int_double_ds("map_int_double");
-    fire::io::Data<Hit> hit_ds("hit");
-    fire::io::Data<std::vector<Hit>> vector_hit_ds("vector_hit");
-    fire::io::Data<SpecialHit> special_hit_ds("special_hit");
-    fire::io::Data<std::vector<SpecialHit>> vector_special_hit_ds("vector_special_hit");
-    fire::io::Data<Cluster> cluster_ds("cluster");
-    fire::io::Data<std::vector<Cluster>> vector_cluster_ds("vector_cluster");
-    fire::io::Data<std::map<int,Cluster>> map_cluster_ds("map_cluster");
+BOOST_AUTO_TEST_CASE(read, *boost::unit_test::depends_on("data/write")) {
+  fire::io::h5::Reader f{filename};
 
-    for (std::size_t i_entry{0}; i_entry < doubles.size(); i_entry++) {
-      event_header.load(f);
+  fire::EventHeader eh;
+  fire::io::Data<fire::EventHeader> event_header(fire::EventHeader::NAME,&eh);
+  fire::io::Data<double> double_ds("double");
+  fire::io::Data<int>    int_ds("int");
+  fire::io::Data<bool>   bool_ds("bool");
+  fire::io::Data<std::vector<double>> vector_double_ds("vector_double");
+  fire::io::Data<std::vector<int>> vector_int_ds("vector_int");
+  fire::io::Data<std::map<int,double>> map_int_double_ds("map_int_double");
+  fire::io::Data<Hit> hit_ds("hit");
+  fire::io::Data<std::vector<Hit>> vector_hit_ds("vector_hit");
+  fire::io::Data<SpecialHit> special_hit_ds("special_hit");
+  fire::io::Data<std::vector<SpecialHit>> vector_special_hit_ds("vector_special_hit");
+  fire::io::Data<Cluster> cluster_ds("cluster");
+  fire::io::Data<std::vector<Cluster>> vector_cluster_ds("vector_cluster");
+  fire::io::Data<std::map<int,Cluster>> map_cluster_ds("map_cluster");
 
-      BOOST_CHECK(eh.getEventNumber() == i_entry);
-      BOOST_CHECK(eh.get<std::string>("istring") == std::to_string(i_entry));
-      BOOST_CHECK(eh.get<int>("int") == i_entry);
-      BOOST_CHECK(eh.get<float>("float") == 10.*i_entry);
-      
-      BOOST_CHECK(load(double_ds,doubles.at(i_entry),f));
-      BOOST_CHECK(load(int_ds,ints.at(i_entry),f));
-      bool positive{ints.at(i_entry) > 0};
-      BOOST_CHECK(load(bool_ds,positive,f));
-      BOOST_CHECK(load(vector_double_ds,doubles,f));
-      BOOST_CHECK(load(vector_int_ds,ints,f));
-      std::map<int,double> map_int_double;
-      for (std::size_t i{0}; i < ints.size(); i++) {
-        map_int_double[ints.at(i)] = doubles.at(i);
-      }
-      BOOST_CHECK(load(map_int_double_ds,map_int_double,f));
+  for (std::size_t i_entry{0}; i_entry < doubles.size(); i_entry++) {
+    event_header.load(f);
 
-      BOOST_CHECK(load(hit_ds,all_hits[i_entry][0],f));
-      BOOST_CHECK(load(vector_hit_ds,all_hits[i_entry],f));
-      BOOST_CHECK(load(special_hit_ds,SpecialHit(0,all_hits[i_entry][0]),f));
+    BOOST_CHECK(eh.getEventNumber() == i_entry);
+    BOOST_CHECK(eh.get<std::string>("istring") == std::to_string(i_entry));
+    BOOST_CHECK(eh.get<int>("int") == i_entry);
+    BOOST_CHECK(eh.get<float>("float") == 10.*i_entry);
+    
+    BOOST_CHECK(load(double_ds,doubles.at(i_entry),f));
+    BOOST_CHECK(load(int_ds,ints.at(i_entry),f));
+    bool positive{ints.at(i_entry) > 0};
+    BOOST_CHECK(load(bool_ds,positive,f));
+    BOOST_CHECK(load(vector_double_ds,doubles,f));
+    BOOST_CHECK(load(vector_int_ds,ints,f));
+    std::map<int,double> map_int_double;
+    for (std::size_t i{0}; i < ints.size(); i++) {
+      map_int_double[ints.at(i)] = doubles.at(i);
+    }
+    BOOST_CHECK(load(map_int_double_ds,map_int_double,f));
 
-      std::vector<SpecialHit> sphit_vec;
-      for (auto& hit : all_hits[i_entry]) sphit_vec.emplace_back(i_entry,hit);
-      BOOST_CHECK(load(vector_special_hit_ds,sphit_vec,f));
+    BOOST_CHECK(load(hit_ds,all_hits[i_entry][0],f));
+    BOOST_CHECK(load(vector_hit_ds,all_hits[i_entry],f));
+    BOOST_CHECK(load(special_hit_ds,SpecialHit(0,all_hits[i_entry][0]),f));
 
-      auto c = Cluster(i_entry, all_hits.at(i_entry));
-      BOOST_CHECK(load(cluster_ds,c,f));
+    std::vector<SpecialHit> sphit_vec;
+    for (auto& hit : all_hits[i_entry]) sphit_vec.emplace_back(i_entry,hit);
+    BOOST_CHECK(load(vector_special_hit_ds,sphit_vec,f));
 
-      std::vector<Cluster> clusters;
-      clusters.emplace_back(2, all_hits.at(0));
-      clusters.emplace_back(3, all_hits.at(1));
-      BOOST_CHECK(load(vector_cluster_ds,clusters,f));
+    auto c = Cluster(i_entry, all_hits.at(i_entry));
+    BOOST_CHECK(load(cluster_ds,c,f));
 
-      std::map<int,Cluster> map_clusters = {
-        { 2, Cluster(2, all_hits.at(0)) },
-        { 3, Cluster(3, all_hits.at(1)) }
-      }, read_map;
-      BOOST_CHECK_NO_THROW(map_cluster_ds.load(f));
-      BOOST_CHECK_NO_THROW(read_map = map_cluster_ds.get());
-      for (auto const& [key,val] : map_clusters) {
-        auto mit{read_map.find(key)};
-        BOOST_CHECK(mit != read_map.end());
-        BOOST_CHECK(mit->second == val);
-      }
+    std::vector<Cluster> clusters;
+    clusters.emplace_back(2, all_hits.at(0));
+    clusters.emplace_back(3, all_hits.at(1));
+    BOOST_CHECK(load(vector_cluster_ds,clusters,f));
+
+    std::map<int,Cluster> map_clusters = {
+      { 2, Cluster(2, all_hits.at(0)) },
+      { 3, Cluster(3, all_hits.at(1)) }
+    }, read_map;
+    BOOST_CHECK_NO_THROW(map_cluster_ds.load(f));
+    BOOST_CHECK_NO_THROW(read_map = map_cluster_ds.get());
+    for (auto const& [key,val] : map_clusters) {
+      auto mit{read_map.find(key)};
+      BOOST_CHECK(mit != read_map.end());
+      BOOST_CHECK(mit->second == val);
     }
   }
 }
+
+BOOST_AUTO_TEST_CASE(copy, *boost::unit_test::depends_on("data/read")) {
+  fire::io::h5::Reader reader{filename};
+  fire::config::Parameters output_params;
+  output_params.add("name","copy_"+filename);
+  output_params.add("rows_per_chunk",2);
+  output_params.add("compression_level", 6);
+  output_params.add("shuffle",false);
+  int num_events = doubles.size(); //allow implicit conversion
+  fire::io::Writer writer{num_events,output_params};
+
+  std::vector<std::string> objects_to_copy = {
+    fire::EventHeader::NAME,
+    "double",
+    "int",
+    "bool",
+    "vector_double",
+    "vector_int",
+    "map_int_double",
+    "hit",
+    "vector_hit",
+    "special_hit",
+    "vector_special_hit",
+    "cluster",
+    "vector_cluster",
+    "map_cluster"
+  };
+
+  for (std::size_t i_entry{0}; i_entry < doubles.size(); i_entry++) {
+    std::cout << i_entry << std::endl;
+    for (const auto& obj : objects_to_copy) {
+      std::cout << "  " << obj << std::endl;
+      reader.copy(i_entry, obj, writer);
+    }
+  }
+
+  writer.flush();
+}
+
+BOOST_AUTO_TEST_SUITE_END()
