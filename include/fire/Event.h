@@ -406,7 +406,12 @@ class Event {
       //    loading may throw an H5 error if the shape of the data on disk
       //    cannot be loaded into the input type
       try {
-        for (std::size_t i{0}; i < i_entry_+1; i++) input_file_->load_into(*obj.data_);
+        if (not obj.should_save_) {
+          // only skip the first i_entry_ entries if this object is not being saved
+          //  the objects that are being saved are being mirrored by the input file
+          for (std::size_t i{0}; i < i_entry_; i++) input_file_->load_into(*obj.data_);
+        }
+        input_file_->load_into(*obj.data_);
       } catch (const HighFive::DataSetException&) {
         throw Exception("BadType",
             "Data " + full_name + " could not be loaded into "
