@@ -2,6 +2,8 @@
 #define BOOST_TEST_DYN_LINK
 #include <boost/test/unit_test.hpp>
 
+#include <highfive/H5Easy.hpp>
+
 #include "fire/EventHeader.h"
 #include "fire/RunHeader.h"
 #include "fire/config/Parameters.h"
@@ -104,6 +106,7 @@ bool load(ArbitraryData& h5d, DataType const& d, fire::io::h5::Reader& f) {
 }
 
 static std::string filename{"datad.h5"};
+static std::string copy_file{"copy_"+filename};
 
 static std::vector<double> doubles = { 1.0, 32., 69. };
 static std::vector<int>    ints    = { 0, -33, 88 };
@@ -194,8 +197,54 @@ BOOST_AUTO_TEST_CASE(write) {
   rh_d.save(f);
 }
 
-BOOST_AUTO_TEST_CASE(read, *boost::unit_test::depends_on("data/write")) {
-  fire::io::h5::Reader f{filename};
+BOOST_AUTO_TEST_CASE(copy, *boost::unit_test::depends_on("data/write")) {
+  fire::io::h5::Reader reader{filename};
+  fire::config::Parameters output_params;
+  output_params.add("name",copy_file);
+  output_params.add("rows_per_chunk",2);
+  output_params.add("compression_level", 6);
+  output_params.add("shuffle",false);
+  int num_events = doubles.size(); //allow implicit conversion
+  fire::io::Writer writer{num_events,output_params};
+
+  std::vector<std::string> objects_to_copy = {
+    fire::EventHeader::NAME,
+    "double",
+    "int",
+    "bool",
+    "vector_double",
+    "vector_int",
+    "map_int_double",
+    "hit",
+    "vector_hit",
+    "special_hit",
+    "vector_special_hit",
+    "cluster",
+    "vector_cluster",
+    "map_cluster"
+  };
+
+  for (std::size_t i_entry{0}; i_entry < doubles.size(); i_entry++) {
+    for (const auto& obj : objects_to_copy) {
+      reader.copy(i_entry, obj, writer);
+    }
+  }
+
+  // reader requires at least one run so that it can deduced
+  // the number of runs upon construction
+  fire::io::Data<fire::RunHeader> rh_d(fire::io::constants::RUN_HEADER_NAME);
+  rh_d.save(writer);
+
+  writer.flush();
+
+  HighFive::File f{copy_file};
+  // check for existence
+  for (const auto& obj : objects_to_copy) BOOST_TEST(f.exist(obj));
+  // check for correctness done implicitly in the read check below
+}
+
+BOOST_AUTO_TEST_CASE(read, *boost::unit_test::depends_on("data/copy")) {
+  fire::io::h5::Reader f{copy_file};
 
   fire::EventHeader eh;
   fire::io::Data<fire::EventHeader> event_header(fire::EventHeader::NAME,&eh);
@@ -261,44 +310,6 @@ BOOST_AUTO_TEST_CASE(read, *boost::unit_test::depends_on("data/write")) {
       BOOST_CHECK(mit->second == val);
     }
   }
-}
-
-BOOST_AUTO_TEST_CASE(copy, *boost::unit_test::depends_on("data/read")) {
-  fire::io::h5::Reader reader{filename};
-  fire::config::Parameters output_params;
-  output_params.add("name","copy_"+filename);
-  output_params.add("rows_per_chunk",2);
-  output_params.add("compression_level", 6);
-  output_params.add("shuffle",false);
-  int num_events = doubles.size(); //allow implicit conversion
-  fire::io::Writer writer{num_events,output_params};
-
-  std::vector<std::string> objects_to_copy = {
-    fire::EventHeader::NAME,
-    "double",
-    "int",
-    "bool",
-    "vector_double",
-    "vector_int",
-    "map_int_double",
-    "hit",
-    "vector_hit",
-    "special_hit",
-    "vector_special_hit",
-    "cluster",
-    "vector_cluster",
-    "map_cluster"
-  };
-
-  for (std::size_t i_entry{0}; i_entry < doubles.size(); i_entry++) {
-    std::cout << i_entry << std::endl;
-    for (const auto& obj : objects_to_copy) {
-      std::cout << "  " << obj << std::endl;
-      reader.copy(i_entry, obj, writer);
-    }
-  }
-
-  writer.flush();
 }
 
 BOOST_AUTO_TEST_SUITE_END()
