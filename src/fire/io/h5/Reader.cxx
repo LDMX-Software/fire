@@ -1,6 +1,8 @@
 #include "fire/io/h5/Reader.h"
 
 #include "fire/io/Constants.h"
+#include "fire/io/Data.h"
+
 namespace fire::io::h5 {
 
 Reader::Reader(const std::string& name) 
@@ -32,10 +34,14 @@ HighFive::DataTypeClass Reader::getDataSetType(
   return file_.getDataSet(dataset).getDataType().getClass();
 }
 
+HighFive::ObjectType Reader::getH5ObjectType(const std::string& path) const {
+  return file_.getObjectType(path);
+}
+
 std::string Reader::getTypeName(const std::string& full_obj_name) const {
   std::string path = constants::EVENT_GROUP + "/" + full_obj_name;
-  HighFive::Attribute attr =
-      file_.getObjectType(path) == HighFive::ObjectType::Dataset
+  HighFive::Attribute attr = 
+    getH5ObjectType(path) == HighFive::ObjectType::Dataset
           ? file_.getDataSet(path).getAttribute(constants::TYPE_ATTR_NAME)
           : file_.getGroup(path).getAttribute(constants::TYPE_ATTR_NAME);
   std::string type;
@@ -60,20 +66,7 @@ std::vector<std::array<std::string,3>> Reader::availableObjects() {
   return objs;
 }
 
-static void recursive_list(const HighFive::File& file, const std::string& path, 
-                           std::vector<HighFive::DataSet> ds = {}) {
-  auto datasets{ds};
-  if (file.getObjectType(path) == HighFive::ObjectType::Dataset) {
-    datasets.push_back(file.getDataSet(path));
-  } else {
-    auto subobjs = file.getGroup(path).listObjectNames();
-    for (auto& subobj : subobjs) recursive_list(file, path+"/"+subobj, datasets);
-  }
-  return datasets;
-}
-
-
-void Reader::copy(unsigned int long i_entry, const std::string& full_name, Writer& output) const {
+void Reader::copy(unsigned int long i_entry, const std::string& full_name, Writer& output) {
   /**
    * STRATEGY:
    *
@@ -88,10 +81,84 @@ void Reader::copy(unsigned int long i_entry, const std::string& full_name, Write
    * Connect the Reader::load handles immediately to the Writer::save call.
    */
 
-  /// 1. Obtain Full List of DataSets
-  std::vector<HighFive::DataSets> datasets = recursive_list(file_, full_name);
 
+  // this is where recursing into the subgroups of full_name occurs
+  // if this mirror object hasn't been created yet
+  if (mirror_objects_.find(full_name) == mirror_objects_.end()) {
+    std::string path = constants::EVENT_GROUP + "/" + full_name;
+    mirror_objects_.emplace(std::make_pair(full_name,
+          std::make_unique<MirrorObject>(path, *this)));
+  }
+  // do the copying
+  mirror_objects_[full_name]->copy(i_entry-last_entry_, 1, output);
+  // update our entry
+  last_entry_ = i_entry;
+}
 
+Reader::MirrorObject::MirrorObject(const std::string& path, Reader& reader) 
+  : reader_{reader} {
+  if (reader_.getH5ObjectType(path) == HighFive::ObjectType::Dataset) {
+    // simple atomic event object
+    auto type{reader_.getDataSetType(path)};
+    if (type == HighFive::DataTypeClass::Integer) {
+      data_ = std::make_unique<io::Data<int>>(path);
+    } else if (type == HighFive::DataTypeClass::Float) {
+      data_ = std::make_unique<io::Data<float>>(path);
+    } else {
+      data_ = std::make_unique<io::Data<std::string>>(path);
+    }
+    // TODO make sure this is full
+  } else {
+    // event object is a H5 group meaning it is more complicated
+    // than a simple atomic type
+    auto subobjs = reader_.list(path);
+    for (auto& subobj : subobjs) {
+      std::string sub_path{path + "/" + subobj};
+      if (subobj == "size") {
+        size_member_ = std::make_unique<io::Data<std::size_t>>(sub_path);
+      } else {
+        obj_members_.emplace_back(std::make_unique<MirrorObject>(sub_path, reader_));
+      }
+    }
+  }
+}
+
+void Reader::MirrorObject::copy(unsigned long int i_rel, unsigned long int n, Writer& output) {
+  unsigned long int num_to_advance{i_rel-1}, num_to_save{n};
+
+  // if we have a data member, the data member is the only part of this
+  // mirror object
+  if (data_) {
+    // load until one before desired entry
+    for (std::size_t i{0}; i < num_to_advance; i++) reader_.load_into(*data_);
+    // load and save desired entries
+    for (std::size_t i{0}; i < num_to_save; i++) {
+      reader_.load_into(*data_);
+      data_->save(output);
+    }
+    return;
+  }
+
+  /// if there is a member determining the size of each entry,
+  /// we need to follow its lead
+  if (size_member_) {
+    unsigned long int new_num_to_advance{0};
+    for (std::size_t i{0}; i < num_to_advance; i++) {
+      reader_.load_into(*size_member_);
+      num_to_advance += dynamic_cast<Data<std::size_t>&>(*size_member_).get();
+    }
+    unsigned long int new_num_to_save = 0;
+    for (std::size_t i{0}; i < num_to_save; i++) {
+      reader_.load_into(*size_member_);
+      num_to_save += dynamic_cast<Data<std::size_t>&>(*size_member_).get();
+      size_member_->save(output);
+    }
+
+    num_to_advance = new_num_to_advance;
+    num_to_save = new_num_to_save;
+  }
+
+  for (auto& obj  : obj_members_) obj->copy(num_to_advance, num_to_save, output);
 }
 
 }  // namespace fire::io::h5

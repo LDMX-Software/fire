@@ -101,6 +101,11 @@ class Reader : public ::fire::io::Reader {
   HighFive::DataTypeClass getDataSetType(const std::string& dataset) const;
 
   /**
+   * Get the H5 type of object at the input path
+   */
+  HighFive::ObjectType getH5ObjectType(const std::string& path) const;
+
+  /**
    * Get the 'type' attribute from the input group name
    *
    * We retrieve the attribute named TYPE_ATTR_NAME from the group
@@ -145,7 +150,7 @@ class Reader : public ::fire::io::Reader {
    * @param[in] output handle to the writer writing the output file
    */
   virtual void copy(unsigned long int i_entry, const std::string& full_name, 
-      Writer& output) const final override;
+      Writer& output) final override;
 
   /**
    * Try to load a single value of an atomic type into the input handle
@@ -324,6 +329,40 @@ class Reader : public ::fire::io::Reader {
   };
 
  private:
+  /**
+   * A mirror event object
+   *
+   * This type of event object is merely present to "reflect" (pun intended)
+   * the recursive nature of the io::Data pattern _without_ knowledge of
+   * any user classes. We need this so we can effectively copy event objects
+   * that are not accessed during processing from the input to the output
+   * file. (The choice on whether to copy or not copy these files is 
+   * handled by Event).
+   */
+  class MirrorObject {
+    /// handle to the reader we are reading from
+    Reader& reader_;
+    /// handle to the atomic data type once we get down to that point
+    std::unique_ptr<BaseData> data_;
+    /// handle to the size member of this object (if it exists)
+    std::unique_ptr<BaseData> size_member_;
+    /// list of sub-objects within this object
+    std::vector<std::unique_ptr<MirrorObject>> obj_members_;
+
+   public:
+    /**
+     * Construct this mirror object and any of its (data or object) children
+     */
+    MirrorObject(const std::string& full_name, Reader& reader);
+
+    /**
+     * Copy the n entries starting from i_rel which is the entry
+     * **relative to the current read position**
+     */
+    void copy(unsigned long int i_rel, unsigned long int n, Writer& output);
+  };
+
+ private:
   /// our highfive file
   HighFive::File file_;
   /// the number of entries in this file, set in constructor
@@ -334,6 +373,10 @@ class Reader : public ::fire::io::Reader {
   std::size_t rows_per_chunk_{10000};
   /// our in-memory buffers for the data to be read in from disk
   std::unordered_map<std::string, std::unique_ptr<BufferHandle>> buffers_;
+  /// our in-memory mirror objects for data being copied to the output file without processing
+  std::unordered_map<std::string, std::unique_ptr<MirrorObject>> mirror_objects_;
+  /// the last entry we copied over to the output file
+  unsigned long int last_entry_{0};
 };  // Reader
 
 }  // namespace fire::io::h5
