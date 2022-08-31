@@ -81,7 +81,6 @@ void Reader::copy(unsigned int long i_entry, const std::string& full_name, Write
    * Connect the Reader::load handles immediately to the Writer::save call.
    */
 
-
   // this is where recursing into the subgroups of full_name occurs
   // if this mirror object hasn't been created yet
   if (mirror_objects_.find(full_name) == mirror_objects_.end()) {
@@ -90,9 +89,7 @@ void Reader::copy(unsigned int long i_entry, const std::string& full_name, Write
           std::make_unique<MirrorObject>(path, *this)));
   }
   // do the copying
-  mirror_objects_[full_name]->copy(i_entry-last_entry_, 1, output);
-  // update our entry
-  last_entry_ = i_entry;
+  mirror_objects_[full_name]->copy(i_entry, 1, output);
 }
 
 Reader::MirrorObject::MirrorObject(const std::string& path, Reader& reader) 
@@ -108,6 +105,8 @@ Reader::MirrorObject::MirrorObject(const std::string& path, Reader& reader)
       data_ = std::make_unique<io::Data<std::string>>(path);
     }
     // TODO make sure this is full
+    //  - bool <-> Bool
+    //  - size of ints/floats?
   } else {
     // event object is a H5 group meaning it is more complicated
     // than a simple atomic type
@@ -123,17 +122,19 @@ Reader::MirrorObject::MirrorObject(const std::string& path, Reader& reader)
   }
 }
 
-void Reader::MirrorObject::copy(unsigned long int i_rel, unsigned long int n, Writer& output) {
-  unsigned long int num_to_advance{i_rel-1}, num_to_save{n};
+void Reader::MirrorObject::copy(unsigned long int i_entry, unsigned long int n, Writer& output) {
+  unsigned long int num_to_advance{i_entry <= last_entry_ ? 0 : i_entry - last_entry_ - 1}, 
+                    num_to_save{n};
+  last_entry_ = i_entry;
 
   // if we have a data member, the data member is the only part of this
   // mirror object
   if (data_) {
     // load until one before desired entry
-    for (std::size_t i{0}; i < num_to_advance; i++) reader_.load_into(*data_);
+    for (std::size_t i{0}; i < num_to_advance; i++) data_->load(reader_);
     // load and save desired entries
     for (std::size_t i{0}; i < num_to_save; i++) {
-      reader_.load_into(*data_);
+      data_->load(reader_);
       data_->save(output);
     }
     return;
@@ -144,12 +145,12 @@ void Reader::MirrorObject::copy(unsigned long int i_rel, unsigned long int n, Wr
   if (size_member_) {
     unsigned long int new_num_to_advance{0};
     for (std::size_t i{0}; i < num_to_advance; i++) {
-      reader_.load_into(*size_member_);
+      size_member_->load(reader_);
       num_to_advance += dynamic_cast<Data<std::size_t>&>(*size_member_).get();
     }
     unsigned long int new_num_to_save = 0;
     for (std::size_t i{0}; i < num_to_save; i++) {
-      reader_.load_into(*size_member_);
+      size_member_->load(reader_);
       num_to_save += dynamic_cast<Data<std::size_t>&>(*size_member_).get();
       size_member_->save(output);
     }

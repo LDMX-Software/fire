@@ -348,6 +348,8 @@ class Reader : public ::fire::io::Reader {
     std::unique_ptr<BaseData> size_member_;
     /// list of sub-objects within this object
     std::vector<std::unique_ptr<MirrorObject>> obj_members_;
+    /// the last entry that was copied
+    unsigned long int last_entry_{0};
 
    public:
     /**
@@ -356,10 +358,9 @@ class Reader : public ::fire::io::Reader {
     MirrorObject(const std::string& full_name, Reader& reader);
 
     /**
-     * Copy the n entries starting from i_rel which is the entry
-     * **relative to the current read position**
+     * Copy the n entries starting from i_entry
      */
-    void copy(unsigned long int i_rel, unsigned long int n, Writer& output);
+    void copy(unsigned long int i_entry, unsigned long int n, Writer& output);
   };
 
  private:
@@ -375,8 +376,6 @@ class Reader : public ::fire::io::Reader {
   std::unordered_map<std::string, std::unique_ptr<BufferHandle>> buffers_;
   /// our in-memory mirror objects for data being copied to the output file without processing
   std::unordered_map<std::string, std::unique_ptr<MirrorObject>> mirror_objects_;
-  /// the last entry we copied over to the output file
-  unsigned long int last_entry_{0};
 };  // Reader
 
 }  // namespace fire::io::h5
