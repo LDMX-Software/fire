@@ -182,12 +182,12 @@ void Reader::MirrorObject::copy(unsigned long int i_entry, unsigned long int n, 
     unsigned long int new_num_to_advance{0};
     for (std::size_t i{0}; i < num_to_advance; i++) {
       size_member_->load(reader_);
-      num_to_advance += dynamic_cast<Data<std::size_t>&>(*size_member_).get();
+      new_num_to_advance += dynamic_cast<Data<std::size_t>&>(*size_member_).get();
     }
     unsigned long int new_num_to_save = 0;
     for (std::size_t i{0}; i < num_to_save; i++) {
       size_member_->load(reader_);
-      num_to_save += dynamic_cast<Data<std::size_t>&>(*size_member_).get();
+      new_num_to_save += dynamic_cast<Data<std::size_t>&>(*size_member_).get();
       size_member_->save(output);
     }
 
