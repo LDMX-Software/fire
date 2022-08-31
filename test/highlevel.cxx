@@ -146,9 +146,10 @@ BOOST_AUTO_TEST_CASE(prod_drop_async, *boost::unit_test::depends_on("process/pro
 }
 
 BOOST_AUTO_TEST_CASE(recon_drop_async, *boost::unit_test::depends_on("highlevel/prod_drop_async")) {
-  std::string output{"recon_drop_async.h5"};
+  std::string output{"recon_drop_async.h5"},
+              pass{"test"};
   fire::config::Parameters configuration;
-  configuration.add("pass_name",std::string("test"));
+  configuration.add("pass_name",pass);
 
   fire::config::Parameters output_file;
   output_file.add("name", output);
@@ -197,16 +198,23 @@ BOOST_AUTO_TEST_CASE(recon_drop_async, *boost::unit_test::depends_on("highlevel/
 
   // check that output has keepme and keepalong while it does not
   //  have dropme or dropalong
-  std::vector<int> correct = {1,2,3,4,5,6,7,8,9,10};
+  std::vector<int> correct = {
+    1,2,3,4,5,6,7,8,9,10
+  };
+  std::vector<int> keepme_correct = {
+    100,200,300,400,500,600,700,800,900,1000
+  };
+
   H5Easy::File f(output);
-  BOOST_TEST(f.exist(fire::io::constants::EVENT_GROUP+"/keepme"));
-  BOOST_TEST(H5Easy::load<std::vector<int>>(f, fire::io::constants::EVENT_GROUP+"/keepme") == correct);
-  BOOST_TEST(f.exist(fire::io::constants::EVENT_GROUP+"/keepalong"));
-  BOOST_TEST(H5Easy::load<std::vector<int>>(f, fire::io::constants::EVENT_GROUP+"/keepalong") == correct);
-  BOOST_TEST(f.exist(fire::io::constants::EVENT_GROUP+"/keeplateget"));
-  BOOST_TEST(H5Easy::load<std::vector<int>>(f, fire::io::constants::EVENT_GROUP+"/keeplateget") == correct);
-  BOOST_TEST((!f.exist(fire::io::constants::EVENT_GROUP+"/dropme")));
-  BOOST_TEST((!f.exist(fire::io::constants::EVENT_GROUP+"/dropalong")));
+  std::string pass_grp{fire::io::constants::EVENT_GROUP+"/"+pass};
+  BOOST_TEST(f.exist(pass_grp+"/keepme"));
+  BOOST_TEST(H5Easy::load<std::vector<int>>(f, pass_grp+"/keepme") == keepme_correct);
+  BOOST_TEST(f.exist(pass_grp+"/keepalong"));
+  BOOST_TEST(H5Easy::load<std::vector<int>>(f, pass_grp+"/keepalong") == correct);
+  BOOST_TEST(f.exist(pass_grp+"/keeplateget"));
+  BOOST_TEST(H5Easy::load<std::vector<int>>(f, pass_grp+"/keeplateget") == correct);
+  BOOST_TEST(not f.exist(pass_grp+"/dropme"));
+  BOOST_TEST(not f.exist(pass_grp+"/dropalong"));
 }
 
 BOOST_AUTO_TEST_SUITE_END()
