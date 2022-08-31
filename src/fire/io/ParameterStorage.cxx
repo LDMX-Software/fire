@@ -25,7 +25,7 @@ void Data<ParameterStorage>::load(h5::Reader& r) {
     // first load - discovery - look through file to find parameters on disk
     for (auto pname : r.list(this->path_)) {
       std::string path{this->path_+"/"+pname};
-      auto type{r.getDataSetType(path)};
+      auto type{r.getDataSetType(path).getClass()};
       if (type == HighFive::DataTypeClass::Integer) {
         int i{};
         this->handle_->parameters_[pname] = i;

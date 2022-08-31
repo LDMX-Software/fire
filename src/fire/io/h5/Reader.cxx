@@ -29,9 +29,9 @@ std::vector<std::string> Reader::list(const std::string& group_path) const {
   return file_.getGroup(group_path).listObjectNames();
 }
 
-HighFive::DataTypeClass Reader::getDataSetType(
+HighFive::DataType Reader::getDataSetType(
     const std::string& dataset) const {
-  return file_.getDataSet(dataset).getDataType().getClass();
+  return file_.getDataSet(dataset).getDataType();
 }
 
 HighFive::ObjectType Reader::getH5ObjectType(const std::string& path) const {
@@ -66,7 +66,7 @@ std::vector<std::array<std::string,3>> Reader::availableObjects() {
   return objs;
 }
 
-void Reader::copy(unsigned int long i_entry, const std::string& full_name, Writer& output) {
+void Reader::copy(unsigned int long i_entry, const std::string& path, Writer& output) {
   /**
    * STRATEGY:
    *
@@ -83,30 +83,66 @@ void Reader::copy(unsigned int long i_entry, const std::string& full_name, Write
 
   // this is where recursing into the subgroups of full_name occurs
   // if this mirror object hasn't been created yet
-  if (mirror_objects_.find(full_name) == mirror_objects_.end()) {
-    std::string path = constants::EVENT_GROUP + "/" + full_name;
-    mirror_objects_.emplace(std::make_pair(full_name,
+  if (mirror_objects_.find(path) == mirror_objects_.end()) {
+    mirror_objects_.emplace(std::make_pair(path,
           std::make_unique<MirrorObject>(path, *this)));
   }
   // do the copying
-  mirror_objects_[full_name]->copy(i_entry, 1, output);
+  mirror_objects_[path]->copy(i_entry, 1, output);
 }
+
+class create_data {
+  const std::string& path_;
+  HighFive::DataType type_;
+  std::unique_ptr<BaseData> data_;
+
+ public:
+  create_data(const std::string& p, HighFive::DataType t)
+    : type_{t}, path_{p} {}
+
+  std::unique_ptr<BaseData> get() {
+    return std::move(data_);
+  }
+
+  template<typename T>
+  void operator()(T) {
+    if (type_ == HighFive::create_datatype<T>()) {
+      if (data_) { char a; std::cerr << "BAD"; std::cin >> a; }
+      else data_ = std::make_unique<io::Data<T>>(path_);
+    } 
+  }
+};
 
 Reader::MirrorObject::MirrorObject(const std::string& path, Reader& reader) 
   : reader_{reader} {
   if (reader_.getH5ObjectType(path) == HighFive::ObjectType::Dataset) {
     // simple atomic event object
-    auto type{reader_.getDataSetType(path)};
-    if (type == HighFive::DataTypeClass::Integer) {
+    //  unfortunately, I can't think of a better solution than manually
+    //  copying the code for all of the types
+    HighFive::DataType type = reader_.getDataSetType(path);
+    if (type == HighFive::create_datatype<int>()) {
       data_ = std::make_unique<io::Data<int>>(path);
-    } else if (type == HighFive::DataTypeClass::Float) {
+    } else if (type == HighFive::create_datatype<long int>()) {
+      data_ = std::make_unique<io::Data<long int>>(path);
+    } else if (type == HighFive::create_datatype<long long int>()) {
+      data_ = std::make_unique<io::Data<long long int>>(path);
+    } else if (type == HighFive::create_datatype<unsigned int>()) {
+      data_ = std::make_unique<io::Data<unsigned int>>(path);
+    } else if (type == HighFive::create_datatype<unsigned long int>()) {
+      data_ = std::make_unique<io::Data<unsigned long int>>(path);
+    } else if (type == HighFive::create_datatype<unsigned long long int>()) {
+      data_ = std::make_unique<io::Data<unsigned long long int>>(path);
+    } else if (type == HighFive::create_datatype<float>()) {
       data_ = std::make_unique<io::Data<float>>(path);
-    } else {
+    } else if (type == HighFive::create_datatype<double>()) {
+      data_ = std::make_unique<io::Data<double>>(path);
+    } else if (type == HighFive::create_datatype<std::string>()) {
       data_ = std::make_unique<io::Data<std::string>>(path);
+    } else if (type == HighFive::create_datatype<fire::io::Bool>()) {
+      data_ = std::make_unique<io::Data<bool>>(path);
+    } else {
+      std::cerr << "BAD: Unable to deduce C++ type from H5 type." << std::endl;
     }
-    // TODO make sure this is full
-    //  - bool <-> Bool
-    //  - size of ints/floats?
   } else {
     // event object is a H5 group meaning it is more complicated
     // than a simple atomic type

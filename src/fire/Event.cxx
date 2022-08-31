@@ -73,7 +73,9 @@ void Event::save() {
       // need to copy this event object from the input file
       // into the output file because it is supposed to be kept
       // but hasn't been loaded by the user
-      input_file_->copy(i_entry_, fullName(tag.name(), tag.pass()), output_file_);
+      input_file_->copy(i_entry_, 
+          io::constants::EVENT_GROUP+"/"+fullName(tag.name(), tag.pass()), 
+          output_file_);
     }
   }
 }
