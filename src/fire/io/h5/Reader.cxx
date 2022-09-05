@@ -116,7 +116,7 @@ Reader::MirrorObject::MirrorObject(const std::string& path, Reader& reader)
     auto subobjs = reader_.list(path);
     for (auto& subobj : subobjs) {
       std::string sub_path{path + "/" + subobj};
-      if (subobj == "size") {
+      if (subobj == constants::SIZE_NAME) {
         size_member_ = std::make_unique<io::Data<std::size_t>>(sub_path);
       } else {
         obj_members_.emplace_back(std::make_unique<MirrorObject>(sub_path, reader_));
