@@ -26,6 +26,8 @@ struct constants {
   inline static const std::string TYPE_ATTR_NAME = "type";
   /// the name of the fire version attribute
   inline static const std::string VERS_ATTR_NAME = "version";
+  /// the name of the size dataset for variable types
+  inline static const std::string SIZE_NAME = "size";
 };
 
 }

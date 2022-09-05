@@ -8,6 +8,7 @@
 
 #include "fire/io/AbstractData.h"
 #include "fire/io/Writer.h"
+#include "fire/io/Constants.h"
 #include "fire/io/h5/Reader.h"
 #ifdef fire_USE_ROOT
 #include "fire/io/root/Reader.h"
@@ -327,6 +328,13 @@ class Data : public AbstractData<DataType> {
    */
   template <typename MemberType>
   void attach(const std::string& name, MemberType& m) {
+    if (name == constants::SIZE_NAME) {
+      throw Exception("BadName",
+          "The member name '"+constants::SIZE_NAME+"' is not allowed due to "
+          "its use in the serialization of variable length types.\n"
+          "    Please give your member a more detailed name corresponding to "
+          "your class", false);
+    }
     members_.push_back(
         std::make_unique<Data<MemberType>>(this->path_ + "/" + name, &m));
   }
@@ -416,7 +424,7 @@ class Data<std::vector<ContentType>>
    */
   explicit Data(const std::string& path, std::vector<ContentType>* handle = nullptr)
       : AbstractData<std::vector<ContentType>>(path, handle),
-        size_{path + "/size"},
+        size_{path + "/" + constants::SIZE_NAME},
         data_{path + "/data"} {}
 
   /**
@@ -498,7 +506,7 @@ class Data<std::map<KeyType,ValType>>
    */
   explicit Data(const std::string& path, std::map<KeyType,ValType>* handle = nullptr)
       : AbstractData<std::map<KeyType,ValType>>(path, handle),
-        size_{path + "/size"},
+        size_{path + "/" + constants::SIZE_NAME},
         keys_{path + "/keys"},
         vals_{path + "/vals"} {}
 
