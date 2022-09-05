@@ -142,7 +142,7 @@ class Event {
      * into a memory object.
      *
      * We need to be mutable so that we can be changed during
-     * get which is a const member function.
+     * Event::get which is a const member function.
      */
     mutable bool loaded_{false};
   };
