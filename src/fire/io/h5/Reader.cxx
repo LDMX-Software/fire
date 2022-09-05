@@ -106,7 +106,9 @@ Reader::MirrorObject::MirrorObject(const std::string& path, Reader& reader)
     } else if (type == HighFive::create_datatype<fire::io::Bool>()) {
       data_ = std::make_unique<io::Data<bool>>(path);
     } else {
-      std::cerr << "BAD: Unable to deduce C++ type from H5 type." << std::endl;
+      throw Exception("UnknownDS","Unable to deduce C++ type from H5 type during a copy\n"
+        "    User could avoid this issue simply by accessing the event object within some processor during the first event.", 
+        false);
     }
   } else {
     // event object is a H5 group meaning it is more complicated
