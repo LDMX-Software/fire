@@ -82,6 +82,16 @@ class Reader {
   virtual std::vector<std::array<std::string,3>> availableObjects() = 0;
 
   /**
+   * Event::get needs to know if the reader implements a copy that advances
+   * the entry index of the data sets being read
+   *
+   * @return true if the reader implements a copy
+   */
+  virtual bool canCopy() const {
+    return false;
+  }
+
+  /**
    * Copy the input object into the output file
    * @param[in] i_entry the entry index that is being copied from this reader to output
    * @param[in] path the full object path that should be copied
