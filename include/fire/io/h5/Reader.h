@@ -140,6 +140,12 @@ class Reader : public ::fire::io::Reader {
   inline std::size_t runs() const final override { return runs_; }
 
   /**
+   * We can copy
+   * @return true
+   */
+  virtual bool canCopy() const final override { return true; }
+
+  /**
    * Copy the input data set to the output file
    *
    * This happens when the input data set has passed all of the drop/keep

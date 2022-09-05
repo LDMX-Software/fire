@@ -407,9 +407,11 @@ class Event {
       //    loading may throw an H5 error if the shape of the data on disk
       //    cannot be loaded into the input type
       try {
-        if (not obj.should_save_) {
-          // only skip the first i_entry_ entries if this object is not being saved
+        if (not obj.should_save_ or not input_file_->canCopy()) {
+          // only skip the first i_entry_ entries if the input file cannot copy
+          // or the object is not being saved
           //  the objects that are being saved are being mirrored by the input file
+          //  if the input file can copy
           for (std::size_t i{0}; i < i_entry_; i++) input_file_->load_into(*obj.data_);
         }
         input_file_->load_into(*obj.data_);
