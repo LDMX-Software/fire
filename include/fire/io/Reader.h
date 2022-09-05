@@ -88,7 +88,7 @@ class Reader {
    * @param[out] output the writer we should write the copy to
    */
   virtual void copy(long unsigned int i_entry, const std::string& path, Writer& output) {
-    std::cerr << "[ WARN ] : " << full_name << " is supposed to be kept but has not been accessed"
+    std::cerr << "[ WARN ] : " << path << " is supposed to be kept but has not been accessed"
       " with Event::get so it is not being written to the output file." << std::endl;
   }
 
