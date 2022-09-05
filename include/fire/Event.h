@@ -380,6 +380,7 @@ class Event {
       // when setting up the in-memory object, we need to find the tag so we can
       // 1. get whether the object should be copied to the output file and
       // 2. set the loaded_ flag to true
+      // we can do a simple linear search since this will only happen once per input file
       auto tag_it = std::find_if(available_objects_.begin(), available_objects_.end(), 
           [&full_name,this](const EventObjectTag& tag) {
             return fullName(tag.name(),tag.pass()) == full_name;
@@ -562,10 +563,6 @@ class Event {
   struct EventObject {
     /**
      * the data for save/load
-     *
-     * this pointer will be nullptr for the data objects
-     * that have been seen in an input file but not requested
-     * by a Processor through Event::get
      */
     std::unique_ptr<io::BaseData> data_;
     /// should we save the data into output file?

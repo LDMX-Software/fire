@@ -67,19 +67,6 @@ std::vector<std::array<std::string,3>> Reader::availableObjects() {
 }
 
 void Reader::copy(unsigned int long i_entry, const std::string& path, Writer& output) {
-  /**
-   * STRATEGY:
-   *
-   * ## Initialization
-   * 1. Recurse into the 'full_name' event object obtaining a full list of all DataSets
-   * 2. While doing this, categorize the DataSets such that we can deduce if there are
-   *    "commanders" (i.e. DataSets named `size`) who will control the number of entries
-   *    read from other DataSets.
-   * 3. Set-up these atomic data sets in a structure that mimics the on-disk structure in-memory.
-   *
-   * ## Every Copy
-   * Connect the Reader::load handles immediately to the Writer::save call.
-   */
 
   // this is where recursing into the subgroups of full_name occurs
   // if this mirror object hasn't been created yet
@@ -90,28 +77,6 @@ void Reader::copy(unsigned int long i_entry, const std::string& path, Writer& ou
   // do the copying
   mirror_objects_[path]->copy(i_entry, 1, output);
 }
-
-class create_data {
-  const std::string& path_;
-  HighFive::DataType type_;
-  std::unique_ptr<BaseData> data_;
-
- public:
-  create_data(const std::string& p, HighFive::DataType t)
-    : type_{t}, path_{p} {}
-
-  std::unique_ptr<BaseData> get() {
-    return std::move(data_);
-  }
-
-  template<typename T>
-  void operator()(T) {
-    if (type_ == HighFive::create_datatype<T>()) {
-      if (data_) { char a; std::cerr << "BAD"; std::cin >> a; }
-      else data_ = std::make_unique<io::Data<T>>(path_);
-    } 
-  }
-};
 
 Reader::MirrorObject::MirrorObject(const std::string& path, Reader& reader) 
   : reader_{reader} {

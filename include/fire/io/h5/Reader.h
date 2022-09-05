@@ -102,6 +102,8 @@ class Reader : public ::fire::io::Reader {
 
   /**
    * Get the H5 type of object at the input path
+   * @param[in] path in-file path to an HDF5 object
+   * @return HighFive::ObjectType defining the type that the object there is
    */
   HighFive::ObjectType getH5ObjectType(const std::string& path) const;
 

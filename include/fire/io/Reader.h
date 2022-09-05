@@ -83,8 +83,11 @@ class Reader {
 
   /**
    * Copy the input object into the output file
+   * @param[in] i_entry the entry index that is being copied from this reader to output
+   * @param[in] path the full object path that should be copied
+   * @param[out] output the writer we should write the copy to
    */
-  virtual void copy(long unsigned int i_entry, const std::string& full_name, Writer& output) {
+  virtual void copy(long unsigned int i_entry, const std::string& path, Writer& output) {
     std::cerr << "[ WARN ] : " << full_name << " is supposed to be kept but has not been accessed"
       " with Event::get so it is not being written to the output file." << std::endl;
   }
