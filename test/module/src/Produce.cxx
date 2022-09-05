@@ -39,6 +39,7 @@ class Produce : public fire::Processor {
       val.setMomentum(rand_float(rng),rand_float(rng),rand_float(rng));
     }
     event.add("randdata", rand_data);
+    event.add("dragalong", rand_float(rng));
   }
 };  // Produce
 
