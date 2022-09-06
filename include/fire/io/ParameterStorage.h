@@ -202,6 +202,8 @@ class Data<ParameterStorage> : public AbstractData<ParameterStorage> {
    */
   void save(Writer& w) final override;
 
+  void done(Writer& w) final override;
+
  private:
   /**
    * Attach the input parameter name as a new dataset in our own parameter map

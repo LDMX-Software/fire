@@ -316,6 +316,11 @@ class Data : public AbstractData<DataType> {
     for (auto& m : members_) m->save(f);
   }
 
+  void done(Writer& f) final override {
+    f.setTypeName(this->path_, this->type_);
+    for (auto& m : members_) m->done(f);
+  }
+
   /**
    * Attach a member object from the our data handle
    *
@@ -398,6 +403,10 @@ class Data<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
   void save(Writer& f) final override {
     f.save(this->path_, *(this->handle_));
   }
+
+  void done(Writer& f) final override {
+    f.save(this->path_, this->type_);
+  }
 };  // Data<AtomicType>
 
 /**
@@ -472,6 +481,12 @@ class Data<std::vector<ContentType>>
       data_.update(this->handle_->at(i_vec));
       data_.save(f);
     }
+  }
+
+  void done(Writer& f) final override {
+    f.setTypeName(this->path_, this->type_);
+    size_.done(f);
+    data_.done(f);
   }
 
  private:
@@ -557,6 +572,13 @@ class Data<std::map<KeyType,ValType>>
       vals_.update(val);
       vals_.save(f);
     }
+  }
+
+  void done(Writer& f) final override {
+    f.setTypeName(this->path_, this->type_);
+    size_.done(f);
+    keys_.done(f);
+    vals_.done(f);
   }
 
  private:

@@ -60,4 +60,11 @@ void Data<ParameterStorage>::save(Writer& w) {
   }
 }
 
+void Data<ParameterStorage>::done(Writer& w) {
+  w.setTypeName(this->path_, this->type_);
+  for (auto& [_, val] : parameters_) {
+    val->done(w);
+  }
+}
+
 }  // namespace fire::h5

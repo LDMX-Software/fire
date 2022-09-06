@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include <boost/core/demangle.hpp> // for demangling
+
 #include "fire/version/Version.h"
 
 namespace fire::io {
@@ -61,6 +63,14 @@ class BaseData {
   virtual void save(Writer& f) = 0;
 
   /**
+   * processing is done and we should persist our hierarchy
+   * into the output file
+   *
+   * @param[in] f Writer to write to
+   */
+  virtual void done(Writer& f) = 0;
+
+  /**
    * pure virtual method for resetting the current data to a blank state
    */
   virtual void clear() = 0;
@@ -106,6 +116,7 @@ class AbstractData : public BaseData {
     } else {
       handle_ = handle;
     }
+    type_ = boost::core::demangle(typeid(DataType).name());
   }
 
   /**
@@ -140,6 +151,12 @@ class AbstractData : public BaseData {
    * @param[in] f Writer to save to
    */
   virtual void save(Writer& f) = 0;
+
+  /**
+   * pure virtual method for closing up processing and saving structure
+   * @param[in] f Writer to write to
+   */
+  virtual void done(Writer& f) = 0;
 
   /**
    * Define the clear function here to handle the most common cases.
@@ -182,6 +199,12 @@ class AbstractData : public BaseData {
   virtual const DataType& get() const { return *handle_; }
 
   /**
+   * Get the name of the type we are holding
+   * @return string name of type
+   */
+  const std::string& type() const { return type_; }
+
+  /**
    * Update the in-memory data object with the passed value.
    *
    * @note virtual so that derived data sets could specialize this, 
@@ -203,6 +226,8 @@ class AbstractData : public BaseData {
   }
 
  protected:
+  /// name of type this data is holding
+  std::string type_;
   /// handle on current object in memory
   DataType* handle_;
   /// we own the object in memory
