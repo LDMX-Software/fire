@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.15.3</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.16.0</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -151,6 +151,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const 
 virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Reader</b> ()=default</td></tr>
 <tr class="memdesc:ace11f226c6ef42a9fdef2be9305c0a0d inherit pub_methods_classfire_1_1io_1_1Reader"><td class="mdescLeft">&#160;</td><td class="mdescRight">virtual destructor so derived classes can be closed <br /></td></tr>
 <tr class="separator:ace11f226c6ef42a9fdef2be9305c0a0d inherit pub_methods_classfire_1_1io_1_1Reader"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ed57e09001fcb86b1fc5e70b7d5b7f9 inherit pub_methods_classfire_1_1io_1_1Reader"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1Reader.html#a5ed57e09001fcb86b1fc5e70b7d5b7f9">canCopy</a> () const</td></tr>
+<tr class="memdesc:a5ed57e09001fcb86b1fc5e70b7d5b7f9 inherit pub_methods_classfire_1_1io_1_1Reader"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classfire_1_1Event.html#a6057f83865dc0922d3a8ca1cfa566c48" title="get a piece of data from the event">Event::get</a> needs to know if the reader implements a copy that advances the entry index of the data sets being read.  <a href="classfire_1_1io_1_1Reader.html#a5ed57e09001fcb86b1fc5e70b7d5b7f9">More...</a><br /></td></tr>
+<tr class="separator:a5ed57e09001fcb86b1fc5e70b7d5b7f9 inherit pub_methods_classfire_1_1io_1_1Reader"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92f287f5a29da331ecff68d15cfcf00b inherit pub_methods_classfire_1_1io_1_1Reader"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1Reader.html#a92f287f5a29da331ecff68d15cfcf00b">copy</a> (long unsigned int i_entry, const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;path, <a class="el" href="classfire_1_1io_1_1Writer.html">Writer</a> &amp;output)</td></tr>
+<tr class="memdesc:a92f287f5a29da331ecff68d15cfcf00b inherit pub_methods_classfire_1_1io_1_1Reader"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy the input object into the output file.  <a href="classfire_1_1io_1_1Reader.html#a92f287f5a29da331ecff68d15cfcf00b">More...</a><br /></td></tr>
+<tr class="separator:a92f287f5a29da331ecff68d15cfcf00b inherit pub_methods_classfire_1_1io_1_1Reader"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>

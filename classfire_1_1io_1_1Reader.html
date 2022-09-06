@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.15.3</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.16.0</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -134,6 +134,12 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Reader</b> ()=def
 <tr class="memitem:ac81b1fd74b1ccd45e5a7634ae06f9392"><td class="memItemLeft" align="right" valign="top">virtual <a class="elRef" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/container/array.html">std::array</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>, 3 &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1Reader.html#ac81b1fd74b1ccd45e5a7634ae06f9392">availableObjects</a> ()=0</td></tr>
 <tr class="memdesc:ac81b1fd74b1ccd45e5a7634ae06f9392"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the event objects available in the file.  <a href="classfire_1_1io_1_1Reader.html#ac81b1fd74b1ccd45e5a7634ae06f9392">More...</a><br /></td></tr>
 <tr class="separator:ac81b1fd74b1ccd45e5a7634ae06f9392"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ed57e09001fcb86b1fc5e70b7d5b7f9"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1Reader.html#a5ed57e09001fcb86b1fc5e70b7d5b7f9">canCopy</a> () const</td></tr>
+<tr class="memdesc:a5ed57e09001fcb86b1fc5e70b7d5b7f9"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classfire_1_1Event.html#a6057f83865dc0922d3a8ca1cfa566c48" title="get a piece of data from the event">Event::get</a> needs to know if the reader implements a copy that advances the entry index of the data sets being read.  <a href="classfire_1_1io_1_1Reader.html#a5ed57e09001fcb86b1fc5e70b7d5b7f9">More...</a><br /></td></tr>
+<tr class="separator:a5ed57e09001fcb86b1fc5e70b7d5b7f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92f287f5a29da331ecff68d15cfcf00b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1Reader.html#a92f287f5a29da331ecff68d15cfcf00b">copy</a> (long unsigned int i_entry, const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;path, <a class="el" href="classfire_1_1io_1_1Writer.html">Writer</a> &amp;output)</td></tr>
+<tr class="memdesc:a92f287f5a29da331ecff68d15cfcf00b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy the input object into the output file.  <a href="classfire_1_1io_1_1Reader.html#a92f287f5a29da331ecff68d15cfcf00b">More...</a><br /></td></tr>
+<tr class="separator:a92f287f5a29da331ecff68d15cfcf00b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Prototype for reading files within fire. </p>
@@ -203,6 +209,88 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Reader</b> ()=def
 <dl class="section return"><dt>Returns</dt><dd>vector of 3 string arrays <code>{ obj_name, pass, type }</code> </dd></dl>
 
 <p>Implemented in <a class="el" href="classfire_1_1io_1_1h5_1_1Reader.html#ace949f67227895541133dc0259871ea5">fire::io::h5::Reader</a>, and <a class="el" href="classfire_1_1io_1_1root_1_1Reader.html#a17673c0a169a9e972ee94f2fa7d3dd28">fire::io::root::Reader</a>.</p>
+
+</div>
+</div>
+<a id="a5ed57e09001fcb86b1fc5e70b7d5b7f9" name="a5ed57e09001fcb86b1fc5e70b7d5b7f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ed57e09001fcb86b1fc5e70b7d5b7f9">&#9670;&nbsp;</a></span>canCopy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool fire::io::Reader::canCopy </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><a class="el" href="classfire_1_1Event.html#a6057f83865dc0922d3a8ca1cfa566c48" title="get a piece of data from the event">Event::get</a> needs to know if the reader implements a copy that advances the entry index of the data sets being read. </p>
+<dl class="section return"><dt>Returns</dt><dd>true if the reader implements a copy </dd></dl>
+
+<p>Reimplemented in <a class="el" href="classfire_1_1io_1_1h5_1_1Reader.html#ae73f2ce5b27a0298d8737e347756777a">fire::io::h5::Reader</a>.</p>
+
+</div>
+</div>
+<a id="a92f287f5a29da331ecff68d15cfcf00b" name="a92f287f5a29da331ecff68d15cfcf00b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92f287f5a29da331ecff68d15cfcf00b">&#9670;&nbsp;</a></span>copy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void fire::io::Reader::copy </td>
+          <td>(</td>
+          <td class="paramtype">long unsigned int&#160;</td>
+          <td class="paramname"><em>i_entry</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classfire_1_1io_1_1Writer.html">Writer</a> &amp;&#160;</td>
+          <td class="paramname"><em>output</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Copy the input object into the output file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">i_entry</td><td>the entry index that is being copied from this reader to output </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">path</td><td>the full object path that should be copied </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">output</td><td>the writer we should write the copy to </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

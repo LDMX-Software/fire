@@ -44,6 +44,7 @@ var hierarchy =
     ] ],
     [ "fire::factory::Factory< Prototype, PrototypePtr, PrototypeConstructorArgs >", "classfire_1_1factory_1_1Factory.html", null ],
     [ "fire::Processor::Factory", "classfire_1_1Processor_1_1Factory.html", null ],
+    [ "fire::io::h5::Reader::MirrorObject", "classfire_1_1io_1_1h5_1_1Reader_1_1MirrorObject.html", null ],
     [ "fire::config::Parameters", "classfire_1_1config_1_1Parameters.html", null ],
     [ "fire::io::ParameterStorage", "classfire_1_1io_1_1ParameterStorage.html", null ],
     [ "fire::Process", "classfire_1_1Process.html", null ],

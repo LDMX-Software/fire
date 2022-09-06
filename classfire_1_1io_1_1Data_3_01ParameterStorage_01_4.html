@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.15.3</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.16.0</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -289,7 +289,7 @@ template&lt;typename ParameterType &gt; </div>
 </div><div class="memdoc">
 
 <p>load the next entry of <a class="el" href="classfire_1_1io_1_1ParameterStorage.html" title="Provides dynamic parameter storage by interfacing between a map to variants storing parameters and a ...">ParameterStorage</a> from disk into memory </p>
-<p >On the first call to load, we determine the parameters in this object by using our path member to list the objects in the group (<a class="el" href="classfire_1_1io_1_1h5_1_1Reader.html#aa0e784bf93da29bb506fefe59235832a" title="List the entries inside of a group.">h5::Reader::list</a>). Then for each member of this list, we get its type (<a class="el" href="classfire_1_1io_1_1h5_1_1Reader.html#af9d29ee6c9c98f84943c1a0b5fd803d2" title="Deduce the type of the dataset requested.">h5::Reader::getDataSetType</a>) from its path and create a new object in the variant map of the <a class="el" href="classfire_1_1io_1_1ParameterStorage.html" title="Provides dynamic parameter storage by interfacing between a map to variants storing parameters and a ...">ParameterStorage</a> pointed to by our handle. Then we use the attach method to create a new dataset to track the parameter.</p>
+<p >On the first call to load, we determine the parameters in this object by using our path member to list the objects in the group (<a class="el" href="classfire_1_1io_1_1h5_1_1Reader.html#aa0e784bf93da29bb506fefe59235832a" title="List the entries inside of a group.">h5::Reader::list</a>). Then for each member of this list, we get its type (<a class="el" href="classfire_1_1io_1_1h5_1_1Reader.html#a01306cda3658659eb16add58b803e7e2" title="Deduce the type of the dataset requested.">h5::Reader::getDataSetType</a>) from its path and create a new object in the variant map of the <a class="el" href="classfire_1_1io_1_1ParameterStorage.html" title="Provides dynamic parameter storage by interfacing between a map to variants storing parameters and a ...">ParameterStorage</a> pointed to by our handle. Then we use the attach method to create a new dataset to track the parameter.</p>
 <p >After the first load, we just call load on all of our attached datasets like any other user class.</p>
 <dl class="section note"><dt>Note</dt><dd>This load mechanic does not support changing pass names. This limits us to only using this type of dataset in the event and run headers.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>

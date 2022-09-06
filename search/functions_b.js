@@ -1,7 +1,7 @@
 var searchData=
 [
   ['k_0',['k',['http://en.cppreference.com/w/cpp/numeric/random/negative_binomial_distribution/params.html',1,'std::negative_binomial_distribution']]],
-  ['keep_1',['keep',['../classfire_1_1Event.html#a71d63db4f8a7a25f01cc6c824e43fe8b',1,'fire::Event']]],
+  ['keep_1',['keep',['../classfire_1_1Event_1_1EventObjectTag.html#a10bde39e7b701d516be7563dac4835bc',1,'fire::Event::EventObjectTag::keep()'],['../classfire_1_1Event.html#a71d63db4f8a7a25f01cc6c824e43fe8b',1,'fire::Event::keep()']]],
   ['keepevent_2',['keepEvent',['../classfire_1_1StorageControl.html#a1986fccc88aff30c884c2ad9ee4cae01',1,'fire::StorageControl']]],
   ['key_5fcomp_3',['key_comp',['http://en.cppreference.com/w/cpp/container/multiset/key_comp.html',1,'std::multiset::key_comp()'],['http://en.cppreference.com/w/cpp/container/set/key_comp.html',1,'std::set::key_comp()'],['http://en.cppreference.com/w/cpp/container/map/key_comp.html',1,'std::map::key_comp()'],['http://en.cppreference.com/w/cpp/container/multimap/key_comp.html',1,'std::multimap::key_comp()']]],
   ['key_5feq_4',['key_eq',['http://en.cppreference.com/w/cpp/container/unordered_map/key_eq.html',1,'std::unordered_map::key_eq()'],['http://en.cppreference.com/w/cpp/container/unordered_multimap/key_eq.html',1,'std::unordered_multimap::key_eq()'],['http://en.cppreference.com/w/cpp/container/unordered_multiset/key_eq.html',1,'std::unordered_multiset::key_eq()'],['http://en.cppreference.com/w/cpp/container/unordered_set/key_eq.html',1,'std::unordered_set::key_eq()']]],

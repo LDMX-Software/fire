@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.15.3</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.16.0</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -118,6 +118,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1h5_1_1Reader_1_1BufferHandle.html">BufferHandle</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type-less handle to the <a class="el" href="classfire_1_1io_1_1h5_1_1Reader_1_1Buffer.html" title="Read buffer allowing individual element access from a dataset.">Buffer</a>.  <a href="classfire_1_1io_1_1h5_1_1Reader_1_1BufferHandle.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1h5_1_1Reader_1_1MirrorObject.html">MirrorObject</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A mirror event object.  <a href="classfire_1_1io_1_1h5_1_1Reader_1_1MirrorObject.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -136,9 +139,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa0e784bf93da29bb506fefe59235832a"><td class="memItemLeft" align="right" valign="top"><a class="elRef" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1h5_1_1Reader.html#aa0e784bf93da29bb506fefe59235832a">list</a> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;group_path) const</td></tr>
 <tr class="memdesc:aa0e784bf93da29bb506fefe59235832a"><td class="mdescLeft">&#160;</td><td class="mdescRight">List the entries inside of a group.  <a href="classfire_1_1io_1_1h5_1_1Reader.html#aa0e784bf93da29bb506fefe59235832a">More...</a><br /></td></tr>
 <tr class="separator:aa0e784bf93da29bb506fefe59235832a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af9d29ee6c9c98f84943c1a0b5fd803d2"><td class="memItemLeft" align="right" valign="top">HighFive::DataTypeClass&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1h5_1_1Reader.html#af9d29ee6c9c98f84943c1a0b5fd803d2">getDataSetType</a> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;dataset) const</td></tr>
-<tr class="memdesc:af9d29ee6c9c98f84943c1a0b5fd803d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deduce the type of the dataset requested.  <a href="classfire_1_1io_1_1h5_1_1Reader.html#af9d29ee6c9c98f84943c1a0b5fd803d2">More...</a><br /></td></tr>
-<tr class="separator:af9d29ee6c9c98f84943c1a0b5fd803d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01306cda3658659eb16add58b803e7e2"><td class="memItemLeft" align="right" valign="top">HighFive::DataType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1h5_1_1Reader.html#a01306cda3658659eb16add58b803e7e2">getDataSetType</a> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;dataset) const</td></tr>
+<tr class="memdesc:a01306cda3658659eb16add58b803e7e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deduce the type of the dataset requested.  <a href="classfire_1_1io_1_1h5_1_1Reader.html#a01306cda3658659eb16add58b803e7e2">More...</a><br /></td></tr>
+<tr class="separator:a01306cda3658659eb16add58b803e7e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab1ae183b0573d190fbe471b76617c58"><td class="memItemLeft" align="right" valign="top">HighFive::ObjectType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1h5_1_1Reader.html#aab1ae183b0573d190fbe471b76617c58">getH5ObjectType</a> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;path) const</td></tr>
+<tr class="memdesc:aab1ae183b0573d190fbe471b76617c58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the H5 type of object at the input path.  <a href="classfire_1_1io_1_1h5_1_1Reader.html#aab1ae183b0573d190fbe471b76617c58">More...</a><br /></td></tr>
+<tr class="separator:aab1ae183b0573d190fbe471b76617c58"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a40bf370de8e2916e041a7ceb9abf96df"><td class="memItemLeft" align="right" valign="top"><a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1h5_1_1Reader.html#a40bf370de8e2916e041a7ceb9abf96df">getTypeName</a> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;obj_name) const</td></tr>
 <tr class="memdesc:a40bf370de8e2916e041a7ceb9abf96df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the 'type' attribute from the input group name.  <a href="classfire_1_1io_1_1h5_1_1Reader.html#a40bf370de8e2916e041a7ceb9abf96df">More...</a><br /></td></tr>
 <tr class="separator:a40bf370de8e2916e041a7ceb9abf96df"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -148,6 +154,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a906b0e7a34580fc47297746cfda93751"><td class="memItemLeft" align="right" valign="top"><a class="elRef" href="http://en.cppreference.com/w/cpp/types/size_t.html">std::size_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1h5_1_1Reader.html#a906b0e7a34580fc47297746cfda93751">runs</a> () const final override</td></tr>
 <tr class="memdesc:a906b0e7a34580fc47297746cfda93751"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of runs in the file.  <a href="classfire_1_1io_1_1h5_1_1Reader.html#a906b0e7a34580fc47297746cfda93751">More...</a><br /></td></tr>
 <tr class="separator:a906b0e7a34580fc47297746cfda93751"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae73f2ce5b27a0298d8737e347756777a"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1h5_1_1Reader.html#ae73f2ce5b27a0298d8737e347756777a">canCopy</a> () const final override</td></tr>
+<tr class="memdesc:ae73f2ce5b27a0298d8737e347756777a"><td class="mdescLeft">&#160;</td><td class="mdescRight">We can copy.  <a href="classfire_1_1io_1_1h5_1_1Reader.html#ae73f2ce5b27a0298d8737e347756777a">More...</a><br /></td></tr>
+<tr class="separator:ae73f2ce5b27a0298d8737e347756777a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a869b47bdb928dc48299082e96a3b1e77"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1h5_1_1Reader.html#a869b47bdb928dc48299082e96a3b1e77">copy</a> (unsigned long int i_entry, const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;path, <a class="el" href="classfire_1_1io_1_1Writer.html">Writer</a> &amp;output) final override</td></tr>
+<tr class="memdesc:a869b47bdb928dc48299082e96a3b1e77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy the input data set to the output file.  <a href="classfire_1_1io_1_1h5_1_1Reader.html#a869b47bdb928dc48299082e96a3b1e77">More...</a><br /></td></tr>
+<tr class="separator:a869b47bdb928dc48299082e96a3b1e77"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f285bc5e84110248e300c6e63c820b5"><td class="memTemplParams" colspan="2">template&lt;typename AtomicType &gt; </td></tr>
 <tr class="memitem:a6f285bc5e84110248e300c6e63c820b5"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1h5_1_1Reader.html#a6f285bc5e84110248e300c6e63c820b5">load</a> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;path, AtomicType &amp;val)</td></tr>
 <tr class="memdesc:a6f285bc5e84110248e300c6e63c820b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Try to load a single value of an atomic type into the input handle.  <a href="classfire_1_1io_1_1h5_1_1Reader.html#a6f285bc5e84110248e300c6e63c820b5">More...</a><br /></td></tr>
@@ -168,6 +180,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const 
 virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Reader</b> ()=default</td></tr>
 <tr class="memdesc:ace11f226c6ef42a9fdef2be9305c0a0d inherit pub_methods_classfire_1_1io_1_1Reader"><td class="mdescLeft">&#160;</td><td class="mdescRight">virtual destructor so derived classes can be closed <br /></td></tr>
 <tr class="separator:ace11f226c6ef42a9fdef2be9305c0a0d inherit pub_methods_classfire_1_1io_1_1Reader"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92f287f5a29da331ecff68d15cfcf00b inherit pub_methods_classfire_1_1io_1_1Reader"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1Reader.html#a92f287f5a29da331ecff68d15cfcf00b">copy</a> (long unsigned int i_entry, const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;path, <a class="el" href="classfire_1_1io_1_1Writer.html">Writer</a> &amp;output)</td></tr>
+<tr class="memdesc:a92f287f5a29da331ecff68d15cfcf00b inherit pub_methods_classfire_1_1io_1_1Reader"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy the input object into the output file.  <a href="classfire_1_1io_1_1Reader.html#a92f287f5a29da331ecff68d15cfcf00b">More...</a><br /></td></tr>
+<tr class="separator:a92f287f5a29da331ecff68d15cfcf00b inherit pub_methods_classfire_1_1io_1_1Reader"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -191,6 +206,10 @@ const <a class="elRef" href="http://en.cppreference.com/w/cpp/types/size_t.html"
 <a class="elRef" href="http://en.cppreference.com/w/cpp/container/unordered_map.html">std::unordered_map</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>, <a class="elRef" href="http://en.cppreference.com/w/cpp/memory/unique_ptr.html">std::unique_ptr</a>&lt; <a class="el" href="classfire_1_1io_1_1h5_1_1Reader_1_1BufferHandle.html">BufferHandle</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>buffers_</b></td></tr>
 <tr class="memdesc:a2cd1cc29ce799df9971d82bd2a7ea65d"><td class="mdescLeft">&#160;</td><td class="mdescRight">our in-memory buffers for the data to be read in from disk <br /></td></tr>
 <tr class="separator:a2cd1cc29ce799df9971d82bd2a7ea65d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2832a5cd86c8942d5ddb96110691eb7b"><td class="memItemLeft" align="right" valign="top"><a id="a2832a5cd86c8942d5ddb96110691eb7b" name="a2832a5cd86c8942d5ddb96110691eb7b"></a>
+<a class="elRef" href="http://en.cppreference.com/w/cpp/container/unordered_map.html">std::unordered_map</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>, <a class="elRef" href="http://en.cppreference.com/w/cpp/memory/unique_ptr.html">std::unique_ptr</a>&lt; <a class="el" href="classfire_1_1io_1_1h5_1_1Reader_1_1MirrorObject.html">MirrorObject</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>mirror_objects_</b></td></tr>
+<tr class="memdesc:a2832a5cd86c8942d5ddb96110691eb7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">our in-memory mirror objects for data being copied to the output file without processing <br /></td></tr>
+<tr class="separator:a2832a5cd86c8942d5ddb96110691eb7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -279,6 +298,89 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>Factory</b> = ::<a c
 
 </div>
 </div>
+<a id="ae73f2ce5b27a0298d8737e347756777a" name="ae73f2ce5b27a0298d8737e347756777a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae73f2ce5b27a0298d8737e347756777a">&#9670;&nbsp;</a></span>canCopy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool fire::io::h5::Reader::canCopy </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">final</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>We can copy. </p>
+<dl class="section return"><dt>Returns</dt><dd>true </dd></dl>
+
+<p>Reimplemented from <a class="el" href="classfire_1_1io_1_1Reader.html#a5ed57e09001fcb86b1fc5e70b7d5b7f9">fire::io::Reader</a>.</p>
+
+</div>
+</div>
+<a id="a869b47bdb928dc48299082e96a3b1e77" name="a869b47bdb928dc48299082e96a3b1e77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a869b47bdb928dc48299082e96a3b1e77">&#9670;&nbsp;</a></span>copy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void fire::io::h5::Reader::copy </td>
+          <td>(</td>
+          <td class="paramtype">unsigned long int&#160;</td>
+          <td class="paramname"><em>i_entry</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classfire_1_1io_1_1Writer.html">Writer</a> &amp;&#160;</td>
+          <td class="paramname"><em>output</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">final</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Copy the input data set to the output file. </p>
+<p >This happens when the input data set has passed all of the drop/keep rules so it is supposed to be copied into the output file; however, noone has accessed it with <a class="el" href="classfire_1_1Event.html#a6057f83865dc0922d3a8ca1cfa566c48" title="get a piece of data from the event">Event::get</a> yet so an in-memory class object has not been created for it yet.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">i_entry</td><td>entry we are currently on </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">path</td><td>full event object name </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">output</td><td>handle to the writer writing the output file </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a0deb6c4d55bd50683f42bab4ce395e32" name="a0deb6c4d55bd50683f42bab4ce395e32"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0deb6c4d55bd50683f42bab4ce395e32">&#9670;&nbsp;</a></span>entries()</h2>
 
@@ -310,14 +412,14 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>Factory</b> = ::<a c
 
 </div>
 </div>
-<a id="af9d29ee6c9c98f84943c1a0b5fd803d2" name="af9d29ee6c9c98f84943c1a0b5fd803d2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af9d29ee6c9c98f84943c1a0b5fd803d2">&#9670;&nbsp;</a></span>getDataSetType()</h2>
+<a id="a01306cda3658659eb16add58b803e7e2" name="a01306cda3658659eb16add58b803e7e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01306cda3658659eb16add58b803e7e2">&#9670;&nbsp;</a></span>getDataSetType()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">HighFive::DataTypeClass fire::io::h5::Reader::getDataSetType </td>
+          <td class="memname">HighFive::DataType fire::io::h5::Reader::getDataSetType </td>
           <td>(</td>
           <td class="paramtype">const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;&#160;</td>
           <td class="paramname"><em>dataset</em></td><td>)</td>
@@ -334,7 +436,34 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>Factory</b> = ::<a c
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>HighFive::DataTypeClass specifying the atomic type of the set </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>HighFive::DataType specifying the atomic type of the set </dd></dl>
+
+</div>
+</div>
+<a id="aab1ae183b0573d190fbe471b76617c58" name="aab1ae183b0573d190fbe471b76617c58"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab1ae183b0573d190fbe471b76617c58">&#9670;&nbsp;</a></span>getH5ObjectType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">HighFive::ObjectType fire::io::h5::Reader::getH5ObjectType </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the H5 type of object at the input path. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">path</td><td>in-file path to an HDF5 object </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>HighFive::ObjectType defining the type that the object there is </dd></dl>
 
 </div>
 </div>
