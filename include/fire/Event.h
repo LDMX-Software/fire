@@ -47,20 +47,8 @@ class Event {
      * @param keep if we should write this object into the output file
      */
     EventObjectTag(const std::string& name, const std::string& pass,
-                   const std::string& type, bool keep)
-      : name_{name}, pass_{pass}, type_{type}, keep_{keep} {}
-
-    /**
-     * Pass the three pieces of information to our class via an array.
-     *
-     * This is used by io::Reader to pass information from the various
-     * types of readers to us in setInputFile.
-     *
-     * @param[in] obj array of name, pass, typename (that order)
-     * @param keep if we should write this object into the output file
-     */
-    EventObjectTag(std::array<std::string,3> obj, bool keep)
-      : EventObjectTag(obj[0],obj[1],obj[2],keep) {}
+                   const std::string& type, int vers, bool keep)
+      : name_{name}, pass_{pass}, type_{type}, version_{vers}, keep_{keep} {}
   
     /**
      * Get the object name
@@ -79,6 +67,12 @@ class Event {
      * @return demangled type name
      */
     const std::string& type() const { return type_; }
+
+    /**
+     * Get the version number of the type of this object
+     * @return int version of the type
+     */
+    int version() const { return version_; }
 
     /**
      * Get if this object will be kept (i.e. written to the output file)
@@ -129,6 +123,11 @@ class Event {
      * Type name of the object
      */
     std::string type_;
+
+    /**
+     * The version of the type
+     */
+    int version_;
 
     /**
      * If the object represented by this tag should be kept
@@ -256,6 +255,7 @@ class Event {
       }
       auto& tag{available_objects_.emplace_back(name, pass_,
                   boost::core::demangle(typeid(DataType).name()),
+                  1, // INSERT TEMPLATE DEDUCTION NONSENSE HERE
                   keep(full_name, ADD_KEEP_DEFAULT))};
       tag.loaded_ = true;
 
@@ -271,6 +271,7 @@ class Event {
       //   they are new and not from an input file
       auto& obj{objects_[full_name]};
       obj.data_ = std::make_unique<io::Data<DataType>>(io::constants::EVENT_GROUP+"/"+full_name);
+      obj.data_->setVersion(tag.version());
       obj.should_save_ = tag.keep_;
       obj.should_load_ = false;
       obj.updated_ = false;
@@ -399,6 +400,7 @@ class Event {
       //   they are new and not from an input file
       auto& obj{objects_[full_name]};
       obj.data_ = std::make_unique<io::Data<DataType>>(io::constants::EVENT_GROUP+"/"+full_name);
+      obj.data_->setVersion(tag_it->version());
       obj.should_save_ = tag_it->keep();
       obj.should_load_ = true;
       obj.updated_ = false;

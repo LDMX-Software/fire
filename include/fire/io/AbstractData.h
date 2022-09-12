@@ -75,9 +75,40 @@ class BaseData {
    */
   virtual void clear() = 0;
 
+  /**
+   * Get the version number for this class
+   */
+  int version() const {
+    return version_;
+  }
+
+  /**
+   * Set the version number for this class
+   *
+   * This is **needs** to be set by the downstream class
+   * when initializing the read connection **before** any
+   * calls to load are made so that all calls to load are
+   * made with the correct version number
+   */
+  void setVersion(const int& v) {
+    version_ = v;
+  }
+
  protected:
   /// path of data set
   std::string path_;
+
+  /**
+   * the version of the user class (if this Data is a user class)
+   *
+   * A negative version number means that the data held by this instance
+   * is not being tracked by the user (e.g. atomic types, containers,
+   * and strings).
+   *
+   * This number is set by Event when reading and otherwise is deduced
+   * by template specialization nonsense.
+   */
+  int version_{-1};
 };
 
 /**

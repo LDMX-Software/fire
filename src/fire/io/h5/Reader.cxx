@@ -49,8 +49,8 @@ std::string Reader::getTypeName(const std::string& full_obj_name) const {
   return type;
 }
 
-std::vector<std::array<std::string,3>> Reader::availableObjects() {
-  std::vector<std::array<std::string,3>> objs;
+std::vector<std::pair<std::string,std::string>> Reader::availableObjects() {
+  std::vector<std::pair<std::string,std::string>> objs;
   std::vector<std::string> passes = list(io::constants::EVENT_GROUP);
   for (const std::string& pass : passes) {
     // skip the event header
@@ -58,12 +58,30 @@ std::vector<std::array<std::string,3>> Reader::availableObjects() {
     // get a list of objects in this pass group
     std::vector<std::string> object_names = list(io::constants::EVENT_GROUP + "/" + pass);
     for (const std::string& obj_name : object_names) {
-      std::array<std::string,3> obj = {obj_name, pass,
-          getTypeName(pass+"/"+obj_name) };
-      objs.push_back(obj);
+      objs.emplace_back(obj_name, pass);
     }
   }
   return objs;
+}
+
+std::pair<std::string,int> Reader::type(const std::string& full_obj_name) {
+  std::string path = constants::EVENT_GROUP + "/" + full_obj_name;
+  HighFive::Attribute type_attr = 
+    getH5ObjectType(path) == HighFive::ObjectType::Dataset
+          ? file_.getDataSet(path).getAttribute(constants::TYPE_ATTR_NAME)
+          : file_.getGroup(path).getAttribute(constants::TYPE_ATTR_NAME);
+  HighFive::Attribute vers_attr = 
+    getH5ObjectType(path) == HighFive::ObjectType::Dataset
+          ? file_.getDataSet(path).getAttribute(constants::VERS_ATTR_NAME)
+          : file_.getGroup(path).getAttribute(constants::VERS_ATTR_NAME);
+
+  std::string type;
+  type_attr.read(type);
+
+  int vers;
+  vers_attr.read(vers);
+
+  return std::make_pair(type,vers);
 }
 
 void Reader::copy(unsigned int long i_entry, const std::string& path, Writer& output) {

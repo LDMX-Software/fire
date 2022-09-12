@@ -52,5 +52,10 @@ void Data<ldmx::EventHeader>::save(Writer& w) {
   for (auto& m : members_) m->save(w);
 }
 
+void Data<ldmx::EventHeader>::done(Writer& w) {
+  f.setTypeName(this->path_, this->type_);
+  for (auto& m : members_) m->done(f);
+}
+
 }
 #endif

@@ -96,9 +96,12 @@ void Event::setInputFile(io::Reader* r) {
   // search through file and import the available objects that are there
   available_objects_.clear();
   known_lookups_.clear();
-  for (const auto& obj : input_file_->availableObjects()) {
-    available_objects_.emplace_back(obj, 
-        keep(fullName(obj[0],obj[1]), READ_KEEP_DEFAULT));
+  for (const auto& [name, pass] : input_file_->availableObjects()) {
+    std::string full_name{fullName(name, pass)};
+    auto [ type, vers ] = input_file_->type(full_name);
+    available_objects_.emplace_back(
+        name, pass, type, vers,
+        keep(full_name, READ_KEEP_DEFAULT));
   }
 }
 
