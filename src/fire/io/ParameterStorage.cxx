@@ -61,6 +61,9 @@ void Data<ParameterStorage>::save(Writer& w) {
 }
 
 void Data<ParameterStorage>::done(Writer& w) {
+  // if parameters is empty, then we didn't write anything
+  if (parameters_.size() == 0) return;
+
   w.setTypeName(this->path_, this->type_);
   for (auto& [_, val] : parameters_) {
     val->done(w);
