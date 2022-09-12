@@ -191,6 +191,21 @@ BOOST_AUTO_TEST_CASE(write) {
     BOOST_CHECK(save(map_cluster_ds,map_clusters,f));
   }
 
+  event_header.done(f);
+  double_ds.done(f);
+  int_ds.done(f);
+  bool_ds.done(f);
+  vector_double_ds.done(f);
+  vector_int_ds.done(f);
+  map_int_double_ds.done(f);
+  hit_ds.done(f);
+  vector_hit_ds.done(f);
+  special_hit_ds.done(f);
+  vector_special_hit_ds.done(f);
+  cluster_ds.done(f);
+  vector_cluster_ds.done(f);
+  map_cluster_ds.done(f);
+
   // reader requires at least one run so that it can deduced
   // the number of runs upon construction
   fire::io::Data<fire::RunHeader> rh_d(fire::io::constants::RUN_HEADER_NAME);
