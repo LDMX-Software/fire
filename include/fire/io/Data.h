@@ -405,7 +405,7 @@ class Data<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
   }
 
   void done(Writer& f) final override {
-    f.save(this->path_, this->type_);
+    f.setTypeName(this->path_, this->type_);
   }
 };  // Data<AtomicType>
 
