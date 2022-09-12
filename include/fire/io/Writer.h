@@ -63,6 +63,23 @@ class Writer {
       std::optional<int> version = std::nullopt);
 
   /**
+   * Persist the structure of the event object at the input path
+   *
+   * The "structure" is simply the type and the type's version at
+   * the correct location within the EVENT_GROUP.
+   *
+   * @note The save method creates the DataSets so this method
+   * should only be called on levels of the hierarchy that DO NOT
+   * correspond to HDF5 data sets.
+   *
+   * @param[in] full_obj_name event object name including pass
+   * @param[in] type demangled type name of object
+   * @param[in] version version number of type
+   */
+  void structure(const std::string& full_obj_name, const std::string& type, 
+                 int version);
+
+  /**
    * Get the number of entries in the file
    */
   inline std::size_t entries() const { return entries_; }
@@ -101,6 +118,9 @@ class Writer {
       } else {
         t = HighFive::AtomicType<AtomicType>();
       }
+      auto ds = file_->createDataSet(path, space_, t, create_props_);
+      ds.createAttribute(constants::TYPE_ATTR_NAME, boost::core::demangled(typeid(AtomicType).name()));
+      ds.createAttribute(constants::VERS_ATTR_NAME, -1);
       buffers_.emplace(
           path, std::make_unique<Buffer<AtomicType>>(
                     rows_per_chunk_,

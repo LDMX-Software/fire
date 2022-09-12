@@ -272,16 +272,16 @@ class Event {
       //   they are new and not from an input file
       auto& obj{objects_[full_name]};
       obj.data_ = std::make_unique<io::Data<DataType>>(io::constants::EVENT_GROUP+"/"+full_name);
-      obj.data_->setVersion(tag.version());
       obj.should_save_ = tag.keep_;
       obj.should_load_ = false;
       obj.updated_ = false;
 
-      // if we are saving this object, we should save the default value for all entries
-      // up to this one. This (along with 'clearing' at the end of each event) 
+      // if we are saving this object, we should save the structure and the default value 
+      // for all entries up to this one. This (along with 'clearing' at the end of each event) 
       // allows users to asyncronously add event objects and the events without an 'add'
       // have a 'default' or 'cleared' object value.
       if (obj.should_save_) {
+        obj.data_->structure(output_file_);
         obj.data_->clear();
         for (std::size_t i{0}; i < i_entry_; i++)
           obj.data_->save(output_file_);
@@ -410,6 +410,11 @@ class Event {
       //    loading may throw an H5 error if the shape of the data on disk
       //    cannot be loaded into the input type
       try {
+        // copy structure into output file if this object should be saved
+        if (i_entry_ == 1 and obj.should_save_) {
+          obj.data_->structure(output_file_);
+        }
+        
         if (not obj.should_save_ or not input_file_->canCopy()) {
           // only skip the first i_entry_ entries if the input file cannot copy
           // or the object is not being saved

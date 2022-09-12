@@ -316,9 +316,9 @@ class Data : public AbstractData<DataType> {
     for (auto& m : members_) m->save(f);
   }
 
-  void done(Writer& f) final override {
-    f.setTypeName(this->path_, this->type_, this->version_);
-    for (auto& m : members_) m->done(f);
+  void structure(Writer& f) final override {
+    f.structure(this->path_, this->type_, this->version_);
+    for (auto& m : members_) m->structure(f);
   }
 
   /**
@@ -404,8 +404,9 @@ class Data<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
     f.save(this->path_, *(this->handle_));
   }
 
-  void done(Writer& f) final override {
-    f.setTypeName(this->path_, this->type_);
+  void structure(Writer& f) final override {
+    // atomic types get translated into H5 DataSets
+    // in save so we purposefully DO NOTHING here
   }
 };  // Data<AtomicType>
 
@@ -423,6 +424,8 @@ class Data<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
 template <typename ContentType>
 class Data<std::vector<ContentType>>
     : public AbstractData<std::vector<ContentType>> {
+  /// the version of serialization of this container type
+  using version = std::integral_constant<int,0>;
  public:
   /**
    * We create two child data sets, one to hold the successive sizes of the
@@ -483,10 +486,10 @@ class Data<std::vector<ContentType>>
     }
   }
 
-  void done(Writer& f) final override {
-    f.setTypeName(this->path_, this->type_);
-    size_.done(f);
-    data_.done(f);
+  void structure(Writer& f) final override {
+    f.structure(this->path_, this->type_, this->version_);
+    size_.structure(f);
+    data_.structure(f);
   }
 
  private:
@@ -574,11 +577,11 @@ class Data<std::map<KeyType,ValType>>
     }
   }
 
-  void done(Writer& f) final override {
-    f.setTypeName(this->path_, this->type_);
-    size_.done(f);
-    keys_.done(f);
-    vals_.done(f);
+  void structure(Writer& f) final override {
+    f.structure(this->path_, this->type_, this->version_);
+    size_.structure(f);
+    keys_.structure(f);
+    vals_.structure(f);
   }
 
  private:
@@ -591,6 +594,6 @@ class Data<std::map<KeyType,ValType>>
 };  // Data<std::map>
 
 }  // namespace fire::io
-
+  
 #endif  // FIRE_H5_DATASET_H
 

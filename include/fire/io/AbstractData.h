@@ -63,52 +63,22 @@ class BaseData {
   virtual void save(Writer& f) = 0;
 
   /**
-   * processing is done and we should persist our hierarchy
+   * we should persist our hierarchy
    * into the output file
    *
    * @param[in] f Writer to write to
    */
-  virtual void done(Writer& f) = 0;
+  virtual void structure(Writer& f) = 0;
 
   /**
    * pure virtual method for resetting the current data to a blank state
    */
   virtual void clear() = 0;
 
-  /**
-   * Get the version number for this class
-   */
-  int version() const {
-    return version_;
-  }
-
-  /**
-   * Set the version number for this class
-   *
-   * This is **needs** to be set by the downstream class
-   * when initializing the read connection **before** any
-   * calls to load are made so that all calls to load are
-   * made with the correct version number
-   */
-  void setVersion(const int& v) {
-    version_ = v;
-  }
-
  protected:
   /// path of data set
   std::string path_;
 
-  /**
-   * the version of the user class (if this Data is a user class)
-   *
-   * A negative version number means that the data held by this instance
-   * is not being tracked by the user (e.g. atomic types, containers,
-   * and strings).
-   *
-   * This number is set by Event when reading and otherwise is deduced
-   * by template specialization nonsense.
-   */
-  int version_{-1};
 };
 
 /**
@@ -148,6 +118,7 @@ class AbstractData : public BaseData {
       handle_ = handle;
     }
     type_ = boost::core::demangle(typeid(DataType).name());
+    version_ = class_version<DataType>;
   }
 
   /**
@@ -184,10 +155,10 @@ class AbstractData : public BaseData {
   virtual void save(Writer& f) = 0;
 
   /**
-   * pure virtual method for closing up processing and saving structure
+   * pure virtual method for saving structure
    * @param[in] f Writer to write to
    */
-  virtual void done(Writer& f) = 0;
+  virtual void structure(Writer& f) = 0;
 
   /**
    * Define the clear function here to handle the most common cases.
@@ -259,6 +230,15 @@ class AbstractData : public BaseData {
  protected:
   /// name of type this data is holding
   std::string type_;
+
+  /**
+   * the version of the user class (if this Data is a user class)
+   *
+   * This number is set by Event when reading and otherwise is deduced
+   * by template specialization nonsense.
+   */
+  int version_{class_version<DataType>};
+
   /// handle on current object in memory
   DataType* handle_;
   /// we own the object in memory
