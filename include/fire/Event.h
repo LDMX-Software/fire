@@ -5,6 +5,7 @@
 #include <boost/core/demangle.hpp>
 
 #include "fire/io/Data.h"
+#include "fire/io/ClassVersion.h"
 #include "fire/EventHeader.h"
 
 namespace fire {
@@ -255,7 +256,7 @@ class Event {
       }
       auto& tag{available_objects_.emplace_back(name, pass_,
                   boost::core::demangle(typeid(DataType).name()),
-                  1, // INSERT TEMPLATE DEDUCTION NONSENSE HERE
+                  io::class_version<DataType>,
                   keep(full_name, ADD_KEEP_DEFAULT))};
       tag.loaded_ = true;
 
