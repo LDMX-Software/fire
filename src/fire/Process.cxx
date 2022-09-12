@@ -114,6 +114,7 @@ void Process::run() {
     try {
       io::Data<RunHeader> write_d{RunHeader::NAME, run_header_};
       write_d.save(output_file_);
+      write_d.done(output_file_);
     } catch (const HighFive::Exception&) {
       throw Exception("RunWrite","Unable to write RunHeader to output file "
           +output_file_.name());
@@ -197,6 +198,7 @@ void Process::run() {
         write_d.update(rh);
         write_d.save(output_file_);
       }
+      write_d.done(output_file_);
     } catch (const HighFive::Exception& ) {
       throw Exception("RunWrite","Unable to write run headers to output file "
           +output_file_.name());

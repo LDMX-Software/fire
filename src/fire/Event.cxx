@@ -117,6 +117,9 @@ void Event::done() {
     }
   }
 
+  // persist event header structure
+  objects_[EventHeader::NAME].data_->done(output_file_);
+
   // make sure writer is flushed
   output_file_.flush();
 }
