@@ -111,18 +111,6 @@ void Event::next() {
 }
 
 void Event::done() {
-  // copy type traits into output as attributes
-  for (const EventObjectTag& p : available_objects_) {
-    auto fn = fullName(p.name(), p.pass());
-    if (objects_.find(fn) != objects_.end() and objects_.at(fn).should_save_) {
-      // this product has been written to output file so we tell it we are done
-      objects_.at(fn).data_->done(output_file_);
-    }
-  }
-
-  // persist event header structure
-  objects_[EventHeader::NAME].data_->done(output_file_);
-
   // make sure writer is flushed
   output_file_.flush();
 }
