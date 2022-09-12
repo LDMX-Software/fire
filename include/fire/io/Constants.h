@@ -23,9 +23,9 @@ struct constants {
   /// the name of the group holding the run headers
   inline static const std::string RUN_HEADER_NAME = "runs";
   /// the name of the HDF5 object attribute that holds the event object type
-  inline static const std::string TYPE_ATTR_NAME = "type";
+  inline static const std::string TYPE_ATTR_NAME = "__type__";
   /// the name of the fire version attribute
-  inline static const std::string VERS_ATTR_NAME = "version";
+  inline static const std::string VERS_ATTR_NAME = "__version__";
   /// the name of the size dataset for variable types
   inline static const std::string SIZE_NAME = "__size__";
 };
