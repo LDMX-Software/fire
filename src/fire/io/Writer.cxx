@@ -37,11 +37,16 @@ void Writer::flush() {
 
 const std::string& Writer::name() const { return file_->getName(); }
 
-void Writer::setTypeName(const std::string& full_path, const std::string& type) { 
+void Writer::setTypeName(const std::string& full_path, const std::string& type, 
+    std::optional<int> version) { 
   if (file_->getObjectType(full_path) == HighFive::ObjectType::Dataset) {
-    file_->getDataSet(full_path).createAttribute(constants::TYPE_ATTR_NAME, type);
+    auto ds{file_->getDataSet(full_path)};
+    ds.createAttribute(constants::TYPE_ATTR_NAME, type);
+    if (version) ds.createAttribute(constants::VERS_ATTR_NAME, version.value());
   } else {
-    file_->getGroup(full_path).createAttribute(constants::TYPE_ATTR_NAME, type);
+    auto gr{file_->getGroup(full_path)};
+    gr.createAttribute(constants::TYPE_ATTR_NAME, type);
+    if (version) gr.createAttribute(constants::VERS_ATTR_NAME, version.value());
   }
 }
 

@@ -57,8 +57,10 @@ class Writer {
    *
    * @param[in] full_obj_name event object name including pass
    * @param[in] type demangled type name of object
+   * @param[in] version (optional) version number of type
    */
-  void setTypeName(const std::string& full_obj_name, const std::string& type);
+  void setTypeName(const std::string& full_obj_name, const std::string& type, 
+      std::optional<int> version = std::nullopt);
 
   /**
    * Get the number of entries in the file

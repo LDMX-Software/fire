@@ -56,13 +56,14 @@ class Reader : public ::fire::io::Reader {
    * type names, object name, and pass name. We skip the branch named
    * "EventHeader" to achieve the same behavior as h5::Reader.
    *
-   * @note Arithmetic types (bool, short, int, long, float, double - BSILFD)
-   * do not have a handle for getting the type name, so I just use the
-   * acronym 'BSILFD'.
-   *
-   * @return vector of 3 string arrays `{ obj_name, pass, type }`
+   * @return vector of string pairs `{ obj_name, pass }`
    */
-  virtual std::vector<std::array<std::string,3>> availableObjects() final override;
+  virtual std::vector<std::pair<std::string,std::string>> availableObjects() final override;
+
+  /**
+   * Get the type of the input object
+   */
+  virtual std::pair<std::string, int> type(const std::string& full_obj_name) final override;
 
   /**
    * Get the name of the file

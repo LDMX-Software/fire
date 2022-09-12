@@ -317,7 +317,7 @@ class Data : public AbstractData<DataType> {
   }
 
   void done(Writer& f) final override {
-    f.setTypeName(this->path_, this->type_);
+    f.setTypeName(this->path_, this->type_, this->version_);
     for (auto& m : members_) m->done(f);
   }
 

@@ -64,12 +64,26 @@ class Reader : public ::fire::io::Reader {
    *
    * We crawl the internal directory structure of the file we have open.
    *
-   * @see getTypeName for how we get the name of the class that was used
+   * @see type for how we get the name of the class that was used
    * to write the data
    *
-   * @return vector of 3 string arrays `{ obj_name, pass, type }`
+   * @return vector of string pairs `{ obj_name, pass }`
    */
-  virtual std::vector<std::array<std::string,3>> availableObjects() final override;
+  virtual std::vector<std::pair<std::string,std::string>> availableObjects() final override;
+
+  /**
+   * Get the type of the input object
+   *
+   * We retrieve the attributes named TYPE_ATTR_NAME and VERS_ATTR_NAME 
+   * from the group located at EVENT_GROUP/obj_name. This enables us to 
+   * construct the list of products within an inputfile in Event::setInputFile.
+   *
+   * @see io::Writer::setTypeName for where the type attr is set
+   *
+   * @param[in] obj_name Name of event object to retrieve type of
+   * @return demangled type name in string format and its version number
+   */
+  virtual std::pair<std::string,int> type(const std::string& full_obj_name) final override;
 
   /**
    * Get the name of this file

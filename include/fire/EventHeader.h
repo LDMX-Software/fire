@@ -301,6 +301,12 @@ class Data<ldmx::EventHeader> : public AbstractData<ldmx::EventHeader> {
   void save(Writer& w) final override;
 
   /**
+   * copied from general Data class
+   * @param[in] w Writer to write to
+   */
+  void done(Writer& w) final override;
+
+  /**
    * Attach a member object from the our data handle
    *
    * We create a new child Data so that we can recursively

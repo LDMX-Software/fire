@@ -40,28 +40,34 @@ void Reader::load_into(BaseData& d) {
   d.load(*this);
 }
 
-std::vector<std::array<std::string,3>> Reader::availableObjects() {
-  std::vector<std::array<std::string,3>> objs;
+std::vector<std::pair<std::string,std::string>> Reader::availableObjects() {
+  std::vector<std::pair<std::string,std::string>> objs;
   // find the names of all the existing branches
   TObjArray* branches = event_tree_->GetListOfBranches();
   for (int i = 0; i < branches->GetEntriesFast(); i++) {
     std::string brname = branches->At(i)->GetName();
     if (brname != "EventHeader") {
       size_t j = brname.find("_");
-      auto br = dynamic_cast<TBranchElement*>(branches->At(i));
-      // can't determine type if branch isn't
-      //  the higher-level TBranchElement type
-      // Only occurs if the type on the bus is one of:
-      //  bool, short, int, long, float, double (BSILFD)
-      std::array<std::string,3> obj = {
-          brname.substr(0, j),   // object name is before '_'
-          brname.substr(j + 1),  // pass name is after
-          br ? br->GetClassName() : "BSILFD"
-          };
-      objs.push_back(obj);
+      objs.emplace_back(brname.substr(0,j),brname.substr(j+1));
     }
   }
   return objs;
+}
+
+std::pair<std::string,int> Reader::type(const std::string& full_obj_name) {
+  auto br = event_tree_->GetBranch(transform(full_obj_name));
+  std::string type;
+  int vers{0};
+  if (auto bre = dynamic_cast<TBranchElement*>(br)) {
+    type = br->GetClassName();
+    vers = br->GetClass()->GetClassVersion();
+  } else {
+    if (br->GetListOfLeaves()->GetEntries() > 0) {
+      auto leaf{(TLeaf*)br->GetListOfLeaves()->At(0)};
+      type = leaf->GetTypeName();
+    }
+    vers = -1;
+  }
 }
 
 std::string Reader::name() const {
