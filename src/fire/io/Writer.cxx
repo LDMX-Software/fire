@@ -37,9 +37,7 @@ void Writer::flush() {
 
 const std::string& Writer::name() const { return file_->getName(); }
 
-void Writer::setTypeName(const std::string& full_obj_name, const std::string& type) { 
-  std::string full_path = constants::EVENT_GROUP+"/"+full_obj_name;
-  // if full_path goes to a dataset
+void Writer::setTypeName(const std::string& full_path, const std::string& type) { 
   if (file_->getObjectType(full_path) == HighFive::ObjectType::Dataset) {
     file_->getDataSet(full_path).createAttribute(constants::TYPE_ATTR_NAME, type);
   } else {
