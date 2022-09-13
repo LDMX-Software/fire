@@ -38,17 +38,6 @@ HighFive::ObjectType Reader::getH5ObjectType(const std::string& path) const {
   return file_.getObjectType(path);
 }
 
-std::string Reader::getTypeName(const std::string& full_obj_name) const {
-  std::string path = constants::EVENT_GROUP + "/" + full_obj_name;
-  HighFive::Attribute attr = 
-    getH5ObjectType(path) == HighFive::ObjectType::Dataset
-          ? file_.getDataSet(path).getAttribute(constants::TYPE_ATTR_NAME)
-          : file_.getGroup(path).getAttribute(constants::TYPE_ATTR_NAME);
-  std::string type;
-  attr.read(type);
-  return type;
-}
-
 std::vector<std::pair<std::string,std::string>> Reader::availableObjects() {
   std::vector<std::pair<std::string,std::string>> objs;
   std::vector<std::string> passes = list(io::constants::EVENT_GROUP);
@@ -64,8 +53,7 @@ std::vector<std::pair<std::string,std::string>> Reader::availableObjects() {
   return objs;
 }
 
-std::pair<std::string,int> Reader::type(const std::string& full_obj_name) {
-  std::string path = constants::EVENT_GROUP + "/" + full_obj_name;
+std::pair<std::string,int> Reader::type(const std::string& path) {
   HighFive::Attribute type_attr = 
     getH5ObjectType(path) == HighFive::ObjectType::Dataset
           ? file_.getDataSet(path).getAttribute(constants::TYPE_ATTR_NAME)

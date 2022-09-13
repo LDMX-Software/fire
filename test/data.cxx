@@ -146,6 +146,21 @@ BOOST_AUTO_TEST_CASE(write) {
   fire::io::Data<std::vector<Cluster>> vector_cluster_ds("vector_cluster");
   fire::io::Data<std::map<int,Cluster>> map_cluster_ds("map_cluster");
 
+  event_header.structure(f);
+  double_ds.structure(f);
+  int_ds.structure(f);
+  bool_ds.structure(f);
+  vector_double_ds.structure(f);
+  vector_int_ds.structure(f);
+  map_int_double_ds.structure(f);
+  hit_ds.structure(f);
+  vector_hit_ds.structure(f);
+  special_hit_ds.structure(f);
+  vector_special_hit_ds.structure(f);
+  cluster_ds.structure(f);
+  vector_cluster_ds.structure(f);
+  map_cluster_ds.structure(f);
+
   for (std::size_t i_entry{0}; i_entry < doubles.size(); i_entry++) {
     eh.setEventNumber(i_entry);
     // check dynamic parameters
@@ -190,21 +205,6 @@ BOOST_AUTO_TEST_CASE(write) {
     };
     BOOST_CHECK(save(map_cluster_ds,map_clusters,f));
   }
-
-  event_header.done(f);
-  double_ds.done(f);
-  int_ds.done(f);
-  bool_ds.done(f);
-  vector_double_ds.done(f);
-  vector_int_ds.done(f);
-  map_int_double_ds.done(f);
-  hit_ds.done(f);
-  vector_hit_ds.done(f);
-  special_hit_ds.done(f);
-  vector_special_hit_ds.done(f);
-  cluster_ds.done(f);
-  vector_cluster_ds.done(f);
-  map_cluster_ds.done(f);
 
   // reader requires at least one run so that it can deduced
   // the number of runs upon construction
@@ -276,6 +276,21 @@ BOOST_AUTO_TEST_CASE(read, *boost::unit_test::depends_on("data/copy")) {
   fire::io::Data<Cluster> cluster_ds("cluster");
   fire::io::Data<std::vector<Cluster>> vector_cluster_ds("vector_cluster");
   fire::io::Data<std::map<int,Cluster>> map_cluster_ds("map_cluster");
+
+  event_header.loadVersion(f);
+  double_ds.loadVersion(f);
+  int_ds.loadVersion(f);
+  bool_ds.loadVersion(f);
+  vector_double_ds.loadVersion(f);
+  vector_int_ds.loadVersion(f);
+  map_int_double_ds.loadVersion(f);
+  hit_ds.loadVersion(f);
+  vector_hit_ds.loadVersion(f);
+  special_hit_ds.loadVersion(f);
+  vector_special_hit_ds.loadVersion(f);
+  cluster_ds.loadVersion(f);
+  vector_cluster_ds.loadVersion(f);
+  map_cluster_ds.loadVersion(f);
 
   for (std::size_t i_entry{0}; i_entry < doubles.size(); i_entry++) {
     event_header.load(f);

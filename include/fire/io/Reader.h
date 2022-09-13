@@ -82,10 +82,10 @@ class Reader {
   virtual std::vector<std::pair<std::string,std::string>> availableObjects() = 0;
 
   /**
-   * Get the type of the input event object
+   * Get the type of the input object
    * @return pair of string type of input full object name and its version
    */
-  virtual std::pair<std::string,int> type(const std::string& full_obj_name) = 0;
+  virtual std::pair<std::string,int> type(const std::string& path) = 0;
 
   /**
    * Event::get needs to know if the reader implements a copy that advances

@@ -63,7 +63,7 @@ class Reader : public ::fire::io::Reader {
   /**
    * Get the type of the input object
    */
-  virtual std::pair<std::string, int> type(const std::string& full_obj_name) final override;
+  virtual std::pair<std::string, int> type(const std::string& path) final override;
 
   /**
    * Get the name of the file

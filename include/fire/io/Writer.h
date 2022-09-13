@@ -6,6 +6,7 @@
 
 #include "fire/config/Parameters.h"
 #include "fire/io/Atomic.h"
+#include "fire/io/Constants.h"
 
 namespace fire::io {
 
@@ -45,24 +46,6 @@ class Writer {
   const std::string& name() const;
 
   /**
-   * Set the name of the type stored in this Group (or DataSet if atomic)
-   *
-   * We look for the HDF5 object (DataSet or Group) at
-   *  constants::EVENT_GROUP/full_obj_name
-   * and then create an attribute for that object named
-   *  constants::TYPE_ATTR_NAME
-   * with the input value for the type.
-   *
-   * @throws HighFive::FileException if object doesn't exist
-   *
-   * @param[in] full_obj_name event object name including pass
-   * @param[in] type demangled type name of object
-   * @param[in] version (optional) version number of type
-   */
-  void setTypeName(const std::string& full_obj_name, const std::string& type, 
-      std::optional<int> version = std::nullopt);
-
-  /**
    * Persist the structure of the event object at the input path
    *
    * The "structure" is simply the type and the type's version at
@@ -72,11 +55,11 @@ class Writer {
    * should only be called on levels of the hierarchy that DO NOT
    * correspond to HDF5 data sets.
    *
-   * @param[in] full_obj_name event object name including pass
+   * @param[in] path full path to the group
    * @param[in] type demangled type name of object
    * @param[in] version version number of type
    */
-  void structure(const std::string& full_obj_name, const std::string& type, 
+  void structure(const std::string& path, const std::string& type, 
                  int version);
 
   /**
@@ -119,7 +102,7 @@ class Writer {
         t = HighFive::AtomicType<AtomicType>();
       }
       auto ds = file_->createDataSet(path, space_, t, create_props_);
-      ds.createAttribute(constants::TYPE_ATTR_NAME, boost::core::demangled(typeid(AtomicType).name()));
+      ds.createAttribute(constants::TYPE_ATTR_NAME, boost::core::demangle(typeid(AtomicType).name()));
       ds.createAttribute(constants::VERS_ATTR_NAME, -1);
       buffers_.emplace(
           path, std::make_unique<Buffer<AtomicType>>(
