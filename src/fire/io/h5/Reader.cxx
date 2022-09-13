@@ -72,11 +72,33 @@ std::pair<std::string,int> Reader::type(const std::string& path) {
   return std::make_pair(type,vers);
 }
 
-void Reader::copy(unsigned int long i_entry, const std::string& path, Writer& output) {
+void Reader::mirror(const std::string& path, Writer& output) {
+  auto [type, vers] = this->type(path);
+  output.structure(path, type, vers);
+  for (auto& subgrp : this->list(path)) {
+    std::string full_path{path+"/"+subgrp};
+    if (getH5ObjectType(full_path) == HighFive::ObjectType::Group)
+      mirror(full_path, output);
+  }
+}
 
-  // this is where recursing into the subgroups of full_name occurs
-  // if this mirror object hasn't been created yet
+void Reader::copy(unsigned int long i_entry, const std::string& path, Writer& output) {
   if (mirror_objects_.find(path) == mirror_objects_.end()) {
+    /**
+     * this is where recursing into the subgroups of full_name occurs 
+     * if this mirror object hasn't been created yet
+     *
+     * If a mirror object is being created that means the event object
+     * satisfies the following:
+     * 1. The event object exists in the input file
+     * 2. The event object should be written to the output file
+     * 3. The event object HAS NOT been accessed during the processing
+     *    of this input file yet
+     *
+     * This means we should copy over the structure of this event object
+     * from the input file into the output file.
+     */
+    mirror(path, output);
     mirror_objects_.emplace(std::make_pair(path,
           std::make_unique<MirrorObject>(path, *this)));
   }

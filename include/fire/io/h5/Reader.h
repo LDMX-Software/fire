@@ -212,6 +212,15 @@ class Reader : public ::fire::io::Reader {
 
  private:
   /**
+   * Mirror the structure of the passed path from us into the output file
+   *
+   * @param[in] path path to the group (and potential subgroups) to mirror
+   * @param[in] output output file to mirror this structure to
+   */
+  void mirror(const std::string& path, Writer& output);
+
+ private:
+  /**
    * Type-less handle to the Buffer
    *
    * This base class allows us to hold the DataSet being
