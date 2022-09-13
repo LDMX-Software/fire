@@ -123,7 +123,14 @@ class Reader : public ::fire::io::Reader {
       if (branch_name == "RunHeader") tree = run_tree_;
       attached_[branch_name] = attach(tree,branch_name,obj);
     }
-    attached_[branch_name]->GetEntry(attached_[branch_name]->GetReadEntry()+1);
+    if (attached_[branch_name]->GetEntry(attached_[branch_name]->GetReadEntry()+1) < 0) {
+      throw Exception("BadType",
+          "ROOT was unable to deserialize the branch "+branch_name
+          +" into the passed type "
+          +boost::core::demangle(typeid(DataType).name())
+          +".\n  This error is usually caused by not providing the correct"
+          " ROOT dictionary for the type you are attempting to read.",false);
+    }
   }
 
   /// no copy constructor of readers
