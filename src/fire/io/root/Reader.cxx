@@ -56,7 +56,17 @@ std::vector<std::pair<std::string,std::string>> Reader::availableObjects() {
 }
 
 std::pair<std::string,int> Reader::type(const std::string& path) {
-  auto br = event_tree_->GetBranch(transform(path).c_str());
+  std::string branch_name;
+  try {
+    branch_name = transform(path);
+  } catch (const Exception& e) {
+    // silence exception but return undefined pair
+    return std::make_pair("",-1);
+  }
+  TTree* tree{event_tree_};
+  if (branch_name == "RunHeader") tree = run_tree_;
+  auto br = tree->GetBranch(branch_name.c_str());
+  if (not br) return std::make_pair("",-1);
   std::string type;
   int vers{0};
   if (auto bre = dynamic_cast<TBranchElement*>(br)) {

@@ -246,7 +246,7 @@ AbstractData<DataType>::AbstractData(const std::string& path, Reader* input_file
   type_ = boost::core::demangle(typeid(DataType).name());
   if (input_file) {
     auto [t, v] = input_file->type(path);
-    version_ = v;
+    version_ = (v < 0) ? class_version<DataType> : v;
   } else {
     version_ = class_version<DataType>;
   }
