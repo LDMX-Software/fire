@@ -376,7 +376,7 @@ class Event {
       if (not input_file_) {
         throw Exception("Miss",
             "Data " + full_name + " was not created by an earlier processor "
-            "and there is not input file to attempt to read it from.");
+            "and there is no input file to attempt to read it from.");
       }
       
       // when setting up the in-memory object, we need to find the tag so we can
@@ -400,8 +400,8 @@ class Event {
       // - we mark these objects as should_load == false because
       //   they are new and not from an input file
       auto& obj{objects_[full_name]};
-      obj.data_ = std::make_unique<io::Data<DataType>>(io::constants::EVENT_GROUP+"/"+full_name);
-      obj.data_->loadVersion(*input_file_);
+      obj.data_ = std::make_unique<io::Data<DataType>>(io::constants::EVENT_GROUP+"/"+full_name, 
+          input_file_);
       obj.should_save_ = tag_it->keep();
       obj.should_load_ = true;
       obj.updated_ = false;

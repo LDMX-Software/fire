@@ -42,12 +42,6 @@ class BaseData {
   virtual ~BaseData() = default;
 
   /**
-   * Load version of our path from the input file
-   * @param[in] f h5::Reader to load from
-   */
-  virtual void loadVersion(Reader& f) = 0;
-
-  /**
    * pure virtual method for loading data from the input file
    *
    * @param[in] f h5::Reader to load from
@@ -118,16 +112,8 @@ class AbstractData : public BaseData {
    * @param[in] path full in-file path to the data set
    * @param[in] handle address of object already created (optional)
    */
-  explicit AbstractData(const std::string& path, DataType* handle = nullptr)
-      : BaseData(path), owner_{handle == nullptr} {
-    if (owner_) {
-      handle_ = new DataType;
-    } else {
-      handle_ = handle;
-    }
-    type_ = boost::core::demangle(typeid(DataType).name());
-    version_ = class_version<DataType>;
-  }
+  explicit AbstractData(const std::string& path, Reader* input_file = nullptr, 
+      DataType* handle = nullptr);
 
   /**
    * Delete our object if we own it, otherwise do nothing.
@@ -138,12 +124,6 @@ class AbstractData : public BaseData {
   virtual ~AbstractData() {
     if (owner_) delete handle_;
   }
-
-  /**
-   * Load version of our path from the input file
-   * @param[in] f h5::Reader to load from
-   */
-  virtual void loadVersion(Reader& f) = 0;
 
   /**
    * pure virtual method for loading data 

@@ -234,6 +234,23 @@
  */
 namespace fire::io {
 
+template <typename DataType>
+AbstractData<DataType>::AbstractData(const std::string& path, Reader* input_file, DataType* handle)
+  : BaseData(path), owner_{handle == nullptr} {
+  if (owner_) {
+    handle_ = new DataType;
+  } else {
+    handle_ = handle;
+  }
+  type_ = boost::core::demangle(typeid(DataType).name());
+  if (input_file) {
+    auto [t, v] = input_file->type(path);
+    version_ = v;
+  } else {
+    version_ = class_version<DataType>;
+  }
+}
+
 /**
  * General data set
  *
@@ -281,25 +298,9 @@ class Data : public AbstractData<DataType> {
    * @param[in] path full in-file path to the data set for this data
    * @param[in] handle address of object already created (optional)
    */
-  explicit Data(const std::string& path, DataType* handle = nullptr)
-      : AbstractData<DataType>(path, handle) {
+  explicit Data(const std::string& path, Reader* input_file = nullptr, DataType* handle = nullptr)
+      : AbstractData<DataType>(path, input_file, handle), input_file_{input_file} {
     this->handle_->attach(*this);
-  }
-
-  /**
-   * Read the type version of the data stored at this path
-   * and then call the children members to do the same
-   *
-   * We ignore the persisted type. That is merely there to assist
-   * the user in debugging errors if attempting to read an event
-   * object that was written as a different type.
-   *
-   * @param[in] f file to load from
-   */
-  void loadVersion(Reader& f) final override {
-    auto [ _type, vers ] = f.type(this->path_);
-    this->version_ = vers;
-    for (auto& m : members_) m->loadVersion(f);
   }
 
   /**
@@ -357,12 +358,14 @@ class Data : public AbstractData<DataType> {
           "your class", false);
     }
     members_.push_back(
-        std::make_unique<Data<MemberType>>(this->path_ + "/" + name, &m));
+        std::make_unique<Data<MemberType>>(this->path_ + "/" + name, input_file_, &m));
   }
 
  private:
   /// list of members in this dataset
   std::vector<std::unique_ptr<BaseData>> members_;
+  /// pointer to the input file (if there is one)
+  Reader* input_file_;
 };  // Data
 
 /**
@@ -384,23 +387,8 @@ class Data<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
    * @param[in] path full in-file path to set holding this data
    * @param[in] handle pointer to already constructed data object (optional)
    */
-  explicit Data(const std::string& path, AtomicType* handle = nullptr)
-      : AbstractData<AtomicType>(path, handle) {}
-
-  /**
-   * Read the type version of the data stored at this path
-   * and then call the children members to do the same
-   *
-   * We ignore the persisted type. That is merely there to assist
-   * the user in debugging errors if attempting to read an event
-   * object that was written as a different type.
-   *
-   * @param[in] f file to load from
-   */
-  void loadVersion(Reader& f) final override {
-    auto [ _type, vers ] = f.type(this->path_);
-    this->version_ = vers;
-  }
+  explicit Data(const std::string& path, Reader* input_file = nullptr, AtomicType* handle = nullptr)
+      : AbstractData<AtomicType>(path, input_file, handle) {}
 
   /**
    * Down to a type that h5::Reader can handle.
@@ -466,27 +454,11 @@ class Data<std::vector<ContentType>>
    * @param[in] path full in-file path to set holding this data
    * @param[in] handle pointer to object already constructed (optional)
    */
-  explicit Data(const std::string& path, std::vector<ContentType>* handle = nullptr)
-      : AbstractData<std::vector<ContentType>>(path, handle),
-        size_{path + "/" + constants::SIZE_NAME},
-        data_{path + "/data"} {}
-
-  /**
-   * Read the type version of the data stored at this path
-   * and then call the children members to do the same
-   *
-   * We ignore the persisted type. That is merely there to assist
-   * the user in debugging errors if attempting to read an event
-   * object that was written as a different type.
-   *
-   * @param[in] f file to load from
-   */
-  void loadVersion(Reader& f) final override {
-    auto [ _type, vers ] = f.type(this->path_);
-    this->version_ = vers;
-    size_.loadVersion(f);
-    data_.loadVersion(f);
-  }
+  explicit Data(const std::string& path, Reader* input_file = nullptr, 
+      std::vector<ContentType>* handle = nullptr)
+      : AbstractData<std::vector<ContentType>>(path, input_file, handle),
+        size_{path + "/" + constants::SIZE_NAME, input_file},
+        data_{path + "/data", input_file} {}
 
   /**
    * Load a vector from the input file
@@ -571,29 +543,12 @@ class Data<std::map<KeyType,ValType>>
    * @param[in] path full in-file path to set holding this data
    * @param[in] handle pointer to object already constructed (optional)
    */
-  explicit Data(const std::string& path, std::map<KeyType,ValType>* handle = nullptr)
-      : AbstractData<std::map<KeyType,ValType>>(path, handle),
-        size_{path + "/" + constants::SIZE_NAME},
-        keys_{path + "/keys"},
-        vals_{path + "/vals"} {}
-
-  /**
-   * Read the type version of the data stored at this path
-   * and then call the children members to do the same
-   *
-   * We ignore the persisted type. That is merely there to assist
-   * the user in debugging errors if attempting to read an event
-   * object that was written as a different type.
-   *
-   * @param[in] f file to load from
-   */
-  void loadVersion(Reader& f) final override {
-    auto [ _type, vers ] = f.type(this->path_);
-    this->version_ = vers;
-    size_.loadVersion(f);
-    keys_.loadVersion(f);
-    vals_.loadVersion(f);
-  }
+  explicit Data(const std::string& path, Reader* input_file = nullptr, 
+      std::map<KeyType,ValType>* handle = nullptr)
+      : AbstractData<std::map<KeyType,ValType>>(path, input_file, handle),
+        size_{path + "/" + constants::SIZE_NAME, input_file},
+        keys_{path + "/keys", input_file},
+        vals_{path + "/vals", input_file} {}
 
   /**
    * Load a map from the input file

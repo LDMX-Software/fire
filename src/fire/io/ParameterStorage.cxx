@@ -15,8 +15,8 @@ void ParameterStorage::clear() {
   }
 }
 
-Data<ParameterStorage>::Data(const std::string& path, ParameterStorage* handle)
-    : AbstractData<ParameterStorage>(path, handle) {}
+Data<ParameterStorage>::Data(const std::string& path, Reader* input_file, ParameterStorage* handle)
+    : AbstractData<ParameterStorage>(path, input_file, handle), input_file_{input_file} {}
 
 void Data<ParameterStorage>::load(h5::Reader& r) {
   static bool first_load{true};
@@ -60,16 +60,7 @@ void Data<ParameterStorage>::save(Writer& w) {
   }
 }
 
-void Data<ParameterStorage>::loadVersion(Reader& r) {
-  auto [_type, vers] = r.type(this->path_);
-  this->version_ = vers;
-  for (auto& [_, val] : parameters_) val->loadVersion(r);
-}
-
 void Data<ParameterStorage>::structure(Writer& w) {
-  // if parameters is empty, then we didn't write anything
-  if (parameters_.size() == 0) return;
-
   w.structure(this->path_, this->type_, this->version_);
   for (auto& [_, val] : parameters_) {
     val->structure(w);

@@ -103,11 +103,9 @@ class Writer {
       }
       auto ds = file_->createDataSet(path, space_, t, create_props_);
       ds.createAttribute(constants::TYPE_ATTR_NAME, boost::core::demangle(typeid(AtomicType).name()));
-      ds.createAttribute(constants::VERS_ATTR_NAME, -1);
-      buffers_.emplace(
-          path, std::make_unique<Buffer<AtomicType>>(
-                    rows_per_chunk_,
-                    file_->createDataSet(path, space_,t,create_props_)));
+      ds.createAttribute(constants::VERS_ATTR_NAME, 0);
+      buffers_.emplace(path, 
+          std::make_unique<Buffer<AtomicType>>(rows_per_chunk_, ds));
     }
     dynamic_cast<Buffer<AtomicType>&>(*buffers_.at(path)).save(val);
   }

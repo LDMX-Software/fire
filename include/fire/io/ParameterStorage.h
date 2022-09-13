@@ -149,7 +149,7 @@ class Data<ParameterStorage> : public AbstractData<ParameterStorage> {
    * @param[in] path full in-file path to the data set
    * @param[in] handle address of ParameterStorage object to save/load
    */
-  Data(const std::string& path, ParameterStorage* handle);
+  Data(const std::string& path, Reader* input_file, ParameterStorage* handle);
 
   /**
    * load the next entry of ParameterStorage from disk into memory
@@ -202,7 +202,6 @@ class Data<ParameterStorage> : public AbstractData<ParameterStorage> {
    */
   void save(Writer& w) final override;
 
-  void loadVersion(Reader& r) final override;
   void structure(Writer& w) final override;
 
  private:
@@ -226,12 +225,15 @@ class Data<ParameterStorage> : public AbstractData<ParameterStorage> {
   void attach(const std::string& name) {
     parameters_[name] = std::make_unique<Data<ParameterType>>(
         this->path_ + "/" + name, 
+        input_file_,
         std::get_if<ParameterType>(&(this->handle_->parameters_[name])));
   }
 
  private:
   /// the dynamic parameter listing (parallel to parameters_ member variable)
   std::unordered_map<std::string, std::unique_ptr<BaseData>> parameters_;
+  /// the input file we are reading from
+  Reader* input_file_;
 };
 
 }

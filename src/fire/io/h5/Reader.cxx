@@ -68,18 +68,18 @@ std::pair<std::string,int> Reader::type(const std::string& path) {
 
   int vers;
   vers_attr.read(vers);
-
   return std::make_pair(type,vers);
 }
 
 void Reader::mirror(const std::string& path, Writer& output) {
+  // only mirror structure of groups
+  if (getH5ObjectType(path) != HighFive::ObjectType::Group) 
+    return;
+  // copy over type attributes creating the group in the output file
   auto [type, vers] = this->type(path);
   output.structure(path, type, vers);
-  for (auto& subgrp : this->list(path)) {
-    std::string full_path{path+"/"+subgrp};
-    if (getH5ObjectType(full_path) == HighFive::ObjectType::Group)
-      mirror(full_path, output);
-  }
+  // recurse into subobjects
+  for (auto& subgrp : this->list(path)) mirror(path+"/"+subgrp, output);
 }
 
 void Reader::copy(unsigned int long i_entry, const std::string& path, Writer& output) {
