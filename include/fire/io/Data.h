@@ -6,6 +6,7 @@
 #include <vector>
 #include <map>
 
+#include "fire/exception/Exception.h"
 #include "fire/io/AbstractData.h"
 #include "fire/io/Writer.h"
 #include "fire/io/Constants.h"
@@ -307,10 +308,28 @@ class Data : public AbstractData<DataType> {
    * Loading this dataset from the file involves simply loading
    * all of the members of the data type.
    *
+   * We catch a HighFive exception early here so that we can
+   * detail to the user which class is causing the read issue.
+   * This is especially helpful in the case of containers of user
+   * types since the issue is (probably) not coming from serialization
+   * of the container.
+   *
+   * @throw Exception if HighFive is unable to load any of the members.
+   *
    * @param[in] f file to load from
    */
-  void load(h5::Reader& f) final override {
+  void load(h5::Reader& f) final override try {
     for (auto& m : members_) m->load(f);
+  } catch (const HighFive::DataSetException& e) {
+    auto [t, v] = f.type(this->path_);
+    std::stringstream ss;
+    ss << "Data at " << this->path_ << " could not be loaded into "
+        << this->type_ << " from the type it was written as " 
+        << t << "(version "<< v << ")\n"
+        "  Check that your implementation of attach can handle any "
+        "previous versions of your class you are trying to read.\n"
+        "  H5 Error:\n" << e.what();
+    throw Exception("BadType",ss.str(), false);
   }
 
 #ifdef fire_USE_ROOT
