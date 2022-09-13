@@ -273,7 +273,7 @@ class Data<ldmx::EventHeader> : public AbstractData<ldmx::EventHeader> {
    * @param[in] path Path to event header
    * @param[in] eh handle to event header to manipulate
    */
-  explicit Data(const std::string& path, ldmx::EventHeader* eh);
+  explicit Data(const std::string& path, Reader* input_file, ldmx::EventHeader* eh);
 
   /**
    * copied from general Data class
@@ -319,12 +319,14 @@ class Data<ldmx::EventHeader> : public AbstractData<ldmx::EventHeader> {
   template <typename MemberType>
   void attach(const std::string& name, MemberType& m) {
     members_.push_back(
-        std::make_unique<Data<MemberType>>(this->path_ + "/" + name, &m));
+        std::make_unique<Data<MemberType>>(this->path_ + "/" + name, input_file_, &m));
   }
 
  private:
   /// list of members in this dataset
   std::vector<std::unique_ptr<BaseData>> members_;
+  /// pointer to the input file being read form (if it exists)
+  Reader* input_file_;
 }; // Data<ldmx::EventHeader>
 
 } // namespace fire

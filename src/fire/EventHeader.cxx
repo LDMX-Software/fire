@@ -25,8 +25,8 @@ void EventHeader::attach(fire::io::Data<EventHeader>& d) {
 #ifdef fire_USE_ROOT
 namespace fire::io {
 
-Data<ldmx::EventHeader>::Data(const std::string& path, ldmx::EventHeader* eh)
-  : AbstractData<ldmx::EventHeader>(path,eh) {
+Data<ldmx::EventHeader>::Data(const std::string& path, Reader* input_file, ldmx::EventHeader* eh)
+  : AbstractData<ldmx::EventHeader>(path,input_file, eh), input_file_{input_file} {
   this->handle_->attach(*this);
 }
 

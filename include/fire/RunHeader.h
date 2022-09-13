@@ -243,7 +243,7 @@ class Data<ldmx::RunHeader> : public AbstractData<ldmx::RunHeader> {
    * @param[in] path Path to run header
    * @param[in] rh handle to run header to manipulate
    */
-  explicit Data(const std::string& path, ldmx::RunHeader* rh = nullptr);
+  explicit Data(const std::string& path, Reader* input_file = nullptr, ldmx::RunHeader* rh = nullptr);
 
   /**
    * copied from general Data class
@@ -290,12 +290,14 @@ class Data<ldmx::RunHeader> : public AbstractData<ldmx::RunHeader> {
   template <typename MemberType>
   void attach(const std::string& name, MemberType& m) {
     members_.push_back(
-        std::make_unique<Data<MemberType>>(this->path_ + "/" + name, &m));
+        std::make_unique<Data<MemberType>>(this->path_ + "/" + name, input_file_, &m));
   }
 
  private:
   /// list of members in this dataset
   std::vector<std::unique_ptr<BaseData>> members_;
+  /// pointer to the input file we are reading from
+  Reader* input_file_;
 };  // Data<ldmx::RunHeader>
 
 }  // namespace io
