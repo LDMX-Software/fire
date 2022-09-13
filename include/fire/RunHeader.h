@@ -275,7 +275,7 @@ class Data<ldmx::RunHeader> : public AbstractData<ldmx::RunHeader> {
    *
    * @param[in] w Writer to write to
    */
-  void done(Writer& w) final override;
+  void structure(Writer& w) final override;
 
   /**
    * Attach a member object from the our data handle

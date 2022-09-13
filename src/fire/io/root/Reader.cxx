@@ -4,6 +4,7 @@
 
 #include "TSystem.h"
 #include "TBranchElement.h"
+#include "TLeaf.h"
 
 #include "fire/io/Constants.h"
 
@@ -55,12 +56,12 @@ std::vector<std::pair<std::string,std::string>> Reader::availableObjects() {
 }
 
 std::pair<std::string,int> Reader::type(const std::string& path) {
-  auto br = event_tree_->GetBranch(transform(path));
+  auto br = event_tree_->GetBranch(transform(path).c_str());
   std::string type;
   int vers{0};
   if (auto bre = dynamic_cast<TBranchElement*>(br)) {
-    type = br->GetClassName();
-    vers = br->GetClass()->GetClassVersion();
+    type = bre->GetClassName();
+    vers = bre->GetClass()->GetClassVersion();
   } else {
     if (br->GetListOfLeaves()->GetEntries() > 0) {
       auto leaf{(TLeaf*)br->GetListOfLeaves()->At(0)};
