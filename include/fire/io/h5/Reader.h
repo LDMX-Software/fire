@@ -83,7 +83,7 @@ class Reader : public ::fire::io::Reader {
    * @param[in] obj_name Name of event object to retrieve type of
    * @return demangled type name in string format and its version number
    */
-  virtual std::pair<std::string,int> type(const std::string& full_obj_name) final override;
+  virtual std::pair<std::string,int> type(const std::string& path) final override;
 
   /**
    * Get the name of this file

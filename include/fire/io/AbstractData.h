@@ -6,10 +6,12 @@
 #include <boost/core/demangle.hpp> // for demangling
 
 #include "fire/version/Version.h"
+#include "fire/io/ClassVersion.h"
 
 namespace fire::io {
 
 class Writer;
+class Reader;
 namespace h5 { class Reader; }
 #ifdef fire_USE_ROOT
 namespace root { class Reader; }
@@ -38,6 +40,12 @@ class BaseData {
    * virtual destructor so inherited classes can be properly destructed.
    */
   virtual ~BaseData() = default;
+
+  /**
+   * Load version of our path from the input file
+   * @param[in] f h5::Reader to load from
+   */
+  virtual void loadVersion(Reader& f) = 0;
 
   /**
    * pure virtual method for loading data from the input file
@@ -130,6 +138,12 @@ class AbstractData : public BaseData {
   virtual ~AbstractData() {
     if (owner_) delete handle_;
   }
+
+  /**
+   * Load version of our path from the input file
+   * @param[in] f h5::Reader to load from
+   */
+  virtual void loadVersion(Reader& f) = 0;
 
   /**
    * pure virtual method for loading data 

@@ -54,8 +54,8 @@ std::vector<std::pair<std::string,std::string>> Reader::availableObjects() {
   return objs;
 }
 
-std::pair<std::string,int> Reader::type(const std::string& full_obj_name) {
-  auto br = event_tree_->GetBranch(transform(full_obj_name));
+std::pair<std::string,int> Reader::type(const std::string& path) {
+  auto br = event_tree_->GetBranch(transform(path));
   std::string type;
   int vers{0};
   if (auto bre = dynamic_cast<TBranchElement*>(br)) {

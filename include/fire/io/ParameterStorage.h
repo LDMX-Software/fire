@@ -202,7 +202,8 @@ class Data<ParameterStorage> : public AbstractData<ParameterStorage> {
    */
   void save(Writer& w) final override;
 
-  void done(Writer& w) final override;
+  void loadVersion(Reader& r) final override;
+  void structure(Writer& w) final override;
 
  private:
   /**

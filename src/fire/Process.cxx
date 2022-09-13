@@ -113,8 +113,8 @@ void Process::run() {
 
     try {
       io::Data<RunHeader> write_d{RunHeader::NAME, run_header_};
+      write_d.structure(output_file_);
       write_d.save(output_file_);
-      write_d.done(output_file_);
     } catch (const HighFive::Exception&) {
       throw Exception("RunWrite","Unable to write RunHeader to output file "
           +output_file_.name());
@@ -139,6 +139,7 @@ void Process::run() {
       try {
         io::Data<RunHeader> read_d{RunHeader::NAME};
         std::size_t num_runs = input_file->runs();
+        read_d.loadVersion(*input_file);
         for (std::size_t i_run{0}; i_run < num_runs; i_run++) {
           input_file->load_into(read_d);
           // deep copy
@@ -194,11 +195,11 @@ void Process::run() {
     // copy the input run headers to the output file
     try {
       io::Data<RunHeader> write_d(RunHeader::NAME);
+      write_d.structure(output_file_);
       for (const auto& [_, rh] : input_runs) {
         write_d.update(rh);
         write_d.save(output_file_);
       }
-      write_d.done(output_file_);
     } catch (const HighFive::Exception& ) {
       throw Exception("RunWrite","Unable to write run headers to output file "
           +output_file_.name());

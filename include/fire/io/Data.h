@@ -287,6 +287,22 @@ class Data : public AbstractData<DataType> {
   }
 
   /**
+   * Read the type version of the data stored at this path
+   * and then call the children members to do the same
+   *
+   * We ignore the persisted type. That is merely there to assist
+   * the user in debugging errors if attempting to read an event
+   * object that was written as a different type.
+   *
+   * @param[in] f file to load from
+   */
+  void loadVersion(Reader& f) final override {
+    auto [ _type, vers ] = f.type(this->path_);
+    this->version_ = vers;
+    for (auto& m : members_) m->loadVersion(f);
+  }
+
+  /**
    * Loading this dataset from the file involves simply loading
    * all of the members of the data type.
    *
@@ -370,6 +386,22 @@ class Data<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
    */
   explicit Data(const std::string& path, AtomicType* handle = nullptr)
       : AbstractData<AtomicType>(path, handle) {}
+
+  /**
+   * Read the type version of the data stored at this path
+   * and then call the children members to do the same
+   *
+   * We ignore the persisted type. That is merely there to assist
+   * the user in debugging errors if attempting to read an event
+   * object that was written as a different type.
+   *
+   * @param[in] f file to load from
+   */
+  void loadVersion(Reader& f) final override {
+    auto [ _type, vers ] = f.type(this->path_);
+    this->version_ = vers;
+  }
+
   /**
    * Down to a type that h5::Reader can handle.
    *
@@ -438,6 +470,23 @@ class Data<std::vector<ContentType>>
       : AbstractData<std::vector<ContentType>>(path, handle),
         size_{path + "/" + constants::SIZE_NAME},
         data_{path + "/data"} {}
+
+  /**
+   * Read the type version of the data stored at this path
+   * and then call the children members to do the same
+   *
+   * We ignore the persisted type. That is merely there to assist
+   * the user in debugging errors if attempting to read an event
+   * object that was written as a different type.
+   *
+   * @param[in] f file to load from
+   */
+  void loadVersion(Reader& f) final override {
+    auto [ _type, vers ] = f.type(this->path_);
+    this->version_ = vers;
+    size_.loadVersion(f);
+    data_.loadVersion(f);
+  }
 
   /**
    * Load a vector from the input file
@@ -527,6 +576,24 @@ class Data<std::map<KeyType,ValType>>
         size_{path + "/" + constants::SIZE_NAME},
         keys_{path + "/keys"},
         vals_{path + "/vals"} {}
+
+  /**
+   * Read the type version of the data stored at this path
+   * and then call the children members to do the same
+   *
+   * We ignore the persisted type. That is merely there to assist
+   * the user in debugging errors if attempting to read an event
+   * object that was written as a different type.
+   *
+   * @param[in] f file to load from
+   */
+  void loadVersion(Reader& f) final override {
+    auto [ _type, vers ] = f.type(this->path_);
+    this->version_ = vers;
+    size_.loadVersion(f);
+    keys_.loadVersion(f);
+    vals_.loadVersion(f);
+  }
 
   /**
    * Load a map from the input file

@@ -401,7 +401,7 @@ class Event {
       //   they are new and not from an input file
       auto& obj{objects_[full_name]};
       obj.data_ = std::make_unique<io::Data<DataType>>(io::constants::EVENT_GROUP+"/"+full_name);
-      obj.data_->setVersion(tag_it->version());
+      obj.data_->loadVersion(*input_file_);
       obj.should_save_ = tag_it->keep();
       obj.should_load_ = true;
       obj.updated_ = false;

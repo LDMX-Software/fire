@@ -60,13 +60,19 @@ void Data<ParameterStorage>::save(Writer& w) {
   }
 }
 
-void Data<ParameterStorage>::done(Writer& w) {
+void Data<ParameterStorage>::loadVersion(Reader& r) {
+  auto [_type, vers] = r.type(this->path_);
+  this->version_ = vers;
+  for (auto& [_, val] : parameters_) val->loadVersion(r);
+}
+
+void Data<ParameterStorage>::structure(Writer& w) {
   // if parameters is empty, then we didn't write anything
   if (parameters_.size() == 0) return;
 
-  w.setTypeName(this->path_, this->type_);
+  w.structure(this->path_, this->type_, this->version_);
   for (auto& [_, val] : parameters_) {
-    val->done(w);
+    val->structure(w);
   }
 }
 
