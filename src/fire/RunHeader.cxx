@@ -44,8 +44,8 @@ void RunHeader::attach(fire::io::Data<RunHeader>& d) {
 #ifdef fire_USE_ROOT
 namespace fire::io {
 
-Data<ldmx::RunHeader>::Data(const std::string& path, ldmx::RunHeader* eh)
-  : AbstractData<ldmx::RunHeader>(path,eh) {
+Data<ldmx::RunHeader>::Data(const std::string& path, Reader* input_file, ldmx::RunHeader* eh)
+  : AbstractData<ldmx::RunHeader>(path,input_file, eh), input_file_{input_file} {
   this->handle_->attach(*this);
 }
 
