@@ -112,7 +112,7 @@ void Process::run() {
     fire_log(info) << runHeader();
 
     try {
-      io::Data<RunHeader> write_d{RunHeader::NAME, run_header_};
+      io::Data<RunHeader> write_d{RunHeader::NAME, nullptr, run_header_};
       write_d.structure(output_file_);
       write_d.save(output_file_);
     } catch (const HighFive::Exception&) {
@@ -137,9 +137,8 @@ void Process::run() {
        * Load runs into in-memory cache
        */
       try {
-        io::Data<RunHeader> read_d{RunHeader::NAME};
+        io::Data<RunHeader> read_d{RunHeader::NAME, input_file.get()};
         std::size_t num_runs = input_file->runs();
-        read_d.loadVersion(*input_file);
         for (std::size_t i_run{0}; i_run < num_runs; i_run++) {
           input_file->load_into(read_d);
           // deep copy

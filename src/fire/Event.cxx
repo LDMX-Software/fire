@@ -44,7 +44,8 @@ Event::Event(io::Writer& output_file,
   //    and const references
   auto& obj{objects_[EventHeader::NAME]};
   obj.data_ = std::make_unique<io::Data<EventHeader>>(EventHeader::NAME,
-                                                        header_.get()),
+                                                      nullptr,
+                                                      header_.get()),
   obj.should_save_ = true;   // always save event header
   obj.should_load_ = false;  // don't load unless input files are passed
   obj.updated_ = false;      // not used for EventHeader
@@ -98,7 +99,7 @@ void Event::setInputFile(io::Reader* r) {
   known_lookups_.clear();
   for (const auto& [name, pass] : input_file_->availableObjects()) {
     std::string full_name{fullName(name, pass)};
-    auto [ type, vers ] = input_file_->type(full_name);
+    auto [ type, vers ] = input_file_->type(io::constants::EVENT_GROUP+"/"+full_name);
     available_objects_.emplace_back(
         name, pass, type, vers,
         keep(full_name, READ_KEEP_DEFAULT));
