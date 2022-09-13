@@ -304,7 +304,7 @@ class Data<ldmx::EventHeader> : public AbstractData<ldmx::EventHeader> {
    * copied from general Data class
    * @param[in] w Writer to write to
    */
-  void done(Writer& w) final override;
+  void structure(Writer& w) final override;
 
   /**
    * Attach a member object from the our data handle

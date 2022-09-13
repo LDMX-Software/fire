@@ -70,9 +70,9 @@ void Data<ldmx::RunHeader>::save(Writer& w) {
   for (auto& m : members_) m->save(w);
 }
 
-void Data<ldmx::RunHeader>::done(Writer& w) {
-  f.setTypeName(this->path_, this->type_);
-  for (auto& m : members_) m->done(f);
+void Data<ldmx::RunHeader>::structure(Writer& w) {
+  w.structure(this->path_, this->type_, this->version_);
+  for (auto& m : members_) m->structure(w);
 }
 
 }
