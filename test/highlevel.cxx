@@ -15,6 +15,14 @@ namespace fire::test {
 /**
  * need test class to make sure schema evolution
  * interacts well with copy
+ *
+ * WARNING: we only test that the copy functions for copying
+ * while keeping the same class version. This makes sense
+ * since how would we evolve the schema without knowing
+ * what the new schema is?
+ *
+ * The downside is that this implicitly disables async or late
+ * get when reading input files that are from an earlier version.
  */
 class DummyInt {
  public:
