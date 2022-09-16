@@ -243,12 +243,9 @@ AbstractData<DataType>::AbstractData(const std::string& path, Reader* input_file
   } else {
     handle_ = handle;
   }
-  type_ = boost::core::demangle(typeid(DataType).name());
+  save_type_ = { boost::core::demangle(typeid(DataType).name()), class_version<DataType> };
   if (input_file) {
-    auto [t, v] = input_file->type(path);
-    version_ = (v < 0) ? class_version<DataType> : v;
-  } else {
-    version_ = class_version<DataType>;
+    load_type_ = input_file->type(path);
   }
 }
 
@@ -288,6 +285,15 @@ template <typename DataType, typename Enable = void>
 class Data : public AbstractData<DataType> {
  public:
   /**
+   * Flag how a member variable should be accessed
+   */
+  enum SaveLoad {
+    Both,
+    LoadOnly,
+    SaveOnly
+  };
+
+  /**
    * Attach ourselves to the input type after construction.
    *
    * After the intermediate class AbstractData does the
@@ -319,13 +325,14 @@ class Data : public AbstractData<DataType> {
    * @param[in] f file to load from
    */
   void load(h5::Reader& f) final override try {
-    for (auto& m : members_) m->load(f);
+    for (auto& [save,load,m] : members_) if (load) m->load(f);
   } catch (const HighFive::DataSetException& e) {
-    auto [t, v] = f.type(this->path_);
+    const auto& [memt, memv] = this->save_type_;
+    const auto& [diskt, diskv] = f.type(this->path_);
     std::stringstream ss;
     ss << "Data at " << this->path_ << " could not be loaded into "
-        << this->type_ << " from the type it was written as " 
-        << t << "(version "<< v << ")\n"
+        << memt  << " (version " << memv << ") from the type it was written as " 
+        << diskt << " (version " << diskv << ")\n"
         "  Check that your implementation of attach can handle any "
         "previous versions of your class you are trying to read.\n"
         "  H5 Error:\n" << e.what();
@@ -349,12 +356,12 @@ class Data : public AbstractData<DataType> {
    * @param[in] f file to save to
    */
   void save(Writer& f) final override {
-    for (auto& m : members_) m->save(f);
+    for (auto& [save,load,m] : members_) if (save) m->save(f);
   }
 
   void structure(Writer& f) final override {
-    f.structure(this->path_, this->type_, this->version_);
-    for (auto& m : members_) m->structure(f);
+    f.structure(this->path_, this->save_type_);
+    for (auto& [save,load,m] : members_) if (save) m->structure(f);
   }
 
   /**
@@ -366,9 +373,11 @@ class Data : public AbstractData<DataType> {
    * @tparam MemberType type of member variable we are attaching
    * @param[in] name name of member variable
    * @param[in] m reference of member variable
+   * @param[in] save write this member into output files (if the class is being written)
+   * @param[in] load load this member from an input file (if being read)
    */
   template <typename MemberType>
-  void attach(const std::string& name, MemberType& m) {
+  void attach(const std::string& name, MemberType& m, SaveLoad sl = SaveLoad::Both) {
     if (name == constants::SIZE_NAME) {
       throw Exception("BadName",
           "The member name '"+constants::SIZE_NAME+"' is not allowed due to "
@@ -376,13 +385,45 @@ class Data : public AbstractData<DataType> {
           "    Please give your member a more detailed name corresponding to "
           "your class", false);
     }
-    members_.push_back(
-        std::make_unique<Data<MemberType>>(this->path_ + "/" + name, input_file_, &m));
+    bool save{false}, load{false};
+    Reader* input_file{input_file_};
+    if (sl == SaveLoad::LoadOnly) load = true;
+    else if (sl == SaveLoad::SaveOnly) { save = true; input_file = nullptr; }
+    else { save = true; load = true; }
+    members_.push_back(std::make_tuple(save, load,
+        std::make_unique<Data<MemberType>>(this->path_ + "/" + name, input_file, &m)));
+  }
+
+  /**
+   * Rename a member variable
+   *
+   * This is a simple helper-function wrapping attach which does the two
+   * calls for the user sharing the same member variable, creating one
+   * member for loading from the old_name and one member for writing
+   * to the new_name.
+   *
+   * @tparam MemberType type of member variable we are attaching
+   * @param[in] old_name name of member variable in version being read from file
+   * @param[in] new_name name of member variable in version being written to output file
+   * @param[in] m reference of member variable
+   */
+  template <typename MemberType>
+  void rename(const std::string& old_name, const std::string& new_name, MemberType& m) {
+    attach(old_name,m,SaveLoad::LoadOnly);
+    attach(new_name,m,SaveLoad::SaveOnly);
   }
 
  private:
-  /// list of members in this dataset
-  std::vector<std::unique_ptr<BaseData>> members_;
+  /**
+   * list of members in this dataset
+   *
+   * the extra boolean flags are to tell us if that member 
+   * should be loaded from the input file and/or saved
+   * to the output file
+   *
+   * This is the core of the renaming part of schema evolution.
+   */
+  std::vector<std::tuple<bool,bool,std::unique_ptr<BaseData>>> members_;
   /// pointer to the input file (if there is one)
   Reader* input_file_;
 };  // Data
@@ -527,7 +568,7 @@ class Data<std::vector<ContentType>>
   }
 
   void structure(Writer& f) final override {
-    f.structure(this->path_, this->type_, this->version_);
+    f.structure(this->path_, this->save_type_);
     size_.structure(f);
     data_.structure(f);
   }
@@ -619,7 +660,7 @@ class Data<std::map<KeyType,ValType>>
   }
 
   void structure(Writer& f) final override {
-    f.structure(this->path_, this->type_, this->version_);
+    f.structure(this->path_, this->save_type_);
     size_.structure(f);
     keys_.structure(f);
     vals_.structure(f);

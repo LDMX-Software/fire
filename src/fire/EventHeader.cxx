@@ -53,7 +53,7 @@ void Data<ldmx::EventHeader>::save(Writer& w) {
 }
 
 void Data<ldmx::EventHeader>::structure(Writer& w) {
-  w.structure(this->path_, this->type_, this->version_);
+  w.structure(this->path_, this->save_type_);
   for (auto& m : members_) m->structure(w);
 }
 
