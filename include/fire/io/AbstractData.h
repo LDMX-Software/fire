@@ -195,16 +195,16 @@ class AbstractData : public BaseData {
   virtual const DataType& get() const { return *handle_; }
 
   /**
-   * Get the name of the type we are holding
-   * @return string name of type
+   * Get the version number for the type we are loading from
+   *
+   * If we are not loading from anything, we just return the
+   * version number of the type we are saving to.
+   *
+   * @return version number
    */
-  const std::string& type() const { return type_; }
-
-  /**
-   * Get the version number of the type we are holding
-   * @return int version number of type
-   */
-  int version() const { return version_; }
+  int version() const {
+    return load_type_.value_or(save_type_).second;
+  }
 
   /**
    * Update the in-memory data object with the passed value.
@@ -228,16 +228,10 @@ class AbstractData : public BaseData {
   }
 
  protected:
-  /// name of type this data is holding
-  std::string type_;
-
-  /**
-   * the version of the user class (if this Data is a user class)
-   *
-   * This number is set by Event when reading and otherwise is deduced
-   * by template specialization nonsense.
-   */
-  int version_{class_version<DataType>};
+  /// type this data is loading from
+  std::optional<std::pair<std::string,int>> load_type_;
+  /// type this data that is being used to write
+  std::pair<std::string,int> save_type_;
 
   /// handle on current object in memory
   DataType* handle_;

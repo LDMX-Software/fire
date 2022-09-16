@@ -76,8 +76,7 @@ void Reader::mirror(const std::string& path, Writer& output) {
   if (getH5ObjectType(path) != HighFive::ObjectType::Group) 
     return;
   // copy over type attributes creating the group in the output file
-  auto [type, vers] = this->type(path);
-  output.structure(path, type, vers);
+  output.structure(path, this->type(path));
   // recurse into subobjects
   for (auto& subgrp : this->list(path)) mirror(path+"/"+subgrp, output);
 }

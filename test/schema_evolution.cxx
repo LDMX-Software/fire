@@ -35,8 +35,11 @@ class Double {
     d_ = 0.;
   }
   void attach(fire::io::Data<Double>& d) {
-    if (d.version() < 2) d.attach("dv1",d_);
-    else d.attach("dv2", d_);
+    if (d.version() < 2) d.rename("dv1","dv2",d_);
+    else {
+      d.attach("dv2", d_);
+      // reset version number?
+    }
   }
   Double(double d) : d_{d} {}
   Double() = default;
@@ -165,9 +168,11 @@ BOOST_AUTO_TEST_CASE(read_v1) {
   fire::Process p(configuration);
   p.run();
 
-  // v1 gets copied over as v1
+  // v1 gets copied over into v2
   H5Easy::File f{output};
-  BOOST_TEST(readVersion(f, "events/test/foo") == 1);
+  BOOST_TEST(readVersion(f, "events/test/foo") == 2);
+  BOOST_TEST(not f.exist("/events/test/foo/dv1"));
+  BOOST_TEST(f.exist("/events/test/foo/dv2"));
 }
 
 BOOST_AUTO_TEST_CASE(write_v2) {

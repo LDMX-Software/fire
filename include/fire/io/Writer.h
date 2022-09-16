@@ -56,11 +56,10 @@ class Writer {
    * correspond to HDF5 data sets.
    *
    * @param[in] path full path to the group
-   * @param[in] type demangled type name of object
+   * @param[in] {type, version} pair demangled type name of object and its version number
    * @param[in] version version number of type
    */
-  void structure(const std::string& path, const std::string& type, 
-                 int version);
+  void structure(const std::string& path, const std::pair<std::string,int>& type);
 
   /**
    * Get the number of entries in the file
