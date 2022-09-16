@@ -411,7 +411,7 @@ class Event {
       //    cannot be loaded into the input type
       try {
         // copy structure into output file if this object should be saved
-        if (i_entry_ == 1 and obj.should_save_) {
+        if (obj.should_save_) {
           obj.data_->structure(output_file_);
         }
         

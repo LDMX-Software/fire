@@ -201,6 +201,12 @@ class AbstractData : public BaseData {
   const std::string& type() const { return type_; }
 
   /**
+   * Get the version number of the type we are holding
+   * @return int version number of type
+   */
+  int version() const { return version_; }
+
+  /**
    * Update the in-memory data object with the passed value.
    *
    * @note virtual so that derived data sets could specialize this, 

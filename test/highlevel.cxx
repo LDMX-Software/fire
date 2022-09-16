@@ -12,6 +12,25 @@
  */
 namespace fire::test {
 
+/**
+ * need test class to make sure schema evolution
+ * interacts well with copy
+ */
+class DummyInt {
+ public:
+  fire_class_version(1);
+  int i;
+  friend class fire::io::Data<DummyInt>;
+  void clear() {
+    i = 0.;
+  }
+  void attach(fire::io::Data<DummyInt>& d) {
+    d.attach("i",i);
+  }
+  DummyInt(int _i) : i{_i} {}
+  DummyInt() = default;
+};  // DummyInt
+
 class TestAdd : public Processor {
  public:
   TestAdd(const config::Parameters& ps)
@@ -34,6 +53,7 @@ class TestAdd : public Processor {
     // of processing, but since it should be kept, the whole dataset should
     // exist in the final output file
     event.add("keeplateget", along);
+    event.add("keepanotherlateget", DummyInt(along));
     // these objects should not be around during the recon stage
     event.add("dropalong", along); 
     event.add("dropme",dropme);
@@ -72,6 +92,7 @@ class TestGet : public Processor {
 
     if (event.header().number() > 4) {
       BOOST_TEST(event.get<int>("keeplateget") == event.header().number());
+      BOOST_TEST(event.get<DummyInt>("keepanotherlateget").i == event.header().number());
     }
   }
 };

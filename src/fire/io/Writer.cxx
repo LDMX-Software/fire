@@ -38,9 +38,27 @@ void Writer::flush() {
 const std::string& Writer::name() const { return file_->getName(); }
 
 void Writer::structure(const std::string& full_path, const std::string& type, int version) {
-  auto grp = file_->createGroup(full_path);
-  grp.createAttribute(constants::TYPE_ATTR_NAME, type);
-  grp.createAttribute(constants::VERS_ATTR_NAME, version);
+  if (file_->exist(full_path)) {
+    // group already been written to, check that we are the same
+    auto grp = file_->getGroup(full_path);
+    int v;
+    grp.getAttribute(constants::VERS_ATTR_NAME).read(v);
+    std::string t;
+    grp.getAttribute(constants::TYPE_ATTR_NAME).read(t);
+    if (t != type or v != version) {
+      std::stringstream ss;
+      ss << "Attempting to write multiple types (or versions of a type) as the same output data.\n"
+         << "     Data: " << full_path << "\n"
+         << "     Type Already on Disk: " << t << " (version " << v << ")\n"
+         << "     Type to Write: " << type << " (version " << version << ")";
+      throw Exception("MisType",ss.str(),false);
+    }
+  } else {
+    // group structure doesn't exist yet, put in this type
+    auto grp = file_->createGroup(full_path);
+    grp.createAttribute(constants::TYPE_ATTR_NAME, type);
+    grp.createAttribute(constants::VERS_ATTR_NAME, version);
+  }
 }
 
 }  // namespace fire::h5
