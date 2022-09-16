@@ -327,6 +327,12 @@ void MyData::attach(fire::io::Data<MyData>& d) {
 This naturally extends to several subsequent versions and clearly shows all users
 how the data is being transformed when they are reading it off disk.
 
+@note The attach method is only called once per processing run and therefore
+  it **cannot** and **should not** be used to handle more complicated data
+  evolutions involving _any_ sort of calculation. If you are calculating
+  a new variable from an old variable, this falls outside of the realm
+  of schema evolution and needs to be done within a Processor.
+
 Now the question becomes, how to "handle" the different versions.
 This is most easily explained with a few examples.
 
@@ -337,7 +343,8 @@ it shouldn't try to load anything for that member variable from disk.
 ```cpp
 void MyData::attach(fire::io::Data<MyData>& d) {
   if (d.version() < 1) {
-    d.attach("new_member", new_member_, SaveOnly);
+    using fire::io::Data<MyData>::SaveLoad;
+    d.attach("new_member", new_member_, SaveLoad::SaveOnly);
   } else {
     d.attach("new_member", new_member_);
   }
@@ -350,7 +357,8 @@ read into memory when reading a prior version.
 ```cpp
 void MyData::attach(fire::io::Data<MyData>& d) {
   if (d.version() < 1) {
-    d.attach("old_member", old_member_, LoadOnly);
+    using fire::io::Data<MyData>::SaveLoad;
+    d.attach("old_member", old_member_, SaveLoad::LoadOnly);
   } else {
     // we are dropping old_member so we set it to some absurd value
     //   in later versions
@@ -366,15 +374,16 @@ loaded from a different location than where they are saved.
 ```cpp
 void MyData::attach(fire::io::Data<MyData>& d) {
   if (d.version() < 1) {
-    d.attach("old_name", member_, LoadOnly);
-    d.attach("new_name", member_, SaveOnly);
+    using fire::io::Data<MyData>::SaveLoad;
+    d.attach("old_name", member_, SaveLoad::LoadOnly);
+    d.attach("new_name", member_, SaveLoad::SaveOnly);
   } else {
     d.attach("new_name", member_);
   }
 }
 ```
 This renaming scheme is expected to be common enough that there is a helper function
-defined for it. The two lines within the early-version block can be replaced by
+defined for it. The three lines within the early-version block can be replaced by
 ```cpp
 d.rename("old_name","new_name",member_);
 ```

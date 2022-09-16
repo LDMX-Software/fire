@@ -32,6 +32,7 @@
  */
 namespace fire::io {
 
+// need implementation here so we can use the fully defined input file `type` function
 template <typename DataType>
 AbstractData<DataType>::AbstractData(const std::string& path, Reader* input_file, DataType* handle)
   : BaseData(path), owner_{handle == nullptr} {
@@ -87,12 +88,15 @@ template <typename DataType, typename Enable = void>
 class Data : public AbstractData<DataType> {
  public:
   /**
-   * Flag how a member variable should be accessed
+   * Flag how a member variable should be accessed by serialization
+   *
+   * In this context, load is only called when there is a file to load
+   * from.
    */
   enum SaveLoad {
-    Both,
-    LoadOnly,
-    SaveOnly
+    Both, ///< load and save the member
+    LoadOnly, ///< only load the member (read in)
+    SaveOnly  ///< only save the member (write out)
   };
 
   /**
@@ -223,7 +227,7 @@ class Data : public AbstractData<DataType> {
    * should be loaded from the input file and/or saved
    * to the output file
    *
-   * This is the core of the renaming part of schema evolution.
+   * This is the core of schema evolution.
    */
   std::vector<std::tuple<bool,bool,std::unique_ptr<BaseData>>> members_;
   /// pointer to the input file (if there is one)
@@ -286,6 +290,12 @@ class Data<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
     f.save(this->path_, *(this->handle_));
   }
 
+  /**
+   * do NOT persist any structure for atomic types
+   *
+   * The atomic types are translated into H5 DataSets in Writer::save
+   * where the types are persisted as well.
+   */
   void structure(Writer& f) final override {
     // atomic types get translated into H5 DataSets
     // in save so we purposefully DO NOTHING here
@@ -306,8 +316,7 @@ class Data<AtomicType, std::enable_if_t<is_atomic_v<AtomicType>>>
 template <typename ContentType>
 class Data<std::vector<ContentType>>
     : public AbstractData<std::vector<ContentType>> {
-  /// the version of serialization of this container type
-  using version = std::integral_constant<int,0>;
+  fire_class_version(1);
  public:
   /**
    * We create two child data sets, one to hold the successive sizes of the
@@ -397,6 +406,7 @@ class Data<std::vector<ContentType>>
 template <typename KeyType, typename ValType>
 class Data<std::map<KeyType,ValType>>
     : public AbstractData<std::map<KeyType,ValType>> {
+  fire_class_version(1);
  public:
   /**
    * We create three child data sets, one for the successive sizes
