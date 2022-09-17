@@ -333,6 +333,11 @@ how the data is being transformed when they are reading it off disk.
   a new variable from an old variable, this falls outside of the realm
   of schema evolution and needs to be done within a Processor.
 
+If you need a more robust or complicated method for transforming an old-schema
+into a new schema, the best option is to define your own specialization of the
+io::Data class itself. This is what EventHeader and RunHeader do in order to
+update the ROOT-version of the class into the new HDF5-version.
+
 Now the question becomes, how to "handle" the different versions.
 This is most easily explained with a few examples.
 
