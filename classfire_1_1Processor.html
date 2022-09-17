@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.16.0</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.17.0</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -205,95 +205,7 @@ Private Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Base class for all event processing components. </p>
 <p >This is the main interface that users of fire will interact with. In order to perform a new task, a user would define a new <a class="el" href="classfire_1_1Processor.html" title="Base class for all event processing components.">Processor</a> which can take data from the event bus, process it in some way, and then add new data onto the event bus. This format is applicable all along the data processing chain from generation (simulation or raw decoding) to reconstruction to analysis.</p>
-<h2><a class="anchor" id="autotoc_md43"></a>
-Usage</h2>
-<p >Defining a new processor can be done to varying levels of complexity; however, they fall into two distinct groups: configurable and non-configurable.</p>
-<h3><a class="anchor" id="autotoc_md44"></a>
-Non-configurable Processors</h3>
-<p >Non-configurable processors cannot be configured at run time from the python configuration. This makes starting them simpler even if they are slightly less powerful.</p>
-<div class="fragment"><div class="line"><span class="comment">// MyProcessor.cpp</span></div>
-<div class="line"><span class="preprocessor">#include &lt;fire/Processor.h&gt;</span></div>
-<div class="line"><span class="keyword">class </span>MyProcessor : <span class="keyword">public</span> <a class="code hl_class" href="classfire_1_1Processor.html">fire::Processor</a> {</div>
-<div class="line"> <span class="keyword">public</span>:</div>
-<div class="line">  MyProcessor(<span class="keyword">const</span> <a class="code hl_class" href="classfire_1_1config_1_1Parameters.html">fire::config::Parameters</a>&amp; ps)</div>
-<div class="line">   : fire::<a class="code hl_function" href="classfire_1_1Processor.html#ab2fc871f893086500941b33a47bacead">Processor</a>(ps) {}</div>
-<div class="line">  ~MyProcessor() = <span class="keywordflow">default</span>;</div>
-<div class="line">  <span class="keywordtype">void</span> <a class="code hl_function" href="classfire_1_1Processor.html#a6f1bc98203030e0757a004f3f275cd62">process</a>(<a class="code hl_class" href="classfire_1_1Event.html">fire::Event</a>&amp; event) <span class="keyword">final</span> <span class="keyword">override</span> {</div>
-<div class="line">    <span class="comment">// process event here!</span></div>
-<div class="line">  }</div>
-<div class="line">};</div>
-<div class="line">DECLARE_PROCESSOR(MyProcessor);</div>
-<div class="ttc" id="aclassfire_1_1Event_html"><div class="ttname"><a href="classfire_1_1Event.html">fire::Event</a></div><div class="ttdoc">Event class for interfacing with processors.</div><div class="ttdef"><b>Definition:</b> Event.h:26</div></div>
-<div class="ttc" id="aclassfire_1_1Processor_html"><div class="ttname"><a href="classfire_1_1Processor.html">fire::Processor</a></div><div class="ttdoc">Base class for all event processing components.</div><div class="ttdef"><b>Definition:</b> Processor.h:209</div></div>
-<div class="ttc" id="aclassfire_1_1Processor_html_a6f1bc98203030e0757a004f3f275cd62"><div class="ttname"><a href="classfire_1_1Processor.html#a6f1bc98203030e0757a004f3f275cd62">fire::Processor::process</a></div><div class="ttdeci">virtual void process(Event &amp;event)=0</div><div class="ttdoc">have the derived processors do what they need to do</div></div>
-<div class="ttc" id="aclassfire_1_1Processor_html_ab2fc871f893086500941b33a47bacead"><div class="ttname"><a href="classfire_1_1Processor.html#ab2fc871f893086500941b33a47bacead">fire::Processor::Processor</a></div><div class="ttdeci">Processor(const config::Parameters &amp;ps)</div><div class="ttdoc">Configure the processor upon construction.</div><div class="ttdef"><b>Definition:</b> Processor.cxx:7</div></div>
-<div class="ttc" id="aclassfire_1_1config_1_1Parameters_html"><div class="ttname"><a href="classfire_1_1config_1_1Parameters.html">fire::config::Parameters</a></div><div class="ttdoc">Class encapsulating parameters for configuring a processor.</div><div class="ttdef"><b>Definition:</b> Parameters.h:28</div></div>
-</div><!-- fragment --><p >This example shows the necessary parts of a new <a class="el" href="classfire_1_1Processor.html" title="Base class for all event processing components.">Processor</a>.</p><ol type="1">
-<li>Inherits from <code><a class="el" href="classfire_1_1Processor.html" title="Base class for all event processing components.">fire::Processor</a></code></li>
-<li>Constructor accepts configuration parameters and passes them to the base class</li>
-<li>Destructor is defined (even if it is default)</li>
-<li>Definition of the function to do the processing</li>
-<li>Calling the declaration macro after class is declared.</li>
-</ol>
-<p >This processor is already ready to be compiled and added into a Python configuration. Any of the other call backs in this class can then be defined by your derived processor if you see it as useful.</p>
-<p >Let's suppose that this processor is compiled into a library called <code>libMyModule.so</code> (perhaps with other processors or tools). Then, we can use this processor with fire from a python configuration file as shown below. </p><div class="fragment"><div class="line"><span class="keyword">import</span> fire.cfg</div>
-<div class="line">p = fire.cfg.Process(<span class="stringliteral">&#39;example&#39;</span>)</div>
-<div class="line">p.sequence = [</div>
-<div class="line">  fire.cfg.Processor(<span class="stringliteral">&#39;eg&#39;</span>,<span class="stringliteral">&#39;MyProcessor&#39;</span>,library=<span class="stringliteral">&#39;/full/path/to/libMyModule.so&#39;</span>)</div>
-<div class="line">  ]</div>
-</div><!-- fragment --><p> The full path to <code>libMyModule.so</code> only needs to be provided if it is not accessible by <code>ld</code> (i.e. it is not in a directory listed in LD_LIBRARY_PATH or a system directory). Moreover, if the library is accessible by <code>ld</code> and you are on a Linux system (so that the libraries follow the naming format of the example), you could replace the <code>library</code> argument with &lsquo;module='MyModule&rsquo;` to make it easier to read. This second option is more common for larger software sets with many modules.</p>
-<p >You can determine if your library is accessible by the linker using some <a href="https://unix.stackexchange.com/a/282207">fancy command line nonsense</a>.</p>
-<h3><a class="anchor" id="autotoc_md45"></a>
-Configurable Processor</h3>
-<p >Making a processor configurable from Python is not very complicated on the C++ side, but it introduces many complexities and nuances on the Python side.</p>
-<p >On the C++ side, it simply involves expanding the constructor in order to use the passed set of parameters to define member variables. Expanding on the example from above:</p>
-<div class="fragment"><div class="line"><span class="comment">// MyProcessor.cpp</span></div>
-<div class="line"><span class="preprocessor">#include &lt;fire/Processor.h&gt;</span></div>
-<div class="line"><span class="keyword">class </span>MyProcessor : <span class="keyword">public</span> <a class="code hl_class" href="classfire_1_1Processor.html">fire::Processor</a> {</div>
-<div class="line">  <span class="keywordtype">int</span> my_parameter_;</div>
-<div class="line">  <span class="keywordtype">double</span> my_required_parameter_;</div>
-<div class="line"> <span class="keyword">public</span>:</div>
-<div class="line">  MyProcessor(<span class="keyword">const</span> <a class="code hl_class" href="classfire_1_1config_1_1Parameters.html">fire::config::Parameters</a>&amp; ps)</div>
-<div class="line">   : fire::<a class="code hl_function" href="classfire_1_1Processor.html#ab2fc871f893086500941b33a47bacead">Processor</a>(ps) {</div>
-<div class="line">     my_parameter_ = ps.<a class="code hl_function" href="classfire_1_1config_1_1Parameters.html#ab8c99a73cc43039d4d900f10ed7f15fa">get</a>&lt;<span class="keywordtype">int</span>&gt;(<span class="stringliteral">&quot;my_parameter&quot;</span>,1);</div>
-<div class="line">     my_required_parameter_ = ps.<a class="code hl_function" href="classfire_1_1config_1_1Parameters.html#ab8c99a73cc43039d4d900f10ed7f15fa">get</a>&lt;<span class="keywordtype">double</span>&gt;(<span class="stringliteral">&quot;my_required_parameter&quot;</span>);</div>
-<div class="line">   }</div>
-<div class="line">  ~MyProcessor() = <span class="keywordflow">default</span>;</div>
-<div class="line">  <span class="keywordtype">void</span> <a class="code hl_function" href="classfire_1_1Processor.html#a6f1bc98203030e0757a004f3f275cd62">process</a>(<a class="code hl_class" href="classfire_1_1Event.html">fire::Event</a>&amp; event) <span class="keyword">final</span> <span class="keyword">override</span> {</div>
-<div class="line">    <span class="comment">// process event here!</span></div>
-<div class="line"> </div>
-<div class="line">  }</div>
-<div class="line">};</div>
-<div class="line">DECLARE_PROCESSOR(MyProcessor);</div>
-<div class="ttc" id="aclassfire_1_1config_1_1Parameters_html_ab8c99a73cc43039d4d900f10ed7f15fa"><div class="ttname"><a href="classfire_1_1config_1_1Parameters.html#ab8c99a73cc43039d4d900f10ed7f15fa">fire::config::Parameters::get</a></div><div class="ttdeci">const T &amp; get(const std::string &amp;name) const</div><div class="ttdoc">Retrieve the parameter of the given name.</div><div class="ttdef"><b>Definition:</b> Parameters.h:71</div></div>
-</div><!-- fragment --><p> This constructor will recieves two parameters that are configurable. Exceptions are thrown if the parameter in Python cannot be converted to the passed type. For example, if <code>my_parameter</code> in Python is set to <code>2.0</code> instead of <code>2</code>.</p><ol type="1">
-<li><code>my_parameter_</code> is optional with a default value of <code>1</code>.</li>
-<li><code>my_required_parameter</code> is required - i.e. an exception will be thrown if a parameter with that name is not found</li>
-</ol>
-<p >Now, onto the more complicated Python side. There are three main methods for defining parameters on the Python side of configuration. In everything below, <code>my_proc</code> is the Python object that would be added to <code>p.sequence</code> inside of the configuration script so that the <a class="el" href="classfire_1_1Processor.html" title="Base class for all event processing components.">Processor</a> will be used during the run.</p>
-<p >First, the base configuration class <code>fire.cfg.Processor</code> allows the user to define parameters directly. This is helpful for small processors that don't have an entire Python module supporting them. </p><div class="fragment"><div class="line">my_proc = fire.cfg.Processor(<span class="stringliteral">&#39;my_proc&#39;</span>,<span class="stringliteral">&#39;MyProcessor&#39;</span>,</div>
-<div class="line">                             library=<span class="stringliteral">&#39;/full/path/to/libMyModule.so&#39;</span>,</div>
-<div class="line">                             my_parameter = 2, </div>
-<div class="line">                             my_required_parameter = 3.0)</div>
-</div><!-- fragment --><p >Next, we could wrap the code above into a function. This is helpful for portability because now we can put this function into a Python module that could be imported in the configuration script. Moreover, this isolates the parameter spelling to one location so that the the user does not have to worry about mis-spelling parameters. </p><div class="fragment"><div class="line"><span class="keyword">def </span>MyProcessor(name, req, opt = 2) :</div>
-<div class="line">    <span class="keywordflow">return</span> fire.cfg.Processor(name,<span class="stringliteral">&#39;MyProcessor&#39;</span>,</div>
-<div class="line">                              library=<span class="stringliteral">&#39;/full/path/to/libMyModule.so&#39;</span>,</div>
-<div class="line">                              my_parameter = opt, </div>
-<div class="line">                              my_required_parameter = req)</div>
-<div class="line"> </div>
-<div class="line"><span class="comment"># later inside the python config</span></div>
-<div class="line">my_proc = MyProcessor(<span class="stringliteral">&#39;my_proc&#39;</span>,5.0)</div>
-</div><!-- fragment --><p >Finally, we can create a child class of the parent configuration class. This is the most complicated method and should only be used if the determination of parameters requires some extra Python functions. </p><div class="fragment"><div class="line"><span class="keyword">class </span>MyProcessor(fire.cfg.Processor) :</div>
-<div class="line">    <span class="keyword">def </span>__init__(name, req) :</div>
-<div class="line">        super().__init__(name,<span class="stringliteral">&#39;MyProcessor&#39;</span>,</div>
-<div class="line">                         library=<span class="stringliteral">&#39;/full/path/to/libMyModule.so&#39;</span>)</div>
-<div class="line">        self.my_parameter = 2</div>
-<div class="line">        self.my_required_parameter = req</div>
-<div class="line"> </div>
-<div class="line"><span class="comment"># later inside the python config</span></div>
-<div class="line">my_proc = MyProcessor(<span class="stringliteral">&#39;my_proc&#39;</span>,5.0)</div>
-</div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>Python's variable handling is very dynamic. For us, this means that we need to be very careful that the parameters in Python are spelled the same as the parameters in C++. In Python, the variables provided to <code>fire.cfg.Processor</code> (or defined in <code>__init__</code> for the last option) need to have <b>exactly</b> the same name as the parameter names requested in the constructor of the C++ processor.</dd></dl>
-<h2><a class="anchor" id="autotoc_md46"></a>
+<h2><a class="anchor" id="autotoc_md51"></a>
 Callback Ordering</h2>
 <p >The ordering of the callback functions is decided by the <a class="el" href="classfire_1_1Process.html#a9de0ff0b04bda2481ef194127ef3fbb1" title="Do the processing run.">Process::run</a> and is helpful to document here for users creating new Processors.</p>
 <ol type="1">
@@ -499,7 +411,7 @@ template&lt;class T &gt; </div>
 
 <p>Access a conditions object for the current event. </p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classfire_1_1Conditions.html#a434cbb039762a354800995cb5a378d98" title="Primary request action for a conditions object.">Conditions::get</a> and <a class="el" href="classfire_1_1Conditions.html#a6398dc18c77debde4daa75a717884a96" title="Core request action for a conditions object.">Conditions::getConditionPtr</a> for how conditions objects are retrieved.</dd></dl>
-<h2><a class="anchor" id="autotoc_md47"></a>
+<h2><a class="anchor" id="autotoc_md52"></a>
 Usage</h2>
 <p >Inside of the process function, this function can be used following the example below. </p><div class="fragment"><div class="line"><span class="comment">// inside void process(Event&amp; event) for your Processor</span></div>
 <div class="line"><span class="keyword">const</span> <span class="keyword">auto</span>&amp; co = getCondition&lt;MyObjectType&gt;(<span class="stringliteral">&quot;ConditionName&quot;</span>);</div>

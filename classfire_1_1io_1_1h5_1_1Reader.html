@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.16.0</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.17.0</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -87,6 +87,7 @@ $(document).ready(function(){initNavTree('classfire_1_1io_1_1h5_1_1Reader.html',
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classfire_1_1io_1_1h5_1_1Reader-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">fire::io::h5::Reader Class Reference</div></div>
@@ -130,9 +131,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a57a4e49fb47b77a5428ad4c4c7cbc7ed"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1h5_1_1Reader.html#a57a4e49fb47b77a5428ad4c4c7cbc7ed">load_into</a> (<a class="el" href="classfire_1_1io_1_1BaseData.html">BaseData</a> &amp;d) final override</td></tr>
 <tr class="memdesc:a57a4e49fb47b77a5428ad4c4c7cbc7ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load the next event into the passed data.  <a href="classfire_1_1io_1_1h5_1_1Reader.html#a57a4e49fb47b77a5428ad4c4c7cbc7ed">More...</a><br /></td></tr>
 <tr class="separator:a57a4e49fb47b77a5428ad4c4c7cbc7ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ace949f67227895541133dc0259871ea5"><td class="memItemLeft" align="right" valign="top">virtual <a class="elRef" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/container/array.html">std::array</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>, 3 &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1h5_1_1Reader.html#ace949f67227895541133dc0259871ea5">availableObjects</a> () final override</td></tr>
-<tr class="memdesc:ace949f67227895541133dc0259871ea5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the event objects available in the file.  <a href="classfire_1_1io_1_1h5_1_1Reader.html#ace949f67227895541133dc0259871ea5">More...</a><br /></td></tr>
-<tr class="separator:ace949f67227895541133dc0259871ea5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02c85371ba8535a6ce472f9a60002a95"><td class="memItemLeft" align="right" valign="top">virtual <a class="elRef" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/utility/pair.html">std::pair</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>, <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1h5_1_1Reader.html#a02c85371ba8535a6ce472f9a60002a95">availableObjects</a> () final override</td></tr>
+<tr class="memdesc:a02c85371ba8535a6ce472f9a60002a95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the event objects available in the file.  <a href="classfire_1_1io_1_1h5_1_1Reader.html#a02c85371ba8535a6ce472f9a60002a95">More...</a><br /></td></tr>
+<tr class="separator:a02c85371ba8535a6ce472f9a60002a95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9330e08f0c1218ef09bd55e56f972f1"><td class="memItemLeft" align="right" valign="top">virtual <a class="elRef" href="http://en.cppreference.com/w/cpp/utility/pair.html">std::pair</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1h5_1_1Reader.html#ab9330e08f0c1218ef09bd55e56f972f1">type</a> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;path) final override</td></tr>
+<tr class="memdesc:ab9330e08f0c1218ef09bd55e56f972f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the type of the input object.  <a href="classfire_1_1io_1_1h5_1_1Reader.html#ab9330e08f0c1218ef09bd55e56f972f1">More...</a><br /></td></tr>
+<tr class="separator:ab9330e08f0c1218ef09bd55e56f972f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a804b2be29adcd2b6b3df541833870ed7"><td class="memItemLeft" align="right" valign="top">virtual <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1h5_1_1Reader.html#a804b2be29adcd2b6b3df541833870ed7">name</a> () const final override</td></tr>
 <tr class="memdesc:a804b2be29adcd2b6b3df541833870ed7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of this file.  <a href="classfire_1_1io_1_1h5_1_1Reader.html#a804b2be29adcd2b6b3df541833870ed7">More...</a><br /></td></tr>
 <tr class="separator:a804b2be29adcd2b6b3df541833870ed7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -183,6 +187,12 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Reader</b> ()=def
 <tr class="memitem:a92f287f5a29da331ecff68d15cfcf00b inherit pub_methods_classfire_1_1io_1_1Reader"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1Reader.html#a92f287f5a29da331ecff68d15cfcf00b">copy</a> (long unsigned int i_entry, const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;path, <a class="el" href="classfire_1_1io_1_1Writer.html">Writer</a> &amp;output)</td></tr>
 <tr class="memdesc:a92f287f5a29da331ecff68d15cfcf00b inherit pub_methods_classfire_1_1io_1_1Reader"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy the input object into the output file.  <a href="classfire_1_1io_1_1Reader.html#a92f287f5a29da331ecff68d15cfcf00b">More...</a><br /></td></tr>
 <tr class="separator:a92f287f5a29da331ecff68d15cfcf00b inherit pub_methods_classfire_1_1io_1_1Reader"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:ac0bcb969202e62d348b08c97c296bb6e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1h5_1_1Reader.html#ac0bcb969202e62d348b08c97c296bb6e">mirror</a> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;path, <a class="el" href="classfire_1_1io_1_1Writer.html">Writer</a> &amp;output)</td></tr>
+<tr class="memdesc:ac0bcb969202e62d348b08c97c296bb6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mirror the structure of the passed path from us into the output file.  <a href="classfire_1_1io_1_1h5_1_1Reader.html#ac0bcb969202e62d348b08c97c296bb6e">More...</a><br /></td></tr>
+<tr class="separator:ac0bcb969202e62d348b08c97c296bb6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -266,8 +276,8 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>Factory</b> = ::<a c
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ace949f67227895541133dc0259871ea5" name="ace949f67227895541133dc0259871ea5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ace949f67227895541133dc0259871ea5">&#9670;&nbsp;</a></span>availableObjects()</h2>
+<a id="a02c85371ba8535a6ce472f9a60002a95" name="a02c85371ba8535a6ce472f9a60002a95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a02c85371ba8535a6ce472f9a60002a95">&#9670;&nbsp;</a></span>availableObjects()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -276,7 +286,7 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>Factory</b> = ::<a c
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="elRef" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/container/array.html">std::array</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>, 3 &gt; &gt; fire::io::h5::Reader::availableObjects </td>
+          <td class="memname"><a class="elRef" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/utility/pair.html">std::pair</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>, <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &gt; &gt; fire::io::h5::Reader::availableObjects </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -291,10 +301,10 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>Factory</b> = ::<a c
 
 <p>Get the event objects available in the file. </p>
 <p >We crawl the internal directory structure of the file we have open.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classfire_1_1io_1_1h5_1_1Reader.html#a40bf370de8e2916e041a7ceb9abf96df" title="Get the &#39;type&#39; attribute from the input group name.">getTypeName</a> for how we get the <a class="el" href="classfire_1_1io_1_1h5_1_1Reader.html#a804b2be29adcd2b6b3df541833870ed7" title="Get the name of this file.">name</a> of the class that was used to write the data</dd></dl>
-<dl class="section return"><dt>Returns</dt><dd>vector of 3 string arrays <code>{ obj_name, pass, type }</code> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classfire_1_1io_1_1h5_1_1Reader.html#ab9330e08f0c1218ef09bd55e56f972f1" title="Get the type of the input object.">type</a> for how we get the <a class="el" href="classfire_1_1io_1_1h5_1_1Reader.html#a804b2be29adcd2b6b3df541833870ed7" title="Get the name of this file.">name</a> of the class that was used to write the data</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>vector of string pairs <code>{ obj_name, pass }</code> </dd></dl>
 
-<p>Implements <a class="el" href="classfire_1_1io_1_1Reader.html#ac81b1fd74b1ccd45e5a7634ae06f9392">fire::io::Reader</a>.</p>
+<p>Implements <a class="el" href="classfire_1_1io_1_1Reader.html#aa40de6ecb57514f390d529dbac176499">fire::io::Reader</a>.</p>
 
 </div>
 </div>
@@ -485,7 +495,7 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>Factory</b> = ::<a c
 
 <p>Get the 'type' attribute from the input group name. </p>
 <p >We retrieve the attribute named TYPE_ATTR_NAME from the group located at EVENT_GROUP/obj_name. This enables us to construct the list of products within an inputfile in <a class="el" href="classfire_1_1Event.html#aab29b4877430affb79be4f839fe4efe2" title="Attach a file to this event as the input file.">Event::setInputFile</a>.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classfire_1_1io_1_1Writer.html#a237a10fb88bb020a0dbe8f037f0c6ae4" title="Set the name of the type stored in this Group (or DataSet if atomic)">io::Writer::setTypeName</a> for where the type attr is set</dd></dl>
+<dl class="section see"><dt>See also</dt><dd>io::Writer::setTypeName for where the <a class="el" href="classfire_1_1io_1_1h5_1_1Reader.html#ab9330e08f0c1218ef09bd55e56f972f1" title="Get the type of the input object.">type</a> attr is set</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">obj_name</td><td>Name of event object to retrieve type of </td></tr>
@@ -617,6 +627,51 @@ template&lt;typename AtomicType &gt; </div>
 
 </div>
 </div>
+<a id="ac0bcb969202e62d348b08c97c296bb6e" name="ac0bcb969202e62d348b08c97c296bb6e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0bcb969202e62d348b08c97c296bb6e">&#9670;&nbsp;</a></span>mirror()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void fire::io::h5::Reader::mirror </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classfire_1_1io_1_1Writer.html">Writer</a> &amp;&#160;</td>
+          <td class="paramname"><em>output</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Mirror the structure of the passed path from us into the output file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">path</td><td>path to the group (and potential subgroups) to mirror </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">output</td><td>output file to mirror this structure to </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a804b2be29adcd2b6b3df541833870ed7" name="a804b2be29adcd2b6b3df541833870ed7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a804b2be29adcd2b6b3df541833870ed7">&#9670;&nbsp;</a></span>name()</h2>
 
@@ -675,6 +730,45 @@ template&lt;typename AtomicType &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>number of runs within the file </dd></dl>
 
 <p>Implements <a class="el" href="classfire_1_1io_1_1Reader.html#a94ef6306ea796cd0fc13ba6251d61859">fire::io::Reader</a>.</p>
+
+</div>
+</div>
+<a id="ab9330e08f0c1218ef09bd55e56f972f1" name="ab9330e08f0c1218ef09bd55e56f972f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab9330e08f0c1218ef09bd55e56f972f1">&#9670;&nbsp;</a></span>type()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="elRef" href="http://en.cppreference.com/w/cpp/utility/pair.html">std::pair</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>, int &gt; fire::io::h5::Reader::type </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">final</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the type of the input object. </p>
+<p >We retrieve the attributes named TYPE_ATTR_NAME and VERS_ATTR_NAME from the group located at EVENT_GROUP/obj_name. This enables us to construct the list of products within an inputfile in <a class="el" href="classfire_1_1Event.html#aab29b4877430affb79be4f839fe4efe2" title="Attach a file to this event as the input file.">Event::setInputFile</a>.</p>
+<dl class="section see"><dt>See also</dt><dd>io::Writer::setTypeName for where the <a class="el" href="classfire_1_1io_1_1h5_1_1Reader.html#ab9330e08f0c1218ef09bd55e56f972f1" title="Get the type of the input object.">type</a> attr is set</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">obj_name</td><td>Name of event object to retrieve type of </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>demangled type name in string format and its version number </dd></dl>
+
+<p>Implements <a class="el" href="classfire_1_1io_1_1Reader.html#a7ec5bab3d54f19a1c1bae47f251350a4">fire::io::Reader</a>.</p>
 
 </div>
 </div>

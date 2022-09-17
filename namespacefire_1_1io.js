@@ -1,5 +1,6 @@
 var namespacefire_1_1io =
 [
+    [ "class_version_impl", "namespacefire_1_1io_1_1class__version__impl.html", "namespacefire_1_1io_1_1class__version__impl" ],
     [ "h5", null, [
       [ "Reader", "classfire_1_1io_1_1h5_1_1Reader.html", "classfire_1_1io_1_1h5_1_1Reader" ]
     ] ],
@@ -21,5 +22,6 @@ var namespacefire_1_1io =
       [ "FALSE", "namespacefire_1_1io.html#a4daa8c0068cf8f6c75a396b69adc41dfa946003f97ccc52d5d3b54ac0ec31bbfc", null ]
     ] ],
     [ "create_enum_bool", "namespacefire_1_1io.html#aba97cbfb1683301e7cff785cc39cfcbe", null ],
+    [ "class_version", "namespacefire_1_1io.html#a6482976c53a4dcaa043923b431cabb50", null ],
     [ "is_atomic_v", "namespacefire_1_1io.html#ac11d6204f9aa0b840faac38d8ccb22cf", null ]
 ];

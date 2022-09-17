@@ -1,7 +1,8 @@
 <map id="fire::io::Data&lt; ParameterStorage &gt;" name="fire::io::Data&lt; ParameterStorage &gt;">
-<area shape="rect" id="node1" title="io::Data specialization for ParameterStorage" alt="" coords="5,352,189,393"/>
-<area shape="rect" id="node2" href="$classfire_1_1io_1_1AbstractData.html" title=" " alt="" coords="13,261,182,303"/>
-<area shape="rect" id="node3" href="$classfire_1_1io_1_1BaseData.html" title="Empty data base allowing recursion." alt="" coords="30,185,165,212"/>
-<area shape="rect" id="node4" href="/home/runner/work/fire/fire/docs/cppreference-doxygen-web.tag.xml$cpp/string/basic_string.html" title=" " alt="" coords="54,96,141,123"/>
-<area shape="rect" id="node5" href="/home/runner/work/fire/fire/docs/cppreference-doxygen-web.tag.xml$cpp/string/basic_string.html" title=" " alt="" coords="28,5,167,47"/>
+<area shape="rect" id="node1" title="io::Data specialization for ParameterStorage" alt="" coords="82,365,266,407"/>
+<area shape="rect" id="node2" href="$classfire_1_1io_1_1AbstractData.html" title=" " alt="" coords="5,261,175,303"/>
+<area shape="rect" id="node3" href="$classfire_1_1io_1_1BaseData.html" title="Empty data base allowing recursion." alt="" coords="23,185,157,212"/>
+<area shape="rect" id="node4" href="/home/runner/work/fire/fire/docs/cppreference-doxygen-web.tag.xml$cpp/string/basic_string.html" title=" " alt="" coords="47,96,133,123"/>
+<area shape="rect" id="node5" href="/home/runner/work/fire/fire/docs/cppreference-doxygen-web.tag.xml$cpp/string/basic_string.html" title=" " alt="" coords="21,5,159,47"/>
+<area shape="rect" id="node6" href="$classfire_1_1io_1_1Reader.html" title="Prototype for reading files within fire." alt="" coords="199,269,317,295"/>
 </map>

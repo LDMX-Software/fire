@@ -4,6 +4,7 @@ var dir_a745ed048db32aee8b36fe4434eded64 =
     [ "root", "dir_505331221a302890b18d78cf8cd9ef87.html", "dir_505331221a302890b18d78cf8cd9ef87" ],
     [ "AbstractData.h", "AbstractData_8h_source.html", null ],
     [ "Atomic.h", "Atomic_8h.html", "Atomic_8h" ],
+    [ "ClassVersion.h", "ClassVersion_8h.html", "ClassVersion_8h" ],
     [ "Constants.h", "Constants_8h.html", [
       [ "fire::io::constants", "structfire_1_1io_1_1constants.html", "structfire_1_1io_1_1constants" ]
     ] ],

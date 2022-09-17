@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.16.0</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.17.0</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -111,9 +111,9 @@ Collaboration diagram for fire::io::AbstractData&lt; DataType &gt;:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a0aef5e14ace7b4d64acc0125546fd952"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1AbstractData.html#a0aef5e14ace7b4d64acc0125546fd952">AbstractData</a> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;path, DataType *handle=nullptr)</td></tr>
-<tr class="memdesc:a0aef5e14ace7b4d64acc0125546fd952"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define the dataset path and provide an optional handle.  <a href="classfire_1_1io_1_1AbstractData.html#a0aef5e14ace7b4d64acc0125546fd952">More...</a><br /></td></tr>
-<tr class="separator:a0aef5e14ace7b4d64acc0125546fd952"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e55d2eb2d2db7e8ce6666d974c4a3f4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1AbstractData.html#a5e55d2eb2d2db7e8ce6666d974c4a3f4">AbstractData</a> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;path, <a class="el" href="classfire_1_1io_1_1Reader.html">Reader</a> *input_file=nullptr, DataType *handle=nullptr)</td></tr>
+<tr class="memdesc:a5e55d2eb2d2db7e8ce6666d974c4a3f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define the dataset path and provide an optional handle.  <a href="classfire_1_1io_1_1AbstractData.html#a5e55d2eb2d2db7e8ce6666d974c4a3f4">More...</a><br /></td></tr>
+<tr class="separator:a5e55d2eb2d2db7e8ce6666d974c4a3f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a943c0ebc60c028e175430464057bae04"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1AbstractData.html#a943c0ebc60c028e175430464057bae04">~AbstractData</a> ()</td></tr>
 <tr class="memdesc:a943c0ebc60c028e175430464057bae04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delete our object if we own it, otherwise do nothing.  <a href="classfire_1_1io_1_1AbstractData.html#a943c0ebc60c028e175430464057bae04">More...</a><br /></td></tr>
 <tr class="separator:a943c0ebc60c028e175430464057bae04"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -123,12 +123,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab9e37f662a1ac20e1eefd174272dda29"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1AbstractData.html#ab9e37f662a1ac20e1eefd174272dda29">save</a> (<a class="el" href="classfire_1_1io_1_1Writer.html">Writer</a> &amp;f)=0</td></tr>
 <tr class="memdesc:ab9e37f662a1ac20e1eefd174272dda29"><td class="mdescLeft">&#160;</td><td class="mdescRight">pure virtual method for saving data  <a href="classfire_1_1io_1_1AbstractData.html#ab9e37f662a1ac20e1eefd174272dda29">More...</a><br /></td></tr>
 <tr class="separator:ab9e37f662a1ac20e1eefd174272dda29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7369a4965b069759e2009e9ea4e24e06"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1AbstractData.html#a7369a4965b069759e2009e9ea4e24e06">structure</a> (<a class="el" href="classfire_1_1io_1_1Writer.html">Writer</a> &amp;f)=0</td></tr>
+<tr class="memdesc:a7369a4965b069759e2009e9ea4e24e06"><td class="mdescLeft">&#160;</td><td class="mdescRight">pure virtual method for saving structure  <a href="classfire_1_1io_1_1AbstractData.html#a7369a4965b069759e2009e9ea4e24e06">More...</a><br /></td></tr>
+<tr class="separator:a7369a4965b069759e2009e9ea4e24e06"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6091f50e5889e5685bac1a04a16e83dc"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1AbstractData.html#a6091f50e5889e5685bac1a04a16e83dc">clear</a> ()</td></tr>
 <tr class="memdesc:a6091f50e5889e5685bac1a04a16e83dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define the clear function here to handle the most common cases.  <a href="classfire_1_1io_1_1AbstractData.html#a6091f50e5889e5685bac1a04a16e83dc">More...</a><br /></td></tr>
 <tr class="separator:a6091f50e5889e5685bac1a04a16e83dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade1319cb4e4305755391a9dba6efe94e"><td class="memItemLeft" align="right" valign="top">virtual const DataType &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1AbstractData.html#ade1319cb4e4305755391a9dba6efe94e">get</a> () const</td></tr>
 <tr class="memdesc:ade1319cb4e4305755391a9dba6efe94e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current in-memory data.  <a href="classfire_1_1io_1_1AbstractData.html#ade1319cb4e4305755391a9dba6efe94e">More...</a><br /></td></tr>
 <tr class="separator:ade1319cb4e4305755391a9dba6efe94e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0ae56528ad3d5127dcf0e4f376a6c4a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1AbstractData.html#ab0ae56528ad3d5127dcf0e4f376a6c4a">version</a> () const</td></tr>
+<tr class="memdesc:ab0ae56528ad3d5127dcf0e4f376a6c4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the version number for the type we are loading from.  <a href="classfire_1_1io_1_1AbstractData.html#ab0ae56528ad3d5127dcf0e4f376a6c4a">More...</a><br /></td></tr>
+<tr class="separator:ab0ae56528ad3d5127dcf0e4f376a6c4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7449fa70578a217c4fbc94ee134291af"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1AbstractData.html#a7449fa70578a217c4fbc94ee134291af">update</a> (const DataType &amp;val)</td></tr>
 <tr class="memdesc:a7449fa70578a217c4fbc94ee134291af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update the in-memory data object with the passed value.  <a href="classfire_1_1io_1_1AbstractData.html#a7449fa70578a217c4fbc94ee134291af">More...</a><br /></td></tr>
 <tr class="separator:a7449fa70578a217c4fbc94ee134291af"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -143,6 +149,14 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~BaseData</b> ()=d
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
+<tr class="memitem:a0af5e7ac9c65e2771c29ade731a88e2a"><td class="memItemLeft" align="right" valign="top"><a id="a0af5e7ac9c65e2771c29ade731a88e2a" name="a0af5e7ac9c65e2771c29ade731a88e2a"></a>
+std::optional&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/utility/pair.html">std::pair</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>, int &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>load_type_</b></td></tr>
+<tr class="memdesc:a0af5e7ac9c65e2771c29ade731a88e2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">type this data is loading from <br /></td></tr>
+<tr class="separator:a0af5e7ac9c65e2771c29ade731a88e2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a063d385f31f320451acbeb94abb624bb"><td class="memItemLeft" align="right" valign="top"><a id="a063d385f31f320451acbeb94abb624bb" name="a063d385f31f320451acbeb94abb624bb"></a>
+<a class="elRef" href="http://en.cppreference.com/w/cpp/utility/pair.html">std::pair</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>save_type_</b></td></tr>
+<tr class="memdesc:a063d385f31f320451acbeb94abb624bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">type this data that is being used to write <br /></td></tr>
+<tr class="separator:a063d385f31f320451acbeb94abb624bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeb230f3a848fb39410e07fe85822a12d"><td class="memItemLeft" align="right" valign="top"><a id="aeb230f3a848fb39410e07fe85822a12d" name="aeb230f3a848fb39410e07fe85822a12d"></a>
 DataType *&#160;</td><td class="memItemRight" valign="bottom"><b>handle_</b></td></tr>
 <tr class="memdesc:aeb230f3a848fb39410e07fe85822a12d"><td class="mdescLeft">&#160;</td><td class="mdescRight">handle on current object in memory <br /></td></tr>
@@ -168,8 +182,8 @@ class fire::io::AbstractData&lt; DataType &gt;</div><p >Type-specific base class
   </dd>
 </dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a0aef5e14ace7b4d64acc0125546fd952" name="a0aef5e14ace7b4d64acc0125546fd952"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0aef5e14ace7b4d64acc0125546fd952">&#9670;&nbsp;</a></span>AbstractData()</h2>
+<a id="a5e55d2eb2d2db7e8ce6666d974c4a3f4" name="a5e55d2eb2d2db7e8ce6666d974c4a3f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e55d2eb2d2db7e8ce6666d974c4a3f4">&#9670;&nbsp;</a></span>AbstractData()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -188,6 +202,12 @@ template&lt;typename DataType &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="classfire_1_1io_1_1Reader.html">Reader</a> *&#160;</td>
+          <td class="paramname"><em>input_file</em> = <code>nullptr</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">DataType *&#160;</td>
           <td class="paramname"><em>handle</em> = <code>nullptr</code>&#160;</td>
         </tr>
@@ -199,7 +219,7 @@ template&lt;typename DataType &gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">explicit</span></span>  </td>
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -401,6 +421,46 @@ template&lt;typename DataType &gt; </div>
 
 </div>
 </div>
+<a id="a7369a4965b069759e2009e9ea4e24e06" name="a7369a4965b069759e2009e9ea4e24e06"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7369a4965b069759e2009e9ea4e24e06">&#9670;&nbsp;</a></span>structure()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename DataType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void <a class="el" href="classfire_1_1io_1_1AbstractData.html">fire::io::AbstractData</a>&lt; DataType &gt;::structure </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classfire_1_1io_1_1Writer.html">Writer</a> &amp;&#160;</td>
+          <td class="paramname"><em>f</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>pure virtual method for saving structure </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">f</td><td><a class="el" href="classfire_1_1io_1_1Writer.html" title="Write the fire DataSets into a deterministic structure in the output HDF5 data file.">Writer</a> to write to </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implements <a class="el" href="classfire_1_1io_1_1BaseData.html#abc8689df8b1ae66bc167b01f1a37379b">fire::io::BaseData</a>.</p>
+
+<p>Implemented in <a class="el" href="classfire_1_1io_1_1Data.html#acfc509600068a61de14de78c7add97c9">fire::io::Data&lt; DataType, Enable &gt;</a>, <a class="el" href="classfire_1_1io_1_1Data_3_01AtomicType_00_01std_1_1enable__if__t_3_01is__atomic__v_3_01AtomicType_01_4_01_4_01_4.html#a6e2786caf18a430ff8a3b65af7dd6164">fire::io::Data&lt; AtomicType, std::enable_if_t&lt; is_atomic_v&lt; AtomicType &gt; &gt; &gt;</a>, <a class="el" href="classfire_1_1io_1_1Data_3_01std_1_1vector_3_01ContentType_01_4_01_4.html#a1899352fa775313c4f7051fc7ea3d8b5">fire::io::Data&lt; std::vector&lt; ContentType &gt; &gt;</a>, <a class="el" href="classfire_1_1io_1_1Data_3_01std_1_1map_3_01KeyType_00_01ValType_01_4_01_4.html#a39d95161d3eaaed3a13f877ae33901d8">fire::io::Data&lt; std::map&lt; KeyType, ValType &gt; &gt;</a>, and <a class="el" href="classfire_1_1io_1_1Data_3_01ParameterStorage_01_4.html#ab7a91fc9c0b7f0d368e6d926228889a3">fire::io::Data&lt; ParameterStorage &gt;</a>.</p>
+
+</div>
+</div>
 <a id="a7449fa70578a217c4fbc94ee134291af" name="a7449fa70578a217c4fbc94ee134291af"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7449fa70578a217c4fbc94ee134291af">&#9670;&nbsp;</a></span>update()</h2>
 
@@ -440,8 +500,40 @@ template&lt;typename DataType &gt; </div>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<a id="ab0ae56528ad3d5127dcf0e4f376a6c4a" name="ab0ae56528ad3d5127dcf0e4f376a6c4a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0ae56528ad3d5127dcf0e4f376a6c4a">&#9670;&nbsp;</a></span>version()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename DataType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int <a class="el" href="classfire_1_1io_1_1AbstractData.html">fire::io::AbstractData</a>&lt; DataType &gt;::version </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the version number for the type we are loading from. </p>
+<p >If we are not loading from anything, we just return the version number of the type we are saving to.</p>
+<dl class="section return"><dt>Returns</dt><dd>version number </dd></dl>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>include/fire/io/<a class="el" href="AbstractData_8h_source.html">AbstractData.h</a></li>
+<li>include/fire/io/<a class="el" href="Data_8h_source.html">Data.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

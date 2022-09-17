@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.16.0</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.17.0</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -131,9 +131,12 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Reader</b> ()=def
 <tr class="memitem:a94ef6306ea796cd0fc13ba6251d61859"><td class="memItemLeft" align="right" valign="top">virtual <a class="elRef" href="http://en.cppreference.com/w/cpp/types/size_t.html">std::size_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1Reader.html#a94ef6306ea796cd0fc13ba6251d61859">runs</a> () const =0</td></tr>
 <tr class="memdesc:a94ef6306ea796cd0fc13ba6251d61859"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of runs in the file.  <a href="classfire_1_1io_1_1Reader.html#a94ef6306ea796cd0fc13ba6251d61859">More...</a><br /></td></tr>
 <tr class="separator:a94ef6306ea796cd0fc13ba6251d61859"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac81b1fd74b1ccd45e5a7634ae06f9392"><td class="memItemLeft" align="right" valign="top">virtual <a class="elRef" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/container/array.html">std::array</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>, 3 &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1Reader.html#ac81b1fd74b1ccd45e5a7634ae06f9392">availableObjects</a> ()=0</td></tr>
-<tr class="memdesc:ac81b1fd74b1ccd45e5a7634ae06f9392"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the event objects available in the file.  <a href="classfire_1_1io_1_1Reader.html#ac81b1fd74b1ccd45e5a7634ae06f9392">More...</a><br /></td></tr>
-<tr class="separator:ac81b1fd74b1ccd45e5a7634ae06f9392"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa40de6ecb57514f390d529dbac176499"><td class="memItemLeft" align="right" valign="top">virtual <a class="elRef" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/utility/pair.html">std::pair</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>, <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1Reader.html#aa40de6ecb57514f390d529dbac176499">availableObjects</a> ()=0</td></tr>
+<tr class="memdesc:aa40de6ecb57514f390d529dbac176499"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the event objects available in the file.  <a href="classfire_1_1io_1_1Reader.html#aa40de6ecb57514f390d529dbac176499">More...</a><br /></td></tr>
+<tr class="separator:aa40de6ecb57514f390d529dbac176499"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ec5bab3d54f19a1c1bae47f251350a4"><td class="memItemLeft" align="right" valign="top">virtual <a class="elRef" href="http://en.cppreference.com/w/cpp/utility/pair.html">std::pair</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1Reader.html#a7ec5bab3d54f19a1c1bae47f251350a4">type</a> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;path)=0</td></tr>
+<tr class="memdesc:a7ec5bab3d54f19a1c1bae47f251350a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the type of the input object.  <a href="classfire_1_1io_1_1Reader.html#a7ec5bab3d54f19a1c1bae47f251350a4">More...</a><br /></td></tr>
+<tr class="separator:a7ec5bab3d54f19a1c1bae47f251350a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ed57e09001fcb86b1fc5e70b7d5b7f9"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1Reader.html#a5ed57e09001fcb86b1fc5e70b7d5b7f9">canCopy</a> () const</td></tr>
 <tr class="memdesc:a5ed57e09001fcb86b1fc5e70b7d5b7f9"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classfire_1_1Event.html#a6057f83865dc0922d3a8ca1cfa566c48" title="get a piece of data from the event">Event::get</a> needs to know if the reader implements a copy that advances the entry index of the data sets being read.  <a href="classfire_1_1io_1_1Reader.html#a5ed57e09001fcb86b1fc5e70b7d5b7f9">More...</a><br /></td></tr>
 <tr class="separator:a5ed57e09001fcb86b1fc5e70b7d5b7f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -182,8 +185,8 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Reader</b> ()=def
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ac81b1fd74b1ccd45e5a7634ae06f9392" name="ac81b1fd74b1ccd45e5a7634ae06f9392"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac81b1fd74b1ccd45e5a7634ae06f9392">&#9670;&nbsp;</a></span>availableObjects()</h2>
+<a id="aa40de6ecb57514f390d529dbac176499" name="aa40de6ecb57514f390d529dbac176499"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa40de6ecb57514f390d529dbac176499">&#9670;&nbsp;</a></span>availableObjects()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -192,7 +195,7 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Reader</b> ()=def
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="elRef" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/container/array.html">std::array</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>, 3 &gt; &gt; fire::io::Reader::availableObjects </td>
+          <td class="memname">virtual <a class="elRef" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/utility/pair.html">std::pair</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>, <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &gt; &gt; fire::io::Reader::availableObjects </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -206,9 +209,9 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Reader</b> ()=def
 </div><div class="memdoc">
 
 <p>Get the event objects available in the file. </p>
-<dl class="section return"><dt>Returns</dt><dd>vector of 3 string arrays <code>{ obj_name, pass, type }</code> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>vector of string pairs <code>{ obj_name, pass }</code> </dd></dl>
 
-<p>Implemented in <a class="el" href="classfire_1_1io_1_1h5_1_1Reader.html#ace949f67227895541133dc0259871ea5">fire::io::h5::Reader</a>, and <a class="el" href="classfire_1_1io_1_1root_1_1Reader.html#a17673c0a169a9e972ee94f2fa7d3dd28">fire::io::root::Reader</a>.</p>
+<p>Implemented in <a class="el" href="classfire_1_1io_1_1h5_1_1Reader.html#a02c85371ba8535a6ce472f9a60002a95">fire::io::h5::Reader</a>, and <a class="el" href="classfire_1_1io_1_1root_1_1Reader.html#a84c4ae68011e345b0b8d6f90908f0eb2">fire::io::root::Reader</a>.</p>
 
 </div>
 </div>
@@ -422,6 +425,37 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Reader</b> ()=def
 <dl class="section return"><dt>Returns</dt><dd>number of runs in the file </dd></dl>
 
 <p>Implemented in <a class="el" href="classfire_1_1io_1_1h5_1_1Reader.html#a906b0e7a34580fc47297746cfda93751">fire::io::h5::Reader</a>, and <a class="el" href="classfire_1_1io_1_1root_1_1Reader.html#a822ba24a49acd23c19acb6d769d51a02">fire::io::root::Reader</a>.</p>
+
+</div>
+</div>
+<a id="a7ec5bab3d54f19a1c1bae47f251350a4" name="a7ec5bab3d54f19a1c1bae47f251350a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ec5bab3d54f19a1c1bae47f251350a4">&#9670;&nbsp;</a></span>type()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="elRef" href="http://en.cppreference.com/w/cpp/utility/pair.html">std::pair</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>, int &gt; fire::io::Reader::type </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the type of the input object. </p>
+<dl class="section return"><dt>Returns</dt><dd>pair of string type of input full object name and its version </dd></dl>
+
+<p>Implemented in <a class="el" href="classfire_1_1io_1_1h5_1_1Reader.html#ab9330e08f0c1218ef09bd55e56f972f1">fire::io::h5::Reader</a>, and <a class="el" href="classfire_1_1io_1_1root_1_1Reader.html#a0f3d14f38f9ce6d841938f9fe57f9ea6">fire::io::root::Reader</a>.</p>
 
 </div>
 </div>

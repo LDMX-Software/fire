@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.16.0</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.17.0</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -326,7 +326,7 @@ template&lt;typename DataType &gt; </div>
 
 <p>add a piece of data to the event </p>
 <p >If the data isn't already in the list of in-memory objects, we do the initialization procedure defined below. After init, we check if the object has already been updated by another processor, and if it hasn't, we give the input data to the event object to update the in-memory copy.</p>
-<h3><a class="anchor" id="autotoc_md21"></a>
+<h3><a class="anchor" id="autotoc_md36"></a>
 Initilialization</h3>
 <p >To initilialize a new in-memory object, we first check that a object with the same name and pass doesn't exist in the available objects. This prevents processors from silently overwriting data that could have been read in from the input file. Then, we create a new event object to hold the in-memory data, wrapping the event object with h5::Data. We also set the event object flags. should_save : determined by <a class="el" href="classfire_1_1Event.html#a71d63db4f8a7a25f01cc6c824e43fe8b" title="Determine if the passed data set should be saved into output file.">Event::keep</a> with the default set to true should_load : false, this is a new object and is not being read in updated : false, we haven't updated it yet</p>
 <p >Finally, if we end up needing to save this object, we also making sure to call h5::Data::save enough times to align the number of entries in the serialized data with the current number of entries we are on (<a class="el" href="classfire_1_1Event.html#a1362decf43c0b0c775698c3f1b225cba" title="current index in the datasets">Event::i_entry_</a>).</p>
@@ -512,7 +512,7 @@ template&lt;typename DataType &gt; </div>
 </div><div class="memdoc">
 
 <p>get a piece of data from the event </p>
-<h3><a class="anchor" id="autotoc_md22"></a>
+<h3><a class="anchor" id="autotoc_md37"></a>
 Object Deduction</h3>
 <p >Optionally providing a pass name means we need some automatic deduction of what the pass name should be. If the pass name is provided, all of the deduction procedure is skippped. A cache of known name -&gt; name+pass deductions is kept in <a class="el" href="classfire_1_1Event.html#ae1709341df04936b5a1d1aaa8205af79" title="cache of known lookups when requesting an object without a pass name">Event::known_lookups_</a> to save time. The deduction is pretty simple, we use <a class="el" href="classfire_1_1Event.html#a50bb1b72cbee56c37ae1a00e35bf43f2" title="Search through the available objects for a specific match.">Event::search</a> with the input name and the demangled input type in order to retrieve a list of options. If the list of options is empty or has more than one element, we throw an exception, otherwise, we have successfully deduced the pass name.</p>
 <p >If the requested object is not in the list of in-memory objects, then we <b>must</b> have an input file. This assumption is enforced with an exception the pointer to the input file is <code>nullptr</code>. If we do have an input file, then we create a new in-memory object to read this data set. After wrapping the input data type with h5::Data, we deduce the other tags: should_save: use <a class="el" href="classfire_1_1Event.html#a71d63db4f8a7a25f01cc6c824e43fe8b" title="Determine if the passed data set should be saved into output file.">Event::keep</a> with the default of <code>false</code> should_load: true since this is a reading updated: false We also use h5::Data::load to get the reading pointer to the entry in the data set corresponding to the current entry we are on (<a class="el" href="classfire_1_1Event.html#a1362decf43c0b0c775698c3f1b225cba" title="current index in the datasets">Event::i_entry_</a>).</p>

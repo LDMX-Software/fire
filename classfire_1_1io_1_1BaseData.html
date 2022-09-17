@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.16.0</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.17.0</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -124,6 +124,9 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~BaseData</b> ()=d
 <tr class="memitem:a566aeb82ac1dc7798135462b44ac2813"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1BaseData.html#a566aeb82ac1dc7798135462b44ac2813">save</a> (<a class="el" href="classfire_1_1io_1_1Writer.html">Writer</a> &amp;f)=0</td></tr>
 <tr class="memdesc:a566aeb82ac1dc7798135462b44ac2813"><td class="mdescLeft">&#160;</td><td class="mdescRight">pure virtual method for saving the current data  <a href="classfire_1_1io_1_1BaseData.html#a566aeb82ac1dc7798135462b44ac2813">More...</a><br /></td></tr>
 <tr class="separator:a566aeb82ac1dc7798135462b44ac2813"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc8689df8b1ae66bc167b01f1a37379b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1BaseData.html#abc8689df8b1ae66bc167b01f1a37379b">structure</a> (<a class="el" href="classfire_1_1io_1_1Writer.html">Writer</a> &amp;f)=0</td></tr>
+<tr class="memdesc:abc8689df8b1ae66bc167b01f1a37379b"><td class="mdescLeft">&#160;</td><td class="mdescRight">we should persist our hierarchy into the output file  <a href="classfire_1_1io_1_1BaseData.html#abc8689df8b1ae66bc167b01f1a37379b">More...</a><br /></td></tr>
+<tr class="separator:abc8689df8b1ae66bc167b01f1a37379b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3b85ea243d381dc862c3e38933e9397b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1BaseData.html#a3b85ea243d381dc862c3e38933e9397b">clear</a> ()=0</td></tr>
 <tr class="memdesc:a3b85ea243d381dc862c3e38933e9397b"><td class="mdescLeft">&#160;</td><td class="mdescRight">pure virtual method for resetting the current data to a blank state  <a href="classfire_1_1io_1_1BaseData.html#a3b85ea243d381dc862c3e38933e9397b">More...</a><br /></td></tr>
 <tr class="separator:a3b85ea243d381dc862c3e38933e9397b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -273,6 +276,42 @@ Protected Attributes</h2></td></tr>
 </dl>
 
 <p>Implemented in <a class="el" href="classfire_1_1io_1_1Data.html#a0dff82502a185219f06ae7d2abfcb8ab">fire::io::Data&lt; DataType, Enable &gt;</a>, <a class="el" href="classfire_1_1io_1_1Data_3_01AtomicType_00_01std_1_1enable__if__t_3_01is__atomic__v_3_01AtomicType_01_4_01_4_01_4.html#ad13bf098791b52661281f0b2cf4644ca">fire::io::Data&lt; AtomicType, std::enable_if_t&lt; is_atomic_v&lt; AtomicType &gt; &gt; &gt;</a>, <a class="el" href="classfire_1_1io_1_1Data_3_01std_1_1vector_3_01ContentType_01_4_01_4.html#a57a7c2387ec6477d09eeb8f4045e9292">fire::io::Data&lt; std::vector&lt; ContentType &gt; &gt;</a>, <a class="el" href="classfire_1_1io_1_1Data_3_01std_1_1map_3_01KeyType_00_01ValType_01_4_01_4.html#ac0e2d12c3a50b735c0f011300c281928">fire::io::Data&lt; std::map&lt; KeyType, ValType &gt; &gt;</a>, <a class="el" href="classfire_1_1io_1_1AbstractData.html#ab9e37f662a1ac20e1eefd174272dda29">fire::io::AbstractData&lt; DataType &gt;</a>, <a class="el" href="classfire_1_1io_1_1AbstractData.html#ab9e37f662a1ac20e1eefd174272dda29">fire::io::AbstractData&lt; AtomicType &gt;</a>, <a class="el" href="classfire_1_1io_1_1AbstractData.html#ab9e37f662a1ac20e1eefd174272dda29">fire::io::AbstractData&lt; ParameterStorage &gt;</a>, <a class="el" href="classfire_1_1io_1_1AbstractData.html#ab9e37f662a1ac20e1eefd174272dda29">fire::io::AbstractData&lt; std::map&lt; KeyType, ValType &gt; &gt;</a>, <a class="el" href="classfire_1_1io_1_1AbstractData.html#ab9e37f662a1ac20e1eefd174272dda29">fire::io::AbstractData&lt; std::vector&lt; ContentType &gt; &gt;</a>, and <a class="el" href="classfire_1_1io_1_1Data_3_01ParameterStorage_01_4.html#a6d996c339e2367d7e47234647cc85ad1">fire::io::Data&lt; ParameterStorage &gt;</a>.</p>
+
+</div>
+</div>
+<a id="abc8689df8b1ae66bc167b01f1a37379b" name="abc8689df8b1ae66bc167b01f1a37379b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc8689df8b1ae66bc167b01f1a37379b">&#9670;&nbsp;</a></span>structure()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void fire::io::BaseData::structure </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classfire_1_1io_1_1Writer.html">Writer</a> &amp;&#160;</td>
+          <td class="paramname"><em>f</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>we should persist our hierarchy into the output file </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">f</td><td><a class="el" href="classfire_1_1io_1_1Writer.html" title="Write the fire DataSets into a deterministic structure in the output HDF5 data file.">Writer</a> to write to </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implemented in <a class="el" href="classfire_1_1io_1_1Data.html#acfc509600068a61de14de78c7add97c9">fire::io::Data&lt; DataType, Enable &gt;</a>, <a class="el" href="classfire_1_1io_1_1Data_3_01AtomicType_00_01std_1_1enable__if__t_3_01is__atomic__v_3_01AtomicType_01_4_01_4_01_4.html#a6e2786caf18a430ff8a3b65af7dd6164">fire::io::Data&lt; AtomicType, std::enable_if_t&lt; is_atomic_v&lt; AtomicType &gt; &gt; &gt;</a>, <a class="el" href="classfire_1_1io_1_1Data_3_01std_1_1vector_3_01ContentType_01_4_01_4.html#a1899352fa775313c4f7051fc7ea3d8b5">fire::io::Data&lt; std::vector&lt; ContentType &gt; &gt;</a>, <a class="el" href="classfire_1_1io_1_1Data_3_01std_1_1map_3_01KeyType_00_01ValType_01_4_01_4.html#a39d95161d3eaaed3a13f877ae33901d8">fire::io::Data&lt; std::map&lt; KeyType, ValType &gt; &gt;</a>, <a class="el" href="classfire_1_1io_1_1AbstractData.html#a7369a4965b069759e2009e9ea4e24e06">fire::io::AbstractData&lt; DataType &gt;</a>, <a class="el" href="classfire_1_1io_1_1AbstractData.html#a7369a4965b069759e2009e9ea4e24e06">fire::io::AbstractData&lt; AtomicType &gt;</a>, <a class="el" href="classfire_1_1io_1_1AbstractData.html#a7369a4965b069759e2009e9ea4e24e06">fire::io::AbstractData&lt; ParameterStorage &gt;</a>, <a class="el" href="classfire_1_1io_1_1AbstractData.html#a7369a4965b069759e2009e9ea4e24e06">fire::io::AbstractData&lt; std::map&lt; KeyType, ValType &gt; &gt;</a>, <a class="el" href="classfire_1_1io_1_1AbstractData.html#a7369a4965b069759e2009e9ea4e24e06">fire::io::AbstractData&lt; std::vector&lt; ContentType &gt; &gt;</a>, and <a class="el" href="classfire_1_1io_1_1Data_3_01ParameterStorage_01_4.html#ab7a91fc9c0b7f0d368e6d926228889a3">fire::io::Data&lt; ParameterStorage &gt;</a>.</p>
 
 </div>
 </div>

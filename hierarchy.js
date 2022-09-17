@@ -33,6 +33,9 @@ var hierarchy =
       [ "fire::RandomNumberSeedService", "classfire_1_1RandomNumberSeedService.html", null ]
     ] ],
     [ "fire::io::constants", "structfire_1_1io_1_1constants.html", null ],
+    [ "fire::io::class_version_impl::deducer< T, Enable >", "structfire_1_1io_1_1class__version__impl_1_1deducer.html", null ],
+    [ "fire::io::class_version_impl::deducer< T, typename enable_if_type< typename T::version >::type >", "structfire_1_1io_1_1class__version__impl_1_1deducer_3_01T_00_01typename_01enable__if__type_3_01t7c0a6d5f0fda9053376e7eef6e20208b.html", null ],
+    [ "fire::io::class_version_impl::enable_if_type< T, R >", "structfire_1_1io_1_1class__version__impl_1_1enable__if__type.html", null ],
     [ "fire::Event", "classfire_1_1Event.html", null ],
     [ "framework::Event", "classframework_1_1Event.html", null ],
     [ "fire::EventHeader", "classfire_1_1EventHeader.html", null ],

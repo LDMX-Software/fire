@@ -26,9 +26,9 @@ var NAVTREE =
 [
   [ "fire", "index.html", [
     [ "🔥 fire 🔥", "index.html", [
-      [ "Features", "index.html#autotoc_md49", null ],
-      [ "Dependencies", "index.html#autotoc_md50", [
-        [ "Developer Dependencies", "index.html#autotoc_md51", null ]
+      [ "Features", "index.html#autotoc_md54", null ],
+      [ "Dependencies", "index.html#autotoc_md55", [
+        [ "Developer Dependencies", "index.html#autotoc_md56", null ]
       ] ]
     ] ],
     [ "Doxygen Awesome", "md_docs_doxygen_awesome_css_README.html", [
@@ -49,6 +49,27 @@ var NAVTREE =
         [ "Share your own theme customizations", "md_docs_doxygen_awesome_css_README.html#autotoc_md13", null ]
       ] ],
       [ "Credits", "md_docs_doxygen_awesome_css_README.html#autotoc_md14", null ]
+    ] ],
+    [ "Getting Started", "md_docs_getting_started.html", [
+      [ "Processors", "md_docs_getting_started.html#autotoc_md16", [
+        [ "Non-Configurable", "md_docs_getting_started.html#autotoc_md17", null ],
+        [ "Configurable Processor", "md_docs_getting_started.html#autotoc_md18", null ]
+      ] ],
+      [ "Data Classes", "md_docs_getting_started.html#autotoc_md19", [
+        [ "The attach Method", "md_docs_getting_started.html#autotoc_md20", [
+          [ "Important Comments", "md_docs_getting_started.html#autotoc_md21", null ]
+        ] ],
+        [ "ROOT Reading", "md_docs_getting_started.html#autotoc_md22", [
+          [ "Step 1: Add ROOT macros to your class", "md_docs_getting_started.html#autotoc_md23", null ],
+          [ "Step 2: Write a LinkDef file.", "md_docs_getting_started.html#autotoc_md24", null ],
+          [ "Step 3: CMake Nonsense", "md_docs_getting_started.html#autotoc_md25", null ]
+        ] ],
+        [ "Schema Evolution", "md_docs_getting_started.html#autotoc_md26", [
+          [ "New Member", "md_docs_getting_started.html#autotoc_md27", null ],
+          [ "Remove Member", "md_docs_getting_started.html#autotoc_md28", null ],
+          [ "Rename", "md_docs_getting_started.html#autotoc_md29", null ]
+        ] ]
+      ] ]
     ] ],
     [ "Generating fire docs", "md_docs_README.html", null ],
     [ "Deprecated List", "deprecated.html", null ],
@@ -73,6 +94,7 @@ var NAVTREE =
         [ "Variables", "functions_vars.html", null ],
         [ "Typedefs", "functions_type.html", null ],
         [ "Enumerations", "functions_enum.html", null ],
+        [ "Enumerator", "functions_eval.html", null ],
         [ "Related Functions", "functions_rela.html", null ]
       ] ]
     ] ],
@@ -90,12 +112,12 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "AbstractData_8h_source.html",
-"classfire_1_1EventHeader.html#ab8b472981d5f87116b95040652a001b9",
-"classfire_1_1RunHeader.html#add62fb8fb26753e59dfffa4e146aac51",
-"classfire_1_1io_1_1Writer_1_1BufferHandle.html#a2c2f6180c90050fad2cc393b4d1c06fd",
-"cpp/algorithm/search.html",
-"cpp/numeric/math/frexp.html",
-"functions_func_m.html"
+"classfire_1_1EventHeader.html#a9bb77781dd100a412965f6bb2ff66dc7",
+"classfire_1_1RunHeader.html#ac0902fbe6869feb4efc1f289a4dd8cba",
+"classfire_1_1io_1_1Writer.html#a4fcae84b9d2c88b8ecde35bfc9937a6d",
+"cpp/algorithm/inner_product.html",
+"cpp/memory/shared_ptr/pointer_cast.html",
+"cpp/utility/rel_ops/operator_cmp.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

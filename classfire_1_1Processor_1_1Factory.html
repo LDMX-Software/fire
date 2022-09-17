@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.16.0</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.17.0</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -165,8 +165,8 @@ Private Attributes</h2></td></tr>
 <div class="ttc" id="anamespaceframework_1_1config_html_ae663436275df1deb1270209022666ebb"><div class="ttname"><a href="namespaceframework_1_1config.html#ae663436275df1deb1270209022666ebb">framework::config::Parameters</a></div><div class="ttdeci">fire::config::Parameters Parameters</div><div class="ttdoc">alias for Parameters within this namespace</div><div class="ttdef"><b>Definition:</b> EventProcessor.h:30</div></div>
 </div><!-- fragment --><p> and then adding the following line to the loop constructing Processors in the <a class="el" href="classfire_1_1Process.html" title="The central object managing the data processing.">Process</a> constructor: </p><div class="fragment"><div class="line">sequence_.emplace_back(<a class="code hl_function" href="classfire_1_1Processor_1_1Factory.html#a703474452c1ea7895aca1af9be10b37a">Processor::Factory::get</a>().<a class="code hl_function" href="classfire_1_1Processor_1_1Factory.html#a21b035bd57904c1207a2d73f338b4d9e">make</a>(class_name, proc));</div>
 <div class="line">sequence_.back()-&gt;attach(<span class="keyword">this</span>);</div>
-<div class="ttc" id="aclassfire_1_1Processor_1_1Factory_html_a21b035bd57904c1207a2d73f338b4d9e"><div class="ttname"><a href="classfire_1_1Processor_1_1Factory.html#a21b035bd57904c1207a2d73f338b4d9e">fire::Processor::Factory::make</a></div><div class="ttdeci">PrototypePtr make(const std::string &amp;full_name, const config::Parameters &amp;ps, Process &amp;p)</div><div class="ttdoc">make a new object by name</div><div class="ttdef"><b>Definition:</b> Processor.h:418</div></div>
-<div class="ttc" id="aclassfire_1_1Processor_1_1Factory_html_a703474452c1ea7895aca1af9be10b37a"><div class="ttname"><a href="classfire_1_1Processor_1_1Factory.html#a703474452c1ea7895aca1af9be10b37a">fire::Processor::Factory::get</a></div><div class="ttdeci">static Factory &amp; get()</div><div class="ttdoc">get the factory instance</div><div class="ttdef"><b>Definition:</b> Processor.h:370</div></div>
+<div class="ttc" id="aclassfire_1_1Processor_1_1Factory_html_a21b035bd57904c1207a2d73f338b4d9e"><div class="ttname"><a href="classfire_1_1Processor_1_1Factory.html#a21b035bd57904c1207a2d73f338b4d9e">fire::Processor::Factory::make</a></div><div class="ttdeci">PrototypePtr make(const std::string &amp;full_name, const config::Parameters &amp;ps, Process &amp;p)</div><div class="ttdoc">make a new object by name</div><div class="ttdef"><b>Definition:</b> Processor.h:266</div></div>
+<div class="ttc" id="aclassfire_1_1Processor_1_1Factory_html_a703474452c1ea7895aca1af9be10b37a"><div class="ttname"><a href="classfire_1_1Processor_1_1Factory.html#a703474452c1ea7895aca1af9be10b37a">fire::Processor::Factory::get</a></div><div class="ttdeci">static Factory &amp; get()</div><div class="ttdoc">get the factory instance</div><div class="ttdef"><b>Definition:</b> Processor.h:218</div></div>
 </div><!-- fragment --> </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="acd19cd403061be72e88eb66bad164ce6" name="acd19cd403061be72e88eb66bad164ce6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acd19cd403061be72e88eb66bad164ce6">&#9670;&nbsp;</a></span>PrototypeMaker</h2>

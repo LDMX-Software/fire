@@ -8,6 +8,11 @@ var annotated_dup =
         [ "Factory", "classfire_1_1factory_1_1Factory.html", "classfire_1_1factory_1_1Factory" ]
       ] ],
       [ "io", "namespacefire_1_1io.html", [
+        [ "class_version_impl", "namespacefire_1_1io_1_1class__version__impl.html", [
+          [ "deducer", "structfire_1_1io_1_1class__version__impl_1_1deducer.html", null ],
+          [ "deducer< T, typename enable_if_type< typename T::version >::type >", "structfire_1_1io_1_1class__version__impl_1_1deducer_3_01T_00_01typename_01enable__if__type_3_01t7c0a6d5f0fda9053376e7eef6e20208b.html", null ],
+          [ "enable_if_type", "structfire_1_1io_1_1class__version__impl_1_1enable__if__type.html", null ]
+        ] ],
         [ "h5", null, [
           [ "Reader", "classfire_1_1io_1_1h5_1_1Reader.html", "classfire_1_1io_1_1h5_1_1Reader" ]
         ] ],

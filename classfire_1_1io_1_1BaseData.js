@@ -5,5 +5,6 @@ var classfire_1_1io_1_1BaseData =
     [ "clear", "classfire_1_1io_1_1BaseData.html#a3b85ea243d381dc862c3e38933e9397b", null ],
     [ "load", "classfire_1_1io_1_1BaseData.html#a4f9d8a7ea8a968fc07ac0ab52df5c562", null ],
     [ "save", "classfire_1_1io_1_1BaseData.html#a566aeb82ac1dc7798135462b44ac2813", null ],
+    [ "structure", "classfire_1_1io_1_1BaseData.html#abc8689df8b1ae66bc167b01f1a37379b", null ],
     [ "path_", "classfire_1_1io_1_1BaseData.html#a894fe129bcb7affe878725816e6a8891", null ]
 ];

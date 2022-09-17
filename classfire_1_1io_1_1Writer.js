@@ -10,7 +10,7 @@ var classfire_1_1io_1_1Writer =
     [ "name", "classfire_1_1io_1_1Writer.html#aecc5def454680844f6096000bb664575", null ],
     [ "operator=", "classfire_1_1io_1_1Writer.html#ad8af515e8286c9b54a5b325c4a9182ad", null ],
     [ "save", "classfire_1_1io_1_1Writer.html#a0285ab5b1b60d1b26628eed1320fad6c", null ],
-    [ "setTypeName", "classfire_1_1io_1_1Writer.html#a237a10fb88bb020a0dbe8f037f0c6ae4", null ],
+    [ "structure", "classfire_1_1io_1_1Writer.html#a4115bd9da48326fbfe654e94b6b7ee3f", null ],
     [ "operator<<", "classfire_1_1io_1_1Writer.html#a7cc2c48795e8903108d1835ba6d4054e", null ],
     [ "buffers_", "classfire_1_1io_1_1Writer.html#a9cfb4d8528ac9cf5100b8e2a3a98d1eb", null ],
     [ "create_props_", "classfire_1_1io_1_1Writer.html#a4fcae84b9d2c88b8ecde35bfc9937a6d", null ],

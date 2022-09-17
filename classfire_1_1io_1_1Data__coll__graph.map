@@ -1,7 +1,8 @@
 <map id="fire::io::Data&lt; DataType, Enable &gt;" name="fire::io::Data&lt; DataType, Enable &gt;">
-<area shape="rect" id="node1" title="General data set." alt="" coords="5,352,188,393"/>
-<area shape="rect" id="node2" href="$classfire_1_1io_1_1AbstractData.html" title="Type&#45;specific base class to hold common data methods." alt="" coords="19,261,175,303"/>
-<area shape="rect" id="node3" href="$classfire_1_1io_1_1BaseData.html" title="Empty data base allowing recursion." alt="" coords="29,185,164,212"/>
-<area shape="rect" id="node4" href="/home/runner/work/fire/fire/docs/cppreference-doxygen-web.tag.xml$cpp/string/basic_string.html" title=" " alt="" coords="53,96,140,123"/>
-<area shape="rect" id="node5" href="/home/runner/work/fire/fire/docs/cppreference-doxygen-web.tag.xml$cpp/string/basic_string.html" title=" " alt="" coords="27,5,166,47"/>
+<area shape="rect" id="node1" title="General data set." alt="" coords="72,365,255,407"/>
+<area shape="rect" id="node2" href="$classfire_1_1io_1_1AbstractData.html" title="Type&#45;specific base class to hold common data methods." alt="" coords="5,261,161,303"/>
+<area shape="rect" id="node3" href="$classfire_1_1io_1_1BaseData.html" title="Empty data base allowing recursion." alt="" coords="16,185,151,212"/>
+<area shape="rect" id="node4" href="/home/runner/work/fire/fire/docs/cppreference-doxygen-web.tag.xml$cpp/string/basic_string.html" title=" " alt="" coords="40,96,127,123"/>
+<area shape="rect" id="node5" href="/home/runner/work/fire/fire/docs/cppreference-doxygen-web.tag.xml$cpp/string/basic_string.html" title=" " alt="" coords="14,5,153,47"/>
+<area shape="rect" id="node6" href="$classfire_1_1io_1_1Reader.html" title="Prototype for reading files within fire." alt="" coords="186,269,303,295"/>
 </map>

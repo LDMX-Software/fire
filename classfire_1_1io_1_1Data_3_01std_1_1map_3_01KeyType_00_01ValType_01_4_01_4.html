@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.16.0</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.17.0</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -86,6 +86,7 @@ $(document).ready(function(){initNavTree('classfire_1_1io_1_1Data_3_01std_1_1map
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classfire_1_1io_1_1Data_3_01std_1_1map_3_01KeyType_00_01ValType_01_4_01_4-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">fire::io::Data&lt; std::map&lt; KeyType, ValType &gt; &gt; Class Template Reference</div></div>
@@ -111,19 +112,22 @@ Collaboration diagram for fire::io::Data&lt; std::map&lt; KeyType, ValType &gt; 
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a5f09588f743673bf08f301fb1ddc8c69"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1Data_3_01std_1_1map_3_01KeyType_00_01ValType_01_4_01_4.html#a5f09588f743673bf08f301fb1ddc8c69">Data</a> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;path, <a class="elRef" href="http://en.cppreference.com/w/cpp/container/map.html">std::map</a>&lt; KeyType, ValType &gt; *handle=nullptr)</td></tr>
-<tr class="memdesc:a5f09588f743673bf08f301fb1ddc8c69"><td class="mdescLeft">&#160;</td><td class="mdescRight">We create three child data sets, one for the successive sizes of the maps and two to hold all the keys and values serially.  <a href="classfire_1_1io_1_1Data_3_01std_1_1map_3_01KeyType_00_01ValType_01_4_01_4.html#a5f09588f743673bf08f301fb1ddc8c69">More...</a><br /></td></tr>
-<tr class="separator:a5f09588f743673bf08f301fb1ddc8c69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9966fde02ae6856c5d24430da396087f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1Data_3_01std_1_1map_3_01KeyType_00_01ValType_01_4_01_4.html#a9966fde02ae6856c5d24430da396087f">Data</a> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;path, <a class="el" href="classfire_1_1io_1_1Reader.html">Reader</a> *input_file=nullptr, <a class="elRef" href="http://en.cppreference.com/w/cpp/container/map.html">std::map</a>&lt; KeyType, ValType &gt; *handle=nullptr)</td></tr>
+<tr class="memdesc:a9966fde02ae6856c5d24430da396087f"><td class="mdescLeft">&#160;</td><td class="mdescRight">We create three child data sets, one for the successive sizes of the maps and two to hold all the keys and values serially.  <a href="classfire_1_1io_1_1Data_3_01std_1_1map_3_01KeyType_00_01ValType_01_4_01_4.html#a9966fde02ae6856c5d24430da396087f">More...</a><br /></td></tr>
+<tr class="separator:a9966fde02ae6856c5d24430da396087f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a68812f6eb153dc09d5d12903fc757126"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1Data_3_01std_1_1map_3_01KeyType_00_01ValType_01_4_01_4.html#a68812f6eb153dc09d5d12903fc757126">load</a> (<a class="el" href="classfire_1_1io_1_1h5_1_1Reader.html">h5::Reader</a> &amp;f) final override</td></tr>
 <tr class="memdesc:a68812f6eb153dc09d5d12903fc757126"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a map from the input file.  <a href="classfire_1_1io_1_1Data_3_01std_1_1map_3_01KeyType_00_01ValType_01_4_01_4.html#a68812f6eb153dc09d5d12903fc757126">More...</a><br /></td></tr>
 <tr class="separator:a68812f6eb153dc09d5d12903fc757126"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac0e2d12c3a50b735c0f011300c281928"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1Data_3_01std_1_1map_3_01KeyType_00_01ValType_01_4_01_4.html#ac0e2d12c3a50b735c0f011300c281928">save</a> (<a class="el" href="classfire_1_1io_1_1Writer.html">Writer</a> &amp;f) final override</td></tr>
 <tr class="memdesc:ac0e2d12c3a50b735c0f011300c281928"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save a vector to the output file.  <a href="classfire_1_1io_1_1Data_3_01std_1_1map_3_01KeyType_00_01ValType_01_4_01_4.html#ac0e2d12c3a50b735c0f011300c281928">More...</a><br /></td></tr>
 <tr class="separator:ac0e2d12c3a50b735c0f011300c281928"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39d95161d3eaaed3a13f877ae33901d8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1Data_3_01std_1_1map_3_01KeyType_00_01ValType_01_4_01_4.html#a39d95161d3eaaed3a13f877ae33901d8">structure</a> (<a class="el" href="classfire_1_1io_1_1Writer.html">Writer</a> &amp;f) final override</td></tr>
+<tr class="memdesc:a39d95161d3eaaed3a13f877ae33901d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">pure virtual method for saving structure  <a href="classfire_1_1io_1_1Data_3_01std_1_1map_3_01KeyType_00_01ValType_01_4_01_4.html#a39d95161d3eaaed3a13f877ae33901d8">More...</a><br /></td></tr>
+<tr class="separator:a39d95161d3eaaed3a13f877ae33901d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classfire_1_1io_1_1AbstractData"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classfire_1_1io_1_1AbstractData')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classfire_1_1io_1_1AbstractData.html">fire::io::AbstractData&lt; std::map&lt; KeyType, ValType &gt; &gt;</a></td></tr>
-<tr class="memitem:a0aef5e14ace7b4d64acc0125546fd952 inherit pub_methods_classfire_1_1io_1_1AbstractData"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1AbstractData.html#a0aef5e14ace7b4d64acc0125546fd952">AbstractData</a> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;path, <a class="elRef" href="http://en.cppreference.com/w/cpp/container/map.html">std::map</a>&lt; KeyType, ValType &gt; *handle=nullptr)</td></tr>
-<tr class="memdesc:a0aef5e14ace7b4d64acc0125546fd952 inherit pub_methods_classfire_1_1io_1_1AbstractData"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define the dataset path and provide an optional handle.  <a href="classfire_1_1io_1_1AbstractData.html#a0aef5e14ace7b4d64acc0125546fd952">More...</a><br /></td></tr>
-<tr class="separator:a0aef5e14ace7b4d64acc0125546fd952 inherit pub_methods_classfire_1_1io_1_1AbstractData"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e55d2eb2d2db7e8ce6666d974c4a3f4 inherit pub_methods_classfire_1_1io_1_1AbstractData"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1AbstractData.html#a5e55d2eb2d2db7e8ce6666d974c4a3f4">AbstractData</a> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;path, <a class="el" href="classfire_1_1io_1_1Reader.html">Reader</a> *input_file=nullptr, <a class="elRef" href="http://en.cppreference.com/w/cpp/container/map.html">std::map</a>&lt; KeyType, ValType &gt; *handle=nullptr)</td></tr>
+<tr class="memdesc:a5e55d2eb2d2db7e8ce6666d974c4a3f4 inherit pub_methods_classfire_1_1io_1_1AbstractData"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define the dataset path and provide an optional handle.  <a href="classfire_1_1io_1_1AbstractData.html#a5e55d2eb2d2db7e8ce6666d974c4a3f4">More...</a><br /></td></tr>
+<tr class="separator:a5e55d2eb2d2db7e8ce6666d974c4a3f4 inherit pub_methods_classfire_1_1io_1_1AbstractData"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a943c0ebc60c028e175430464057bae04 inherit pub_methods_classfire_1_1io_1_1AbstractData"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1AbstractData.html#a943c0ebc60c028e175430464057bae04">~AbstractData</a> ()</td></tr>
 <tr class="memdesc:a943c0ebc60c028e175430464057bae04 inherit pub_methods_classfire_1_1io_1_1AbstractData"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delete our object if we own it, otherwise do nothing.  <a href="classfire_1_1io_1_1AbstractData.html#a943c0ebc60c028e175430464057bae04">More...</a><br /></td></tr>
 <tr class="separator:a943c0ebc60c028e175430464057bae04 inherit pub_methods_classfire_1_1io_1_1AbstractData"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -133,6 +137,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ade1319cb4e4305755391a9dba6efe94e inherit pub_methods_classfire_1_1io_1_1AbstractData"><td class="memItemLeft" align="right" valign="top">virtual const <a class="elRef" href="http://en.cppreference.com/w/cpp/container/map.html">std::map</a>&lt; KeyType, ValType &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1AbstractData.html#ade1319cb4e4305755391a9dba6efe94e">get</a> () const</td></tr>
 <tr class="memdesc:ade1319cb4e4305755391a9dba6efe94e inherit pub_methods_classfire_1_1io_1_1AbstractData"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current in-memory data.  <a href="classfire_1_1io_1_1AbstractData.html#ade1319cb4e4305755391a9dba6efe94e">More...</a><br /></td></tr>
 <tr class="separator:ade1319cb4e4305755391a9dba6efe94e inherit pub_methods_classfire_1_1io_1_1AbstractData"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0ae56528ad3d5127dcf0e4f376a6c4a inherit pub_methods_classfire_1_1io_1_1AbstractData"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1AbstractData.html#ab0ae56528ad3d5127dcf0e4f376a6c4a">version</a> () const</td></tr>
+<tr class="memdesc:ab0ae56528ad3d5127dcf0e4f376a6c4a inherit pub_methods_classfire_1_1io_1_1AbstractData"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the version number for the type we are loading from.  <a href="classfire_1_1io_1_1AbstractData.html#ab0ae56528ad3d5127dcf0e4f376a6c4a">More...</a><br /></td></tr>
+<tr class="separator:ab0ae56528ad3d5127dcf0e4f376a6c4a inherit pub_methods_classfire_1_1io_1_1AbstractData"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7449fa70578a217c4fbc94ee134291af inherit pub_methods_classfire_1_1io_1_1AbstractData"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1io_1_1AbstractData.html#a7449fa70578a217c4fbc94ee134291af">update</a> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/container/map.html">std::map</a>&lt; KeyType, ValType &gt; &amp;val)</td></tr>
 <tr class="memdesc:a7449fa70578a217c4fbc94ee134291af inherit pub_methods_classfire_1_1io_1_1AbstractData"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update the in-memory data object with the passed value.  <a href="classfire_1_1io_1_1AbstractData.html#a7449fa70578a217c4fbc94ee134291af">More...</a><br /></td></tr>
 <tr class="separator:a7449fa70578a217c4fbc94ee134291af inherit pub_methods_classfire_1_1io_1_1AbstractData"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -144,6 +151,12 @@ Public Member Functions</h2></td></tr>
 virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~BaseData</b> ()=default</td></tr>
 <tr class="memdesc:a939f2509d963861cd334da226117737a inherit pub_methods_classfire_1_1io_1_1BaseData"><td class="mdescLeft">&#160;</td><td class="mdescRight">virtual destructor so inherited classes can be properly destructed. <br /></td></tr>
 <tr class="separator:a939f2509d963861cd334da226117737a inherit pub_methods_classfire_1_1io_1_1BaseData"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:a626fe21b8456180836e0932ad9f4350a"><td class="memItemLeft" align="right" valign="top"><a id="a626fe21b8456180836e0932ad9f4350a" name="a626fe21b8456180836e0932ad9f4350a"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>fire_class_version</b> (1)</td></tr>
+<tr class="separator:a626fe21b8456180836e0932ad9f4350a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -163,6 +176,14 @@ Private Attributes</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pro_attribs_classfire_1_1io_1_1AbstractData"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classfire_1_1io_1_1AbstractData')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classfire_1_1io_1_1AbstractData.html">fire::io::AbstractData&lt; std::map&lt; KeyType, ValType &gt; &gt;</a></td></tr>
+<tr class="memitem:a0af5e7ac9c65e2771c29ade731a88e2a inherit pro_attribs_classfire_1_1io_1_1AbstractData"><td class="memItemLeft" align="right" valign="top"><a id="a0af5e7ac9c65e2771c29ade731a88e2a" name="a0af5e7ac9c65e2771c29ade731a88e2a"></a>
+std::optional&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/utility/pair.html">std::pair</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>, int &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>load_type_</b></td></tr>
+<tr class="memdesc:a0af5e7ac9c65e2771c29ade731a88e2a inherit pro_attribs_classfire_1_1io_1_1AbstractData"><td class="mdescLeft">&#160;</td><td class="mdescRight">type this data is loading from <br /></td></tr>
+<tr class="separator:a0af5e7ac9c65e2771c29ade731a88e2a inherit pro_attribs_classfire_1_1io_1_1AbstractData"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a063d385f31f320451acbeb94abb624bb inherit pro_attribs_classfire_1_1io_1_1AbstractData"><td class="memItemLeft" align="right" valign="top"><a id="a063d385f31f320451acbeb94abb624bb" name="a063d385f31f320451acbeb94abb624bb"></a>
+<a class="elRef" href="http://en.cppreference.com/w/cpp/utility/pair.html">std::pair</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>save_type_</b></td></tr>
+<tr class="memdesc:a063d385f31f320451acbeb94abb624bb inherit pro_attribs_classfire_1_1io_1_1AbstractData"><td class="mdescLeft">&#160;</td><td class="mdescRight">type this data that is being used to write <br /></td></tr>
+<tr class="separator:a063d385f31f320451acbeb94abb624bb inherit pro_attribs_classfire_1_1io_1_1AbstractData"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeb230f3a848fb39410e07fe85822a12d inherit pro_attribs_classfire_1_1io_1_1AbstractData"><td class="memItemLeft" align="right" valign="top"><a id="aeb230f3a848fb39410e07fe85822a12d" name="aeb230f3a848fb39410e07fe85822a12d"></a>
 <a class="elRef" href="http://en.cppreference.com/w/cpp/container/map.html">std::map</a>&lt; KeyType, ValType &gt; *&#160;</td><td class="memItemRight" valign="bottom"><b>handle_</b></td></tr>
 <tr class="memdesc:aeb230f3a848fb39410e07fe85822a12d inherit pro_attribs_classfire_1_1io_1_1AbstractData"><td class="mdescLeft">&#160;</td><td class="mdescRight">handle on current object in memory <br /></td></tr>
@@ -190,8 +211,8 @@ class fire::io::Data&lt; std::map&lt; KeyType, ValType &gt; &gt;</div><p >Our wr
   </dd>
 </dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a5f09588f743673bf08f301fb1ddc8c69" name="a5f09588f743673bf08f301fb1ddc8c69"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5f09588f743673bf08f301fb1ddc8c69">&#9670;&nbsp;</a></span>Data()</h2>
+<a id="a9966fde02ae6856c5d24430da396087f" name="a9966fde02ae6856c5d24430da396087f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9966fde02ae6856c5d24430da396087f">&#9670;&nbsp;</a></span>Data()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -206,6 +227,12 @@ template&lt;typename KeyType , typename ValType &gt; </div>
           <td>(</td>
           <td class="paramtype">const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;&#160;</td>
           <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classfire_1_1io_1_1Reader.html">Reader</a> *&#160;</td>
+          <td class="paramname"><em>input_file</em> = <code>nullptr</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -315,6 +342,44 @@ template&lt;typename KeyType , typename ValType &gt; </div>
 </dl>
 
 <p>Implements <a class="el" href="classfire_1_1io_1_1AbstractData.html#ab9e37f662a1ac20e1eefd174272dda29">fire::io::AbstractData&lt; std::map&lt; KeyType, ValType &gt; &gt;</a>.</p>
+
+</div>
+</div>
+<a id="a39d95161d3eaaed3a13f877ae33901d8" name="a39d95161d3eaaed3a13f877ae33901d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39d95161d3eaaed3a13f877ae33901d8">&#9670;&nbsp;</a></span>structure()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename KeyType , typename ValType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classfire_1_1io_1_1Data.html">fire::io::Data</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/container/map.html">std::map</a>&lt; KeyType, ValType &gt; &gt;::structure </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classfire_1_1io_1_1Writer.html">Writer</a> &amp;&#160;</td>
+          <td class="paramname"><em>f</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">final</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>pure virtual method for saving structure </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">f</td><td><a class="el" href="classfire_1_1io_1_1Writer.html" title="Write the fire DataSets into a deterministic structure in the output HDF5 data file.">Writer</a> to write to </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implements <a class="el" href="classfire_1_1io_1_1AbstractData.html#a7369a4965b069759e2009e9ea4e24e06">fire::io::AbstractData&lt; std::map&lt; KeyType, ValType &gt; &gt;</a>.</p>
 
 </div>
 </div>
