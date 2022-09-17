@@ -189,7 +189,7 @@ void reco(int version) {
 
   configuration.add<std::vector<fire::config::Parameters>>("sequence", {test_get});
   configuration.add<fire::config::Parameters>("conditions", {});
-  configuration.add<std::vector<std::string>>("input_files", {"schema_evolution_prodv1.h5"});
+  configuration.add<std::vector<std::string>>("input_files", {"schema_evolution_prod_v"+std::to_string(version)+".h5"});
 
   fire::Process p(configuration);
   p.run();
