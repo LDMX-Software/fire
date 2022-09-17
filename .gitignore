@@ -1,10 +1,17 @@
+# editor created files
 *~
 *#
+# python "compilation" files
 *.pyc
 *__pycache__*
+# C++ compilation files
 *build*
+# generated data files
 *.h5
 *.pytest_cache*
-*install*
+*.root
 python/test_**
+# generated local install
+*install*
+# generated documentation
 docs/html/**
