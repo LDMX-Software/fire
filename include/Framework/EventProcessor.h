@@ -7,6 +7,7 @@
 #define FIRE_FRAMEWORK_EVENTPROCESSOR_H
 
 #include "fire/Processor.h"
+#include "Framework/Configure/Parameters.h"
 
 /**
  * Namespace for interop with 
@@ -18,17 +19,6 @@
  * using the newer style of processors.
  */
 namespace framework {
-
-/**
- * config namespace alias within framework
- */
-namespace config {
-
-/**
- * alias for Parameters within this namespace
- */
-using Parameters = fire::config::Parameters;
-}
 
 /**
  * Wrapper Event in this namespace reintroducing legacy functionality
