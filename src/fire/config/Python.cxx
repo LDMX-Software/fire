@@ -172,7 +172,7 @@ static Parameters getMembers(PyObject* object) {
   return std::move(params);
 }
 
-Parameters run(const std::string& pythonScript, char* args[], int nargs) {
+Parameters run(const std::string& root_object, const std::string& pythonScript, char* args[], int nargs) {
   // assumes that nargs >= 0
   //  this is true always because we error out if no python script has been
   //  found
