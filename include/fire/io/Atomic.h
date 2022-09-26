@@ -3,6 +3,15 @@
 #ifndef FIRE_IO_ATOMIC_H
 #define FIRE_IO_ATOMIC_H
 
+/**
+ * Geant4 does a GLOBAL definition of the keyword TRUE
+ */
+#ifdef TRUE
+#define NEED_TO_REDEFINE_TRUE
+#undef TRUE
+#undef FALSE
+#endif
+
 #include <type_traits>
 
 #include <highfive/H5DataType.hpp>
