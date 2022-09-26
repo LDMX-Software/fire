@@ -11,7 +11,7 @@ class TestProducer : public framework::Producer {
  public:
   TestProducer(const std::string& n, framework::Process& p)
     : framework::Producer(n,p) {}
-  void configure(const framework::config::Parameters& ps) final override {
+  void configure(framework::config::Parameters& ps) final override {
     run_header_ = ps.getParameter<int>("run");
   }
   void produce(framework::Event& event) final override {

@@ -47,6 +47,11 @@ class Parameters {
     parameters_[name] = value;
   }
 
+  template <typename T>
+  void addParameter(const std::string& name, const T& value) {
+    add<T>(name,value);
+  }
+
   /**
    * Check to see if a parameter exists
    *
@@ -85,6 +90,11 @@ class Parameters {
     }
   }
 
+  template <typename T>
+  const T& getParameter(const std::string& name) const {
+    return get<T>(name);
+  }
+
   /**
    * Retrieve a parameter with a default specified.
    *
@@ -101,6 +111,11 @@ class Parameters {
 
     // get here knowing that name exists in parameters_
     return get<T>(name);
+  }
+
+  template <typename T>
+  const T& getParameter(const std::string& name, const T& def) const {
+    return get<T>(name,def);
   }
 
   /**

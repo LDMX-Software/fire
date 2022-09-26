@@ -302,7 +302,7 @@ class Processor {
       } else {
         // old type
         ptr = std::make_unique<DerivedType>(parameters.get<std::string>("name"), process);
-        dynamic_cast<DerivedType*>(ptr.get())->configure(parameters);
+        dynamic_cast<DerivedType*>(ptr.get())->configure(const_cast<config::Parameters&>(parameters));
       }
       return ptr;
     }

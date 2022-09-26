@@ -8,6 +8,7 @@
 
 #include "fire/Processor.h"
 #include "Framework/Configure/Parameters.h"
+#include "Framework/Logger.h"
 
 /**
  * Namespace for interop with 
@@ -38,6 +39,14 @@ class Event {
    * wrap the current event with a legacy interface
    */
   Event(fire::Event& e) : event_{e} {}
+
+  /**
+   * Get the event header
+   * @return event header
+   */
+  fire::EventHeader& getEventHeader() {
+    return event_.header();
+  }
 
   /**
    * Get the event number
@@ -145,7 +154,7 @@ class EventProcessor : public fire::Processor {
    *
    * @param[in] ps Parameter set to configure the processor with
    */
-  virtual void configure(const config::Parameters& ps) {}
+  virtual void configure(config::Parameters& ps) {}
 };
 
 /**
