@@ -1,42 +1,11 @@
 #include "fire/Process.h"
+#include "fire/io/Open.h"
 
 #include <iostream>
 
 #include "fire/factory/Factory.h"
 
 namespace fire {
-
-/**
- * open an input file for reading
- *
- * @note We determine the type of input file to open from
- * the extension of the file name. We could implement a
- * "header reading" but that is harder to develop compared
- * to a relatively simple requirement that almost everyone
- * already follows.
- *
- * @throws fire::Exception if the file does not have a
- * recognized extension.
- * @see fire::factory::Factory::make for how the readers
- * are constructed
- *
- * @param[in] fp file path to file to open
- * @return pointer to io::Reader that has opened file
- */
-static std::unique_ptr<io::Reader> open(const std::string& fp) {
-  static const std::map<std::string, std::string> ext_to_type = {
-    { "root", "fire::io::root::Reader" },
-    { "hdf5", "fire::io::h5::Reader" },
-    { "h5"  , "fire::io::h5::Reader" }
-  };
-  auto ext{fp.substr(fp.find_last_of('.')+1)};
-  try {
-    return io::Reader::Factory::get().make(ext_to_type.at(ext), fp);
-  } catch (const std::out_of_range&) {
-    throw Exception("BadExt",
-        "Unrecognized extension '"+ext+"' for input file "+fp+".");
-  }
-}
 
 Process::Process(const fire::config::Parameters& configuration)
     : output_file_{configuration.get<int>("event_limit"),
@@ -131,7 +100,7 @@ void Process::run() {
     int ifile = 0;
     int wasRun = -1;
     for (auto fn : input_files_) {
-      std::unique_ptr<io::Reader> input_file = open(fn);
+      std::unique_ptr<io::Reader> input_file = io::open(fn);
 
       /**
        * Load runs into in-memory cache

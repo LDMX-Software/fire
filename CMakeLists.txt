@@ -106,6 +106,7 @@ if (fire_USE_ROOT)
   add_library(io SHARED 
     src/fire/io/Writer.cxx
     src/fire/io/Atomic.cxx
+    src/fire/io/Open.cxx
     src/fire/io/ParameterStorage.cxx
     src/fire/io/h5/Reader.cxx
     src/fire/io/root/Reader.cxx)
@@ -115,6 +116,7 @@ else()
   add_library(io SHARED 
     src/fire/io/Writer.cxx
     src/fire/io/Atomic.cxx
+    src/fire/io/Open.cxx
     src/fire/io/ParameterStorage.cxx
     src/fire/io/h5/Reader.cxx)
   target_link_libraries(io PUBLIC version config HighFive)
