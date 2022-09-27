@@ -2,6 +2,7 @@
 #define FIRE_IO_READER_H
 
 #include <iostream>
+#include <vector>
 
 #include "fire/factory/Factory.h"
 #include "fire/io/AbstractData.h"
