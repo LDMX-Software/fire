@@ -281,10 +281,10 @@ class Event {
       // allows users to asyncronously add event objects and the events without an 'add'
       // have a 'default' or 'cleared' object value.
       if (obj.should_save_) {
-        obj.data_->structure(output_file_);
+        obj.data_->structure(*output_file_);
         obj.data_->clear();
         for (std::size_t i{0}; i < i_entry_; i++)
-          obj.data_->save(output_file_);
+          obj.data_->save(*output_file_);
       }
     }
 
@@ -412,7 +412,7 @@ class Event {
       try {
         // copy structure into output file if this object should be saved
         if (obj.should_save_) {
-          obj.data_->structure(output_file_);
+          obj.data_->structure(*output_file_);
         }
         
         if (not obj.should_save_ or not input_file_->canCopy()) {
@@ -440,17 +440,6 @@ class Event {
           + " which cannot be casted into " 
           + boost::core::demangle(typeid(DataType).name()));
     }
-  }
-
-  /**
-   * Get a test event bus.
-   *
-   * @note This should only be used for testing!.
-   *
-   * @param[in] test_file Output file to write any testing to.
-   */
-  static Event test(io::Writer& test_file) {
-    return Event(test_file,"test",{});
   }
 
   /// Delete the copy constructor to prevent any in-advertent copies.
@@ -515,7 +504,7 @@ class Event {
    * @param[in] pass name of current processing pass
    * @param[in] dk_rules configuration for the drop/keep rules
    */
-  Event(io::Writer& output_file,
+  Event(io::Writer* output_file,
         const std::string& pass,
         const std::vector<config::Parameters>& dk_rules);
 
@@ -564,7 +553,7 @@ class Event {
   /// pointer to input file (nullptr if no input files)
   io::Reader* input_file_;
   /// handle to output file (owned by Process)
-  io::Writer& output_file_;
+  io::Writer* output_file_;
   /// name of current processing pass
   std::string pass_;
   /**
