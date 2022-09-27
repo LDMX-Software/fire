@@ -133,6 +133,7 @@ add_library(framework SHARED
   src/fire/ConditionsProvider.cxx
   src/fire/Conditions.cxx
   src/fire/RandomNumberSeedService.cxx
+  src/fire/UserReader.cxx
   )
 target_link_libraries(framework PUBLIC logging version exception config factory io Boost::boost)
 target_include_directories(framework PUBLIC
