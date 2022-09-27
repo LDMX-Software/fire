@@ -12,6 +12,7 @@ namespace fire {
 
 /// forward declaration for friendship
 class Process;
+class UserReader;
 
 /**
  * Event class for interfacing with processors
@@ -487,6 +488,11 @@ class Event {
    * members, the methods below are the ones used by it.
    */
   friend class Process;
+
+  /**
+   * The UserReader is the Event's friend, so it can construct it
+   */
+  friend class UserReader;
 
   /**
    * Only our good friend Process can construct us.

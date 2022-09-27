@@ -12,6 +12,7 @@ add_executable(test_fire
   highlevel.cxx
   helper_exceptions.cxx
   schema_evolution.cxx
+  userreader.cxx
   )
   
 target_link_libraries(test_fire PRIVATE Boost::unit_test_framework framework) 
