@@ -12,7 +12,7 @@ Process::Process(const fire::config::Parameters& configuration)
                    configuration.get<config::Parameters>("output_file")},
       input_files_{
           configuration.get<std::vector<std::string>>("input_files", {})},
-      event_{output_file_,
+      event_{&output_file_,
              configuration.get<std::string>("pass_name"),
              configuration.get<std::vector<config::Parameters>>("drop_keep_rules", {})},
       event_limit_{configuration.get<int>("event_limit")},

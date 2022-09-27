@@ -31,7 +31,7 @@ bool Event::keep(const std::string& full_name, bool def) const {
   return rule_it == drop_keep_rules_.rend() ? def : rule_it->second;
 }
 
-Event::Event(io::Writer& output_file,
+Event::Event(io::Writer* output_file,
              const std::string& pass,
              const std::vector<config::Parameters>& dk_rules)
     : output_file_{output_file},
@@ -67,7 +67,7 @@ Event::Event(io::Writer& output_file,
 
 void Event::save() {
   for (auto& [_, obj] : objects_)
-    if (obj.should_save_) obj.data_->save(output_file_);
+    if (obj.should_save_) obj.data_->save(*output_file_);
 
   for (const auto& tag : available_objects_) {
     if (tag.keep() and not tag.loaded()) {
@@ -76,7 +76,7 @@ void Event::save() {
       // but hasn't been loaded by the user
       input_file_->copy(i_entry_, 
           io::constants::EVENT_GROUP+"/"+fullName(tag.name(), tag.pass()), 
-          output_file_);
+          *output_file_);
     }
   }
 }
@@ -113,7 +113,7 @@ void Event::next() {
 
 void Event::done() {
   // make sure writer is flushed
-  output_file_.flush();
+  output_file_->flush();
 }
 
 }  // namespace fire
