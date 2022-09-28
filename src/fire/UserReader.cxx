@@ -16,31 +16,33 @@ static std::vector<config::Parameters> drop_all() {
   return da;
 }
 
-UserReader::UserReader() 
-  : event_{nullptr,"readonly",drop_all()}, i_entry_{0} {}
+UserReader::UserReader(bool wrap_around) 
+  : event_{nullptr,"readonly",drop_all()}, 
+    i_entry_{0}, in_file_{false},
+    wrap_around_{wrap_around} {}
 
 void UserReader::open(const std::string& fn, unsigned long int n) {
   i_entry_ = 0;
+  in_file_ = false;
   reader_ = io::open(fn);
   event_.setInputFile(reader_.get());
   for (int i{0}; i < n; i++) next();
 }
 
-void UserReader::next() {
+bool UserReader::next() {
   // within range of file, just load next entry
-  if (i_entry_+1 < reader_->entries()) {
+  if (i_entry_ < reader_->entries()) {
+    if (in_file_) event_.next();
     i_entry_++;
     event_.load();
-    return;
-  }
-
-  // going to reach number of entries in file, what do?
-  if (wrap_around_) {
+    in_file_ = true;
+    return true;
+  } else if (wrap_around_) {
     // re-initialize
     open(reader_->name(), 0);
+    return next();
   } else {
-    throw Exception("EndOfFile",
-        "File '"+reader_->name()+"' has no more entires.");
+    return false;
   }
 }
 

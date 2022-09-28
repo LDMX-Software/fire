@@ -18,10 +18,9 @@ BOOST_AUTO_TEST_CASE(noskip, *boost::unit_test::depends_on("highlevel/prod_drop_
   fire::UserReader r;
   r.open(file_to_read);
 
-  for (std::size_t i{0}; i < r.entries(); ++i) {
-    // index and event number are off-by-one
-    BOOST_CHECK(r.get<int>("keepalong") == i+1);
-    r.next();
+  int i{1};
+  while (r.next()) {
+    BOOST_CHECK(r.get<int>("keepalong") == i++);
   }
 }
 
@@ -29,14 +28,23 @@ BOOST_AUTO_TEST_CASE(skip, *boost::unit_test::depends_on("userreader/noskip")) {
   fire::UserReader r;
   r.open(file_to_read, 3);
 
-  for (std::size_t i{2}; i < r.entries(); ++i) {
-    // index and event number are off-by-one
-    BOOST_CHECK(r.get<int>("keepalong") == i+1);
-    r.next();
+  int i{4};
+  while (r.next()) {
+    BOOST_CHECK(r.get<int>("keepalong") == i++);
   }
 }
 
 BOOST_AUTO_TEST_CASE(loop, *boost::unit_test::depends_on("userreader/skip")) {
+  fire::UserReader r(true);
+  r.open(file_to_read, 3);
+
+  for (std::size_t i{4}; i < r.entries()+5; ++i) {
+    BOOST_CHECK(r.next());
+    std::size_t correct{i % r.entries()};
+    if (correct == 0) correct = r.entries();
+    // index and event number are off-by-one
+    BOOST_CHECK(r.get<int>("keepalong") == correct);
+  }
 }
 
 BOOST_AUTO_TEST_SUITE_END()
