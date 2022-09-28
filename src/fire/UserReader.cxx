@@ -21,6 +21,11 @@ UserReader::UserReader(bool wrap_around)
     i_entry_{0}, in_file_{false},
     wrap_around_{wrap_around} {}
 
+UserReader::UserReader(const std::string& fn, unsigned long int n, bool wrap_around)
+  : UserReader(wrap_around) {
+    open(fn, n);
+  }
+
 void UserReader::open(const std::string& fn, unsigned long int n) {
   i_entry_ = 0;
   in_file_ = false;
@@ -30,6 +35,12 @@ void UserReader::open(const std::string& fn, unsigned long int n) {
 }
 
 bool UserReader::next() {
+  if (not reader_) {
+    throw fire::Exception("BadConf",
+        "Cannot go to next entry in a file when the reader has not opened a file!",
+        false);
+  }
+
   // within range of file, just load next entry
   if (i_entry_ < reader_->entries()) {
     if (in_file_) event_.next();

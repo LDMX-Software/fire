@@ -6,6 +6,8 @@
 
 /// this filename needs to exactly match the one produced by highlevel
 static std::string file_to_read = "prod_drop_async.h5";
+/// this object name needs to exactly match an int produced by highlevel
+static std::string obj_name = "keepalong";
 
 /**
  * UserReader functionality
@@ -15,35 +17,32 @@ static std::string file_to_read = "prod_drop_async.h5";
 BOOST_AUTO_TEST_SUITE(userreader)
 
 BOOST_AUTO_TEST_CASE(noskip, *boost::unit_test::depends_on("highlevel/prod_drop_async")) {
-  fire::UserReader r;
-  r.open(file_to_read);
+  fire::UserReader r(file_to_read);
 
   int i{1};
   while (r.next()) {
-    BOOST_CHECK(r.get<int>("keepalong") == i++);
+    BOOST_CHECK(r.get<int>(obj_name) == i++);
   }
 }
 
 BOOST_AUTO_TEST_CASE(skip, *boost::unit_test::depends_on("userreader/noskip")) {
-  fire::UserReader r;
-  r.open(file_to_read, 3);
+  fire::UserReader r(file_to_read, 3);
 
   int i{4};
   while (r.next()) {
-    BOOST_CHECK(r.get<int>("keepalong") == i++);
+    BOOST_CHECK(r.get<int>(obj_name) == i++);
   }
 }
 
 BOOST_AUTO_TEST_CASE(loop, *boost::unit_test::depends_on("userreader/skip")) {
-  fire::UserReader r(true);
-  r.open(file_to_read, 3);
+  fire::UserReader r(file_to_read, 3, true);
 
   for (std::size_t i{4}; i < r.entries()+5; ++i) {
     BOOST_CHECK(r.next());
     std::size_t correct{i % r.entries()};
     if (correct == 0) correct = r.entries();
     // index and event number are off-by-one
-    BOOST_CHECK(r.get<int>("keepalong") == correct);
+    BOOST_CHECK(r.get<int>(obj_name) == correct);
   }
 }
 
