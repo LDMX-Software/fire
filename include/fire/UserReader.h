@@ -14,11 +14,11 @@ class UserReader {
    * Any development of this class needs to be done extremely carefully
    * and tested thoroughly.
    */
-  UserReader();
+  UserReader(bool wrap_around = false);
   /// open the file, skipping n events
   void open(const std::string& fn, unsigned long int n = 0);
   /// go to the next event
-  void next();
+  bool next();
   /// number of events in this file
   unsigned long int entries() const;
   /// check if reader is open or not
@@ -34,9 +34,11 @@ class UserReader {
   /// handle of underlying reader
   std::unique_ptr<io::Reader> reader_;
   /// index of entry within file that is open
-  unsigned long int i_entry_;
+  unsigned long int i_entry_{0};
   /// do we wrap from end to beginning or throw exception?
-  bool wrap_around_;
+  bool wrap_around_{false};
+  /// have we started yet?
+  bool in_file_{false};
 };
 }
 
