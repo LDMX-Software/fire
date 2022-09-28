@@ -17,15 +17,6 @@
 namespace fire::config {
 
 /**
- * namespace variable defining where to look for "root"
- * object to kickoff the parameter extraction from python.
- *
- * @note This variable must be defined in any executable that wishes
- * to use fire::config::run.
- */
-extern std::string root_object;
-
-/**
  * run the python script and extract the parameters
  *
  * This method contains all the parsing and execution of the python script.
@@ -42,11 +33,12 @@ extern std::string root_object;
  * can get up to a whole lot of shenanigans that can help them
  * make their work more efficient.
  *
+ * @param[in] full pythonic path to the object to kickoff extraction
  * @param[in] pythonScript Filename location of the python script.
  * @param[in] args Commandline arguments to be passed to the python script.
  * @param[in] nargs Number of commandline arguments, assumed to be >= 0
  */
-Parameters run(const std::string& pythonScript, char* args[], int nargs);
+Parameters run(const std::string& root_object, const std::string& pythonScript, char* args[], int nargs);
 
 }  // namespace fire::config
 

@@ -170,6 +170,32 @@ class Processor {
    * @param[in] p pointer to current Process
    */
   virtual void attach(Process *p) final { process_ = p; }
+
+  /**
+   * Access a conditions object for the current event
+   *
+   * @see Conditions::get and Conditions::getConditionPtr for
+   * how conditions objects are retrieved.
+   *
+   * ## Usage
+   * Inside of the process function, this function can be used 
+   * following the example below.
+   * ```cpp
+   * // inside void process(Event& event) for your Processor
+   * const auto& co = getCondition<MyObjectType>("ConditionName");
+   * ```
+   * The `const` and `&` are there because `auto` is not usually
+   * able to deduce that they are necessary and without them, a
+   * deep copy of the condition object would be made at this point.
+   *
+   * @tparam T type of condition object
+   * @param[in] condition_name Name of condition object to retrieve
+   * @return const handle to the condition object
+   */
+  template <class T>
+  const T &getCondition(const std::string &condition_name) {
+    return getConditions().get<T>(condition_name);
+  }
  public:
   /**
    * The special factory used to create processors
@@ -302,7 +328,7 @@ class Processor {
       } else {
         // old type
         ptr = std::make_unique<DerivedType>(parameters.get<std::string>("name"), process);
-        dynamic_cast<DerivedType*>(ptr.get())->configure(parameters);
+        dynamic_cast<DerivedType*>(ptr.get())->configure(const_cast<config::Parameters&>(parameters));
       }
       return ptr;
     }
@@ -326,31 +352,6 @@ class Processor {
   void setStorageHint(StorageControl::Hint hint,
                       const std::string &purpose = "") const;
 
-  /**
-   * Access a conditions object for the current event
-   *
-   * @see Conditions::get and Conditions::getConditionPtr for
-   * how conditions objects are retrieved.
-   *
-   * ## Usage
-   * Inside of the process function, this function can be used 
-   * following the example below.
-   * ```cpp
-   * // inside void process(Event& event) for your Processor
-   * const auto& co = getCondition<MyObjectType>("ConditionName");
-   * ```
-   * The `const` and `&` are there because `auto` is not usually
-   * able to deduce that they are necessary and without them, a
-   * deep copy of the condition object would be made at this point.
-   *
-   * @tparam T type of condition object
-   * @param[in] condition_name Name of condition object to retrieve
-   * @return const handle to the condition object
-   */
-  template <class T>
-  const T &getCondition(const std::string &condition_name) {
-    return getConditions().get<T>(condition_name);
-  }
 
   /**
    * Abort the event immediately.

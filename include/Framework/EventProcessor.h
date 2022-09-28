@@ -7,6 +7,8 @@
 #define FIRE_FRAMEWORK_EVENTPROCESSOR_H
 
 #include "fire/Processor.h"
+#include "Framework/Configure/Parameters.h"
+#include "Framework/Logger.h"
 
 /**
  * Namespace for interop with 
@@ -18,17 +20,6 @@
  * using the newer style of processors.
  */
 namespace framework {
-
-/**
- * config namespace alias within framework
- */
-namespace config {
-
-/**
- * alias for Parameters within this namespace
- */
-using Parameters = fire::config::Parameters;
-}
 
 /**
  * Wrapper Event in this namespace reintroducing legacy functionality
@@ -48,6 +39,14 @@ class Event {
    * wrap the current event with a legacy interface
    */
   Event(fire::Event& e) : event_{e} {}
+
+  /**
+   * Get the event header
+   * @return event header
+   */
+  fire::EventHeader& getEventHeader() {
+    return event_.header();
+  }
 
   /**
    * Get the event number
@@ -155,7 +154,7 @@ class EventProcessor : public fire::Processor {
    *
    * @param[in] ps Parameter set to configure the processor with
    */
-  virtual void configure(const config::Parameters& ps) {}
+  virtual void configure(config::Parameters& ps) {}
 };
 
 /**
