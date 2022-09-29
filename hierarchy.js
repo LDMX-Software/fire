@@ -63,5 +63,6 @@ var hierarchy =
     ] ],
     [ "fire::RunHeader", "classfire_1_1RunHeader.html", null ],
     [ "fire::StorageControl", "classfire_1_1StorageControl.html", null ],
+    [ "fire::UserReader", "classfire_1_1UserReader.html", null ],
     [ "fire::io::Writer", "classfire_1_1io_1_1Writer.html", null ]
 ];

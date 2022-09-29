@@ -9,6 +9,7 @@ var dir_a745ed048db32aee8b36fe4434eded64 =
       [ "fire::io::constants", "structfire_1_1io_1_1constants.html", "structfire_1_1io_1_1constants" ]
     ] ],
     [ "Data.h", "Data_8h_source.html", null ],
+    [ "Open.h", "Open_8h.html", "Open_8h" ],
     [ "ParameterStorage.h", "ParameterStorage_8h_source.html", null ],
     [ "Reader.h", "Reader_8h_source.html", null ],
     [ "Writer.h", "Writer_8h_source.html", null ]

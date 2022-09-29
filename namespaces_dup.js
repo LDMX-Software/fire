@@ -34,7 +34,8 @@ var namespaces_dup =
       [ "Processor", "classfire_1_1Processor.html", "classfire_1_1Processor" ],
       [ "RandomNumberSeedService", "classfire_1_1RandomNumberSeedService.html", "classfire_1_1RandomNumberSeedService" ],
       [ "RunHeader", "classfire_1_1RunHeader.html", "classfire_1_1RunHeader" ],
-      [ "StorageControl", "classfire_1_1StorageControl.html", "classfire_1_1StorageControl" ]
+      [ "StorageControl", "classfire_1_1StorageControl.html", "classfire_1_1StorageControl" ],
+      [ "UserReader", "classfire_1_1UserReader.html", "classfire_1_1UserReader" ]
     ] ],
     [ "framework", "namespaceframework.html", "namespaceframework" ],
     [ "std", "namespacestd.html", [

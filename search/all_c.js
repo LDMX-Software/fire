@@ -41,7 +41,7 @@ var searchData=
   ['log_5ffrequency_5f_38',['log_frequency_',['../classfire_1_1Process.html#aab1932526ff8bb42fa40f64324880784',1,'fire::Process']]],
   ['logb_39',['logb',['http://en.cppreference.com/w/cpp/numeric/math/logb.html',1,'std']]],
   ['logger_40',['logger',['../namespacefire_1_1logging.html#af31a24e73f3968047026401b1204867f',1,'fire::logging']]],
-  ['logger_2eh_41',['Logger.h',['../Logger_8h.html',1,'']]],
+  ['logger_2eh_41',['Logger.h',['../fire_2logging_2Logger_8h.html',1,'']]],
   ['logic_5ferror_42',['logic_error',['http://en.cppreference.com/w/cpp/error/logic_error.html',1,'std::logic_error::logic_error()'],['http://en.cppreference.com/w/cpp/error/logic_error.html',1,'std::logic_error']]],
   ['logical_5fand_43',['logical_and',['http://en.cppreference.com/w/cpp/utility/functional/logical_and.html',1,'std']]],
   ['logical_5fnot_44',['logical_not',['http://en.cppreference.com/w/cpp/utility/functional/logical_not.html',1,'std']]],

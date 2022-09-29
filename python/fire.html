@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>fire package &#8212; fire v0.17.0 documentation</title>
+    <title>fire package &#8212; fire v0.18.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bizstyle.css" />
     
@@ -16,6 +16,7 @@
     <script src="_static/underscore.js"></script>
     <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -41,7 +42,7 @@
         <li class="right" >
           <a href="index.html" title="fire Python Interaction Package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">fire v0.17.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">fire v0.18.0 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">fire package</a></li> 
       </ul>
     </div>  
@@ -58,16 +59,88 @@
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="fire.cfg.html">fire.cfg package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="fire.cfg.html#fire-cfg-process-class">fire.cfg.Process class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fire.cfg.html#fire-cfg-processor-class">fire.cfg.Processor class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fire.cfg.html#fire-cfg-outputfile-class">fire.cfg.OutputFile class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fire.cfg.html#fire-cfg-conditionsprovider-class">fire.cfg.ConditionsProvider class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fire.cfg.html#fire-cfg-process-class">fire.cfg.Process class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fire.cfg.html#fire.cfg.Process"><code class="docutils literal notranslate"><span class="pre">Process</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg.Process.lastProcess"><code class="docutils literal notranslate"><span class="pre">Process.lastProcess</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg.Process.event_limit"><code class="docutils literal notranslate"><span class="pre">Process.event_limit</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg.Process.max_tries"><code class="docutils literal notranslate"><span class="pre">Process.max_tries</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg.Process.run"><code class="docutils literal notranslate"><span class="pre">Process.run</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg.Process.input_files"><code class="docutils literal notranslate"><span class="pre">Process.input_files</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg.Process.output_file"><code class="docutils literal notranslate"><span class="pre">Process.output_file</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg.Process.storage"><code class="docutils literal notranslate"><span class="pre">Process.storage</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg.Process.sequence"><code class="docutils literal notranslate"><span class="pre">Process.sequence</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg.Process.drop_keep_rules"><code class="docutils literal notranslate"><span class="pre">Process.drop_keep_rules</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg.Process.libraries"><code class="docutils literal notranslate"><span class="pre">Process.libraries</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg.Process.log_frequency"><code class="docutils literal notranslate"><span class="pre">Process.log_frequency</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg.Process.term_level"><code class="docutils literal notranslate"><span class="pre">Process.term_level</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg.Process.file_level"><code class="docutils literal notranslate"><span class="pre">Process.file_level</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg.Process.log_file"><code class="docutils literal notranslate"><span class="pre">Process.log_file</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg.Process.conditions"><code class="docutils literal notranslate"><span class="pre">Process.conditions</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg.Process.addLibrary"><code class="docutils literal notranslate"><span class="pre">Process.addLibrary()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg.Process.addModule"><code class="docutils literal notranslate"><span class="pre">Process.addModule()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg.Process.declareConditionsProvider"><code class="docutils literal notranslate"><span class="pre">Process.declareConditionsProvider()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg.Process.drop"><code class="docutils literal notranslate"><span class="pre">Process.drop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg.Process.inputDir"><code class="docutils literal notranslate"><span class="pre">Process.inputDir()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg.Process.keep"><code class="docutils literal notranslate"><span class="pre">Process.keep()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#id0"><code class="docutils literal notranslate"><span class="pre">Process.lastProcess</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg.Process.parameterDump"><code class="docutils literal notranslate"><span class="pre">Process.parameterDump()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg.Process.pause"><code class="docutils literal notranslate"><span class="pre">Process.pause()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg.Process.rnss"><code class="docutils literal notranslate"><span class="pre">Process.rnss()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg.Process.setConditionsGlobalTag"><code class="docutils literal notranslate"><span class="pre">Process.setConditionsGlobalTag()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg.Process.skimConsider"><code class="docutils literal notranslate"><span class="pre">Process.skimConsider()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg.Process.skimDefaultIsDrop"><code class="docutils literal notranslate"><span class="pre">Process.skimDefaultIsDrop()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg.Process.skimDefaultIsSave"><code class="docutils literal notranslate"><span class="pre">Process.skimDefaultIsSave()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fire.cfg.html#fire-cfg-processor-class">fire.cfg.Processor class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fire.cfg.html#fire.cfg.Processor"><code class="docutils literal notranslate"><span class="pre">Processor</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fire.cfg.html#fire-cfg-outputfile-class">fire.cfg.OutputFile class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fire.cfg.html#fire.cfg.OutputFile"><code class="docutils literal notranslate"><span class="pre">OutputFile</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fire.cfg.html#fire-cfg-conditionsprovider-class">fire.cfg.ConditionsProvider class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fire.cfg.html#fire.cfg.ConditionsProvider"><code class="docutils literal notranslate"><span class="pre">ConditionsProvider</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg.ConditionsProvider.tag_name"><code class="docutils literal notranslate"><span class="pre">ConditionsProvider.tag_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg.ConditionsProvider.setTag"><code class="docutils literal notranslate"><span class="pre">ConditionsProvider.setTag()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="fire.cfg.html#advanced-usage">Advanced Usage</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="fire.cfg.html#module-fire.cfg._rnss">fire.cfg._rnss module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fire.cfg.html#module-fire.cfg._storage">fire.cfg._storage module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fire.cfg.html#fire-cfg-conditions-module">fire.cfg._conditions module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fire.cfg.html#module-fire.cfg._rnss">fire.cfg._rnss module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fire.cfg.html#fire.cfg._rnss.RandomNumberSeedService"><code class="docutils literal notranslate"><span class="pre">RandomNumberSeedService</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg._rnss.RandomNumberSeedService.seedMode"><code class="docutils literal notranslate"><span class="pre">RandomNumberSeedService.seedMode</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg._rnss.RandomNumberSeedService.external"><code class="docutils literal notranslate"><span class="pre">RandomNumberSeedService.external()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg._rnss.RandomNumberSeedService.override"><code class="docutils literal notranslate"><span class="pre">RandomNumberSeedService.override()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg._rnss.RandomNumberSeedService.run"><code class="docutils literal notranslate"><span class="pre">RandomNumberSeedService.run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg._rnss.RandomNumberSeedService.time"><code class="docutils literal notranslate"><span class="pre">RandomNumberSeedService.time()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fire.cfg.html#module-fire.cfg._storage">fire.cfg._storage module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fire.cfg.html#fire.cfg._storage.DropKeepRule"><code class="docutils literal notranslate"><span class="pre">DropKeepRule</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fire.cfg.html#fire.cfg._storage.ListeningRule"><code class="docutils literal notranslate"><span class="pre">ListeningRule</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="fire.cfg.html#fire.cfg._storage.StorageControl"><code class="docutils literal notranslate"><span class="pre">StorageControl</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg._storage.StorageControl.default_keep"><code class="docutils literal notranslate"><span class="pre">StorageControl.default_keep</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg._storage.StorageControl.listening_rules"><code class="docutils literal notranslate"><span class="pre">StorageControl.listening_rules</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg._storage.StorageControl.default"><code class="docutils literal notranslate"><span class="pre">StorageControl.default()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg._storage.StorageControl.listen"><code class="docutils literal notranslate"><span class="pre">StorageControl.listen()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="fire.cfg.html#fire.cfg._storage.StorageControl.listen_all"><code class="docutils literal notranslate"><span class="pre">StorageControl.listen_all()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fire.cfg.html#fire-cfg-conditions-module">fire.cfg._conditions module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="fire.cfg.html#fire.cfg._conditions.Conditions"><code class="docutils literal notranslate"><span class="pre">Conditions</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -146,13 +219,13 @@ produced by fire.</p>
         <li class="right" >
           <a href="index.html" title="fire Python Interaction Package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">fire v0.17.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">fire v0.18.0 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">fire package</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2022, LDMX Collaboration.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.2.2.
     </div>
   </body>
 </html>

@@ -8,7 +8,7 @@ var dir_c5d46fedc6ca6ca01b5c0ce44b89a70b =
     [ "version", "dir_c933ebec66d1f2fa7aed64e34c575b27.html", "dir_c933ebec66d1f2fa7aed64e34c575b27" ],
     [ "Conditions.h", "Conditions_8h_source.html", null ],
     [ "ConditionsIntervalOfValidity.h", "ConditionsIntervalOfValidity_8h_source.html", null ],
-    [ "ConditionsObject.h", "ConditionsObject_8h_source.html", null ],
+    [ "ConditionsObject.h", "fire_2ConditionsObject_8h_source.html", null ],
     [ "ConditionsProvider.h", "ConditionsProvider_8h_source.html", null ],
     [ "Event.h", "Event_8h_source.html", null ],
     [ "EventHeader.h", "EventHeader_8h_source.html", null ],
@@ -19,5 +19,6 @@ var dir_c5d46fedc6ca6ca01b5c0ce44b89a70b =
       [ "fire::RandomNumberSeedService", "classfire_1_1RandomNumberSeedService.html", "classfire_1_1RandomNumberSeedService" ]
     ] ],
     [ "RunHeader.h", "RunHeader_8h_source.html", null ],
-    [ "StorageControl.h", "StorageControl_8h_source.html", null ]
+    [ "StorageControl.h", "StorageControl_8h_source.html", null ],
+    [ "UserReader.h", "UserReader_8h_source.html", null ]
 ];

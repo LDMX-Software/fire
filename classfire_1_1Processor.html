@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.17.0</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.18.0</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -161,16 +161,16 @@ const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_strin
 <tr class="memitem:a0ac742109e7305bf3bf3c3041c7c2714"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1Processor.html#a0ac742109e7305bf3bf3c3041c7c2714">attach</a> (<a class="el" href="classfire_1_1Process.html">Process</a> *p) final</td></tr>
 <tr class="memdesc:a0ac742109e7305bf3bf3c3041c7c2714"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attach the current process to this processor.  <a href="classfire_1_1Processor.html#a0ac742109e7305bf3bf3c3041c7c2714">More...</a><br /></td></tr>
 <tr class="separator:a0ac742109e7305bf3bf3c3041c7c2714"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad92639b07e18eb6885773d61f37f903d"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:ad92639b07e18eb6885773d61f37f903d"><td class="memTemplItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classfire_1_1Processor.html#ad92639b07e18eb6885773d61f37f903d">getCondition</a> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;condition_name)</td></tr>
+<tr class="memdesc:ad92639b07e18eb6885773d61f37f903d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Access a conditions object for the current event.  <a href="classfire_1_1Processor.html#ad92639b07e18eb6885773d61f37f903d">More...</a><br /></td></tr>
+<tr class="separator:ad92639b07e18eb6885773d61f37f903d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:a40849759f8d55ecd21b2763be6801109"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1Processor.html#a40849759f8d55ecd21b2763be6801109">setStorageHint</a> (<a class="el" href="classfire_1_1StorageControl.html#a402b80c778174eb94974d044aa59fbc2">StorageControl::Hint</a> hint, const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;purpose=&quot;&quot;) const</td></tr>
 <tr class="memdesc:a40849759f8d55ecd21b2763be6801109"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mark the current event as having the given storage control hint from this processor and the given purpose string.  <a href="classfire_1_1Processor.html#a40849759f8d55ecd21b2763be6801109">More...</a><br /></td></tr>
 <tr class="separator:a40849759f8d55ecd21b2763be6801109"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad92639b07e18eb6885773d61f37f903d"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
-<tr class="memitem:ad92639b07e18eb6885773d61f37f903d"><td class="memTemplItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classfire_1_1Processor.html#ad92639b07e18eb6885773d61f37f903d">getCondition</a> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;condition_name)</td></tr>
-<tr class="memdesc:ad92639b07e18eb6885773d61f37f903d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Access a conditions object for the current event.  <a href="classfire_1_1Processor.html#ad92639b07e18eb6885773d61f37f903d">More...</a><br /></td></tr>
-<tr class="separator:ad92639b07e18eb6885773d61f37f903d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a471b2c3c6c323d016557d13b1f0e1e18"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1Processor.html#a471b2c3c6c323d016557d13b1f0e1e18">abortEvent</a> ()</td></tr>
 <tr class="memdesc:a471b2c3c6c323d016557d13b1f0e1e18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abort the event immediately.  <a href="classfire_1_1Processor.html#a471b2c3c6c323d016557d13b1f0e1e18">More...</a><br /></td></tr>
 <tr class="separator:a471b2c3c6c323d016557d13b1f0e1e18"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -205,7 +205,7 @@ Private Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Base class for all event processing components. </p>
 <p >This is the main interface that users of fire will interact with. In order to perform a new task, a user would define a new <a class="el" href="classfire_1_1Processor.html" title="Base class for all event processing components.">Processor</a> which can take data from the event bus, process it in some way, and then add new data onto the event bus. This format is applicable all along the data processing chain from generation (simulation or raw decoding) to reconstruction to analysis.</p>
-<h2><a class="anchor" id="autotoc_md51"></a>
+<h2><a class="anchor" id="autotoc_md52"></a>
 Callback Ordering</h2>
 <p >The ordering of the callback functions is decided by the <a class="el" href="classfire_1_1Process.html#a9de0ff0b04bda2481ef194127ef3fbb1" title="Do the processing run.">Process::run</a> and is helpful to document here for users creating new Processors.</p>
 <ol type="1">
@@ -404,14 +404,14 @@ template&lt;class T &gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 <p>Access a conditions object for the current event. </p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classfire_1_1Conditions.html#a434cbb039762a354800995cb5a378d98" title="Primary request action for a conditions object.">Conditions::get</a> and <a class="el" href="classfire_1_1Conditions.html#a6398dc18c77debde4daa75a717884a96" title="Core request action for a conditions object.">Conditions::getConditionPtr</a> for how conditions objects are retrieved.</dd></dl>
-<h2><a class="anchor" id="autotoc_md52"></a>
+<h2><a class="anchor" id="autotoc_md53"></a>
 Usage</h2>
 <p >Inside of the process function, this function can be used following the example below. </p><div class="fragment"><div class="line"><span class="comment">// inside void process(Event&amp; event) for your Processor</span></div>
 <div class="line"><span class="keyword">const</span> <span class="keyword">auto</span>&amp; co = getCondition&lt;MyObjectType&gt;(<span class="stringliteral">&quot;ConditionName&quot;</span>);</div>

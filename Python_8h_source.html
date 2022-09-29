@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.17.0</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.18.0</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -94,18 +94,14 @@ $(document).ready(function(){initNavTree('Python_8h_source.html',''); initResiza
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacefire_1_1config.html">fire::config</a> {</div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="keyword">extern</span> <a class="code hl_classRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> <a class="code hl_variable" href="namespacefire_1_1config.html#ab4e14850e6a5f848d54f0a5875df6952">root_object</a>;</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><a class="code hl_typedef" href="namespaceframework_1_1config.html#ae663436275df1deb1270209022666ebb">Parameters</a> <a class="code hl_function" href="namespacefire_1_1config.html#aac38aec227842f4827629ee9f4402fda">run</a>(<span class="keyword">const</span> <a class="code hl_classRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>&amp; pythonScript, <span class="keywordtype">char</span>* args[], <span class="keywordtype">int</span> nargs);</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>}  <span class="comment">// namespace fire::config</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">#endif  </span><span class="comment">// FRAMEWORK_CONFIGURE_PYTHON_H</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>Parameters <a class="code hl_function" href="namespacefire_1_1config.html#a5aa49a994748f196d8d5f23848fb2d06">run</a>(<span class="keyword">const</span> <a class="code hl_classRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>&amp; root_object, <span class="keyword">const</span> <a class="code hl_classRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>&amp; pythonScript, <span class="keywordtype">char</span>* args[], <span class="keywordtype">int</span> nargs);</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>}  <span class="comment">// namespace fire::config</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">#endif  </span><span class="comment">// FRAMEWORK_CONFIGURE_PYTHON_H</span></div>
 <div class="ttc" id="abasic_string_html"><div class="ttname"><a href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a></div></div>
 <div class="ttc" id="anamespacefire_1_1config_html"><div class="ttname"><a href="namespacefire_1_1config.html">fire::config</a></div><div class="ttdoc">python execution and parameter extraction</div><div class="ttdef"><b>Definition:</b> Parameters.h:18</div></div>
-<div class="ttc" id="anamespacefire_1_1config_html_aac38aec227842f4827629ee9f4402fda"><div class="ttname"><a href="namespacefire_1_1config.html#aac38aec227842f4827629ee9f4402fda">fire::config::run</a></div><div class="ttdeci">Parameters run(const std::string &amp;pythonScript, char *args[], int nargs)</div><div class="ttdoc">run the python script and extract the parameters</div><div class="ttdef"><b>Definition:</b> Python.cxx:175</div></div>
-<div class="ttc" id="anamespacefire_1_1config_html_ab4e14850e6a5f848d54f0a5875df6952"><div class="ttname"><a href="namespacefire_1_1config.html#ab4e14850e6a5f848d54f0a5875df6952">fire::config::root_object</a></div><div class="ttdeci">std::string root_object</div><div class="ttdoc">namespace variable defining where to look for &quot;root&quot; object to kickoff the parameter extraction from ...</div><div class="ttdef"><b>Definition:</b> fire.cxx:9</div></div>
-<div class="ttc" id="anamespaceframework_1_1config_html_ae663436275df1deb1270209022666ebb"><div class="ttname"><a href="namespaceframework_1_1config.html#ae663436275df1deb1270209022666ebb">framework::config::Parameters</a></div><div class="ttdeci">fire::config::Parameters Parameters</div><div class="ttdoc">alias for Parameters within this namespace</div><div class="ttdef"><b>Definition:</b> EventProcessor.h:30</div></div>
+<div class="ttc" id="anamespacefire_1_1config_html_a5aa49a994748f196d8d5f23848fb2d06"><div class="ttname"><a href="namespacefire_1_1config.html#a5aa49a994748f196d8d5f23848fb2d06">fire::config::run</a></div><div class="ttdeci">Parameters run(const std::string &amp;root_object, const std::string &amp;pythonScript, char *args[], int nargs)</div><div class="ttdoc">run the python script and extract the parameters</div><div class="ttdef"><b>Definition:</b> Python.cxx:175</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

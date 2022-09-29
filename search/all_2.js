@@ -76,7 +76,7 @@ var searchData=
   ['bitset_73',['bitset',['http://en.cppreference.com/w/cpp/utility/bitset/bitset.html',1,'std::bitset::bitset()'],['http://en.cppreference.com/w/cpp/utility/bitset.html',1,'std::bitset&lt; Bits &gt;']]],
   ['bool_74',['Bool',['../namespacefire_1_1io.html#a4daa8c0068cf8f6c75a396b69adc41df',1,'fire::io']]],
   ['boolalpha_75',['boolalpha',['http://en.cppreference.com/w/cpp/io/manip/boolalpha.html',1,'std']]],
-  ['boost_5fall_5fdyn_5flink_76',['BOOST_ALL_DYN_LINK',['../Logger_8h.html#a8df2553ea80556a445530460433ac2f5',1,'Logger.h']]],
+  ['boost_5fall_5fdyn_5flink_76',['BOOST_ALL_DYN_LINK',['../fire_2logging_2Logger_8h.html#a8df2553ea80556a445530460433ac2f5',1,'Logger.h']]],
   ['both_77',['Both',['../classfire_1_1io_1_1Data.html#a7a353205fd1c27d9850778d6d3ccfc41a979475a040731330c73bff800cca9eeb',1,'fire::io::Data']]],
   ['bsearch_78',['bsearch',['http://en.cppreference.com/w/cpp/algorithm/bsearch.html',1,'std']]],
   ['btowc_79',['btowc',['http://en.cppreference.com/w/cpp/string/multibyte/btowc.html',1,'std']]],

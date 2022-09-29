@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.17.0</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.18.0</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -104,7 +104,7 @@ Include dependency graph for Atomic.h:</div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="Atomic_8h__dep__incl.svg" width="656" height="843"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="Atomic_8h__dep__incl.svg" width="770" height="843"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 </div>
@@ -113,7 +113,7 @@ This graph shows which files directly or indirectly include this file:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespacefire_1_1io"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefire_1_1io.html">fire::io</a></td></tr>
-<tr class="memdesc:namespacefire_1_1io"><td class="mdescLeft">&#160;</td><td class="mdescRight">serialization to and from HDF5 files <br /></td></tr>
+<tr class="memdesc:namespacefire_1_1io"><td class="mdescLeft">&#160;</td><td class="mdescRight">Geant4 does a GLOBAL definition of the keyword TRUE. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
@@ -171,7 +171,7 @@ template&lt;&gt; </div>
 <p>full specialization of HighFive template function </p>
 <p >This is necessary for compile-time registration of a new type and is usually hidden within the HIGHFIVE_REGISTER_TYPE macro.</p>
 <p >The reason we have to <em>not</em> use the macro here is two fold.</p><ol type="1">
-<li>We need the declaration of this registration to be done in this header so that it is accessible by both the <a class="el" href="namespacefire_1_1io.html" title="serialization to and from HDF5 files">fire::io</a> target and the downstream fire::framework target.</li>
+<li>We need the declaration of this registration to be done in this header so that it is accessible by both the <a class="el" href="namespacefire_1_1io.html" title="Geant4 does a GLOBAL definition of the keyword TRUE.">fire::io</a> target and the downstream fire::framework target.</li>
 <li>We need to define the registration only once to avoid a duplicate definition compiler error during the linking step.</li>
 </ol>
 <p >These two goals can be met by splitting the declaration and the definition of this full specialization into the header and source files of Atomic. </p>

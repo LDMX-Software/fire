@@ -26,9 +26,9 @@ var NAVTREE =
 [
   [ "fire", "index.html", [
     [ "🔥 fire 🔥", "index.html", [
-      [ "Features", "index.html#autotoc_md54", null ],
-      [ "Dependencies", "index.html#autotoc_md55", [
-        [ "Developer Dependencies", "index.html#autotoc_md56", null ]
+      [ "Features", "index.html#autotoc_md57", null ],
+      [ "Dependencies", "index.html#autotoc_md58", [
+        [ "Developer Dependencies", "index.html#autotoc_md59", null ]
       ] ]
     ] ],
     [ "Doxygen Awesome", "md_docs_doxygen_awesome_css_README.html", [
@@ -112,12 +112,13 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "AbstractData_8h_source.html",
-"classfire_1_1EventHeader.html#a9bb77781dd100a412965f6bb2ff66dc7",
-"classfire_1_1RunHeader.html#ac0902fbe6869feb4efc1f289a4dd8cba",
-"classfire_1_1io_1_1Writer.html#a4fcae84b9d2c88b8ecde35bfc9937a6d",
-"cpp/algorithm/inner_product.html",
-"cpp/memory/shared_ptr/pointer_cast.html",
-"cpp/utility/rel_ops/operator_cmp.html"
+"classfire_1_1EventHeader.html#afaad89bb54e63a187ea614e41bca423d",
+"classfire_1_1RunHeader.html#af234a7d9adc763dd4a29f70f75bf58ca",
+"classfire_1_1io_1_1Reader.html#aa40de6ecb57514f390d529dbac176499",
+"cpp/algorithm/copy_backward.html",
+"cpp/memory/align.html",
+"cpp/utility/functional/ref.html",
+""
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

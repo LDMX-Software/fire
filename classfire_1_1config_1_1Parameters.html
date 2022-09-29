@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.17.0</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.18.0</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -95,7 +95,7 @@ $(document).ready(function(){initNavTree('classfire_1_1config_1_1Parameters.html
 <p>Class encapsulating parameters for configuring a processor.  
  <a href="classfire_1_1config_1_1Parameters.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="Parameters_8h_source.html">Parameters.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="fire_2config_2Parameters_8h_source.html">Parameters.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -103,6 +103,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:acca6f7a9a4a9ab385970c1e6be4aec2b"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classfire_1_1config_1_1Parameters.html#acca6f7a9a4a9ab385970c1e6be4aec2b">add</a> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;name, const T &amp;value)</td></tr>
 <tr class="memdesc:acca6f7a9a4a9ab385970c1e6be4aec2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a parameter to the parameter list.  <a href="classfire_1_1config_1_1Parameters.html#acca6f7a9a4a9ab385970c1e6be4aec2b">More...</a><br /></td></tr>
 <tr class="separator:acca6f7a9a4a9ab385970c1e6be4aec2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d649688a0d364cc8023ec9fa30aa0b8"><td class="memTemplParams" colspan="2"><a id="a3d649688a0d364cc8023ec9fa30aa0b8" name="a3d649688a0d364cc8023ec9fa30aa0b8"></a>
+template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a3d649688a0d364cc8023ec9fa30aa0b8"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><b>addParameter</b> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;name, const T &amp;value)</td></tr>
+<tr class="separator:a3d649688a0d364cc8023ec9fa30aa0b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a54ebb37d02b272dbf2a07a22a8dd7895"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1config_1_1Parameters.html#a54ebb37d02b272dbf2a07a22a8dd7895">exists</a> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;name) const</td></tr>
 <tr class="memdesc:a54ebb37d02b272dbf2a07a22a8dd7895"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check to see if a parameter exists.  <a href="classfire_1_1config_1_1Parameters.html#a54ebb37d02b272dbf2a07a22a8dd7895">More...</a><br /></td></tr>
 <tr class="separator:a54ebb37d02b272dbf2a07a22a8dd7895"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -110,10 +114,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab8c99a73cc43039d4d900f10ed7f15fa"><td class="memTemplItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classfire_1_1config_1_1Parameters.html#ab8c99a73cc43039d4d900f10ed7f15fa">get</a> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;name) const</td></tr>
 <tr class="memdesc:ab8c99a73cc43039d4d900f10ed7f15fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve the parameter of the given name.  <a href="classfire_1_1config_1_1Parameters.html#ab8c99a73cc43039d4d900f10ed7f15fa">More...</a><br /></td></tr>
 <tr class="separator:ab8c99a73cc43039d4d900f10ed7f15fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08538b214566141517fadcd24f03095f"><td class="memTemplParams" colspan="2"><a id="a08538b214566141517fadcd24f03095f" name="a08538b214566141517fadcd24f03095f"></a>
+template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a08538b214566141517fadcd24f03095f"><td class="memTemplItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>getParameter</b> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;name) const</td></tr>
+<tr class="separator:a08538b214566141517fadcd24f03095f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a30f640ba77b63da7a615c7bf5ac7e4b8"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a30f640ba77b63da7a615c7bf5ac7e4b8"><td class="memTemplItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classfire_1_1config_1_1Parameters.html#a30f640ba77b63da7a615c7bf5ac7e4b8">get</a> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;name, const T &amp;def) const</td></tr>
 <tr class="memdesc:a30f640ba77b63da7a615c7bf5ac7e4b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve a parameter with a default specified.  <a href="classfire_1_1config_1_1Parameters.html#a30f640ba77b63da7a615c7bf5ac7e4b8">More...</a><br /></td></tr>
 <tr class="separator:a30f640ba77b63da7a615c7bf5ac7e4b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0e064d47ff4e88fdbeb5a0e0d384f8a"><td class="memTemplParams" colspan="2"><a id="ac0e064d47ff4e88fdbeb5a0e0d384f8a" name="ac0e064d47ff4e88fdbeb5a0e0d384f8a"></a>
+template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ac0e064d47ff4e88fdbeb5a0e0d384f8a"><td class="memTemplItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>getParameter</b> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;name, const T &amp;def) const</td></tr>
+<tr class="separator:ac0e064d47ff4e88fdbeb5a0e0d384f8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a754cda06e4903a401a0edeeef64b3467"><td class="memItemLeft" align="right" valign="top"><a class="elRef" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector</a>&lt; <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfire_1_1config_1_1Parameters.html#a754cda06e4903a401a0edeeef64b3467">keys</a> () const</td></tr>
 <tr class="memdesc:a754cda06e4903a401a0edeeef64b3467"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a list of the keys available.  <a href="classfire_1_1config_1_1Parameters.html#a754cda06e4903a401a0edeeef64b3467">More...</a><br /></td></tr>
 <tr class="separator:a754cda06e4903a401a0edeeef64b3467"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -359,7 +371,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>include/fire/config/<a class="el" href="Parameters_8h_source.html">Parameters.h</a></li>
+<li>include/fire/config/<a class="el" href="fire_2config_2Parameters_8h_source.html">Parameters.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

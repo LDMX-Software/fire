@@ -1,0 +1,16 @@
+<map id="include/fire/io/Open.h" name="include/fire/io/Open.h">
+<area shape="rect" id="node1" title="Helper function for opening files of various type." alt="" coords="271,5,431,32"/>
+<area shape="rect" id="node2" href="$Reader_8h_source.html" title=" " alt="" coords="291,80,411,107"/>
+<area shape="rect" id="node3" title=" " alt="" coords="148,155,228,181"/>
+<area shape="rect" id="node4" title=" " alt="" coords="253,155,315,181"/>
+<area shape="rect" id="node5" href="$Factory_8h_source.html" title=" " alt="" coords="340,155,495,181"/>
+<area shape="rect" id="node12" href="$AbstractData_8h_source.html" title=" " alt="" coords="665,155,825,181"/>
+<area shape="rect" id="node6" title=" " alt="" coords="5,229,83,256"/>
+<area shape="rect" id="node7" title=" " alt="" coords="455,304,513,331"/>
+<area shape="rect" id="node8" title=" " alt="" coords="107,229,231,256"/>
+<area shape="rect" id="node9" title=" " alt="" coords="521,229,708,256"/>
+<area shape="rect" id="node10" href="$fire_2exception_2Exception_8h_source.html" title=" " alt="" coords="255,229,446,256"/>
+<area shape="rect" id="node11" title=" " alt="" coords="307,304,394,331"/>
+<area shape="rect" id="node13" title=" " alt="" coords="966,229,1125,256"/>
+<area shape="rect" id="node14" href="$ClassVersion_8h.html" title="Serialization class version deduction." alt="" coords="783,229,942,256"/>
+</map>

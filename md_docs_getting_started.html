@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.17.0</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.18.0</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -106,7 +106,7 @@ Non-Configurable</h2>
 <div class="line">  }</div>
 <div class="line">};</div>
 <div class="line">DECLARE_PROCESSOR(MyProcessor);</div>
-<div class="ttc" id="aclassfire_1_1Event_html"><div class="ttname"><a href="classfire_1_1Event.html">fire::Event</a></div><div class="ttdoc">Event class for interfacing with processors.</div><div class="ttdef"><b>Definition:</b> Event.h:27</div></div>
+<div class="ttc" id="aclassfire_1_1Event_html"><div class="ttname"><a href="classfire_1_1Event.html">fire::Event</a></div><div class="ttdoc">Event class for interfacing with processors.</div><div class="ttdef"><b>Definition:</b> Event.h:28</div></div>
 <div class="ttc" id="aclassfire_1_1Processor_html"><div class="ttname"><a href="classfire_1_1Processor.html">fire::Processor</a></div><div class="ttdoc">Base class for all event processing components.</div><div class="ttdef"><b>Definition:</b> Processor.h:57</div></div>
 <div class="ttc" id="aclassfire_1_1Processor_html_a6f1bc98203030e0757a004f3f275cd62"><div class="ttname"><a href="classfire_1_1Processor.html#a6f1bc98203030e0757a004f3f275cd62">fire::Processor::process</a></div><div class="ttdeci">virtual void process(Event &amp;event)=0</div><div class="ttdoc">have the derived processors do what they need to do</div></div>
 <div class="ttc" id="aclassfire_1_1config_1_1Parameters_html"><div class="ttname"><a href="classfire_1_1config_1_1Parameters.html">fire::config::Parameters</a></div><div class="ttdoc">Class encapsulating parameters for configuring a processor.</div><div class="ttdef"><b>Definition:</b> Parameters.h:28</div></div>
@@ -147,7 +147,7 @@ Configurable Processor</h2>
 <div class="line">  }</div>
 <div class="line">};</div>
 <div class="line">DECLARE_PROCESSOR(MyProcessor);</div>
-<div class="ttc" id="aclassfire_1_1config_1_1Parameters_html_ab8c99a73cc43039d4d900f10ed7f15fa"><div class="ttname"><a href="classfire_1_1config_1_1Parameters.html#ab8c99a73cc43039d4d900f10ed7f15fa">fire::config::Parameters::get</a></div><div class="ttdeci">const T &amp; get(const std::string &amp;name) const</div><div class="ttdoc">Retrieve the parameter of the given name.</div><div class="ttdef"><b>Definition:</b> Parameters.h:71</div></div>
+<div class="ttc" id="aclassfire_1_1config_1_1Parameters_html_ab8c99a73cc43039d4d900f10ed7f15fa"><div class="ttname"><a href="classfire_1_1config_1_1Parameters.html#ab8c99a73cc43039d4d900f10ed7f15fa">fire::config::Parameters::get</a></div><div class="ttdeci">const T &amp; get(const std::string &amp;name) const</div><div class="ttdoc">Retrieve the parameter of the given name.</div><div class="ttdef"><b>Definition:</b> Parameters.h:76</div></div>
 </div><!-- fragment --><p> This constructor will recieves two parameters that are configurable. Exceptions are thrown if the parameter in Python cannot be converted to the passed type. For example, if <code>my_parameter</code> in Python is set to <code>2.0</code> instead of <code>2</code>.</p><ol type="1">
 <li><code>my_parameter_</code> is optional with a default value of <code>1</code>.</li>
 <li><code>my_required_parameter</code> is required - i.e. an exception will be thrown if a parameter with that name is not found</li>
@@ -177,7 +177,7 @@ Configurable Processor</h2>
 </div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>Python's variable handling is very dynamic. For us, this means that we need to be very careful that the parameters in Python are spelled the same as the parameters in C++. In Python, the variables provided to <code>fire.cfg.Processor</code> (or defined in <code>__init__</code> for the last option) need to have <b>exactly</b> the same name as the parameter names requested in the constructor of the C++ processor.</dd></dl>
 <h1><a class="anchor" id="autotoc_md19"></a>
 Data Classes</h1>
-<p >The ability of fire to handle the saving and loading of data to and from a file comes from the <a class="el" href="namespacefire_1_1io.html" title="serialization to and from HDF5 files">fire::io</a> namespace. fire is able to handle all so-called "atomic" types (types with <a href="https://en.cppreference.com/w/cpp/types/numeric_limits">numeric limits</a> defined and <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>, <a class="elRef" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector</a> of, and <a class="elRef" href="http://en.cppreference.com/w/cpp/container/map.html">std::map</a> of these types.</p>
+<p >The ability of fire to handle the saving and loading of data to and from a file comes from the <a class="el" href="namespacefire_1_1io.html" title="Geant4 does a GLOBAL definition of the keyword TRUE.">fire::io</a> namespace. fire is able to handle all so-called "atomic" types (types with <a href="https://en.cppreference.com/w/cpp/types/numeric_limits">numeric limits</a> defined and <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a>, <a class="elRef" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector</a> of, and <a class="elRef" href="http://en.cppreference.com/w/cpp/container/map.html">std::map</a> of these types.</p>
 <p >This accomodates a lot of workflows, but it doesn't accomodate everything. In order to make fire even more flexible, there is a method of interfacing this serialization procedure with a class that you define.</p>
 <p >Below is the <code>MyData</code> class declaration showing the minium structure necessary to interface with fire's serialization method. </p><div class="fragment"><div class="line"><span class="preprocessor">#include &quot;fire/io/Data.h&quot;</span></div>
 <div class="line"><span class="keyword">class </span>MyData {</div>
@@ -195,7 +195,7 @@ Data Classes</h1>
 </ul>
 </li>
 <li>Your class has a (public or private) default constructor.<ul>
-<li>The default constructor may be how we initialize the data, so it must be defined and available to <a class="el" href="namespacefire_1_1io.html" title="serialization to and from HDF5 files">fire::io</a>.</li>
+<li>The default constructor may be how we initialize the data, so it must be defined and available to <a class="el" href="namespacefire_1_1io.html" title="Geant4 does a GLOBAL definition of the keyword TRUE.">fire::io</a>.</li>
 <li>If you don't want other parts of the program using the default constructor, you can declare it <code>private</code>.</li>
 </ul>
 </li>
@@ -224,7 +224,7 @@ Important Comments</h3>
 <li>The name of a variable on disk (the first argument) and the name of the variable in the class do not need to relate to each other; however, it is common to name them similarly so users of your data files aren't confused.</li>
 <li>The name of variables on disk cannot be the same in one <code>attach</code> method, but they can repeat across different classes (similar to member variables).</li>
 <li>Passing io::Data as reference (i.e. with the <code>&amp;</code>) is necessary; otherwise, you would attach to a local copy and the real io::Data wouldn't be attached to anything.</li>
-<li>The members of MyData you pass to io::Data::attach can be any class that <a class="el" href="namespacefire_1_1io.html" title="serialization to and from HDF5 files">fire::io</a> can handle. This includes the classes listed above or other classes you have defined following these rules.</li>
+<li>The members of MyData you pass to io::Data::attach can be any class that <a class="el" href="namespacefire_1_1io.html" title="Geant4 does a GLOBAL definition of the keyword TRUE.">fire::io</a> can handle. This includes the classes listed above or other classes you have defined following these rules.</li>
 </ul>
 <h2><a class="anchor" id="autotoc_md22"></a>
 ROOT Reading</h2>
