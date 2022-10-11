@@ -5,9 +5,11 @@
 #include <iostream>
 
 // H5
-#include "fire/io/Data.h"
+// this header also include the version
+// header defining whether we USE_ROOT or not
+#include "fire/io/Access.h"
 
-#ifdef USE_ROOT
+#ifdef fire_USE_ROOT
 #include "TObject.h"
 #endif
 
@@ -208,10 +210,24 @@ class Hit {
    */
   int pdgID_{0};
 
-  friend class fire::io::Data<Hit>;
-  void attach(fire::io::Data<Hit>& d);
+  friend class fire::io::access;
+  template <typename DataSet>
+  void attach(DataSet& d) {
+    d.attach("layerID", layerID_);
+    d.attach("moduleID", moduleID_);
+    d.attach("time", time_);
+    d.attach("px", px_);
+    d.attach("py", py_);
+    d.attach("pz", pz_);
+    d.attach("energy",energy_);
+    d.attach("x", x_);
+    d.attach("y", y_);
+    d.attach("z", z_);
+    d.attach("trackID",trackID_);
+    d.attach("pdgID",pdgID_);
+  }
 
-#ifdef USE_ROOT
+#ifdef fire_USE_ROOT
   ClassDef(Hit,1);
 #endif
 };  // Hit

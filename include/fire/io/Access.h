@@ -1,6 +1,8 @@
 #ifndef FIRE_IO_ACCESS_H
 #define FIRE_IO_ACCESS_H
 
+#include "fire/version/Version.h"
+
 namespace fire::io {
 
 struct access {

@@ -4,7 +4,7 @@
 
 #include <highfive/H5Easy.hpp>
 
-#include "fire/io/Data.h"
+#include "fire/io/Access.h"
 #include "fire/Process.h"
 #include "fire/config/Parameters.h"
 

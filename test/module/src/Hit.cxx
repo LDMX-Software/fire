@@ -1,6 +1,6 @@
 #include "Hit.h"
 
-#ifdef USE_ROOT
+#ifdef fire_USE_ROOT
 ClassImp(bench::Hit);
 #endif
 
@@ -46,21 +46,6 @@ void Hit::setMomentum(const float px, const float py, const float pz) {
   this->px_ = px;
   this->py_ = py;
   this->pz_ = pz;
-}
-
-void Hit::attach(fire::io::Data<Hit>& d) {
-  d.attach("layerID", layerID_);
-  d.attach("moduleID", moduleID_);
-  d.attach("time", time_);
-  d.attach("px", px_);
-  d.attach("py", py_);
-  d.attach("pz", pz_);
-  d.attach("energy",energy_);
-  d.attach("x", x_);
-  d.attach("y", y_);
-  d.attach("z", z_);
-  d.attach("trackID",trackID_);
-  d.attach("pdgID",pdgID_);
 }
 
 }  // namespace bench
