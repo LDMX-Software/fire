@@ -170,15 +170,16 @@ necessary to interface with fire's serialization method.
 ```cpp
 #include "fire/io/Data.h"
 class MyData {
-  friend class fire::io::Data<MyData>;
+  friend class fire::io::access;
   MyData() = default;
   void clear();
-  void attach(fire::io::Data<MyData>& d);
+  template<typename Data>
+  void attach(Data& d);
 };
 ```
 
 The user class has four necessary components:
-1. Your class declares the the wrapping io::Data class as a `friend`.
+1. Your class declares the accessor struct class as a `friend`.
    - This allows the io::Data class access to the (potentially private)
      methods defined below.
 2. Your class has a (public or private) default constructor.
@@ -191,7 +192,7 @@ The user class has four necessary components:
    - This is used by fire to reset the data at the end of each event.
    - Similar to the default constructor, this method can be public 
      or private.
-4. Your class implements a `void attach(fire::io::Data<MyData>& d)` method.
+4. Your class implements a `void attach(Data& d)` method.
    - This method should be private since it should not be called by
      other parts of your code.
    - More detail below.
@@ -204,7 +205,8 @@ method. This is best illustrated with an example.
 
 ```cpp
 // member_one_ and member_two_ are members of MyData
-void MyData::attach(fire::io::Data<MyData>& d) {
+template<typename Data>
+void MyData::attach(Data& d) {
   d.attach("first_member", member_one_);
   d.attach("another_member", member_two_);
 }

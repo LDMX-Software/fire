@@ -67,11 +67,12 @@ AbstractData<DataType>::AbstractData(const std::string& path, Reader* input_file
  *   MyData() = default; // required by serialization technique
  *   // other public members
  *  private:
- *   friend class fire::io::Data<MyData>;
- *   void attach(fire::io::Data<MyData>& set) {
- *     set.attach("my_double",my_double_);
- *     if (set.version() < 2) set.rename("old","new",new_);
- *     else set.attach("new",new_);
+ *   friend class fire::io::access;
+ *   template<typename Data>
+ *   void attach(Data& d) {
+ *     d.attach("my_double",my_double_);
+ *     if (d.version() < 2) d.rename("old","new",new_);
+ *     else d.attach("new",new_);
  *   }
  *   void clear() {
  *     my_double_ = -1; // reset to default value
