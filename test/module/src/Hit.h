@@ -3,6 +3,7 @@
 
 // STL
 #include <iostream>
+#include <vector>
 
 // H5
 // this header also include the version
