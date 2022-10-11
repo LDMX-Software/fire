@@ -7,6 +7,7 @@
 #include <map>
 
 #include "fire/exception/Exception.h"
+#include "fire/io/Access.h"
 #include "fire/io/AbstractData.h"
 #include "fire/io/Writer.h"
 #include "fire/io/Constants.h"
@@ -113,7 +114,7 @@ class Data : public AbstractData<DataType> {
    */
   explicit Data(const std::string& path, Reader* input_file = nullptr, DataType* handle = nullptr)
       : AbstractData<DataType>(path, input_file, handle), input_file_{input_file} {
-    this->handle_->attach(*this);
+    fire::io::access::connect(*this->handle_, *this);
   }
 
   /**

@@ -14,11 +14,12 @@ class Double {
  public:
   fire_class_version(1);
   double d_;
-  friend class fire::io::Data<Double>;
+  friend class fire::io::access;
   void clear() {
     d_ = 0.;
   }
-  void attach(fire::io::Data<Double>& d) {
+  template<typename DataSet>
+  void attach(DataSet& d) {
     d.attach("dv1",d_);
   }
   Double(double d) : d_{d} {}
@@ -31,14 +32,15 @@ class Double {
   fire_class_version(2);
   double d_;
   int i_;
-  friend class fire::io::Data<Double>;
+  friend class fire::io::access;
   void clear() {
     d_ = 0.;
   }
-  void attach(fire::io::Data<Double>& d) {
+  template<typename DataSet>
+  void attach(DataSet& d) {
     if (d.version() < 2) {
       d.rename("dv1","dv2",d_);
-      d.attach("i",i_,fire::io::Data<Double>::SaveLoad::SaveOnly);
+      d.attach("i",i_,DataSet::SaveLoad::SaveOnly);
     } else {
       d.attach("dv2", d_);
       d.attach("i",i_);
@@ -54,14 +56,15 @@ class Double {
   fire_class_version(3);
   double d_;
   int i_;
-  friend class fire::io::Data<Double>;
+  friend class fire::io::access;
   void clear() {
     d_ = 0.;
   }
-  void attach(fire::io::Data<Double>& d) {
+  template<typename DataSet>
+  void attach(DataSet& d) {
     if (d.version() < 2) {
       d.rename("dv1","dv3",d_);
-      d.attach("i",i_,fire::io::Data<Double>::SaveLoad::SaveOnly);
+      d.attach("i",i_,DataSet::SaveLoad::SaveOnly);
     } else if (d.version() == 2) {
       d.rename("dv2","dv3",d_);
       d.attach("i",i_);

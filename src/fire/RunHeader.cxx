@@ -29,16 +29,6 @@ void RunHeader::stream(std::ostream &s) const {
 
 void RunHeader::Print() const { stream(std::cout); }
 
-void RunHeader::attach(fire::io::Data<RunHeader>& d) {
-  d.attach(fire::io::constants::NUMBER_NAME,runNumber_);
-  d.attach("start",runStart_);
-  d.attach("end",runEnd_);
-  d.attach("detectorName",detectorName_);
-  d.attach("description",description_);
-  d.attach("softwareTag",softwareTag_);
-  d.attach("parameters",parameters_);
-}
-
 }  // namespace fire/ldmx
 
 #ifdef fire_USE_ROOT
@@ -46,7 +36,7 @@ namespace fire::io {
 
 Data<ldmx::RunHeader>::Data(const std::string& path, Reader* input_file, ldmx::RunHeader* eh)
   : AbstractData<ldmx::RunHeader>(path,input_file, eh), input_file_{input_file} {
-  this->handle_->attach(*this);
+  fire::io::access::connect(*this->handle_, *this);
 }
 
 void Data<ldmx::RunHeader>::load(h5::Reader& r) {
