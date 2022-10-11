@@ -14,8 +14,9 @@ class Hit {
   double energy_;
   int id_;
  private:
-  friend class fire::io::Data<Hit>;
-  void attach(fire::io::Data<Hit>& d) {
+  friend class fire::io::access;
+  template<typename DataSet>
+  void attach(DataSet& d) {
     d.attach("energy",energy_);
     d.attach("id",id_);
   }
@@ -36,8 +37,9 @@ class SpecialHit {
   int super_id_;
   Hit hit_;
  private:
-  friend class fire::io::Data<SpecialHit>;
-  void attach(fire::io::Data<SpecialHit>& d) {
+  friend class fire::io::access;
+  template<typename DataSet>
+  void attach(DataSet& d) {
     d.attach("super_id",super_id_);
     d.attach("hit",hit_);
   }
@@ -58,8 +60,9 @@ class Cluster {
   int id_;
   std::vector<Hit> hits_;
  private:
-  friend class fire::io::Data<Cluster>;
-  void attach(fire::io::Data<Cluster>& d) {
+  friend class fire::io::access;
+  template <typename DataSet>
+  void attach(DataSet& d) {
     d.attach("id", id_);
     d.attach("hits",hits_);
   }

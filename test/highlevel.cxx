@@ -28,11 +28,12 @@ class DummyInt {
  public:
   fire_class_version(1);
   int i;
-  friend class fire::io::Data<DummyInt>;
+  friend class fire::io::access;
   void clear() {
     i = 0.;
   }
-  void attach(fire::io::Data<DummyInt>& d) {
+  template<typename D>
+  void attach(D& d) {
     d.attach("i",i);
   }
   DummyInt(int _i) : i{_i} {}

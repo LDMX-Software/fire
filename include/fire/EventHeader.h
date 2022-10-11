@@ -161,7 +161,7 @@ class EventHeader {
 
  private:
   /// allow data set access for reading/writing
-  friend class fire::io::Data<EventHeader>;
+  friend class fire::io::access;
 
   /**
    * attach to the serializing h5::Data wrapper
@@ -172,7 +172,16 @@ class EventHeader {
    *
    * @param[in] d h5::Data to attach to
    */
-  void attach(fire::io::Data<EventHeader>& d);
+  template<typename DataSet>
+  void attach(DataSet& d) {
+    // make sure we use the name for this variable that the reader expects
+    d.attach(fire::io::constants::NUMBER_NAME,eventNumber_);
+    d.attach("run",run_);
+    d.attach("timestamp",time_);
+    d.attach("weight",weight_);
+    d.attach("isRealData",isRealData_);
+    d.attach("parameters",parameters_);
+  }
 
   /**
    * The event number.
@@ -206,6 +215,9 @@ class EventHeader {
   fire::io::ParameterStorage parameters_;
 
 #ifdef fire_USE_ROOT
+  /// allow direct data access for load translation
+  friend class fire::io::Data<ldmx::EventHeader>;
+
   /**
    * member used only for reading from ROOT input files
    */

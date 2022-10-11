@@ -149,7 +149,7 @@ class RunHeader {
 
  private:
   /// friends with the h5::Data that can read/write us
-  friend class fire::io::Data<RunHeader>;
+  friend class fire::io::access;
 
   /**
    * Attach to our fire::io::Data
@@ -158,7 +158,16 @@ class RunHeader {
    *
    * @param[in] d fire::io::Data to attach to
    */
-  void attach(fire::io::Data<RunHeader>& d);
+  template<typename DataSet>
+  void attach(DataSet& d) {
+    d.attach(fire::io::constants::NUMBER_NAME,runNumber_);
+    d.attach("start",runStart_);
+    d.attach("end",runEnd_);
+    d.attach("detectorName",detectorName_);
+    d.attach("description",description_);
+    d.attach("softwareTag",softwareTag_);
+    d.attach("parameters",parameters_);
+  }
 
  private:
   /** Run number. */
@@ -186,6 +195,9 @@ class RunHeader {
   fire::io::ParameterStorage parameters_;
 
 #ifdef fire_USE_ROOT
+  /// allow direct member access for the load translation
+  friend class fire::io::Data<ldmx::RunHeader>;
+  
   /**
    * member only used for reading ROOT files
    */
