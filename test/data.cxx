@@ -13,7 +13,7 @@
 class Hit {
   double energy_;
   int id_;
- private:
+ protected:
   friend class fire::io::access;
   template<typename DataSet>
   void attach(DataSet& d) {
@@ -30,6 +30,28 @@ class Hit {
     energy_ = 0.;
     id_ = 0;
   }
+};
+
+// derived class
+class DerivedHit : public Hit {
+  double another_;
+  friend class fire::io::access;
+  template<typename DataSet>
+  void attach(DataSet& d) {
+    Hit::attach(d);
+    d.attach("another", another_);
+  }
+ public:
+  DerivedHit() = default;
+  DerivedHit(double e, int id) : Hit(e,id), another_{e} {}
+  bool operator==(const DerivedHit& other) const {
+    return Hit::operator==(other) and another_ == other.another_;
+  }
+  void clear() {
+    DerivedHit::clear();
+    another_ = 0.;
+  }
+
 };
 
 // class with nested class
@@ -144,6 +166,7 @@ BOOST_AUTO_TEST_CASE(write) {
   fire::io::Data<Hit> hit_ds("hit");
   fire::io::Data<std::vector<Hit>> vector_hit_ds("vector_hit");
   fire::io::Data<SpecialHit> special_hit_ds("special_hit");
+  fire::io::Data<DerivedHit> derived_hit_ds("derived_hit");
   fire::io::Data<std::vector<SpecialHit>> vector_special_hit_ds("vector_special_hit");
   fire::io::Data<Cluster> cluster_ds("cluster");
   fire::io::Data<std::vector<Cluster>> vector_cluster_ds("vector_cluster");
@@ -159,6 +182,7 @@ BOOST_AUTO_TEST_CASE(write) {
   hit_ds.structure(f);
   vector_hit_ds.structure(f);
   special_hit_ds.structure(f);
+  derived_hit_ds.structure(f);
   vector_special_hit_ds.structure(f);
   cluster_ds.structure(f);
   vector_cluster_ds.structure(f);
@@ -189,6 +213,7 @@ BOOST_AUTO_TEST_CASE(write) {
     BOOST_CHECK(save(hit_ds,all_hits[i_entry][0],f));
     BOOST_CHECK(save(vector_hit_ds,all_hits[i_entry],f));
     BOOST_CHECK(save(special_hit_ds,SpecialHit(0,all_hits[i_entry][0]),f));
+    BOOST_CHECK(save(derived_hit_ds,DerivedHit(25., 2),f));
 
     std::vector<SpecialHit> sphit_vec;
     for (auto& hit : all_hits[i_entry]) sphit_vec.emplace_back(i_entry,hit);
@@ -237,6 +262,7 @@ BOOST_AUTO_TEST_CASE(copy, *boost::unit_test::depends_on("data/write")) {
     "hit",
     "vector_hit",
     "special_hit",
+    "derived_hit",
     "vector_special_hit",
     "cluster",
     "vector_cluster",
@@ -277,6 +303,7 @@ BOOST_AUTO_TEST_CASE(read, *boost::unit_test::depends_on("data/copy")) {
   fire::io::Data<Hit> hit_ds("hit",&f);
   fire::io::Data<std::vector<Hit>> vector_hit_ds("vector_hit",&f);
   fire::io::Data<SpecialHit> special_hit_ds("special_hit",&f);
+  fire::io::Data<DerivedHit> derived_hit_ds("derived_hit",&f);
   fire::io::Data<std::vector<SpecialHit>> vector_special_hit_ds("vector_special_hit",&f);
   fire::io::Data<Cluster> cluster_ds("cluster",&f);
   fire::io::Data<std::vector<Cluster>> vector_cluster_ds("vector_cluster",&f);
@@ -305,6 +332,7 @@ BOOST_AUTO_TEST_CASE(read, *boost::unit_test::depends_on("data/copy")) {
     BOOST_CHECK(load(hit_ds,all_hits[i_entry][0],f));
     BOOST_CHECK(load(vector_hit_ds,all_hits[i_entry],f));
     BOOST_CHECK(load(special_hit_ds,SpecialHit(0,all_hits[i_entry][0]),f));
+    BOOST_CHECK(load(derived_hit_ds,DerivedHit(25.,2), f));
 
     std::vector<SpecialHit> sphit_vec;
     for (auto& hit : all_hits[i_entry]) sphit_vec.emplace_back(i_entry,hit);
