@@ -7,6 +7,8 @@
 #define FIRE_FRAMEWORK_EVENTPROCESSOR_H
 
 #include "fire/Processor.h"
+#include "fire/StorageControl.h"
+
 #include "Framework/Configure/Parameters.h"
 #include "Framework/Logger.h"
 
@@ -20,6 +22,12 @@
  * using the newer style of processors.
  */
 namespace framework {
+
+/**
+ * legacy names for storage hints
+ */
+constexpr fire::StorageControl::Hint hint_shouldKeep = fire::StorageControl::Hint::ShouldKeep;
+constexpr fire::StorageControl::Hint hint_shouldDrop = fire::StorageControl::Hint::ShouldDrop;
 
 /**
  * Wrapper Event in this namespace reintroducing legacy functionality
