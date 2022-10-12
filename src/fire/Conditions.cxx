@@ -10,14 +10,13 @@ Conditions::Conditions(const config::Parameters& ps, Process& p) : process_{p} {
   auto providers{ps.get<std::vector<config::Parameters>>("providers",{})};
   for (const auto& provider : providers) {
     auto cp{ConditionsProvider::Factory::get().make(
-        provider.get<std::string>("class_name"), provider)};
+        provider.get<std::string>("class_name"), provider, &p, this)};
     std::string provides{cp->getConditionObjectName()};
     if (providers_.find(provides) != providers_.end()) {
       throw Exception("Config",
           "Multiple ConditonsProviders configured to provide " +
           provides,false);
     }
-    cp->attach(this);
     providers_[provides] = cp;
   }
 }

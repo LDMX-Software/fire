@@ -15,6 +15,8 @@ namespace fire {
 
 /// forward declaration for attachment
 class Conditions;
+/// forward declaration for legacy make
+class Process;
 
 /**
  * Base class for all providers of conditions objects
@@ -82,15 +84,6 @@ class Conditions;
  */
 class ConditionsProvider {
  public:
-  /**
-   * The factory type that can create this class
-   *
-   * We provide the class type, the type of pointer for this class,
-   * and the arguments to the constructor.
-   */
-  using Factory =
-      factory::Factory<ConditionsProvider, std::shared_ptr<ConditionsProvider>,
-                       const config::Parameters&>;
   /**
    * Configure the registered provider
    * @param[in] ps Parameters to configure the provider
@@ -184,6 +177,164 @@ class ConditionsProvider {
 
   /** The tag name for the ConditionsProvider. */
   std::string tagname_;
+ 
+ public:
+  /**
+   * The special factory used to create condition providers
+   *
+   * we need a special factory because it needs to be able to create providers
+   * with two different construtor options
+   *
+   * When "old-style" providers can be abandoned, this redundant code can
+   * be removed in favor of the templated factory:
+   * ```cpp 
+   * using Factory = factory::Factory<ConditionsProvider, 
+   *   std::shared_ptr<ConditionsProvider>, 
+   *   const config::Parameters &>;
+   * ```
+   * and then adding the following line to the loop constructing Processors
+   * in the Process constructor:
+   * ```cpp 
+   * auto cp{ConditionsProvider::Factory::get().make(
+   *     provider.get<std::string>("class_name"), provider)};
+   * std::string provides{cp->getConditionObjectName()};
+   * if (providers_.find(provides) != providers_.end()) {
+   *   throw Exception("Config",
+   *       "Multiple ConditonsProviders configured to provide " +
+   *       provides,false);
+   * }
+   * cp->attach(this);
+   * providers_[provides] = cp;
+   * ```
+   */
+  class Factory {
+   public:
+    /**
+     * The base pointer for processors
+     */
+    using PrototypePtr = std::shared_ptr<ConditionsProvider>;
+
+    /**
+     * the signature of a function that can be used by this factory
+     * to dynamically create a new object.
+     *
+     * This is merely here to make the definition of the Factory simpler.
+     */
+    using PrototypeMaker = std::function<PrototypePtr(const config::Parameters&,Process*,Conditions*)>;
+  
+   public:
+    /**
+     * get the factory instance
+     *
+     * Using a static function variable gaurantees that the factory
+     * is created as soon as it is needed and that it is deleted
+     * before the program completes.
+     *
+     * @returns reference to single Factory instance
+     */
+    static Factory& get() {
+      static Factory the_factory;
+      return the_factory;
+    }
+  
+    /**
+     * register a new object to be constructible
+     *
+     * We insert the new object into the library after
+     * checking that it hasn't been defined before.
+     *
+     * @note This uses the demangled name of the input type
+     * as the key in our library of objects. Using the demangled
+     * name effectively assumes that all of the libraries being
+     * loaded were compiled with the same compiler version.
+     * We could undo this assumption by having the key be an
+     * input into this function.
+     *
+     * @tparam DerivedType type of processor to declare
+     * @return value to define a static variable to force running this function
+     *  at library load time. It relates to variables so that it cannot be
+     *  optimized away.
+     */
+    template<typename DerivedType>
+    uint64_t declare() {
+      std::string full_name{boost::core::demangle(typeid(DerivedType).name())};
+      library_[full_name] = &maker<DerivedType>;
+      return reinterpret_cast<std::uintptr_t>(&library_);
+    }
+  
+    /**
+     * make a new object by name
+     *
+     * We look through the library to find the requested object.
+     * If found, we create one and return a pointer to the newly
+     * created object. If not found, we raise an exception.
+     *
+     * @throws Exception if the input object name could not be found
+     *
+     * The arguments to the maker are determined at compiletime
+     * using the template parameters of Factory.
+     *
+     * @param[in] full_name name of object to create, same name as passed to declare
+     * @param[in] ps Parameters to configure the Provider
+     * @param[in] p handle to current Process
+     *
+     * @returns a pointer to the parent class that the objects derive from.
+     */
+    PrototypePtr make(const std::string& full_name,
+                      const config::Parameters& ps,
+                      Process* p, Conditions* c) {
+      auto lib_it{library_.find(full_name)};
+      if (lib_it == library_.end()) {
+        throw Exception("Factory","A provider of class " + full_name +
+                         " has not been declared.",false);
+      }
+      return lib_it->second(ps,p,c);
+    }
+  
+    /// delete the copy constructor
+    Factory(Factory const&) = delete;
+  
+    /// delete the assignment operator
+    void operator=(Factory const&) = delete;
+  
+   private:
+    /**
+     * make a DerivedType returning a PrototypePtr
+     *
+     * We do a constexpr check on which type of processor it is. If it can be constructed
+     * from a Parameters alone, then it is a "new" type. Otherewise, it is a "legacy" type
+     * as defined in the framework namespace.
+     *
+     * @tparam DerivedType type of derived object we should create
+     * @param[in] parameters config::Parameters to configure Processor
+     * @param[in] process handle to current Process
+     */
+    template <typename DerivedType>
+    static PrototypePtr maker(const config::Parameters& parameters, Process* p, Conditions* c) {
+      std::shared_ptr<ConditionsProvider> ptr;
+      if constexpr (std::is_constructible<DerivedType, const config::Parameters&>::value) {
+        // new type
+        ptr = std::make_shared<DerivedType>(parameters);
+      } else {
+        if (not p) {
+          throw Exception("BadConf","Passed a null Process to ConditionsProvider maker",false);
+        }
+        // old type
+        ptr = std::make_shared<DerivedType>(parameters.get<std::string>("obj_name"),
+                                            parameters.get<std::string>("tag_name"),
+                                            parameters, *p);
+      }
+      ptr->attach(c);
+      return ptr;
+    }
+  
+    /// private constructor to prevent creation
+    Factory() = default;
+  
+    /// library of possible objects to create
+    std::unordered_map<std::string, PrototypeMaker> library_;
+  };  // Factory
+
 };
 
 }  // namespace fire

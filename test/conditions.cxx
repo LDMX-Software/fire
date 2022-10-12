@@ -52,13 +52,13 @@ BOOST_AUTO_TEST_CASE(misspell) {
   fire::config::Parameters ps;
 
   // misspell class name
-  BOOST_CHECK_THROW(fire::ConditionsProvider::Factory::get().make("DNE", ps),
+  BOOST_CHECK_THROW(fire::ConditionsProvider::Factory::get().make("DNE", ps, nullptr, nullptr),
                     fire::Exception);
 
   // misspell a different parameter
   ps.add<std::string>("names", "test");
   BOOST_CHECK_THROW(
-      fire::ConditionsProvider::Factory::get().make("test::TestCP", ps),
+      fire::ConditionsProvider::Factory::get().make("test::TestCP", ps, nullptr, nullptr),
       fire::Exception);
 }
 
@@ -69,7 +69,7 @@ BOOST_AUTO_TEST_CASE(simple) {
 
   std::shared_ptr<fire::ConditionsProvider> cp;
   BOOST_CHECK_NO_THROW(
-      cp = fire::ConditionsProvider::Factory::get().make("test::TestCP", ps));
+      cp = fire::ConditionsProvider::Factory::get().make("test::TestCP", ps, nullptr, nullptr));
 
   fire::EventHeader eh;
   {
