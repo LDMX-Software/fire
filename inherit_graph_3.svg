@@ -32,18 +32,18 @@
 <path fill="none" stroke="midnightblue" d="M136.75,-40.92C146.58,-39.93 156.79,-38.9 166.9,-37.88"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="136.26,-37.45 126.66,-41.94 136.96,-44.42 136.26,-37.45"/>
 </g>
-<!-- Node21 -->
+<!-- Node22 -->
 <g id="node3" class="node">
-<title>Node21</title>
+<title>Node22</title>
 <g id="a_node3"><a xlink:href="classfire_1_1ConditionsProvider.html" target="_top" xlink:title="Base class for all providers of conditions objects.">
 <polygon fill="none" stroke="black" points="0,-0.5 0,-19.5 131,-19.5 131,-0.5 0,-0.5"/>
 <text text-anchor="middle" x="65.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">fire::ConditionsProvider</text>
 </a>
 </g>
 </g>
-<!-- Node21&#45;&gt;Node1 -->
+<!-- Node22&#45;&gt;Node1 -->
 <g id="edge2" class="edge">
-<title>Node21&#45;&gt;Node1</title>
+<title>Node22&#45;&gt;Node1</title>
 <path fill="none" stroke="midnightblue" d="M141.23,-17.53C149.64,-18.38 158.26,-19.25 166.82,-20.11"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="141.41,-14.03 131.11,-16.51 140.71,-21 141.41,-14.03"/>
 </g>

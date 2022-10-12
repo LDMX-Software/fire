@@ -26,7 +26,7 @@
  <tbody>
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname">fire<span id="projectnumber">&#160;v0.18.0</span>
+   <div id="projectname">fire<span id="projectnumber">&#160;v0.19.0</span>
    </div>
    <div id="projectbrief">Framework for sImulation and Reconstruction of Events</div>
   </td>
@@ -181,16 +181,15 @@ Data Classes</h1>
 <p >This accomodates a lot of workflows, but it doesn't accomodate everything. In order to make fire even more flexible, there is a method of interfacing this serialization procedure with a class that you define.</p>
 <p >Below is the <code>MyData</code> class declaration showing the minium structure necessary to interface with fire's serialization method. </p><div class="fragment"><div class="line"><span class="preprocessor">#include &quot;fire/io/Data.h&quot;</span></div>
 <div class="line"><span class="keyword">class </span>MyData {</div>
-<div class="line">  <span class="keyword">friend</span> <span class="keyword">class </span><a class="code hl_class" href="classfire_1_1io_1_1Data.html">fire::io::Data</a>&lt;MyData&gt;;</div>
+<div class="line">  <span class="keyword">friend</span> <span class="keyword">class </span><a class="code hl_struct" href="structfire_1_1io_1_1access.html">fire::io::access</a>;</div>
 <div class="line">  MyData() = <span class="keywordflow">default</span>;</div>
-<div class="line">  <span class="keywordtype">void</span> <a class="code hl_function" href="classfire_1_1io_1_1AbstractData.html#a6091f50e5889e5685bac1a04a16e83dc">clear</a>();</div>
-<div class="line">  <span class="keywordtype">void</span> <a class="code hl_function" href="classfire_1_1io_1_1Data.html#a2c4abab945793f84892051d38138997e">attach</a>(<a class="code hl_class" href="classfire_1_1io_1_1Data.html">fire::io::Data&lt;MyData&gt;</a>&amp; d);</div>
+<div class="line">  <span class="keywordtype">void</span> clear();</div>
+<div class="line">  <span class="keyword">template</span>&lt;<span class="keyword">typename</span> Data&gt;</div>
+<div class="line">  <span class="keywordtype">void</span> attach(Data&amp; d);</div>
 <div class="line">};</div>
-<div class="ttc" id="aclassfire_1_1io_1_1AbstractData_html_a6091f50e5889e5685bac1a04a16e83dc"><div class="ttname"><a href="classfire_1_1io_1_1AbstractData.html#a6091f50e5889e5685bac1a04a16e83dc">fire::io::AbstractData::clear</a></div><div class="ttdeci">virtual void clear()</div><div class="ttdoc">Define the clear function here to handle the most common cases.</div><div class="ttdef"><b>Definition:</b> AbstractData.h:177</div></div>
-<div class="ttc" id="aclassfire_1_1io_1_1Data_html"><div class="ttname"><a href="classfire_1_1io_1_1Data.html">fire::io::Data</a></div><div class="ttdoc">General data set.</div><div class="ttdef"><b>Definition:</b> Data.h:88</div></div>
-<div class="ttc" id="aclassfire_1_1io_1_1Data_html_a2c4abab945793f84892051d38138997e"><div class="ttname"><a href="classfire_1_1io_1_1Data.html#a2c4abab945793f84892051d38138997e">fire::io::Data::attach</a></div><div class="ttdeci">void attach(const std::string &amp;name, MemberType &amp;m, SaveLoad sl=SaveLoad::Both)</div><div class="ttdoc">Attach a member object from the our data handle.</div><div class="ttdef"><b>Definition:</b> Data.h:186</div></div>
+<div class="ttc" id="astructfire_1_1io_1_1access_html"><div class="ttname"><a href="structfire_1_1io_1_1access.html">fire::io::access</a></div><div class="ttdoc">empty struct for connecting a instance of Data and the type it wraps</div><div class="ttdef"><b>Definition:</b> Access.h:22</div></div>
 </div><!-- fragment --><p >The user class has four necessary components:</p><ol type="1">
-<li>Your class declares the the wrapping io::Data class as a <code>friend</code>.<ul>
+<li>Your class declares the accessor struct class as a <code>friend</code>.<ul>
 <li>This allows the io::Data class access to the (potentially private) methods defined below.</li>
 </ul>
 </li>
@@ -204,7 +203,7 @@ Data Classes</h1>
 <li>Similar to the default constructor, this method can be public or private.</li>
 </ul>
 </li>
-<li>Your class implements a <code>void attach(<a class="el" href="classfire_1_1io_1_1Data.html" title="General data set.">fire::io::Data</a>&lt;MyData&gt;&amp; d)</code> method.<ul>
+<li>Your class implements a <code>void attach(Data&amp; d)</code> method.<ul>
 <li>This method should be private since it should not be called by other parts of your code.</li>
 <li>More detail below.</li>
 </ul>
@@ -214,9 +213,10 @@ Data Classes</h1>
 The attach Method</h2>
 <p >This method is where you make the decision on which member variables of your class should be stored to or read from data files and how those variables are named. You do this using the <a class="el" href="classfire_1_1io_1_1Data.html#a2c4abab945793f84892051d38138997e" title="Attach a member object from the our data handle.">fire::io::Data&lt;DataType&gt;::attach</a> method. This is best illustrated with an example.</p>
 <div class="fragment"><div class="line"><span class="comment">// member_one_ and member_two_ are members of MyData</span></div>
-<div class="line"><span class="keywordtype">void</span> MyData::attach(<a class="code hl_class" href="classfire_1_1io_1_1Data.html">fire::io::Data&lt;MyData&gt;</a>&amp; d) {</div>
-<div class="line">  d.<a class="code hl_function" href="classfire_1_1io_1_1Data.html#a2c4abab945793f84892051d38138997e">attach</a>(<span class="stringliteral">&quot;first_member&quot;</span>, member_one_);</div>
-<div class="line">  d.<a class="code hl_function" href="classfire_1_1io_1_1Data.html#a2c4abab945793f84892051d38138997e">attach</a>(<span class="stringliteral">&quot;another_member&quot;</span>, member_two_);</div>
+<div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Data&gt;</div>
+<div class="line"><span class="keywordtype">void</span> MyData::attach(Data&amp; d) {</div>
+<div class="line">  d.attach(<span class="stringliteral">&quot;first_member&quot;</span>, member_one_);</div>
+<div class="line">  d.attach(<span class="stringliteral">&quot;another_member&quot;</span>, member_two_);</div>
 <div class="line">}</div>
 </div><!-- fragment --><h3><a class="anchor" id="autotoc_md21"></a>
 Important Comments</h3>
@@ -287,6 +287,7 @@ Schema Evolution</h2>
 <div class="line">  }  </div>
 <div class="line">}</div>
 <div class="ttc" id="aclassfire_1_1io_1_1AbstractData_html_ab0ae56528ad3d5127dcf0e4f376a6c4a"><div class="ttname"><a href="classfire_1_1io_1_1AbstractData.html#ab0ae56528ad3d5127dcf0e4f376a6c4a">fire::io::AbstractData::version</a></div><div class="ttdeci">int version() const</div><div class="ttdoc">Get the version number for the type we are loading from.</div><div class="ttdef"><b>Definition:</b> AbstractData.h:205</div></div>
+<div class="ttc" id="aclassfire_1_1io_1_1Data_html"><div class="ttname"><a href="classfire_1_1io_1_1Data.html">fire::io::Data</a></div><div class="ttdoc">General data set.</div><div class="ttdef"><b>Definition:</b> Data.h:90</div></div>
 </div><!-- fragment --><p> This naturally extends to several subsequent versions and clearly shows all users how the data is being transformed when they are reading it off disk.</p>
 <dl class="section note"><dt>Note</dt><dd>The attach method is only called once per processing run and therefore it <b>cannot</b> and <b>should not</b> be used to handle more complicated data evolutions involving <em>any</em> sort of calculation. If you are calculating a new variable from an old variable, this falls outside of the realm of schema evolution and needs to be done within a Processor.</dd></dl>
 <p>If you need a more robust or complicated method for transforming an old-schema into a new schema, the best option is to define your own specialization of the io::Data class itself. This is what EventHeader and RunHeader do in order to update the ROOT-version of the class into the new HDF5-version.</p>
@@ -301,7 +302,8 @@ New Member</h3>
 <div class="line">    d.<a class="code hl_function" href="classfire_1_1io_1_1Data.html#a2c4abab945793f84892051d38138997e">attach</a>(<span class="stringliteral">&quot;new_member&quot;</span>, new_member_);</div>
 <div class="line">  }</div>
 <div class="line">}</div>
-<div class="ttc" id="aclassfire_1_1io_1_1Data_html_a7a353205fd1c27d9850778d6d3ccfc41"><div class="ttname"><a href="classfire_1_1io_1_1Data.html#a7a353205fd1c27d9850778d6d3ccfc41">fire::io::Data::SaveLoad</a></div><div class="ttdeci">SaveLoad</div><div class="ttdoc">Flag how a member variable should be accessed by serialization.</div><div class="ttdef"><b>Definition:</b> Data.h:96</div></div>
+<div class="ttc" id="aclassfire_1_1io_1_1Data_html_a2c4abab945793f84892051d38138997e"><div class="ttname"><a href="classfire_1_1io_1_1Data.html#a2c4abab945793f84892051d38138997e">fire::io::Data::attach</a></div><div class="ttdeci">void attach(const std::string &amp;name, MemberType &amp;m, SaveLoad sl=SaveLoad::Both)</div><div class="ttdoc">Attach a member object from the our data handle.</div><div class="ttdef"><b>Definition:</b> Data.h:188</div></div>
+<div class="ttc" id="aclassfire_1_1io_1_1Data_html_a7a353205fd1c27d9850778d6d3ccfc41"><div class="ttname"><a href="classfire_1_1io_1_1Data.html#a7a353205fd1c27d9850778d6d3ccfc41">fire::io::Data::SaveLoad</a></div><div class="ttdeci">SaveLoad</div><div class="ttdoc">Flag how a member variable should be accessed by serialization.</div><div class="ttdef"><b>Definition:</b> Data.h:98</div></div>
 </div><!-- fragment --><h3><a class="anchor" id="autotoc_md28"></a>
 Remove Member</h3>
 <p >Less often but still possible, we can drop a member variable but still have it read into memory when reading a prior version. </p><div class="fragment"><div class="line"><span class="keywordtype">void</span> MyData::attach(<a class="code hl_class" href="classfire_1_1io_1_1Data.html">fire::io::Data&lt;MyData&gt;</a>&amp; d) {</div>
@@ -326,7 +328,7 @@ Rename</h3>
 <div class="line">  }</div>
 <div class="line">}</div>
 </div><!-- fragment --><p> This renaming scheme is expected to be common enough that there is a helper function defined for it. The three lines within the early-version block can be replaced by </p><div class="fragment"><div class="line">d.<a class="code hl_function" href="classfire_1_1io_1_1Data.html#ab6d75e9316a4b293b67ab763d42c3245">rename</a>(<span class="stringliteral">&quot;old_name&quot;</span>,<span class="stringliteral">&quot;new_name&quot;</span>,member_);</div>
-<div class="ttc" id="aclassfire_1_1io_1_1Data_html_ab6d75e9316a4b293b67ab763d42c3245"><div class="ttname"><a href="classfire_1_1io_1_1Data.html#ab6d75e9316a4b293b67ab763d42c3245">fire::io::Data::rename</a></div><div class="ttdeci">void rename(const std::string &amp;old_name, const std::string &amp;new_name, MemberType &amp;m)</div><div class="ttdoc">Rename a member variable.</div><div class="ttdef"><b>Definition:</b> Data.h:217</div></div>
+<div class="ttc" id="aclassfire_1_1io_1_1Data_html_ab6d75e9316a4b293b67ab763d42c3245"><div class="ttname"><a href="classfire_1_1io_1_1Data.html#ab6d75e9316a4b293b67ab763d42c3245">fire::io::Data::rename</a></div><div class="ttdeci">void rename(const std::string &amp;old_name, const std::string &amp;new_name, MemberType &amp;m)</div><div class="ttdoc">Rename a member variable.</div><div class="ttdef"><b>Definition:</b> Data.h:219</div></div>
 </div><!-- fragment --> </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->

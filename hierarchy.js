@@ -1,5 +1,6 @@
 var hierarchy =
 [
+    [ "fire::io::access", "structfire_1_1io_1_1access.html", null ],
     [ "fire::io::BaseData", "classfire_1_1io_1_1BaseData.html", [
       [ "fire::io::AbstractData< AtomicType >", "classfire_1_1io_1_1AbstractData.html", [
         [ "fire::io::Data< AtomicType, std::enable_if_t< is_atomic_v< AtomicType > > >", "classfire_1_1io_1_1Data_3_01AtomicType_00_01std_1_1enable__if__t_3_01is__atomic__v_3_01AtomicType_01_4_01_4_01_4.html", null ]

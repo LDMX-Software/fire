@@ -20,6 +20,7 @@ var annotated_dup =
           [ "Reader", "classfire_1_1io_1_1root_1_1Reader.html", "classfire_1_1io_1_1root_1_1Reader" ]
         ] ],
         [ "AbstractData", "classfire_1_1io_1_1AbstractData.html", "classfire_1_1io_1_1AbstractData" ],
+        [ "access", "structfire_1_1io_1_1access.html", "structfire_1_1io_1_1access" ],
         [ "BaseData", "classfire_1_1io_1_1BaseData.html", "classfire_1_1io_1_1BaseData" ],
         [ "constants", "structfire_1_1io_1_1constants.html", "structfire_1_1io_1_1constants" ],
         [ "Data", "classfire_1_1io_1_1Data.html", "classfire_1_1io_1_1Data" ],

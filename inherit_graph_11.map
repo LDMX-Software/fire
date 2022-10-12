@@ -1,3 +1,13 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$structfire_1_1io_1_1class__version__impl_1_1deducer.html" title="Underlying struct deducing the version of a class." alt="" coords="5,5,213,47"/>
+<area shape="rect" id="node1" href="$classfire_1_1io_1_1BaseData.html" title="Empty data base allowing recursion." alt="" coords="5,159,140,185"/>
+<area shape="rect" id="node2" href="$classfire_1_1io_1_1AbstractData.html" title=" " alt="" coords="235,17,391,58"/>
+<area shape="rect" id="node4" href="$classfire_1_1io_1_1AbstractData.html" title=" " alt="" coords="229,86,398,127"/>
+<area shape="rect" id="node6" href="$classfire_1_1io_1_1AbstractData.html" title=" " alt="" coords="188,151,439,193"/>
+<area shape="rect" id="node8" href="$classfire_1_1io_1_1AbstractData.html" title=" " alt="" coords="197,217,429,258"/>
+<area shape="rect" id="node10" href="$classfire_1_1io_1_1AbstractData.html" title="Type&#45;specific base class to hold common data methods." alt="" coords="235,282,391,323"/>
+<area shape="rect" id="node3" href="$classfire_1_1io_1_1Data_3_01AtomicType_00_01std_1_1enable__if__t_3_01is__atomic__v_3_01AtomicType_01_4_01_4_01_4.html" title="Data wrapper for atomic types." alt="" coords="493,5,697,61"/>
+<area shape="rect" id="node5" href="$classfire_1_1io_1_1Data_3_01ParameterStorage_01_4.html" title="io::Data specialization for ParameterStorage" alt="" coords="503,86,687,127"/>
+<area shape="rect" id="node7" href="$classfire_1_1io_1_1Data_3_01std_1_1map_3_01KeyType_00_01ValType_01_4_01_4.html" title="Our wrapper around std::map." alt="" coords="487,151,703,193"/>
+<area shape="rect" id="node9" href="$classfire_1_1io_1_1Data_3_01std_1_1vector_3_01ContentType_01_4_01_4.html" title="Our wrapper around std::vector." alt="" coords="496,217,693,258"/>
+<area shape="rect" id="node11" href="$classfire_1_1io_1_1Data.html" title="General data set." alt="" coords="503,282,686,323"/>
 </map>

@@ -1,6 +1,6 @@
 var classfire_1_1EventHeader =
 [
-    [ "attach", "classfire_1_1EventHeader.html#a9bb77781dd100a412965f6bb2ff66dc7", null ],
+    [ "attach", "classfire_1_1EventHeader.html#aca58fdf961f6ffdd1e231addfb0007d2", null ],
     [ "clear", "classfire_1_1EventHeader.html#a909598fa55133024e1fcfa8c997d0ce8", null ],
     [ "get", "classfire_1_1EventHeader.html#ad366083fe7edb9caafb5515a42809190", null ],
     [ "getEventNumber", "classfire_1_1EventHeader.html#ad308d332ed57e0406bc5f8403c67bbb4", null ],
@@ -15,7 +15,7 @@ var classfire_1_1EventHeader =
     [ "setTimestamp", "classfire_1_1EventHeader.html#ae08360fe396e3846db1f34ba36a600f2", null ],
     [ "setWeight", "classfire_1_1EventHeader.html#a48f1383993d6ac407aafc0b295b9caa5", null ],
     [ "weight", "classfire_1_1EventHeader.html#aa32cb1c3fad3d06c25108cfcd7bea9a1", null ],
-    [ "fire::io::Data< EventHeader >", "classfire_1_1EventHeader.html#a8d5c35569835c2161cdbfcc1444b15a9", null ],
+    [ "fire::io::access", "classfire_1_1EventHeader.html#a496d176f3245d70d1b10e07609e786ec", null ],
     [ "operator<<", "classfire_1_1EventHeader.html#a943581026931851b662366b0af7ef9d0", null ],
     [ "eventNumber_", "classfire_1_1EventHeader.html#ab8b472981d5f87116b95040652a001b9", null ],
     [ "isRealData_", "classfire_1_1EventHeader.html#a869cc6f07246b3d089b7c3ced1ca066e", null ],
