@@ -80,6 +80,14 @@ class Event {
   void add(const std::string& n, const T& o) {
     event_.add(n,o);
   }
+ 
+  /**
+   * Check if the input object exists
+   * @see fire::Event::exists
+   */
+  bool exists(const std::string& name, const std::string& pass = "") const {
+    return event_.exists(name, pass);
+  }
 
   /**
    * Retrieve an object from the event bus
