@@ -6,6 +6,7 @@
 
 namespace framework {
 using ConditionsIOV = fire::ConditionsIntervalOfValidity;
+using Process = fire::Process;
 
 class ConditionsObjectProvider : public fire::ConditionsProvider {
   static fire::config::Parameters wrap(const std::string& name, const std::string& tagname,
